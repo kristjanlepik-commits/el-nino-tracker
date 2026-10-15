@@ -8,7 +8,6 @@ const { scroll, animate } = window.Motion;
 // trigger. Every layer is drawn from pump.json, which
 // design/make_explainer_assets.py builds from FLO's payload.
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-const root = document.getElementById("pump");
 // Words on the canvas come from the page (window.I18N, set by the builder
 // for the Spanish edition); English is the fallback.
 const L = (k, d, v) => { let s = (window.I18N && window.I18N[k]) || d;
@@ -22,7 +21,15 @@ const W = (LON1 - LON0) * KX, H = (LAT1 - LAT0) * KZ;
 const X = lo => (lo - (LON0 + LON1) / 2) * KX, Z = la => -(la - (LAT0 + LAT1) / 2) * KZ;
 const Y_WIND = 0.16, Y_COLD = 0.62, SLAB = 0.06;
 
-const canvas = document.getElementById("pump-gl");
+// ONE FUNCTION PER STAGE. Chapter 05 is the measured act (27 Sep to 3 Oct);
+// chapter 07 opens on its own stage with ECMWF's forecast for the weekend
+// (Kristjan: the weekend surfaced in 05 and again in 07, the flow was odd).
+// Each .pumpstage says which acts it carries in data-acts; its elements
+// are found by class inside it, so two stages never share an id.
+function stage(root) {
+const $ = c => root.querySelector("." + c);
+
+const canvas = $("pg-gl");
 const R = new THREE.WebGLRenderer({ canvas, antialias: true });
 R.setPixelRatio(Math.min(devicePixelRatio, 2));
 R.toneMapping = THREE.ACESFilmicToneMapping; R.toneMappingExposure = 1.0;
@@ -106,15 +113,15 @@ function wind(lo, la, tm) {
 // Valencia's faces E. Sampled at FLO's own grid points (41N 3E, 39N 0E) so the
 // label matches the captions. Valencia's arrow belongs to the forecast act only,
 // where FLO found an easterly off Valencia; the measured act is Barcelona.
-const OFFS = [{ lat: 41.0, lon: 3.0, lo: 100, hi: 165, acts: ["obs", "wk"], el: "pump-lbwind" },
-              { lat: 39.0, lon: 0.0, lo: 68, hi: 140, acts: ["wk"], el: "pump-lbwind2" }];
+const OFFS = [{ lat: 41.0, lon: 3.0, lo: 100, hi: 165, acts: ["obs", "wk"], el: "pg-lbwind" },
+              { lat: 39.0, lon: 0.0, lo: 68, hi: 140, acts: ["wk"], el: "pg-lbwind2" }];
 for (const o of OFFS) {
   o.arrow = new THREE.Group();
   o.mat = new THREE.MeshStandardMaterial({ color: 0x1A1A18, transparent: true, opacity: 0, roughness: 0.5 });
   o.shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.022, 1, 12), o.mat);
   o.tip = new THREE.Mesh(new THREE.ConeGeometry(0.07, 0.16, 20), o.mat);
   o.arrow.add(o.shaft, o.tip); scene.add(o.arrow);
-  o.lb = document.getElementById(o.el);
+  o.lb = $(o.el);
 }
 const COMPASS = L("compass", "N NE E SE S SW W NW").split(" ");
 
@@ -132,9 +139,12 @@ const INK = new THREE.Color(cssv("--ink") || "#1A1A18"), BG = paper.clone();
 // time is the scroll
 // The measured act ends on the rain day, 3 October 12 UTC, not on the last
 // frame FLO emitted: what comes after is not part of this story.
-const ACTS = { obs: mkAct({ cold: D.cold, wind: D.wind, sea: D.sea }, "2026-10-03T12:00Z") };
-if (D.weekend) ACTS.wk = mkAct(D.weekend, "2026-10-19T12:00Z");
-let act = ACTS.obs, actName = "obs";
+const want = (root.dataset.acts || "obs wk").split(" ");
+const ACTS = {};
+if (want.includes("obs")) ACTS.obs = mkAct({ cold: D.cold, wind: D.wind, sea: D.sea }, "2026-10-03T12:00Z");
+if (want.includes("wk") && D.weekend) ACTS.wk = mkAct(D.weekend, "2026-10-19T12:00Z");
+let actName = Object.keys(ACTS)[0], act = ACTS[actName];
+root.classList.toggle("forecast", actName === "wk");
 seaMat.map = act.seaTex;
 let tm = reduce ? act.TEND : act.T0;
 // The clock is pinned to the captions: each .step carries the moment its
@@ -147,7 +157,7 @@ function knots() {
   const at = el => (el.offsetTop + el.offsetHeight / 2 - innerHeight / 2) / span;
   // The cut is the "This weekend" title card, the first wk step of any kind.
   const first = root.querySelector('.step[data-act="wk"]');
-  const cut = first && ACTS.wk ? (first.offsetTop + first.offsetHeight * 0.25 - innerHeight * 0.5) / span : 2;
+  const cut = !ACTS.obs ? -1 : (first && ACTS.wk ? (first.offsetTop + first.offsetHeight * 0.25 - innerHeight * 0.5) / span : 2);
   const out = { cut };
   for (const name of Object.keys(ACTS)) {
     const A = ACTS[name], k = [];
@@ -186,8 +196,8 @@ if (!reduce) root.querySelectorAll(".step p").forEach(el => scroll(
   { target: el, offset: ["start end", "center 0.6", "center 0.45", "end 0.38"] }));
 
 const MON = L("mon", "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec").split(" ");
-const whenEl = document.getElementById("pump-when"), lgw = document.getElementById("pump-lgwind");
-const lbcn = document.getElementById("pump-lbcn"), lbcold = document.getElementById("pump-lbcold");
+const whenEl = $("pg-when"), lgw = $("pg-lgwind");
+const lbcn = $("pg-lbcn"), lbcold = $("pg-lbcold");
 function screen(v) { const p = v.clone().project(cam);
   return [(p.x + 1) / 2 * canvas.clientWidth, (1 - p.y) / 2 * canvas.clientHeight, p.z < 1]; }
 
@@ -294,3 +304,5 @@ const _frame = frame;
 frame = function () { if (!onScreen) { running = false; return; } _frame(); };
 new IntersectionObserver(es => { onScreen = es[0].isIntersecting;
   if (onScreen && !running) { running = true; clock.getDelta(); requestAnimationFrame(frame); } }).observe(root);
+}
+document.querySelectorAll(".pumpstage").forEach(stage);

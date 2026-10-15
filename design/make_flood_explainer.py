@@ -494,6 +494,32 @@ def cycle_svg():
             % (defs, "".join(paths), "".join(flows), "".join(verbs), words))
 
 
+def pump_stage(sid, acts, steps, aria, pump):
+    """A 3D pump stage (scene_pump.js finds its parts by class). Chapter 05
+    carries the measured act; chapter 07 opens on a second stage with
+    ECMWF's forecast, so the weekend appears once, at the end."""
+    run = h(pump["weekend"]["run"][:16].replace("T", " ")) if pump.get("weekend") else ""
+    return f"""<section class="scrolly pumpstage" id="{sid}" data-acts="{acts}">
+  <div class="stage">
+    <canvas class="pg-gl" role="img" aria-label="{h(aria)}"></canvas>
+    <div class="when"><b class="pg-when">27 Sep, 00:00 UTC</b><span class="obs-only">ERA5 &middot; measured &middot; 2026 preliminary</span><span class="wk-only">ECMWF forecast &middot; run {run} UTC</span>
+</div>
+    <div class="legend">
+      <div><span class="obs-only">Sea, September vs normal</span><span class="wk-only">Sea, 8 to 12 October vs normal</span> <i class="ramp"></i></div>
+      <div>Cold air, 5 km up <i class="coldsw"></i></div>
+      <div class="pg-lgwind" style="opacity:0">Wind, 1.5 km up <i class="windsw"></i></div>
+    </div>
+    <div class="lab pg-lbcn">Barcelona</div>
+    <div class="lab cold pg-lbcold"></div>
+    <div class="lab wind pg-lbwind" style="opacity:0"></div>
+    <div class="lab wind pg-lbwind2" style="opacity:0"></div>
+    <div class="foot3"><span class="obs-only">Heights exaggerated &middot; every layer is a measured field</span><span class="wk-only">Heights exaggerated &middot; cold air and wind are ECMWF's model forecast, not measurements</span>
+      <span class="wk-only wk-unc">AEMET on where the low will sit: &ldquo;elevada incertidumbre&rdquo;, high uncertainty.</span></div>
+  </div>
+  <div class="steps">{steps}</div>
+</section>"""
+
+
 def chapter(key):
     n, word, sub = CHAPTERS[key]
     return ('<div class="chap"><span class="chap-n">%s</span><h2 class="chap-w">%s</h2>'
@@ -520,12 +546,13 @@ def page(w, preview):
     pump_steps = "".join('<div class="step" data-at="%s" data-act="obs"><p>%s</p></div>'
                          % (at, prose(w["pump-%d" % i])) for i, (at, _) in enumerate(PUMP_AT, 1))
     wk = pump.get("weekend")
+    wk_steps = ""
     if wk:
         run = wk["run"][:16].replace("T", " ")
-        pump_steps += ('<div class="step wk-intro" data-act="wk"><p class="wk-cut">This weekend'
-                       '<span>The same layers, in ECMWF\'s forecast. Run %s UTC. Not a forecast of ours.</span></p></div>'
-                       % h(run))
-        pump_steps += "".join('<div class="step" data-at="%s" data-act="wk"><p>%s</p></div>'
+        wk_steps += ('<div class="step wk-intro" data-act="wk"><p class="wk-cut">This weekend'
+                     '<span>The same layers, in ECMWF\'s forecast. Run %s UTC. Not a forecast of ours.</span></p></div>'
+                     % h(run))
+        wk_steps += "".join('<div class="step" data-at="%s" data-act="wk"><p>%s</p></div>'
                               % (at, prose(w["pump-wk-%d" % i])) for i, (at, _) in enumerate(PUMP_WK_AT, 1))
     ev_series = {y: v for y, v in ev["by_year"].items()}
     title = w["headline"] if not w["headline"].startswith("[WORDS") else "How a flood is made"
@@ -658,7 +685,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
   #bath .hud .num {{ font-size: 46px; }}
   .hud .place {{ font-size: 10px; }} .pl-long {{ display: none; }}
   .tag3 {{ top: auto; bottom: 2vh; right: 16px; }}
-  #pump .step p, #bath .step p {{ margin-top: 0; }}
+  .pumpstage .step p, #bath .step p {{ margin-top: 0; }}
 }}
 .chap-wrap {{ padding-top: 14vh; padding-bottom: 2vh; }}
 .chap-n {{ display: block; font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .2em;
@@ -734,23 +761,24 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 /* the two 3D scenes: a sticky stage, captions scrolling past it */
 .scrolly {{ position: relative; }}
 #bath {{ height: 420vh; }}
-#pump {{ height: 860vh; }}
-#pump .wk-only {{ display: none; }}
-#pump.forecast .wk-only {{ display: block; }}
-#pump.forecast .obs-only {{ display: none; }}
-#pump.forecast .stage {{ box-shadow: inset 0 0 0 3px var(--ink); }}
+#pump {{ height: 560vh; }}
+#wkstage {{ height: 360vh; }}
+.pumpstage .wk-only {{ display: none; }}
+.pumpstage.forecast .wk-only {{ display: block; }}
+.pumpstage.forecast .obs-only {{ display: none; }}
+.pumpstage.forecast .stage {{ box-shadow: inset 0 0 0 3px var(--ink); }}
 .wk-unc {{ margin-top: 8px; margin-left: auto; max-width: 34ch; text-transform: none !important; letter-spacing: .02em !important;
   font-size: 12px !important; color: var(--ink-soft) !important; }}
-#pump .step p.wk-cut {{ border-left: 0; padding: 0; max-width: 520px; font-family: var(--serif); font-weight: 500;
+.pumpstage .step p.wk-cut {{ border-left: 0; padding: 0; max-width: 520px; font-family: var(--serif); font-weight: 500;
   font-size: clamp(44px, 7vw, 88px); line-height: 1; letter-spacing: -.03em; background: var(--paper); }}
-#pump .step p.wk-cut span {{ display: block; font-family: var(--mono); font-weight: 400; font-size: 13px; letter-spacing: .08em;
+.pumpstage .step p.wk-cut span {{ display: block; font-family: var(--mono); font-weight: 400; font-size: 13px; letter-spacing: .08em;
   margin-top: 14px; color: var(--ink-soft); }}
 .stage {{ position: sticky; top: 0; height: 100vh; overflow: hidden; }}
 .stage canvas {{ position: absolute; inset: 0; width: 100%; height: 100%; display: block; }}
 .steps {{ position: absolute; top: 0; left: 0; right: 0; pointer-events: none; }}
 .step {{ height: 105vh; display: flex; align-items: center; }}
-#pump .step {{ height: 100vh; }}
-#pump .step p, #bath .step p {{ margin-top: 22vh; }}
+.pumpstage .step {{ height: 100vh; }}
+.pumpstage .step p, #bath .step p {{ margin-top: 22vh; }}
 .when, .legend, .foot3 {{ z-index: 2; }}
 .step p {{ max-width: 340px; margin: 0 0 0 6vw; padding: 4px 0 4px 16px; border-left: 3px solid var(--ink); font-size: 18px; }}
 .hud {{ position: absolute; left: 6vw; top: 10vh; pointer-events: none; z-index: 2; }}
@@ -836,25 +864,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 </section>
 
 <div class="col chap-wrap">{chapter("pump")}</div>
-<section class="scrolly" id="pump">
-  <div class="stage">
-    <canvas id="pump-gl" role="img" aria-label="Map of the western Mediterranean, 27 September to 3 October 2026: a cold air pool over the Atlantic five kilometres up weakens, and the wind off Barcelona turns south-easterly, onshore from a record-warm sea."></canvas>
-    <div class="when"><b id="pump-when">27 Sep, 00:00 UTC</b><span class="obs-only">ERA5 &middot; measured &middot; 2026 preliminary</span><span class="wk-only">ECMWF forecast &middot; run {h(pump["weekend"]["run"][:16].replace("T", " ")) if pump.get("weekend") else ""} UTC</span>
-</div>
-    <div class="legend">
-      <div><span class="obs-only">Sea, September vs normal</span><span class="wk-only">Sea, 8 to 12 October vs normal</span> <i class="ramp"></i></div>
-      <div>Cold air, 5 km up <i class="coldsw"></i></div>
-      <div id="pump-lgwind" style="opacity:0">Wind, 1.5 km up <i class="windsw"></i></div>
-    </div>
-    <div class="lab" id="pump-lbcn">Barcelona</div>
-    <div class="lab cold" id="pump-lbcold"></div>
-    <div class="lab wind" id="pump-lbwind" style="opacity:0"></div>
-    <div class="lab wind" id="pump-lbwind2" style="opacity:0"></div>
-    <div class="foot3"><span class="obs-only">Heights exaggerated &middot; every layer is a measured field</span><span class="wk-only">Heights exaggerated &middot; cold air and wind are ECMWF's model forecast, not measurements</span>
-      <span class="wk-only wk-unc">AEMET on where the low will sit: &ldquo;elevada incertidumbre&rdquo;, high uncertainty.</span></div>
-  </div>
-  <div class="steps">{pump_steps}</div>
-</section>
+{pump_stage("pump", "obs", pump_steps, "Map of the western Mediterranean, 27 September to 3 October 2026: a cold air pool over the Atlantic five kilometres up weakens, and the wind off Barcelona turns south-easterly, onshore from a record-warm sea.", pump)}
 
 <section class="flat">
   <div class="col">{chapter("ground")}<p>{prose(w["ground"])}</p>
@@ -871,18 +881,20 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
   </div>
 </section>
 
+<section class="flat eqsec">
+  <div class="wide">{cycle_svg()}</div>
+</section>
+
 <section class="flat">
   <div class="col">{chapter("weekend")}<p>{prose(w["weekend"])}</p>
   </div>
 </section>
+{pump_stage("wkstage", "wk", wk_steps, "Map of the western Mediterranean in ECMWF's forecast for 16 to 19 October 2026: a new cold air pool five kilometres up drops over France and the wind turns onshore at Valencia and Barcelona.", pump) if wk_steps else ""}
 {weekend_map(flat["ground"])}
 <section class="flat" style="padding-top:2vh">
   <div class="col"><p class="src">Not a forecast of ours, and no combined score: each layer is shown as its source published it.</p></div>
 </section>
 
-<section class="flat eqsec">
-  <div class="wide">{cycle_svg()}</div>
-</section>
 
 <section class="flat">
   <div class="col">

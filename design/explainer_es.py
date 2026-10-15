@@ -124,6 +124,10 @@ PHRASES = {
     ">drains back<": ">vuelve al mar<", ">warms the sea and the air<": ">calienta el mar y el aire<",
     ">Hour 0 of 24<": ">Hora 0 de 24<",
     # aria and alt
+    "Map of the western Mediterranean in ECMWF&#x27;s forecast for 16 to 19 October 2026: a new cold air pool five kilometres up drops over France and the wind turns onshore at Valencia and Barcelona.":
+        "Mapa del Mediterráneo occidental en la previsión del ECMWF para el 16 al 19 de octubre de 2026: una nueva bolsa de aire frío a cinco kilómetros baja sobre Francia y el viento gira hacia la costa en Valencia y Barcelona.",
+    "Map of the western Mediterranean in ECMWF's forecast for 16 to 19 October 2026: a new cold air pool five kilometres up drops over France and the wind turns onshore at Valencia and Barcelona.":
+        "Mapa del Mediterráneo occidental en la previsión del ECMWF para el 16 al 19 de octubre de 2026: una nueva bolsa de aire frío a cinco kilómetros baja sobre Francia y el viento gira hacia la costa en Valencia y Barcelona.",
     "A loop: the sea feeds the air, the air is lifted by the pump, the rain falls on the ground, the ground drains back to the sea; heat at the centre warms the sea and the air.":
         "Un ciclo: el mar alimenta el aire, el motor eleva el aire, la lluvia cae sobre el suelo y el suelo vuelve al mar; en el centro, el calor calienta el mar y el aire.",
     "Map of Spain's Mediterranean coast and the Balearics: damaging floods since 1982, topsoil wetter than normal after the first storm, and AEMET's warnings for 17 to 20 October.":
