@@ -35,7 +35,7 @@ WHICH = sys.argv[2] if len(sys.argv) > 2 else "all"
 # "weekend-es": the Spanish edition of the weekend GIF (the explainer's
 # Spanish page is for Spain, and so is this weekend's storm).
 ES = {"kicker": "ESTE FIN DE SEMANA · PREVISIÓN DEL ECMWF",
-      "sub": "aire frío a 5 km (azul) · viento a 1,5 km · mar, 8-12 oct. frente a lo normal",
+      "sub": "previsión: aire frío a 5 km (azul), viento a 1,5 km · medido: mar, 8-12 oct. (ERA5)",
       "foot": "ECMWF IFS, pasada %s UTC · no es previsión nuestra · AEMET: «elevada incertidumbre»",
       "arrow": "hacia la costa · del %s · %s m/s",
       "days": ["lun", "mar", "mié", "jue", "vie", "sáb", "dom"],
@@ -240,7 +240,7 @@ def weekend(lang="en"):
         dt = datetime.fromtimestamp(round((tm - times[0]) / 43200) * 43200 + times[0], timezone.utc)
         if lang == "en":
             header(d, "THIS WEEKEND · ECMWF FORECAST", "%s %d %s, %02d:00 UTC" % (dt.strftime("%a"), dt.day, MON[dt.month - 1], dt.hour),
-                   "cold air 5 km up (blue) · wind 1.5 km up · sea, 8-12 Oct vs normal")
+                   "forecast: cold air 5 km up (blue), wind 1.5 km up · measured: sea, 8-12 Oct (ERA5)")
             footer(d, "ECMWF IFS run %s UTC, not a forecast of ours · AEMET: “elevada incertidumbre”" % run)
         else:
             header(d, ES["kicker"], "%s %d %s, %02d:00 UTC" % (ES["days"][dt.weekday()], dt.day, ES["mon"][dt.month - 1], dt.hour),
