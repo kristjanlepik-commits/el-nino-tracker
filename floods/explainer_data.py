@@ -163,43 +163,56 @@ def build():
                             "physics": "about 7% more water vapour per degree C of warming (Clausius-Clapeyron; IPCC AR6 WG1 ch. 8)",
                             "map_lat": [float(x) for x in gla], "map_lon": [float(x) for x in np.sort(np.where(glo > 180, glo - 360, glo))],
                             "map_pct_2026": _grid(np.ma.masked_invalid(pct[:, order]), 1)}
-    # 5. the pump: storm 1, 27 Sep to 4 Oct 12 UTC, 500 hPa temperature anomaly; 30 Sep to 3 Oct 850 hPa winds
-    f5 = os.path.join(CACHE, "t500_0927_1004_12utc_1991_2020_2026.nc")
-    f8 = os.path.join(CACHE, "storm1_pump_2026.nc")
+    # 5. the pump: storm 1, 27 Sep to 4 Oct, 00 and 12 UTC, on a grid wide enough to hold the cold core
+    #    (design, 15 Oct: the 15W edge clipped it). 500 hPa temperature anomaly vs the same hour and day
+    #    1991-2020; 500 hPa height (2026) so the trough is drawn where it was; 850 hPa winds and humidity.
+    f5 = os.path.join(CACHE, "pump_t500_wide_1991_2020_2026.nc")
+    f8 = os.path.join(CACHE, "pump_z500_wind850_wide_2026.nc")
     if os.path.exists(f5) and os.path.exists(f8):
         d5 = netCDF4.Dataset(f5); t5 = d5.variables["t"][:]; tt5 = d5.variables["valid_time"][:]
         l5a = np.array(d5.variables["latitude"][:]); l5o = np.array(d5.variables["longitude"][:]); d5.close()
         t5 = t5.reshape(len(tt5), len(l5a), len(l5o))
         W5 = [dt.datetime(1970, 1, 1) + dt.timedelta(seconds=int(x)) for x in tt5]
+        d8 = netCDF4.Dataset(f8); pl = [float(x) for x in d8.variables["pressure_level"][:]]
+        i5, i8 = pl.index(500.0), pl.index(850.0); tt8 = d8.variables["valid_time"][:]
+        z5 = d8.variables["z"][:, i5] / 9.80665
+        u8 = d8.variables["u"][:, i8]; v8 = d8.variables["v"][:, i8]; q8 = d8.variables["q"][:, i8]
+        l8a = np.array(d8.variables["latitude"][:]); l8o = np.array(d8.variables["longitude"][:]); d8.close()
+        assert np.allclose(l5a, l8a) and np.allclose(l5o, l8o), "pump grids differ"
+        W8 = [dt.datetime(1970, 1, 1) + dt.timedelta(seconds=int(x)) for x in tt8]
         valid = [(9, d) for d in (27, 28, 29, 30)] + [(10, d) for d in (1, 2, 3, 4)]
         frames = []
         for (m_, d_) in valid:
             for h in (0, 12):
                 k26 = [k for k, w in enumerate(W5) if w.year == 2026 and (w.month, w.day, w.hour) == (m_, d_, h)]
                 kb = [k for k, w in enumerate(W5) if 1991 <= w.year <= 2020 and (w.month, w.day, w.hour) == (m_, d_, h)]
-                if not k26 or len(kb) < 25:
-                    continue
+                k8 = [k for k, w in enumerate(W8) if (w.month, w.day, w.hour) == (m_, d_, h)]
+                if not k26 or len(kb) < 25 or not k8:
+                    raise SystemExit(f"pump frame {m_}-{d_} {h}Z incomplete; not writing")
                 an = t5[k26[0]] - np.mean([t5[k] for k in kb], axis=0)
-                frames.append({"time": f"2026-{m_:02d}-{d_:02d}T{h:02d}:00Z", "t500_anom_c": _grid(an, 1),
-                               "coldest_anom_c": round(float(an.min()), 1)})
-        d8 = netCDF4.Dataset(f8); pl = [float(x) for x in d8.variables["pressure_level"][:]]
-        i8 = pl.index(850.0); tt8 = d8.variables["valid_time"][:]
-        u8 = d8.variables["u"][:, i8]; v8 = d8.variables["v"][:, i8]; q8 = d8.variables["q"][:, i8]
-        l8a = np.array(d8.variables["latitude"][:]); l8o = np.array(d8.variables["longitude"][:]); d8.close()
-        W8 = [dt.datetime(1970, 1, 1) + dt.timedelta(seconds=int(x)) for x in tt8]
-        winds = [{"time": w.strftime("%Y-%m-%dT%H:00Z"), "u850_ms": _grid(np.ma.masked_invalid(u8[k][::2, ::2]), 1),
-                  "v850_ms": _grid(np.ma.masked_invalid(v8[k][::2, ::2]), 1),
-                  "q850_gkg": _grid(np.ma.masked_invalid(1000 * q8[k][::2, ::2]), 1)}
-                 for k, w in enumerate(W8) if (w.month, w.day) in valid]
-        out["pump"] = {"story": "A cold pool from the Atlantic (500 hPa, about 5 km up: -25.9 C on 30 Sep 12 UTC "
-                                "near 46N 15W, 11.7 C colder than normal) pushed east; by 3 Oct its centre was over "
-                                "NW France and the 850 hPa wind off Barcelona blew from the south-east (123 deg) at "
-                                "10.4 m/s, onshore from the record-warm sea. Not claimed: unusually cold air directly "
-                                "over Barcelona (it was not).",
-                       "t500_frames": {"lat": [float(x) for x in l5a], "lon": [float(x) for x in l5o],
-                                       "baseline": "same hour and day, 1991-2020", "frames": frames},
-                       "winds_850": {"lat": [float(x) for x in l8a[::2]], "lon": [float(x) for x in l8o[::2]],
-                                     "resolution_deg": 1.0, "frames": winds}}
+                inner = np.zeros(an.shape, bool); inner[2:-2, 2:-2] = True
+                ci, cj = np.unravel_index(np.argmin(np.where(inner, an, 99)), an.shape)
+                k = k8[0]
+                frames.append({"time": f"2026-{m_:02d}-{d_:02d}T{h:02d}:00Z",
+                               "t500_anom_c": _grid(an, 1), "z500_m": _grid(np.ma.masked_invalid(z5[k]), 0),
+                               "u850_ms": _grid(np.ma.masked_invalid(u8[k][::2, ::2]), 1),
+                               "v850_ms": _grid(np.ma.masked_invalid(v8[k][::2, ::2]), 1),
+                               "q850_gkg": _grid(np.ma.masked_invalid(1000 * q8[k][::2, ::2]), 1),
+                               "cold_core": {"anom_c": round(float(an[ci, cj]), 1),
+                                             "t_c": round(float(t5[k26[0]][ci, cj]) - 273.15, 1),
+                                             "lat": float(l5a[ci]), "lon": float(l5o[cj])}})
+        out["pump"] = {"grid": {"lat": [float(x) for x in l5a], "lon": [float(x) for x in l5o], "resolution_deg": 0.5,
+                                "wind_lat": [float(x) for x in l5a[::2]], "wind_lon": [float(x) for x in l5o[::2]],
+                                "wind_resolution_deg": 1.0},
+                       "baseline": "t500 anomaly vs the same hour and day, 1991-2020",
+                       "story": "A deep cold pool over the Atlantic: about 5 km up, -30.1 C and 15.9 C colder than "
+                                "normal on 29 Sep 12 UTC near 49N 31.5W; -25.7 C and 11.7 C colder than normal on "
+                                "30 Sep 12 UTC near 45.5N 14.5W. It swung toward Iberia, weakened and broke up from "
+                                "1 Oct, leaving a shallow trough over Spain. On 3 Oct the 850 hPa wind off Barcelona "
+                                "blew from the south-east (123 deg) at 10.4 m/s, onshore from the record-warm sea.",
+                       "not_claimed": ["unusually cold air directly over Barcelona on 3 Oct (+1.4 C at 500 hPa)",
+                                       "a closed low off Spain on 3 Oct (heights rise only 15-20 m within 300-500 km)"],
+                       "frames": frames}
     # 7. ground: topsoil 8-10 Oct by named area, rank of 36 years (1 = wettest)
     fs = os.path.join(CACHE, "spain_swvl1_oct_1991_2026.nc")
     if os.path.exists(fs):
