@@ -73,6 +73,18 @@ Spain.
 the south-east at 10 metres a second, **off a sea that had just had its
 warmest September in 87 years.**
 
+## pump-wk-1
+
+18 October. In ECMWF's forecast, a new cold pool drops over France, about
+10 °C colder than normal. Unlike the first storm, its edge reaches over
+Spain, around 4 °C colder.
+
+## pump-wk-2
+
+19 October. In the forecast, the wind a kilometre and a half up turns
+onshore over the warm sea: from the east at 14 metres a second off
+Valencia, from the south-east at 11 off Barcelona.
+
 ## ground
 
 The ground is the part still in place. In the second week of October,
