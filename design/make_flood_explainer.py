@@ -84,6 +84,10 @@ def prose(t):
 
 def data():
     a = json.loads((ASSETS / "flat.json").read_text())
+    ing = json.loads(subprocess.run(
+        ["git", "show", "origin/main:floods/data/europe_ingredients_2026-10.json"], cwd=ROOT,
+        capture_output=True, text=True, check=True).stdout)
+    a["wm"] = next(v for k, v in ing["sst_sept"].items() if k.startswith("Western Mediterranean"))
     p = json.loads((ASSETS / "pump.json").read_text())
     b = json.loads(subprocess.run(
         ["git", "show", "origin/main:floods/data/explainer_2026-10.json"], cwd=ROOT,
@@ -256,10 +260,18 @@ def _nth(n):
     return "%d%s" % (n, {1: "st", 2: "nd", 3: "rd"}.get(n if n < 20 else n % 10, "th"))
 
 
+def _v(name):
+    """Content hash for a scene script's URL, so a changed module is never
+    served from a cache that still holds the old one (the CDN keeps pages
+    for ten minutes and browsers cache modules hard)."""
+    import hashlib
+    return hashlib.sha256((ROOT / "design/explainer" / name).read_bytes()).hexdigest()[:10]
+
+
 def page(w, preview):
     flat, pump, bath = data()
     imports = VENDOR
-    ev, vp = flat["evap"], flat["vapour"]
+    ev, vp, wm = flat["evap"], flat["vapour"], flat["wm"]
     bath_steps = "".join('<div class="step"><p>%s</p></div>' % prose(w["bath-%d" % i]) for i in range(1, 5))
     pump_steps = "".join('<div class="step" data-at="%s"><p>%s</p></div>'
                          % (at, prose(w["pump-%d" % i])) for i, (at, _) in enumerate(PUMP_AT, 1))
@@ -330,6 +342,18 @@ figcaption, .src {{ font-family: var(--mono); font-size: 10.5px; letter-spacing:
 .gt td:last-child {{ width: 32%; }}
 figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 {FIG_CSS}
+.seawrap {{ max-width: 1100px; margin: 22px auto 0; padding: 0 24px; }}
+.seawrap canvas {{ display: block; width: 100%; height: clamp(300px, 42vw, 460px); border-radius: 3px; }}
+.ground3 {{ position: relative; height: min(78vh, 720px); max-width: 1200px; margin: 18px auto 0; }}
+.ground3 canvas {{ position: absolute; inset: 0; width: 100%; height: 100%; display: block; }}
+.g3-lab {{ position: absolute; top: 4%; margin: 0; font-family: var(--mono); font-size: 11px;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }}
+.g3-lab span {{ display: block; font-family: var(--serif); font-size: 17px; letter-spacing: 0;
+  text-transform: none; color: var(--ink); margin-top: 3px; }}
+.g3-dry {{ left: 12%; }} .g3-wet {{ left: 56%; }}
+.g3-foot {{ position: absolute; left: 24px; right: 24px; bottom: 2%; display: flex; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap; margin: 0; font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-faint); }}
 .w8 svg {{ display: block; width: 100%; height: auto; border: 1px solid var(--rule); }}
 .w8-sea {{ fill: var(--paper); }}
 .w8-land {{ fill: var(--land); stroke: var(--ink-faint); stroke-width: .6; }}
@@ -428,15 +452,14 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 
 <section class="flat">
   <div class="col"><p class="kick">It starts from the sea</p><p>{prose(w["sea"])}</p>
-    <div class="pair"><div><b>{ev["normal"]:.2f}</b><span>mm a day, a normal September</span></div>
-      <div class="y26"><b>{ev["y2026"]:.2f}</b><span>mm a day, September 2026 &middot; {ev["pct"]:+.1f}%</span></div></div>
-    <p class="src">Evaporation, Mediterranean sea cells, ERA5. Normal = 1991 to 2020. 2026 ranks {ev["rank"][0]} of {ev["rank"][1]} Septembers since 1991.</p>
   </div>
-  <div class="wide"><figure>
-    <img src="assets/{ev["img"]}" alt="Map of the Mediterranean: evaporation in September 2026 against normal. Higher across most of the central and eastern basin; lower than normal off eastern Spain." width="{ev["size"][0]}" height="{ev["size"][1]}">
-    <div class="key"><span>Less</span><span class="rampbar"></span><span>More</span><span>&middot; scale &plusmn;{ev["full_pct"]}%</span></div>
-    <figcaption>Evaporation, September 2026 against 1991 to 2020, ERA5.</figcaption>
-  </figure></div>
+  <div class="seawrap" id="sea" data-t-normal="{wm["c"] - wm["anom"]:.1f}" data-t2026="{wm["c"]:.1f}"
+       data-e-normal="{ev["normal"]:.2f}" data-e2026="{ev["y2026"]:.2f}" data-e-pct="{ev["pct"]:+.0f}">
+    <canvas id="sea-cv" aria-label="Two sea surfaces side by side. A normal September at {wm["c"] - wm["anom"]:.1f} degrees, and September 2026 at {wm["c"]:.1f} degrees, with water vapour rising from both at the measured evaporation rate."></canvas>
+  </div>
+  <div class="col">
+    <p class="src">Sea: western Mediterranean (Alboran, Balearic, Gulf of Lion), September mean, ERA5. 2026 is the warmest September in a record going back to {wm["since"]} ({wm["rank"][0]} of {wm["rank"][1]}). Vapour rises at the measured September evaporation rate for the whole Mediterranean, {ev["pct"]:+.1f}% on 1991 to 2020, {ev["rank"][0]} of {ev["rank"][1]} since 1991: the heat was the record, the evaporation was not.</p>
+  </div>
 </section>
 
 <section class="flat">
@@ -465,7 +488,14 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 
 <section class="flat">
   <div class="col"><p class="kick">The ground can't drink that fast</p><p>{prose(w["ground"])}</p>
-    {fig_ground("Topsoil after the first storm, against the same days in 1991 to 2020:", "ERA5, top 7 cm, 8 to 10 October")}
+  </div>
+  <div class="ground3" id="ground">
+    <canvas id="ground-gl"></canvas>
+    <p class="g3-lab g3-dry">Dry ground<span>soaks the rain in</span></p>
+    <p class="g3-lab g3-wet">Already wet<span>fills, and the rest runs off</span></p>
+    <p class="g3-foot"><span id="ground-clock">Hour 0 of 24</span><span>Same rain on both &middot; illustrative &middot; not to scale</span></p>
+  </div>
+  <div class="col">
     {ground_table(flat["ground"])}
   </div>
 </section>
@@ -483,7 +513,6 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
   </div>
 </section>
 </main>
-{GROUND_JS}
 <script src="{MOTION}"></script>
 <script>
 // THE VAPOUR STRIP BUILDS ITSELF, one September at a time, 1940 first, so
@@ -511,8 +540,10 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
   io.observe(el);
 }})();
 </script>
-<script type="module" src="scene_bathtub.js"></script>
-<script type="module" src="scene_pump.js"></script>
+<script type="module" src="scene_bathtub.js?v={_v("scene_bathtub.js")}"></script>
+<script type="module" src="scene_pump.js?v={_v("scene_pump.js")}"></script>
+<script type="module" src="scene_ground.js?v={_v("scene_ground.js")}"></script>
+<script type="module" src="scene_sea.js?v={_v("scene_sea.js")}"></script>
 {ANALYTICS_SNIPPET}
 </body>
 </html>
