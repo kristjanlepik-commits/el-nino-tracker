@@ -166,6 +166,7 @@ const M = new THREE.Matrix4();
 
 const clockEl = document.getElementById("ground-clock");
 const riverEls = [...root.querySelectorAll(".g3-river")];
+const labEls = [root.querySelector(".g3-dry"), root.querySelector(".g3-wet")];
 function toScreen(v3) { const p = v3.clone().project(cam);
   return [(p.x + 1) / 2 * canvas.clientWidth, (1 - p.y) / 2 * canvas.clientHeight]; }
 function size() {
@@ -183,7 +184,7 @@ function frame(ts) {
   if (t > T + HOLD) { t0 = ts; t = 0; blocks.forEach(b => b.reset()); drops = []; }
   const tt = reduce ? T : Math.min(t, T);
   const q = tt / T, intensity = Math.exp(-Math.pow((q - 0.42) / 0.16, 2));
-  scene.background.copy(paper).lerp(stormC, 0.5 * intensity * (t <= T ? 1 : 0));
+  scene.background.copy(paper).lerp(stormC, 0.22 * intensity * (t <= T ? 1 : 0));
 
   blocks.forEach((b, i) => {
     const fresh = (reduce || t <= T + 1.5) ? b.step(tt, dt) : [];
@@ -213,11 +214,17 @@ function frame(ts) {
   }
   drops = keep; rain.count = r; rain.instanceMatrix.needsUpdate = true;
 
-  const a = -0.28 + 0.04 * Math.sin(ts / 5000);
-  const rad = canvas.clientWidth < 700 ? 4.0 : 3.0;
-  cam.position.set(-0.55 + Math.sin(a) * rad, 1.3, Math.cos(a) * rad);
-  cam.lookAt(-0.55, 0.25, 0);
+  // From the front-right, so both rivers (at each block's downhill, +x
+  // end) face the reader and nothing is cut at the frame edge (Kristjan).
+  const a = 0.42 + 0.03 * Math.sin(ts / 5000);
+  const narrow = canvas.clientWidth < 700;
+  const rad = narrow ? 5.0 : 3.35;
+  cam.position.set(-0.05 + Math.sin(a) * rad, narrow ? 1.9 : 1.55, Math.cos(a) * rad);
+  cam.lookAt(-0.05, 0.22, 0);
   cam.updateMatrixWorld();
+  views.forEach((v, i) => { const lab = labEls[i]; if (!lab) return;
+    const [x, y] = toScreen(new THREE.Vector3(v.g.position.x + 0.05, TOP0 + 0.5, DEPTH / 2));
+    lab.style.left = x + "px"; lab.style.top = y + "px"; });
   views.forEach((v, i) => { const el = riverEls[i]; if (!el) return;
     const [x, y] = toScreen(new THREE.Vector3(v.g.position.x + LAND + v.tw / 2, CH + 0.4, DEPTH / 2));
     el.style.left = x + "px"; el.style.top = y + "px"; });
@@ -229,3 +236,13 @@ new IntersectionObserver(es => {
   const was = on; on = es[0].isIntersecting;
   if (on && !was) requestAnimationFrame(frame);
 }, { threshold: 0.2 }).observe(root);
+
+// ?still=SECONDS renders the scene at that moment of the storm, once, with
+// no animation loop: for screenshots and share cards, and for checking the
+// scene in a browser that is not painting frames.
+const still = parseFloat(new URLSearchParams(location.search).get("still"));
+if (still >= 0) {
+  on = true;
+  for (let ms = 0; ms <= still * 1000; ms += 1000 / 60) frame(ms);
+  on = false;
+}

@@ -309,6 +309,39 @@ def locator():
             % (W, H, "".join(polys), bx, by, bx, by, bx - 12, by - 10))
 
 
+def heat_figure(flat):
+    """May to September 2026 as a crossfade, or the September map alone.
+
+    Kristjan, 16 Oct: "make that a moving heat as well, May - Sept". Each
+    frame is that month against its own 1991-2020 mean (ERA5 monthly,
+    design/fetch_heat_months.py), same box and scale as the September map.
+    The markup shows September, so no-JS and reduced motion get the frame
+    the copy describes; the loop holds there longest.
+    """
+    hm = flat.get("heat_months")
+    alt = ("Map of Europe, 2026 temperature against 1991 to 2020, %s: much warmer "
+           "than normal over France, Iberia, the western and central Mediterranean.")
+    if not hm:
+        return ('<img src="assets/%s" alt="%s" width="%d" height="%d">'
+                % (flat["heat"]["img"], alt % "September", *flat["heat"]["size"]))
+    imgs = "".join('<img src="assets/%s" alt="%s" data-month="%s" class="hm%s" width="%d" height="%d">'
+                   % (f["img"], h(alt % f["month"]), f["month"], " on" if i == len(hm) - 1 else "",
+                      f["size"][0], f["size"][1]) for i, f in enumerate(hm))
+    ticks = "".join('<span%s>%s</span>' % (' class="on"' if i == len(hm) - 1 else "", f["month"][:3])
+                    for i, f in enumerate(hm))
+    return ('<div class="heatmove" id="heatmove"><div class="hm-stack">%s'
+            '<div class="hm-month" id="hm-month">%s 2026</div></div>'
+            '<div class="hm-ticks">%s</div></div>' % (imgs, hm[-1]["month"], ticks))
+
+
+def heat_caption(flat):
+    if flat.get("heat_months"):
+        return ("Each month of 2026 against the same month in 1991 to 2020: sea surface "
+                "temperature over the sea, air temperature at 2 m over land. ERA5 monthly "
+                "means, 2026 preliminary.")
+    return flat["heat"]["what"] + "."
+
+
 def chapter(key):
     n, word, sub = CHAPTERS[key]
     return ('<div class="chap"><span class="chap-n">%s</span><h2 class="chap-w">%s</h2>'
@@ -402,6 +435,28 @@ figcaption, .src {{ font-family: var(--mono); font-size: 10.5px; letter-spacing:
 figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 {FIG_CSS}
 .chap {{ margin: 0 0 22px; }}
+.heatmove {{ max-width: 760px; margin: 0 auto; }}
+.hm-stack {{ position: relative; }}
+.hm-stack img {{ display: block; width: 100%; height: auto; max-height: none; }}
+.hm-stack img.hm {{ position: absolute; inset: 0; opacity: 0; transition: opacity .9s ease; }}
+.hm-stack img.hm.on {{ position: relative; opacity: 1; }}
+.hm-stack.anim img.hm {{ opacity: 0; }}
+.hm-stack.anim img.hm.fade {{ opacity: 1; }}
+.hm-month {{ position: absolute; left: 14px; top: 10px; font-family: var(--serif); font-weight: 500;
+  font-size: clamp(30px, 6vw, 56px); letter-spacing: -.02em; color: var(--ink);
+  text-shadow: 0 0 14px rgba(241,240,236,.9), 0 0 3px rgba(241,240,236,.9); }}
+.hm-ticks {{ display: flex; gap: 6px; margin-top: 10px; }}
+.hm-ticks span {{ flex: 1; font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-faint); border-top: 3px solid var(--rule); padding-top: 6px; transition: all .4s; }}
+.hm-ticks span.on {{ color: var(--ink); border-top-color: var(--ink); }}
+.eqsec {{ padding: 16vh 0 12vh; }}
+.eq {{ display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: .1em .28em;
+  font-family: var(--serif); font-weight: 500; font-size: clamp(34px, 6.4vw, 84px); letter-spacing: -.03em;
+  line-height: 1.05; text-align: center; }}
+.eqo {{ color: var(--ink-faint); font-weight: 400; }}
+.eqf {{ color: var(--flood); }}
+.eq > span {{ transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1); }}
+.eq.pre > span {{ opacity: 0; transform: translateY(18px); }}
 .hud .place {{ font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .14em;
   text-transform: uppercase; color: var(--flood); margin-bottom: 10px; }}
 .where {{ position: absolute; right: 4vw; bottom: 6vh; width: min(220px, 30vw); z-index: 2; pointer-events: none; }}
@@ -428,7 +483,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
   letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }}
 .g3-lab span {{ display: block; font-family: var(--serif); font-size: 17px; letter-spacing: 0;
   text-transform: none; color: var(--ink); margin-top: 3px; }}
-.g3-dry {{ left: 12%; }} .g3-wet {{ left: 56%; }}
+.g3-dry, .g3-wet {{ transform: translate(0, -100%); top: auto; }}
 .g3-river {{ position: absolute; margin: 0; transform: translate(-50%, -100%); font-family: var(--mono);
   font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--flood); }}
 .g3-foot {{ position: absolute; left: 24px; right: 24px; bottom: 2%; display: flex; justify-content: space-between;
@@ -528,9 +583,9 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 <section class="flat">
   <div class="col">{chapter("heat")}<p>{prose(w["heat"])}</p></div>
   <div class="wide"><figure>
-    <img src="assets/{flat["heat"]["img"]}" alt="Map of Europe, September 2026 temperature against 1991 to 2020: much warmer than normal over France, Iberia, the western and central Mediterranean and North Africa." width="{flat["heat"]["size"][0]}" height="{flat["heat"]["size"][1]}">
+    {heat_figure(flat)}
     <div class="key"><span>Colder</span><span class="rampbar"></span><span>Warmer</span><span>&middot; scale &plusmn;{flat["heat"]["full_c"]:g} &deg;C, saturates beyond</span></div>
-    <figcaption>{h(flat["heat"]["what"])}.</figcaption>
+    <figcaption>{h(heat_caption(flat))}</figcaption>
   </figure></div>
 </section>
 
@@ -593,6 +648,14 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
   </div>
 </section>
 
+<section class="flat eqsec">
+  <div class="wide">
+    <div class="eq" id="eq" aria-label="Heat, sea, air, pump and ground, together: a flood.">
+      <span class="eqw">Heat</span><span class="eqo">+</span><span class="eqw">Sea</span><span class="eqo">+</span><span class="eqw">Air</span><span class="eqo">+</span><span class="eqw">Pump</span><span class="eqo">+</span><span class="eqw">Ground</span><span class="eqo eqeq">=</span><span class="eqw eqf">Flood</span>
+    </div>
+  </div>
+</section>
+
 <section class="flat">
   <div class="col">
     <p class="src">Data: ERA5 (Copernicus Climate Change Service), 2026 preliminary; AEMET (Barcelona Fabra, station 0200E). Compiled by the floods desk.</p>
@@ -637,6 +700,41 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
     es.forEach(function (e) {{ if (e.isIntersecting) {{ e.target.classList.remove("pre"); io.unobserve(e.target); }} }});
   }}, {{ threshold: 0.4 }});
   cs.forEach(function (c) {{ io.observe(c); }});
+}})();
+</script>
+<script>
+// The heat, May to September: crossfade month by month, hold September.
+(function () {{
+  var box = document.getElementById("heatmove");
+  if (!box || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var imgs = box.querySelectorAll("img.hm"), ticks = box.querySelectorAll(".hm-ticks span"),
+      label = document.getElementById("hm-month"), i = imgs.length - 1, timer = null;
+  function show(k) {{
+    imgs.forEach(function (im, j) {{ im.classList.toggle("fade", j === k); }});
+    ticks.forEach(function (t, j) {{ t.classList.toggle("on", j <= k); }});
+    label.textContent = imgs[k].dataset.month + " 2026";
+  }}
+  function tick() {{
+    i = (i + 1) % imgs.length; show(i);
+    timer = setTimeout(tick, i === imgs.length - 1 ? 3600 : 1500);
+  }}
+  box.querySelector(".hm-stack").classList.add("anim");
+  new IntersectionObserver(function (es) {{
+    if (es[0].isIntersecting && !timer) {{ i = -1; tick(); }}
+    else if (!es[0].isIntersecting && timer) {{ clearTimeout(timer); timer = null; }}
+  }}, {{ threshold: 0.4 }}).observe(box);
+}})();
+// The closing equation assembles word by word, landing on Flood.
+(function () {{
+  var eq = document.getElementById("eq");
+  if (!eq || !("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var parts = eq.querySelectorAll("span");
+  parts.forEach(function (p, k) {{ p.style.transitionDelay = (k * 0.22 + (p.classList.contains("eqf") ? 0.5 : 0)) + "s"; }});
+  eq.classList.add("pre");
+  var io = new IntersectionObserver(function (es) {{
+    if (es[0].isIntersecting) {{ eq.classList.remove("pre"); io.disconnect(); }}
+  }}, {{ threshold: 0.6 }});
+  io.observe(eq);
 }})();
 </script>
 <script type="module" src="scene_bathtub.js?v={_v("scene_bathtub.js")}"></script>
