@@ -60,7 +60,7 @@ date, far out over the ocean.
 ## pump-3
 
 30 September. It swings toward Iberia, still 11.7 °C colder than normal,
-west of Galicia.
+out in the Atlantic north-west of Galicia.
 
 ## pump-4
 
@@ -69,8 +69,9 @@ Spain.
 
 ## pump-5
 
-3 October. Off Barcelona the wind blows in from the south-east at 10
-metres a second, **straight off the warmest sea in 87 Septembers.**
+3 October. A kilometre and a half up, the wind off Barcelona blows in from
+the south-east at 10 metres a second, **straight off the warmest sea in 87
+Septembers.**
 
 ## ground
 
