@@ -97,3 +97,29 @@ Nothing from 16 October onward has been read for any station. The first
 storm's values at the six stations shared with its pre-registration
 (0200E, 0076, 0016A, 9981A, 8500A, 8414A) are known and published in
 floods/data/spain_dana_2026-10_stations.json.
+
+## 2026-10-15 addendum, before the rain: "twice in three weeks", and the test count
+
+Added on CPO's point that "twice" is a frequency claim and needs its
+definition fixed before the storm. No station history has been ranked or
+counted for this definition yet.
+
+**A qualifying storm** is a day on which at least one of five stations
+records **100 mm or more** in one day: Barcelona Fabra (0200E), Reus
+(0016A), Tortosa (9981A), Castelló (8500A), Valencia Aeropuerto (8414A).
+These are the first storm's declared principal stations with an unbroken
+record since at least 1978; Barcelona Aeropuerto is left out because its
+unbroken run starts in 2011. Days within 3 days of each other are one storm.
+100 mm is a round threshold chosen with the first storm's values already
+known (159.1 and 179.2 mm both clear it); it is disclosed as such.
+
+**"Twice in three weeks"** means two qualifying storms whose first days are
+21 days apart or less. The comparison is a count of how often that has
+happened at these five stations from 1978 to 2025, any time of year. It may
+be quoted only if the second storm itself qualifies at these five stations
+under this definition. A qualifying reading at any of the other 16 stations
+does not count toward it.
+
+**The test count.** The payload will carry the number of stations, the
+number of station-duration tests (21 x 2 = 42), and how many of them set a
+record, so that any record is reported as one result among 42, never alone.
