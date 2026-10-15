@@ -224,7 +224,8 @@ function frame(ts) {
   cam.updateMatrixWorld();
   views.forEach((v, i) => { const lab = labEls[i]; if (!lab) return;
     const [x, y] = toScreen(new THREE.Vector3(v.g.position.x + 0.05, TOP0 + 0.5, DEPTH / 2));
-    lab.style.left = x + "px"; lab.style.top = y + "px"; });
+    // Never above the stage: the label would sit on the paragraph (CPO).
+    lab.style.left = x + "px"; lab.style.top = Math.max(64, y) + "px"; });
   views.forEach((v, i) => { const el = riverEls[i]; if (!el) return;
     const [x, y] = toScreen(new THREE.Vector3(v.g.position.x + LAND + v.tw / 2, CH + 0.4, DEPTH / 2));
     el.style.left = x + "px"; el.style.top = y + "px"; });

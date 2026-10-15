@@ -87,8 +87,8 @@ function wind(lo, la, tm) {
 const OFF = { lat: 41.0, lon: 2.6 };
 const arrow = new THREE.Group();
 const arrowMat = new THREE.MeshStandardMaterial({ color: 0x1A1A18, transparent: true, opacity: 0, roughness: 0.5 });
-const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 1, 12), arrowMat);
-const tip = new THREE.Mesh(new THREE.ConeGeometry(0.045, 0.1, 20), arrowMat);
+const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.022, 1, 12), arrowMat);
+const tip = new THREE.Mesh(new THREE.ConeGeometry(0.07, 0.16, 20), arrowMat);
 arrow.add(shaft, tip); scene.add(arrow);
 const lbwind = document.getElementById("pump-lbwind");
 const COMPASS = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
@@ -117,8 +117,14 @@ let tm = reduce ? TEND : T0;
 const stepEls = [...root.querySelectorAll(".step[data-at]")];
 function knots() {
   const span = root.offsetHeight - innerHeight;
-  const k = stepEls.map(el => [(el.offsetTop + el.offsetHeight / 2 - innerHeight / 2) / span,
-                               Date.parse(el.dataset.at)]);
+  // Each caption HOLDS its moment while it is on screen (CPO saw "30 Sep"
+  // beside the 29 September caption): two knots per step, a plateau.
+  const k = [];
+  stepEls.forEach(el => {
+    const c = (el.offsetTop + el.offsetHeight / 2 - innerHeight / 2) / span;
+    const hw = 0.3 * el.offsetHeight / span, t = Date.parse(el.dataset.at);
+    k.push([c - hw, t], [c + hw, t]);
+  });
   return [[0, T0], ...k, [1, k.length ? k[k.length - 1][1] : TEND]];
 }
 let KN = knots(); addEventListener("resize", () => { KN = knots(); });
@@ -193,7 +199,9 @@ let frame = function () {
   // and pump.not_claimed rules out cold air over Barcelona on 3 October.
   if (c.anom_c <= -8 && c.lon >= LON0 && c.lon <= LON1) {
     [x, y] = screen(new THREE.Vector3(X(c.lon), Y_COLD, Z(c.lat)));
-    lbcold.style.opacity = 1; lbcold.style.left = Math.min(canvas.clientWidth - 140, Math.max(150, x)) + "px"; lbcold.style.top = y + "px";
+    lbcold.style.opacity = 1; // clear of the caption column on wide screens
+    const minX = canvas.clientWidth >= 900 ? 470 : 150;
+    lbcold.style.left = Math.min(canvas.clientWidth - 140, Math.max(minX, x)) + "px"; lbcold.style.top = y + "px";
     lbcold.textContent = "Cold pool " + c.anom_c.toFixed(1) + " \u00b0C vs normal";
   } else lbcold.style.opacity = 0;
 
@@ -203,9 +211,12 @@ let frame = function () {
   if (wb) {
     const sp = Math.hypot(wb[0], wb[1]);
     const from = (Math.atan2(-wb[0], -wb[1]) * 180 / Math.PI + 360) % 360;
-    const onshore = from >= 80 && from <= 200 && sp >= 5;
-    show = onshore ? Math.min(1, (sp - 5) / 3) : 0;
-    const len = 0.1 + sp * 0.03;
+    // The story's onshore flow is a south-easterly (FLO: 123 deg). A
+    // southerly on 29 Sep is true but is not it, and showing the arrow
+    // then spent the climax early (CPO): south-east quadrant, 8 m/s up.
+    const onshore = from >= 100 && from <= 165 && sp >= 8;
+    show = onshore ? Math.min(1, (sp - 8) / 2) : 0;
+    const len = 0.16 + sp * 0.045;
     // direction of travel in scene space (x east, -z north)
     const dx = wb[0] * KX, dz = -wb[1] * KZ, m = Math.hypot(dx, dz) || 1;
     const ux = dx / m, uz = dz / m;
@@ -213,7 +224,7 @@ let frame = function () {
     arrow.position.set(sx, Y_WIND + 0.02, sz);
     arrow.rotation.set(0, Math.atan2(ux, uz), 0);
     shaft.scale.y = len; shaft.rotation.x = Math.PI / 2; shaft.position.set(0, 0, len / 2);
-    tip.rotation.x = Math.PI / 2; tip.position.set(0, 0, len + 0.045);
+    tip.rotation.x = Math.PI / 2; tip.position.set(0, 0, len + 0.075);
     if (show > 0) {
       [x, y] = screen(new THREE.Vector3(sx, Y_WIND + 0.02, sz));
       lbwind.style.left = x + "px"; lbwind.style.top = (y + 34) + "px";

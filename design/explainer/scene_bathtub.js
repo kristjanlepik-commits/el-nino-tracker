@@ -46,20 +46,24 @@ scene.add(floorTile);
 // the glass cube: physical transmission, plus hairline edges in ink
 // Glass as reflection only: a thin sheen that catches the room light on
 // its faces, nearly clear straight through, so the water reads inside it.
-const glass = new THREE.Mesh(new RoundedBoxGeometry(1.02, 1.0, 1.02, 4, 0.01),
+// A TRAY, NOT A CUBE (CPO, 16 Oct): in a 1 m cube the record looked like
+// a puddle, because the empty box dwarfed the water. Same square metre,
+// same scale, walls of WALL metres, so 159 mm fills it four-fifths.
+const WALL = 0.2;
+const glass = new THREE.Mesh(new RoundedBoxGeometry(1.02, WALL, 1.02, 4, 0.006),
   new THREE.MeshPhysicalMaterial({ color: 0xffffff, roughness: 0.02, metalness: 0,
     clearcoat: 1, clearcoatRoughness: 0.02, envMapIntensity: 1.4,
     transparent: true, opacity: 0.10, depthWrite: false, side: THREE.DoubleSide }));
-glass.position.y = 0.5; glass.renderOrder = 2; scene.add(glass);
-const edges = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(1.02, 1, 1.02)),
+glass.position.y = WALL / 2; glass.renderOrder = 2; scene.add(glass);
+const edges = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(1.02, WALL, 1.02)),
   new THREE.LineBasicMaterial({ color: css("--ink-faint"), transparent: true, opacity: 0.55 }));
-edges.position.y = 0.5; scene.add(edges);
+edges.position.y = WALL / 2; scene.add(edges);
 
 // ruler: a tick every 5 cm on the front-right edge, heavier every 10
 const tickMat = new THREE.LineBasicMaterial({ color: css("--ink") });
 const tg = [];
-for (let cm = 0; cm <= 100; cm += 5) {
-  const y = cm / 100, len = cm % 10 === 0 ? 0.05 : 0.025;
+for (let cm = 0; cm <= WALL * 100; cm += 1) {
+  const y = cm / 100, len = cm % 5 === 0 ? 0.045 : 0.02;
   tg.push(0.51, y, 0.51, 0.51 + len, y, 0.51);
 }
 const ticks = new THREE.LineSegments(new THREE.BufferGeometry().setAttribute("position",
@@ -135,8 +139,9 @@ let frame = function () {
   const dt = Math.min(clock.getDelta(), 0.05), t = clock.elapsedTime;
   // camera: a slow drift around a three-quarter view
   const a = 0.78 + (reduce ? 0 : 0.10 * Math.sin(t * 0.15));
-  cam.position.set(Math.sin(a) * 4.9, 2.5, Math.cos(a) * 4.9);
-  cam.lookAt(0, 0.42, 0);
+  const far = canvas.clientWidth < 700 ? 5.4 : 3.0;
+  cam.position.set(Math.sin(a) * far, 1.55, Math.cos(a) * far);
+  cam.lookAt(0, 0.05, 0);
   // the storm darkens the room a little, and lifts when it passes
   scene.background.copy(paper).lerp(storm, 0.55 * rate);
   scene.fog.color.copy(scene.background);

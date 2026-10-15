@@ -37,8 +37,8 @@ OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(
     "/tmp/el_nino_preview/explainer3d/assets")
 LON0, LON1, LAT0, LAT1 = -32.0, 18.0, 33.0, 58.0
 PX = 42                      # texture pixels per degree of longitude
-COLD_FROM = 2.0              # degrees colder than normal before it shows
-COLD_FULL = 10.0             # fully opaque at this anomaly
+COLD_FROM = 1.5              # degrees colder than normal before it shows
+COLD_FULL = 7.0              # fully opaque at this anomaly (CPO: was a faint smudge)
 
 
 def payload():
@@ -124,7 +124,7 @@ def coast_mask(w, h):
     dl = ImageDraw.Draw(lines)
     for ring in coast["rings"]:
         if len(ring) > 2:
-            dl.line(xy(ring) + [xy(ring)[0]], fill=255, width=2)
+            dl.line(xy(ring) + [xy(ring)[0]], fill=255, width=6)   # readable once scaled down (CPO)
     return np.array(m) > 127, np.array(lines) > 127
 
 
@@ -146,7 +146,7 @@ def sea_texture(d, w, h, LA, LO):
     # 0.5 degree grid is coarser than the 50m coast) takes the nearest
     # neutral rather than a guess.
     img[land] = _rgb(["#D9D8D0"])[0]
-    img[lines] = _rgb([T.INK_FAINT])[0]
+    img[lines] = _rgb([T.INK_SOFT])[0]
     return Image.fromarray(img.astype(np.uint8)), float(np.nanmax(sst))
 
 
@@ -161,7 +161,7 @@ def cold_layers(d, w, h, LA, LO):
         alpha = np.nan_to_num(alpha) ** 0.8
         rgba = np.zeros((h, w, 4), dtype=np.uint8)
         rgba[..., :3] = cold
-        rgba[..., 3] = (alpha * 235).astype(np.uint8)
+        rgba[..., 3] = (alpha * 248).astype(np.uint8)
         name = "pump_cold_%02d.png" % k
         Image.fromarray(rgba).resize((w // 2, h // 2), Image.BILINEAR) \
             .save(OUT / name, optimize=True)

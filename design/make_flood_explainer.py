@@ -406,7 +406,7 @@ body {{ margin: 0; background: var(--paper); color: var(--ink); font-family: var
 .wide {{ max-width: 1100px; margin: 0 auto; padding: 0 24px; }}
 .kick {{ font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
   color: var(--ink-faint); margin: 0 0 10px; }}
-header.top {{ padding: 9vh 0 4vh; }}
+header.top {{ padding-top: 9vh; padding-bottom: 4vh; }}
 h1 {{ font-weight: 500; font-size: clamp(34px, 5vw, 52px); line-height: 1.06; letter-spacing: -.015em;
   margin: 0 0 18px; text-wrap: balance; }}
 .stand {{ font-size: 20px; color: var(--ink-soft); }}
@@ -479,7 +479,14 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 .loc-dot {{ fill: var(--flood); }}
 .loc-ring {{ fill: none; stroke: var(--flood); stroke-width: 1.5; }}
 .loc-t {{ font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .12em; fill: var(--ink); }}
-@media (max-width: 899px) {{ .where {{ bottom: auto; top: 20vh; right: 16px; width: 120px; }} }}
+@media (max-width: 899px) {{
+  .where {{ bottom: auto; top: 5vh; right: 16px; width: 92px; }}
+  #bath .hud {{ left: 16px; right: 120px; top: 5vh; text-align: left; }}
+  #bath .hud .num {{ font-size: 46px; }}
+  .hud .place {{ font-size: 10px; }} .pl-long {{ display: none; }}
+  .tag3 {{ display: none; }}
+  #pump .step p, #bath .step p {{ margin-top: 0; }}
+}}
 .chap-wrap {{ padding-top: 14vh; padding-bottom: 2vh; }}
 .chap-n {{ display: block; font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .2em;
   color: var(--flood); margin-bottom: 4px; }}
@@ -544,12 +551,12 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 /* the two 3D scenes: a sticky stage, captions scrolling past it */
 .scrolly {{ position: relative; }}
 #bath {{ height: 420vh; }}
-#pump {{ height: 640vh; }}
+#pump {{ height: 560vh; }}
 .stage {{ position: sticky; top: 0; height: 100vh; overflow: hidden; }}
 .stage canvas {{ position: absolute; inset: 0; width: 100%; height: 100%; display: block; }}
 .steps {{ position: absolute; top: 0; left: 0; right: 0; pointer-events: none; }}
 .step {{ height: 105vh; display: flex; align-items: center; }}
-#pump .step {{ height: 110vh; }}
+#pump .step {{ height: 100vh; }}
 #pump .step p, #bath .step p {{ margin-top: 22vh; }}
 .when, .legend, .foot3 {{ z-index: 2; }}
 .step p {{ max-width: 340px; margin: 0 0 0 6vw; background: color-mix(in srgb, var(--paper) 90%, transparent);
@@ -573,15 +580,15 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 .lab {{ position: absolute; font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em;
   text-transform: uppercase; white-space: nowrap; pointer-events: none; transform: translate(-50%, -140%); }}
 .lab.cold {{ color: var(--cold); font-weight: 500; }}
-.lab.wind {{ font-weight: 500; font-size: 12px; background: var(--paper); padding: 3px 6px; }}
-.foot3 {{ position: absolute; left: 6vw; bottom: 3vh; font-family: var(--mono); font-size: 10px;
+.lab.wind {{ font-weight: 500; font-size: 15px; background: var(--ink); color: var(--paper); padding: 5px 9px; }}
+.foot3 {{ position: absolute; right: 4vw; top: 21vh; text-align: right; max-width: 30vw; font-family: var(--mono); font-size: 10px;
   letter-spacing: .12em; color: var(--ink-faint); text-transform: uppercase; }}
 @media (max-width: 899px) {{
   .hud {{ left: 0; right: 0; top: 6vh; text-align: center; }}
   .step {{ align-items: flex-end; padding-bottom: 8vh; }}
   .step p {{ margin: 0 16px; max-width: none; }}
   .legend {{ top: auto; bottom: 14vh; right: 16px; }}
-  .when {{ left: 16px; top: 5vh; }} .foot3 {{ left: 16px; }}
+  .when {{ left: 16px; top: 5vh; }} .foot3 {{ left: 16px; right: auto; top: auto; bottom: 3vh; text-align: left; max-width: none; }}
   .pair {{ gap: 14px; }}
 }}
 </style>
@@ -599,9 +606,9 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 <section class="scrolly" id="bath" data-mm="{bath["mm"]}">
   <div class="stage">
     <canvas id="bath-gl"></canvas>
-    <div class="tag3">Drawn to scale &middot; 1 m cube</div>
+    <div class="tag3">Drawn to scale &middot; 1 m square, 20 cm walls</div>
     <div class="where">{locator()}</div>
-    <div class="hud"><div class="place">Barcelona &middot; Fabra observatory &middot; 3 October 2026</div><div class="num" id="bath-num">{bath["mm"]:.1f} mm</div>
+    <div class="hud"><div class="place">Barcelona<span class="pl-long"> &middot; Fabra observatory</span> &middot; 3 October 2026</div><div class="num" id="bath-num">{bath["mm"]:.1f} mm</div>
       <div class="unit" id="bath-unit">{bath["mm"]:.0f} litres on one square metre</div></div>
   </div>
   <div class="steps">{bath_steps}</div>
