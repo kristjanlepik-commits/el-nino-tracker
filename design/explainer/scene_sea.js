@@ -20,9 +20,9 @@ const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const D = root.dataset;
 const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const panes = [
-  { key: "normal", t: +D.tNormal, energy: 1.0, title: "A NORMAL SEPTEMBER",
+  { key: "normal", t: +D.tNormal, energy: 1.0, title: "WESTERN MEDITERRANEAN \u00b7 NORMAL SEPTEMBER",
     top: "#417785", deep: "#0A4A57", sub: "1991 to 2020 average" },
-  { key: "y2026", t: +D.t2026, energy: 2.6, title: "SEPTEMBER 2026",
+  { key: "y2026", t: +D.t2026, energy: 2.6, title: "WESTERN MEDITERRANEAN \u00b7 SEPTEMBER 2026",
     top: "#C05B3D", deep: "#5E1806", sub: "warmest in a record going back to 1940" },
 ];
 for (const p of panes) p.parts = [];
