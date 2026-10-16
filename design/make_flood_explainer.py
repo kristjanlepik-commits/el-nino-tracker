@@ -145,9 +145,11 @@ PUMP_AT = [("2026-09-27T12:00Z", "27 September"), ("2026-09-29T12:00Z", "29 Sept
 
 
 # The forecast act (ECMWF, FLO 3903bf41): same rule, its own captions.
-# The 19 October caption names Valencia (easterly, 00Z) and Barcelona
-# (south-easterly, 12Z), so its plateau RUNS from 00Z to 12Z: "a/b".
-PUMP_WK_AT = [("2026-10-18T12:00Z", "18 October"), ("2026-10-19T00:00Z/2026-10-19T12:00Z", "19 October")]
+# A caption that spans two fields can pin a range, "a/b": on the 15 Oct
+# 06 UTC run the 19 October caption named Valencia (00Z) and Barcelona
+# (12Z) and ran 00Z to 12Z. On the 18 UTC run (FLO ef9a8a2b) Valencia never
+# turns onshore, so the caption names Barcelona only, at 12Z.
+PUMP_WK_AT = [("2026-10-18T12:00Z", "18 October"), ("2026-10-19T12:00Z", "19 October")]
 
 
 def check_pump_dates(w):
