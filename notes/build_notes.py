@@ -102,7 +102,19 @@ def blocks(md):
 def main(mint=None):
     OUT.mkdir(parents=True, exist_ok=True)
     notes = []
-    for md in sorted(SRC.glob("*.md")):
+    sources = sorted(SRC.glob("*.md"))
+    # --date mints the Notes that have never been published and leaves the
+    # frozen ones alone. It used to refuse whenever any frozen Note's date
+    # differed from it, which held while there was one Note and made a
+    # second one impossible to mint (16 Oct 2026). It still refuses when
+    # nothing is unpublished, because then the only thing --date could be
+    # asking for is a redate.
+    if mint and all(read_frozen_date(OUT / md.stem) for md in sources):
+        raise SystemExit(
+            f"--date {mint} given, but every Note is already published. "
+            f"Refusing: a published Note is frozen (invariant 5) and its "
+            f"date is not editable.")
+    for md in sources:
         slug = md.stem
         d = OUT / slug
         title, body, src, authored = parse(md)
@@ -110,11 +122,6 @@ def main(mint=None):
         frozen = read_frozen_date(d)
         if frozen:
             published_on = frozen
-            if mint and mint != frozen:
-                raise SystemExit(
-                    f"{slug} was published on {frozen} and --date says "
-                    f"{mint}. Refusing: a published Note is frozen "
-                    f"(invariant 5) and its date is not editable.")
         else:
             if not mint:
                 raise SystemExit(
