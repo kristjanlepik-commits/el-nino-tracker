@@ -40,14 +40,24 @@ def get(url, tries=6):
             time.sleep(70 * (k + 1))
 
 
+def datetime_run(meta):
+    return dt.datetime.fromtimestamp(meta["last_run_initialisation_time"], dt.timezone.utc)
+
+
 def main():
     meta = get("https://api.open-meteo.com/data/ecmwf_ifs025/static/meta.json")
-    run = dt.datetime.fromtimestamp(meta["last_run_initialisation_time"], dt.timezone.utc)
+    run = datetime_run(meta)
     pts = [(la, lo) for la in LATS for lo in LONS]
-    res = {}
+    # Resumable per run: each finished batch is kept, so a failure part-way (Open-Meteo 503s and
+    # rate limits, 16 Oct) resumes where it stopped instead of starting the 35-batch pull again.
+    part = OUT.replace(".json", f"_partial_{run:%Y%m%d%H}.json")
+    done = json.load(open(part)) if os.path.exists(part) else {}
+    res = {tuple(json.loads(k)): v for k, v in done.items()}
     for i in range(0, len(pts), 50):
         b = pts[i:i + 50]
-        if i:
+        if all(p in res for p in b):
+            continue
+        if any(k for k in res):
             time.sleep(65)
         url = ("https://api.open-meteo.com/v1/forecast?models=ecmwf_ifs025&timezone=GMT&wind_speed_unit=ms"
                "&start_date=2026-10-16&end_date=2026-10-20&hourly=" + ",".join(VARS)
@@ -58,6 +68,8 @@ def main():
             raise SystemExit(f"batch {i}: asked {len(b)} points, got {len(r)}; nothing written")
         for (la, lo), p in zip(b, r):
             res[(la, lo)] = p["hourly"]
+        json.dump({json.dumps([la, lo]): v for (la, lo), v in res.items()}, open(part, "w"))
+        print(f"  batch {i // 50 + 1} of {(len(pts) + 49) // 50} done", flush=True)
     times = res[pts[0]]["time"]
     keep = [k for k, t in enumerate(times) if t.endswith("T00:00") or t.endswith("T12:00")]
     frames = []
@@ -77,6 +89,14 @@ def main():
             q.append(row)
         f["q850_gkg"] = q
         frames.append(f)
+    # Mixed-run guard (16 Oct): ECMWF's 00 UTC run went live on Open-Meteo part-way through a pull, so
+    # that pull's first batches were the 18 UTC run and its last were 00 UTC, under one label. The run
+    # must be the same before and after the pull, or nothing is written.
+    after = datetime_run(get("https://api.open-meteo.com/data/ecmwf_ifs025/static/meta.json"))
+    if after != run:
+        os.remove(part)
+        raise SystemExit(f"MIXED: run changed from {run:%Y-%m-%d %H} to {after:%Y-%m-%d %H} UTC during the pull; "
+                         "nothing written, partial discarded; rerun")
     missing = sum(v is None for f in frames for r in f["temperature_500hPa"] for v in r)
     if missing:
         raise SystemExit(f"{missing} missing t500 values; nothing written")
