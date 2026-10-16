@@ -585,7 +585,7 @@ body {{ margin: 0; background: var(--paper); color: var(--ink); font-family: var
 .wide {{ max-width: 1100px; margin: 0 auto; padding: 0 24px; }}
 .kick {{ font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
   color: var(--ink-faint); margin: 0 0 10px; }}
-header.top {{ padding-top: 9vh; padding-bottom: 4vh; }}
+.top {{ padding-top: 9vh; padding-bottom: 4vh; }}
 h1 {{ font-weight: 500; font-size: clamp(34px, 5vw, 52px); line-height: 1.06; letter-spacing: -.015em;
   margin: 0 0 18px; text-wrap: balance; }}
 .stand {{ font-size: 20px; color: var(--ink-soft); }}
@@ -816,11 +816,11 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 <body>
 {site_masthead("../../", active="flood")}
 <main>
-<header class="top col">
+<div class="top col">
   <p class="kick">Floods &middot; explainer &middot; 16 October 2026</p>
   <h1>{prose(w["headline"])}</h1>
   <p class="stand">{prose(w["standfirst"])}</p>
-</header>
+</div>
 
 <div class="col chap-wrap">{chapter("bath")}</div>
 <section class="scrolly" id="bath" data-mm="{bath["mm"]}">
@@ -1056,7 +1056,7 @@ def bilingual(html):
     else:
         switch = '<p class="langsw"><a href="../%s/" hreflang="es" lang="es">Leer en español</a></p>' % _es.SLUG
     html = html.replace("</head>", alts + "\n</head>", 1)
-    html = html.replace('<header class="top col">', '<header class="top col">\n  ' + switch, 1)
+    html = html.replace('<div class="top col">', '<div class="top col">\n  ' + switch, 1)
     html = html.replace("</style>", ".langsw {{ margin: 0 0 18px; font-family: var(--mono); font-size: 12px; "
                         "letter-spacing: .1em; text-transform: uppercase; }}\n"
                         ".langsw a {{ color: var(--ink); }}\n</style>".replace("{{", "{").replace("}}", "}"), 1)
