@@ -35,7 +35,7 @@ def get(url, tries=6):
         try:
             return json.load(urllib.request.urlopen(url, timeout=120))
         except urllib.error.HTTPError as e:
-            if e.code != 429 or k == tries - 1:
+            if e.code not in (429, 500, 502, 503, 504) or k == tries - 1:   # rate limit or a passing server error
                 raise
             time.sleep(70 * (k + 1))
 
