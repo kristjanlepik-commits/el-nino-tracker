@@ -33,6 +33,7 @@ from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS,      # noqa: E402
                        SITE_NAME, h, site_masthead)
 from templates.page_head import head_meta                         # noqa: E402
 from templates.fast_reaction import _record_strip                 # noqa: E402
+from templates.subscribe_band import band as sub_band, css as sub_css  # noqa: E402
 from templates.flood_explainer import (fig_ground, FIG_CSS,       # noqa: E402
                                        GROUND_JS)
 
@@ -625,6 +626,10 @@ figcaption, .src {{ font-family: var(--mono); font-size: 10.5px; letter-spacing:
 figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
 {FIG_CSS}
 .chap {{ margin: 0 0 22px; }}
+.byline {{ font-family: var(--mono); font-size: 13px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink); margin: 18px 0 0; }}
+.subsec {{ padding-top: 6vh; padding-bottom: 0; }}
+{sub_css()}
 .heatmove {{ max-width: 760px; margin: 0 auto; }}
 .hm-stack {{ position: relative; }}
 .hm-stack img {{ display: block; width: 100%; height: auto; max-height: none; }}
@@ -821,6 +826,7 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
   <p class="kick">Floods &middot; explainer &middot; 16 October 2026</p>
   <h1>{prose(w["headline"])}</h1>
   <p class="stand">{prose(w["standfirst"])}</p>
+  <p class="byline">By Kristjan Lepik</p>
 </div>
 
 <div class="col chap-wrap">{chapter("bath")}</div>
@@ -896,6 +902,10 @@ figure img {{ max-height: 82vh; width: auto; max-width: 100%; margin: 0 auto; }}
   <div class="col"><p class="src">Not a forecast of ours, and no combined score: each layer is shown as its source published it.</p></div>
 </section>
 
+
+<section class="flat subsec">
+  <div class="col">{sub_band()}</div>
+</section>
 
 <section class="flat">
   <div class="col">

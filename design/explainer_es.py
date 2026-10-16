@@ -121,6 +121,16 @@ PHRASES = {
     "Issued up to": "Emitidos hasta", "Source: AEMET OpenData (Meteoalerta).": "Fuente: AEMET OpenData (Meteoalerta).",
     "Not a forecast of ours, and no combined score: each layer is shown as its source published it.":
         "No es una previsión nuestra ni una puntuación combinada: cada capa se muestra tal como la publicó su fuente.",
+    # byline and email capture (the newsletter itself is in English, said)
+    ">By Kristjan Lepik<": ">Por Kristjan Lepik<",
+    ">One email a week<": ">Un correo a la semana<",
+    "We find climate signals in the data, and send you the ones that matter.":
+        "Buscamos señales climáticas en los datos y te enviamos las que importan. El boletín es en inglés.",
+    "Confirmation email required. No spam, and every figure here stays free and public whether you subscribe or not.":
+        "Hay que confirmar por correo. Sin spam, y todas las cifras siguen siendo libres y públicas, te suscribas o no.",
+    "What you get, and how often &rarr;": "Qué recibes y cada cuánto &rarr;",
+    ">Email address<": ">Correo electrónico<",
+    ">Subscribe<": ">Suscribirse<",
     # closing loop
     ">feeds<": ">alimenta<", ">lifted<": ">elevado<", ">falls on<": ">cae sobre<",
     ">drains back<": ">vuelve al mar<", ">warms the sea and the air<": ">calienta el mar y el aire<",
