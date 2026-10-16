@@ -21,7 +21,7 @@ import re
 import sys
 from pathlib import Path
 
-PAGE = Path("/tmp/el_nino_preview/floods/how-a-flood-is-made")
+PAGE = Path(sys.argv[2]) if len(sys.argv) > 2 else Path("/tmp/el_nino_preview/floods/how-a-flood-is-made")
 ROOT = PAGE.parent.parent                     # /tmp/el_nino_preview
 OUT = Path(sys.argv[1])
 
