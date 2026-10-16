@@ -1341,6 +1341,64 @@ def check_social_card(violations, advisories):
         advisories.append(msg)
 
 
+# Pages published before the title rule existed, without a <title>.
+# SELF-EXPIRING: the check names any listed page that has gained one, so
+# the entry is deleted the day templates/fast_reaction.py is fixed and the
+# pages rebuilt. A known gap we have agreed to ship, not an exemption.
+KNOWN_NO_TITLE = {
+    "docs/floods/catalonia_pyrenees-2026-08-14/index.html",
+    "docs/floods/n_chile_atacama-2026-08-28/index.html",
+    "docs/floods/s_peru_altiplano-2026-08-28/index.html",
+    "docs/heat/lima-2026-08-20/index.html",
+}
+
+
+def check_title_present(violations):
+    """Every committed page has exactly one non-empty <title> in its <head>.
+
+    Design's catch, 2026-10-16: templates/page_head.head_meta does not emit
+    <title>, so a page whose template forgets its own ships with none. The
+    browser tab then shows a URL, and a search result shows whatever the
+    engine guesses. Measured on origin/main before writing this: 336
+    pages, four without a title, all fast-reaction pages, all carrying an
+    og:title, so the data exists and only the tag is missing.
+
+    `git ls-files docs`, not a glob: the committed set is what is served,
+    and reading the working tree gave the heat-payload check false
+    positives on transient files (2026-09-07).
+    """
+    r = subprocess.run(["git", "ls-files", "docs"], cwd=ROOT,
+                       capture_output=True, text=True)
+    pages = [f for f in r.stdout.split() if f.endswith(".html")]
+    head_re = re.compile(r"<head\b[^>]*>(.*?)</head>", re.S | re.I)
+    title_re = re.compile(r"<title\b[^>]*>(.*?)</title>", re.S | re.I)
+    for rel in pages:
+        try:
+            text = (ROOT / rel).read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            continue
+        m = head_re.search(text)
+        titles = title_re.findall(m.group(1)) if m else []
+        ok = len(titles) == 1 and titles[0].strip()
+        if rel in KNOWN_NO_TITLE:
+            if ok:
+                violations.append(
+                    f"{rel} now has a <title>; delete it from KNOWN_NO_TITLE "
+                    f"in scripts/qa_check.py so the exemption cannot outlive "
+                    f"the defect.")
+            continue
+        if ok:
+            continue
+        why = ("no <head>" if not m else
+               "no <title>" if not titles else
+               f"{len(titles)} <title> tags" if len(titles) > 1 else
+               "an empty <title>")
+        violations.append(
+            f"{rel} has {why}; every page needs exactly one non-empty "
+            f"<title> in <head>. head_meta does not emit one, so the "
+            f"template must.")
+
+
 def check_masthead_present(violations):
     """Does every published shell and channel page still HAVE a masthead?
 
@@ -1880,6 +1938,7 @@ def main():
     # publishing malformed markup is worse than publishing nothing.
     check_masthead_wellformed(violations)
     check_masthead_present(violations)
+    check_title_present(violations)
     check_social_card(violations, advisories)
     check_conflict_markers(violations)
     check_heat_pages_match_reference(violations)
