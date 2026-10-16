@@ -405,7 +405,7 @@ def ingredients():
     set_box(keep_box)
 
     # 6. Ground, illustrative
-    add(card("Ground", "06", "Why didn't the ground take it?"), 1400)
+    add(card("Ground", "06", "Why does wet ground matter?"), 1400)
     for i in range(10):
         im = Image.new("RGB", (C, C), PAPER); d = ImageDraw.Draw(im)
         t = i / 9
