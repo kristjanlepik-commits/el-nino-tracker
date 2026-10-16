@@ -561,6 +561,7 @@ def page(w, preview):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{h(title)} | {SITE_NAME}</title>
 {head_meta(title=f"{title} | {SITE_NAME}", description=re.sub(r"[*]", "", w["standfirst"]), path=PATH)}
 <script type="importmap">{json.dumps({"imports": imports})}</script>
 <style>
