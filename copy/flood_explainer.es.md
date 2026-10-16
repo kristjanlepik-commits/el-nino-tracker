@@ -79,14 +79,14 @@ vivir su septiembre más cálido en 87 años.**
 
 18 de octubre. En la previsión del Centro Europeo (ECMWF), una nueva bolsa
 de aire frío baja sobre Francia, unos 10 °C más fría de lo normal. A
-diferencia de la primera tormenta, su borde llega hasta España, en torno a
-4 °C más frío.
+diferencia de la primera tormenta, su borde llega hasta España, entre 4 y
+5 °C más frío.
 
 ## pump-wk-2
 
 19 de octubre. En la previsión, el viento a kilómetro y medio de altura
-gira hacia la costa sobre el mar cálido: del este a 14 metros por segundo
-frente a Valencia, del sureste a 11 frente a Barcelona.
+gira hacia la costa en Barcelona: sopla del sureste a 11 metros por
+segundo, sobre el mar cálido.
 
 ## ground
 

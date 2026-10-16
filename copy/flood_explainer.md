@@ -77,13 +77,13 @@ warmest September in 87 years.**
 
 18 October. In ECMWF's forecast, a new cold pool drops over France, about
 10 °C colder than normal. Unlike the first storm, its edge reaches over
-Spain, around 4 °C colder.
+Spain, 4 to 5 °C colder.
 
 ## pump-wk-2
 
 19 October. In the forecast, the wind a kilometre and a half up turns
-onshore over the warm sea: from the east at 14 metres a second off
-Valencia, from the south-east at 11 off Barcelona.
+onshore at Barcelona, from the south-east at 11 metres a second, over the
+warm sea.
 
 ## ground
 
