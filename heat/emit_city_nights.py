@@ -1655,8 +1655,12 @@ def main() -> int:
                         "services. Not a threshold we chose.",
         },
         "day_definition": {
+            # Not "July-August": seven of the 54 cities are Argentine and
+            # compute from their own summer (tls-internal#46).
             "rule": "daily maximum at or above this station's own 90th, 95th "
-                    "and 99th percentile of July-August maxima, 1971-2000",
+                    "and 99th percentile of maxima in its two warmest "
+                    "consecutive months (July-August for every European "
+                    "city), 1971-2000",
             "standard_es":
                 "AEMET's own published rule. Verified by reproducing their "
                 "published Madrid 36.4 C and Seville 41.2 C exactly.",
@@ -1756,7 +1760,9 @@ def main() -> int:
             "headline_requires_baseline": True,
             "baseline": dbase,
             "measure": "days at or above this city's own 95th percentile of "
-                       "July-August maxima, counted to the same cut",
+                       "maxima in its two warmest consecutive months "
+                       "(July-August for every European city), counted to "
+                       "the same cut",
             # THE CONSTRAINT INVERTS BETWEEN THE TWO INSTRUMENTS, which is
             # why this is a field and not a note in a message. On nights,
             # `may_not_say` forbids calling 2026 the worst year, because 2003

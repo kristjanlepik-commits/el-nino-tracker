@@ -563,6 +563,24 @@ JOINED = {
 JOINED_CAVEAT_DAYS = 30
 
 MONTH_LEN = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+_MONTH_NAMES = ("January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November",
+                "December")
+
+
+def season_words(season):
+    """The months a threshold was computed from, as a reader reads them.
+
+    "July-August" was a literal in every description field long after the
+    season became derived, so the seven Argentine cities computed from
+    December-January or January-February and said July-August, their winter
+    (tls-internal#46, found by News 2026-10-15). The number was right and the
+    sentence about it was not. European text is unchanged by construction.
+    """
+    words = "-".join(_MONTH_NAMES[m - 1] for m in season)
+    if tuple(season) == (7, 8):
+        return words
+    return f"{words} (its two warmest consecutive months)"
 
 CITIES = {
     "Madrid":      dict(country="ES", station="MADRID, RETIRO", cut=(8, 2)),
@@ -1399,8 +1417,8 @@ def build(city, meta):
         # day's most repeated defect, landing on the correction that exists
         # to fix a description.
         "night_threshold_basis":
-            f"90th/95th/99th percentile of this station's own July-August "
-            f"daily MINIMA, {pctl[0]}-{pctl[1]}. The locally calibrated "
+            f"90th/95th/99th percentile of this station's own "
+            f"{season_words(season)} daily MINIMA, {pctl[0]}-{pctl[1]}. The locally calibrated "
             f"night metric, emitted alongside the 20 C tropical-night count "
             f"rather than replacing it.",
         "tropical_night_metric_works":
@@ -1410,8 +1428,8 @@ def build(city, meta):
             "False where the 20 C count is too rare to carry a ratio. Such a "
             "city must lead with the percentile night metric instead.",
         "threshold_basis":
-            f"90th/95th/99th percentile of this station's own July-August "
-            f"daily maxima, {pctl[0]}-{pctl[1]}."
+            f"90th/95th/99th percentile of this station's own "
+            f"{season_words(season)} daily maxima, {pctl[0]}-{pctl[1]}."
             + ("" if tuple(pctl[:2]) == PCTL_BASELINE else
                f" This station's record starts in {min(int(y) for y in years)}"
                f" and cannot cover {PCTL_BASELINE[0]}-{PCTL_BASELINE[1]}, so "
