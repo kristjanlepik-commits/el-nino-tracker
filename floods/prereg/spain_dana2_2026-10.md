@@ -123,3 +123,36 @@ does not count toward it.
 **The test count.** The payload will carry the number of stations, the
 number of station-duration tests (21 x 2 = 42), and how many of them set a
 record, so that any record is reported as one result among 42, never alone.
+
+## 2026-10-17 addendum (Saturday, about 12:00 local): six stations where AEMET now points the peak
+
+AEMET's warnings of 17 Oct (routed by TLS News) put the peak where none of
+the 21 stations sit: orange for Sunday 18 and Monday 19 in Litoral sur de
+Valencia (La Safor), Interior sur de Valencia and Litoral norte de Alicante,
+with "300 mm en algunos puntos" probable in 24 h; AEMET special warning
+35/2026 names Cabo de La Nao; and orange for Almería from Saturday 17 12:00.
+
+**Rule.** In each of those orange zones, every station in AEMET's inventory
+that carries a WMO synoptic index (AEMET's principal stations), resolved on
+17 Oct from the inventory's name, location and `indsinop` fields only. No
+rainfall was read. Where two identifiers share one synoptic index, the first
+AEMET lists.
+
+| id | station | zone | WMO |
+|---|---|---|---|
+| 8058X | Oliva | Litoral sur de Valencia (La Safor) | 08282 |
+| 8293X | Xàtiva | Interior sur de Valencia | 08290 |
+| 8050X | Jávea / Xàbia | Litoral norte de Alicante (Cabo de La Nao) | 08370 |
+| 6325O | Almería Aeropuerto | Poniente y Almería Capital | 08487 |
+| 6332X | Carboneras | Levante almeriense | 08488 |
+| 6367B | Huércal-Overa | Levante almeriense | 08428 |
+
+**Timing, stated plainly.** For the Valencia and Alicante stations this
+precedes the warned rain (from Sunday 00:00) and any data. For the three
+Almería stations it is committed at about the warned onset (Saturday 12:00),
+after news of the warnings, so **an Almería result can be body text only,
+never a headline**, whatever it shows. No station value for 16 October
+onward has been read for any station.
+
+Everything else in this file applies unchanged. The test count becomes 27
+stations x 2 durations = 54, reported with every result.
