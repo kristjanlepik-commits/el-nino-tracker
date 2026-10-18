@@ -397,6 +397,7 @@ def render(piece: dict, root_prefix: str = "../../") -> str:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{h(_plain(f'{piece.get("region", "")} | {SITE_NAME}'))}</title>
 {head_meta(title=_plain(f'{piece.get("region", "")} | {SITE_NAME}'),
            description=_plain(piece.get("standfirst", "") or piece.get("claim", "")),
            path=piece.get("path", "/"),

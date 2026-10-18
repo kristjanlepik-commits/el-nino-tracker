@@ -1346,10 +1346,6 @@ def check_social_card(violations, advisories):
 # the entry is deleted the day templates/fast_reaction.py is fixed and the
 # pages rebuilt. A known gap we have agreed to ship, not an exemption.
 KNOWN_NO_TITLE = {
-    "docs/floods/catalonia_pyrenees-2026-08-14/index.html",
-    "docs/floods/n_chile_atacama-2026-08-28/index.html",
-    "docs/floods/s_peru_altiplano-2026-08-28/index.html",
-    "docs/heat/lima-2026-08-20/index.html",
 }
 
 
