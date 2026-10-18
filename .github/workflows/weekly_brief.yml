@@ -136,6 +136,26 @@ jobs:
           fi
           python design/make_pacific_sst.py
 
+      # The Nino regions map (D-337, design's). Before run_brief, because
+      # build_public_html renders the map only when docs/nino-map/<week>.json
+      # matches the table's CPC week: a failed or skipped step means no
+      # map, never a wrong one. continue-on-error for the same reason: the
+      # brief must not wait on a chart. The script refuses a zero-filled
+      # PSL response (make_nino_map.py:106), which is how OPeNDAP fails.
+      # Same freeze guard as the SST step: a published issue is not
+      # re-rendered. The commit step's `git add docs/` picks the files up.
+      # Not in publish_all's GENERATORS: it fetches from PSL, and
+      # publish_all never fetches.
+      - name: Render the Nino regions map for this CPC week
+        continue-on-error: true
+        run: |
+          d=$(date -u +'%Y-%m-%d')
+          if [ -d "docs/briefs/$d" ]; then
+            echo "docs/briefs/$d already published; skipping the Nino map."
+            exit 0
+          fi
+          python design/make_nino_map.py
+
       - name: Run brief
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}

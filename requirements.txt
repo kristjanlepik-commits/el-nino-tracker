@@ -2,6 +2,7 @@
 requests>=2.31
 pandas>=2.0
 matplotlib>=3.7
+pillow>=10.0           # design/make_nino_map.py imports PIL directly; it only arrived via matplotlib before
 numpy>=1.24
 scipy>=1.10        # skew-normal fit + bootstrap for the upper-tail bucket
 
