@@ -6166,7 +6166,7 @@
   "USA": {
    "iso": "USA",
    "name": "United States of America",
-   "count": 4665,
+   "count": 4620,
    "mean": 6737.4,
    "hist": {
     "2012": 5221,
@@ -6191,24 +6191,24 @@
     "2026-10-14": 1110,
     "2026-10-15": 1128,
     "2026-10-16": 828,
-    "2026-10-17": 1042
+    "2026-10-17": 997
    },
    "daily_expected": 7,
    "daily_due": 7,
    "hist_expected": 14,
    "hist_due": 14,
    "hist_excluded_for_comparability": [],
-   "lat": 35.27,
-   "lon": -99.99,
+   "lat": 35.4,
+   "lon": -99.56,
    "basis": "weighted",
    "cropland": {
-    "detections_on_crop_pct": 15.51,
+    "detections_on_crop_pct": 15.63,
     "country_land_crop_pct": 14.65,
-    "ratio": 1.058,
+    "ratio": 1.067,
     "reading": "neutral",
-    "expected_on_crop": 846.8,
+    "expected_on_crop": 840.2,
     "detections_on_crop": 896.2,
-    "n_detections_sampled": 5780,
+    "n_detections_sampled": 5735,
     "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
     "mask_vintage": {
      "mask": "asap_mask_crop_v04.tif",
@@ -6219,16 +6219,16 @@
    },
    "persistence": {
     "recur_pct": 4.3,
-    "night_pct": 41.6,
-    "frp_median": 3.63,
-    "n_detections": 5780,
+    "night_pct": 42.0,
+    "frp_median": 3.6,
+    "n_detections": 5735,
     "peak_to_median_day": 1.36,
     "verdict": "fire_like",
     "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
    },
    "reading": {
     "multiple": 0.69,
-    "count": 4665,
+    "count": 4620,
     "publishable": true,
     "withheld_because": null,
     "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
