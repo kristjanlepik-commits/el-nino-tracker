@@ -5225,6 +5225,22 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
     md.append(f"| Niño 3.4 weekly (RONI) | "
               f"{phys['nino34_weekly_roni']:+.1f}°C | n/a (pre-RONI) | "
               f"n/a (pre-RONI) |")
+    # Niño 3 and Niño 1+2 beside the index (2026-10-18). This event is
+    # east-based, and the eastern regions are where its records are widest;
+    # Niño 3.4 alone understated how far outside history it is. Same CPC
+    # weekly file and base as the Niño 3.4 row. Skipped, not guessed, when
+    # the fetcher fell back and the region block is absent.
+    _regions = phys.get("nino_regions") or {}
+    for _key, _label in (("nino3", "Niño 3 weekly (traditional)"),
+                         ("nino12", "Niño 1+2 weekly (traditional)")):
+        _cur = (_regions.get(_key) or {}).get("anom")
+        if _cur is None:
+            continue
+        _a97 = (_n34_live.get("1997") or {}).get(_key)
+        _a15 = (_n34_live.get("2015") or {}).get(_key)
+        md.append(f"| {_label} | {_cur:+.1f}°C | "
+                  + (f"{_a97:+.1f}°C" if _a97 is not None else "n/a") + " | "
+                  + (f"{_a15:+.1f}°C" if _a15 is not None else "n/a") + " |")
     hc_fresh = freshness.get("heat_content", {})
     hc_live = hc_fresh.get("ok") and not hc_fresh.get("used_fallback")
     hc_label = (f"{phys['heat_content_0_300m_estimate']:+.2f}°C (CPC monthly, "
@@ -5275,6 +5291,25 @@ def build_markdown(fetched: dict, diff_md: str, freshness: dict,
     # The static heat_content_qualitative seed was removed 2026-07-27 (it
     # went stale in April and contradicted the computed comparison). The
     # computed sentence below carries the analog comparison.
+    # Each region against its own highest week before this year, so the
+    # reader sees which regions are past history and by how much.
+    _rec_parts = []
+    for _key, _name in (("nino12", "Niño 1+2"), ("nino3", "Niño 3"),
+                        ("nino34", "Niño 3.4"), ("nino4", "Niño 4")):
+        _r = _regions.get(_key) or {}
+        _pr = _r.get("prior_record") or {}
+        if _r.get("anom") is None or _pr.get("anom") is None:
+            continue
+        _gap = _r["anom"] - _pr["anom"]
+        _rec_parts.append(f"{_name} {_r['anom']:+.1f} against {_pr['anom']:+.1f} "
+                          f"({_pr['week'][:7]}), "
+                          + (f"{_gap:+.1f} past it" if _gap > 0 else
+                             "level with it" if _gap == 0 else "below it"))
+    if _rec_parts:
+        md.append("**Regional records** (each region's highest week in CPC's "
+                  "weekly series since Sept 1981, before this year): "
+                  + "; ".join(_rec_parts) + ".")
+        md.append("")
     md.append(f"**Heat content note:** {_heat_content_compare(phys.get('heat_content_0_300m_estimate'), _hc97, _hc15).strip()}")
     md.append("")
     _r = phys.get("cwwa_rate_14d") or {}

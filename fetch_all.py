@@ -250,6 +250,11 @@ def fetch_all() -> dict:
         # "1997 same week" column actually is the same week.
         if p.get("analogs_same_week"):
             phys["nino34_analogs_same_week"] = p["analogs_same_week"]
+        # All four regions and their prior records (2026-10-18), for the
+        # brief's Niño 3 and Niño 1+2 rows. Absent on a fallback, and the
+        # renderer skips the rows rather than guessing.
+        if p.get("regions"):
+            phys["nino_regions"] = p["regions"]
         # NOTE: phys-level used_fallback/ok are set once, after all four
         # constituents have merged. This line used to set them here, from
         # oisst_weekly alone. See the block at the end of the assembly.
