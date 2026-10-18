@@ -3781,9 +3781,9 @@ _NINO_LABEL_AT = {"nino4": ("above", "left"), "nino34": ("above", "right"),
 
 # Reader-facing words: EDITOR'S (named constants per the build_public_html
 # seam). Drafted by design on 2026-10-18 for the editor to replace.
-NINO_MAP_INTRO = ("Where the warmth sits. Sea surface temperature against "
-                  "normal along the equatorial Pacific, with the four Niño "
-                  "regions CPC reports.")
+NINO_MAP_INTRO = ("The same October week in three El Niños, west to east "
+                  "along the equator. This one is warmest at the South "
+                  "American end, where the records are.")
 NINO_MAP_CAPTION = ("Anomalies against 1991-2020, NOAA OISST, averaged over "
                     "the CPC week. Water within 1 °C of normal is not "
                     "shaded. The numbers on the map are CPC's weekly "

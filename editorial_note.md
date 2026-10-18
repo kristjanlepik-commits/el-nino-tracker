@@ -1,7 +1,6 @@
-<!-- issue: 2026-10-05 -->
+<!-- issue: 2026-10-19 -->
 
-**A record, two months early.**
-
-The central equatorial Pacific was 3.1°C above normal in the week of 23 September, further than in any week since NOAA's weekly record began in 1981. The old high, 3.0°C, was set in November 2015, at that event's peak. The forecasts we track put this year's peak at about 3.9°C above normal, as a three-month average, around November and December.
-
-![Weekly Niño 3.4 anomaly, every year since 1982, with 2026 highlighted](https://thelongswell.com/nino34-weekly-2026-10-05.png)
+This El Niño is hottest at its eastern end, off Ecuador and Peru. Niño 1+2
+reached +5.2 °C this week. The highest before, in CPC's weekly series back
+to 1981, was +4.5 in June 1983. Niño 3 and 3.4 set records too. Niño 3.4,
+the number usually quoted, is the smallest of the three.
