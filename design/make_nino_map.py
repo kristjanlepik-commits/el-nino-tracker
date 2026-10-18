@@ -60,6 +60,24 @@ LAT_S, LAT_N = -20.0, 20.0
 FILL_FLOOR = 1.0
 UPSCALE = 3
 
+# THE WARM SIDE GOES PAST THE HOUSE SCALE, ON THIS MAP ONLY. Science's
+# review, 18 Oct: at +/-3 the 2026 panel drew Nino 3.4 (+3.3) and Nino 1+2
+# (+5.2) in the same darkest red, so the picture could not show the one
+# thing the map exists for, that this event is hottest in the east; only
+# the labels did. Everything up to +3 keeps tokens.ANOMALY exactly, so a
+# +2.1 here is the colour it is on every other page, which is what the
+# one-scale rule (tokens.OCEAN_SCALE) protects. Above +3 these classes
+# take over, the same on all three panels so they stay comparable. Hue
+# turns from crimson toward violet as well as darkening, so neighbouring
+# steps stay apart in light and dark mode. Map-only, and for VD to rule
+# on if it is ever wanted elsewhere.
+WARM_EXTENSION = [            # (from C, to C or None, colour)
+    (3.0, 4.0, "#6E1626"),
+    (4.0, 5.0, "#5A1248"),
+    (5.0, 6.0, "#41155E"),
+    (6.0, None, "#25103F"),
+]
+
 
 def _rgb(s):
     s = s.lstrip("#")
@@ -117,8 +135,13 @@ def render(anom, lats, lons, scale):
     water = np.isfinite(anom)
     pac = _connected(water, lats, lons, 0.0, 200.0)
     edges = np.linspace(-scale, scale, len(T.ANOMALY) + 1)[1:-1]
-    idx = np.digitize(np.nan_to_num(anom), edges)
-    pal = np.array([_rgb(c) for c in T.ANOMALY], dtype=np.uint8)
+    a = np.nan_to_num(anom)
+    idx = np.digitize(a, edges)
+    # Above the house scale, this map's own classes (WARM_EXTENSION).
+    for k, (lo, _hi, _c) in enumerate(WARM_EXTENSION):
+        idx = np.where(a >= lo, len(T.ANOMALY) + k, idx)
+    pal = np.array([_rgb(c) for c in T.ANOMALY] + [_rgb(c) for _l, _h, c in WARM_EXTENSION],
+                   dtype=np.uint8)
     rgba = np.zeros(anom.shape + (4,), dtype=np.uint8)
     drawn = pac & (np.abs(np.nan_to_num(anom)) >= FILL_FLOOR) & (idx != len(T.ANOMALY) // 2)
     rgba[..., :3] = pal[idx]
@@ -170,6 +193,8 @@ def main():
         "extent": {"lon_west": LON_W, "lon_east": LON_E,
                    "lat_south": LAT_S, "lat_north": LAT_N},
         "full_scale": scale, "fill_floor": FILL_FLOOR,
+        "warm_extension": [{"from": lo, "to": hi, "colour": c}
+                           for lo, hi, c in WARM_EXTENSION],
         "panels": out,
         "source": "NOAA OISST v2.1 (0.25 deg daily), 7-day mean centred on "
                   "the CPC week, against 1991-2020",

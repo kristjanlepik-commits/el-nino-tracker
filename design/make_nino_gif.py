@@ -170,11 +170,17 @@ def main():
     d.text((40, S - 46), "thelongswell.com", font=font(MONO_M, 20), fill=INK)
     # legend, in the footer row beside the site name: the stacked bands
     # leave no room under them at 960
-    lx, ly = 520, S - 40
-    d.text((lx - 40, ly - 6), "-%g" % meta["full_scale"], font=font(MONO, 16), fill=SOFT)
-    for j, c in enumerate(T.ANOMALY):
-        d.rectangle([lx + j * 28, ly, lx + j * 28 + 28, ly + 10], fill=rgb(c))
-    d.text((lx + 9 * 28 + 8, ly - 6), "+%g °C" % meta["full_scale"], font=font(MONO, 16), fill=SOFT)
+    lx, ly, sw = 330, S - 40, 22
+    d.text((lx - 34, ly - 6), "-%g" % meta["full_scale"], font=font(MONO, 15), fill=SOFT)
+    x = lx
+    for c in T.ANOMALY:
+        d.rectangle([x, ly, x + sw, ly + 10], fill=rgb(c)); x += sw
+    for e in meta.get("warm_extension", []):
+        t = "+%g" % e["from"]
+        d.text((x + 4, ly - 6), t, font=font(MONO, 15), fill=SOFT)
+        x += d.textlength(t, font=font(MONO, 15)) + 8
+        d.rectangle([x, ly, x + sw, ly + 10], fill=rgb(e["colour"])); x += sw
+    d.text((x + 6, ly - 6), "°C", font=font(MONO, 15), fill=SOFT)
     for t in (0.25, 0.5, 0.75):
         frames.append(Image.blend(frames[-1], stack, t)); durs.append(90)
     frames.append(stack); durs.append(5000)

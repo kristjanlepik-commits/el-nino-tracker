@@ -1232,8 +1232,13 @@ _PUBLIC_CSS_TEMPLATE = """
   .nm-lab b { font-weight: 500; }
   .nm-legend { display: flex; align-items: center; gap: 0; margin: 34px 0 0;
     font-family: var(--mono); font-size: 10px; color: var(--ink-faint); }
-  .nm-legend i { display: block; width: 22px; height: 8px; }
-  .nm-legend span { padding: 0 8px; }
+  .nm-legend i { display: block; width: 18px; height: 8px; flex: none; }
+  /* 13 swatches and five ticks are about 372 px at 18 px a swatch, wider
+     than a 375 px phone's column: narrower swatches there, and wrap as
+     the backstop rather than a sideways scroll. */
+  .nm-legend { flex-wrap: wrap; row-gap: 6px; }
+  @media (max-width: 480px) { .nm-legend i { width: 12px; } .nm-legend span { padding: 0 4px; } }
+  .nm-legend span { padding: 0 6px; }
   .nm-legend span:first-child { padding-left: 0; }
   .nm-rec { font-size: 14px; color: var(--ink-soft); margin: 14px 0 0; }
   .note {
@@ -3874,6 +3879,10 @@ def _nino_map_html(phys: dict, week: str, root_prefix: str) -> str:
 
     sc = meta.get("full_scale", T.OCEAN_SCALE)
     legend = "".join(f'<i style="background:{c}"></i>' for c in T.ANOMALY)
+    # Above the house +3, the map's own warm classes (make_nino_map.py,
+    # WARM_EXTENSION, Science's review): each gets its lower bound as a
+    # tick, so the legend reads -3 ... +3 +4 +5 +6.
+    ext = meta.get("warm_extension") or []
     rec = records()
     rec_html = (f'<p class="nm-rec">Records this week: {h("; ".join(rec))}.</p>'
                 if rec else "")
@@ -3888,7 +3897,9 @@ def _nino_map_html(phys: dict, week: str, root_prefix: str) -> str:
         f'<p class="section-sub" style="margin-top:22px">{h(NINO_MAP_INTRO)}</p>'
         + "".join(panels) +
         f'<div class="nm-legend"><span>&minus;{sc:g}</span>{legend}'
-        f'<span>+{sc:g} °C</span></div>'
+        + "".join(f'<span>+{e["from"]:g}</span><i style="background:{e["colour"]}"></i>'
+                  for e in ext)
+        + f'<span>{"" if ext else "+%g " % sc}°C</span></div>'
         + rec_html +
         f'<figcaption class="chart-caption">{h(NINO_MAP_CAPTION)}</figcaption>'
         '</figure>')
