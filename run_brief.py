@@ -1216,6 +1216,26 @@ _PUBLIC_CSS_TEMPLATE = """
   }
   table.phys td.num { white-space: nowrap; font-size: 14px; }
   table.phys tbody tr:last-child td { border-bottom: 3px solid var(--ink); }
+  /* ---------- the Nino regions map ---------- */
+  .ninomap { margin: 0; }
+  .nm-panel { margin: 30px 0 26px; }
+  .nm-year { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em;
+    color: var(--ink); margin-bottom: 44px; }
+  .nm-year span { color: var(--ink-faint); letter-spacing: 0.04em; }
+  .nm-frame { position: relative; }
+  .nm-frame img { display: block; width: 100%; height: auto; }
+  .nm-frame svg { position: absolute; inset: 0; width: 100%; height: 100%;
+    fill: none; stroke: var(--ink); stroke-width: 1.5; overflow: visible; }
+  .nm-lab { position: absolute; white-space: nowrap; font-family: var(--mono);
+    font-size: 11px; line-height: 1; color: var(--ink); padding: 3px 5px;
+    background: var(--paper); margin: 0; }
+  .nm-lab b { font-weight: 500; }
+  .nm-legend { display: flex; align-items: center; gap: 0; margin: 34px 0 0;
+    font-family: var(--mono); font-size: 10px; color: var(--ink-faint); }
+  .nm-legend i { display: block; width: 22px; height: 8px; }
+  .nm-legend span { padding: 0 8px; }
+  .nm-legend span:first-child { padding-left: 0; }
+  .nm-rec { font-size: 14px; color: var(--ink-soft); margin: 14px 0 0; }
   .note {
     font-size: 15px;
     color: var(--ink-soft);
@@ -3728,6 +3748,176 @@ def _wind_sentence(phys):
             f"{best_y}&apos;s.")
 
 
+# ---------------------------------------------------------------------------
+# THE NINO REGIONS MAP (2026-10-18, Science for Kristjan). This El Nino is
+# east-based: its records are widest in Nino 1+2 and Nino 3, and Nino 3.4
+# alone understates it. The map shows where along the equator the warmth
+# sits, this week and in the same week of 1997 and 2015.
+#
+# The field is design/make_nino_map.py's PNG. The boxes and their numbers
+# are drawn HERE, from physical_state, the same CPC weekly values as the
+# table rows above it. Never from the grid: a box mean off the 0.25 degree
+# field differs from CPC's index by a tenth or two, and a reader setting
+# the map against the table would conclude one of them is wrong.
+#
+# Skipped, not guessed: no map JSON for this CPC week, or no region values
+# (a fetcher fallback), and the block renders nothing.
+# ---------------------------------------------------------------------------
+
+# The four boxes, CPC's definitions, as (key, label, lon_w, lon_e, lat_n,
+# lat_s) in degrees east. Nino 3.4 overlaps Nino 3 and Nino 4, so they
+# draw as outlines, never fills.
+NINO_BOXES = (
+    ("nino4", "Niño 4", 160.0, 210.0, 5.0, -5.0),
+    ("nino34", "Niño 3.4", 190.0, 240.0, 5.0, -5.0),
+    ("nino3", "Niño 3", 210.0, 270.0, 5.0, -5.0),
+    ("nino12", "Niño 1+2", 270.0, 280.0, 0.0, -10.0),
+)
+# Where each label sits relative to its box: above or below, and which
+# box edge it anchors to: 4 and 3.4 above, 3 and 1+2 below, with a
+# vertical stagger in _nino_map_html so they never collide.
+_NINO_LABEL_AT = {"nino4": ("above", "left"), "nino34": ("above", "right"),
+                  "nino3": ("below", "left"), "nino12": ("below", "right")}
+
+# Reader-facing words: EDITOR'S (named constants per the build_public_html
+# seam). Drafted by design on 2026-10-18 for the editor to replace.
+NINO_MAP_INTRO = ("Where the warmth sits. Sea surface temperature against "
+                  "normal along the equatorial Pacific, with the four Niño "
+                  "regions CPC reports.")
+NINO_MAP_CAPTION = ("Anomalies against 1991-2020, NOAA OISST, averaged over "
+                    "the CPC week. Water within 1 °C of normal is not "
+                    "shaded. The numbers on the map are CPC's weekly "
+                    "index values, the same as the table above. A record "
+                    "is the highest week in CPC's weekly series, which "
+                    "begins in September 1981.")
+
+
+def _nino_map_html(phys: dict, week: str, root_prefix: str) -> str:
+    regions = phys.get("nino_regions") or {}
+    if not week or not all((regions.get(k) or {}).get("anom") is not None
+                           for k, *_ in NINO_BOXES):
+        return ""
+    try:
+        meta = json.loads((DOCS_DIR / "nino-map" / f"{week}.json").read_text())
+    except (OSError, ValueError):
+        return ""
+    if meta.get("cpc_week") != week:
+        return ""
+    ext = meta["extent"]
+    lw, le = ext["lon_west"], ext["lon_east"]
+    ln, ls = ext["lat_north"], ext["lat_south"]
+    W, H = le - lw, ln - ls
+    analogs = phys.get("nino34_analogs_same_week") or {}
+
+    def values_for(year):
+        if year == "2026":
+            return {k: regions[k]["anom"] for k, *_ in NINO_BOXES}
+        a = analogs.get(year) or {}
+        v = {"nino12": a.get("nino12"), "nino3": a.get("nino3"),
+             "nino34": a.get("anom"), "nino4": a.get("nino4")}
+        return v if all(x is not None for x in v.values()) else None
+
+    def records():
+        out = []
+        for k, label, *_ in reversed(NINO_BOXES):
+            r = regions[k]
+            pr = r.get("prior_record") or {}
+            if pr.get("anom") is not None and r["anom"] > pr["anom"]:
+                when = date.fromisoformat(pr["week"][:10]).strftime("%B %Y")
+                out.append(f'{label} {_signed_temp(r["anom"])} °C, previous record '
+                           f'{_signed_temp(pr["anom"])} ({when})')
+        return out
+
+    panels = []
+    for p in meta["panels"]:
+        vals = values_for(p["year"])
+        if vals is None:
+            continue
+        wk = date.fromisoformat(p["week"][:10])
+        rects, labels = [], []
+        for k, label, w0, w1, n, s in NINO_BOXES:
+            x0, x1 = (w0 - lw) / W * 100, (w1 - lw) / W * 100
+            y0, y1 = (ln - n) / H * 100, (ln - s) / H * 100
+            rects.append(f'<rect x="{w0 - lw:g}" y="{ln - n:g}" width="{w1 - w0:g}" '
+                         f'height="{n - s:g}" vector-effect="non-scaling-stroke"/>')
+            side, anchor = _NINO_LABEL_AT[k]
+            # Niño 1+2 is ten degrees wide; its label anchors to the map's
+            # right edge rather than the box's, so it clears Niño 3's.
+            ax = x0 if anchor == "left" else (x1 if k != "nino12" else 99.0)
+            tx = "0" if anchor == "left" else "-100%"
+            ty = "-100%" if side == "above" else "0"
+            # Staggered one chip apart, because at phone width Niño 3.4's
+            # label covered Niño 4's value and Niño 1+2's clipped Niño 3's
+            # (measured at 375 px). A stagger holds at every width; a
+            # horizontal nudge only at the width it was tuned for.
+            if k == "nino4":
+                ty = "calc(-200% - 3px)"
+            elif k == "nino12":
+                ty = "calc(100% - 4px)"
+            top = y0 if side == "above" else y1
+            labels.append(
+                f'<span class="nm-lab" style="left:{ax:.2f}%;top:{top:.2f}%;'
+                f'transform:translate({tx},{ty})">{h(label)} '
+                f'<b>{_signed_temp(vals[k])}</b></span>')
+        panels.append(
+            '<div class="nm-panel">'
+            f'<div class="nm-year">{h(p["year"])} <span>week of '
+            f'{wk.day} {wk.strftime("%B")}</span></div>'
+            '<div class="nm-frame">'
+            f'<img src="{h(root_prefix)}nino-map/{h(p["png"])}" alt="" '
+            f'width="1440" height="360" loading="lazy">'
+            f'<svg viewBox="0 0 {W:g} {H:g}" preserveAspectRatio="none" '
+            f'aria-hidden="true">{"".join(rects)}</svg>'
+            f'{"".join(labels)}</div></div>')
+    if not panels:
+        return ""
+
+    sc = meta.get("full_scale", T.OCEAN_SCALE)
+    legend = "".join(f'<i style="background:{c}"></i>' for c in T.ANOMALY)
+    rec = records()
+    rec_html = (f'<p class="nm-rec">Records this week: {h("; ".join(rec))}.</p>'
+                if rec else "")
+    alt = ("Map of sea surface temperature against normal along the equatorial "
+           "Pacific. " + " ".join(
+               f'{p["year"]}: ' + ", ".join(
+                   f'{lab} {_signed_temp(values_for(p["year"])[k])} °C'
+                   for k, lab, *_ in NINO_BOXES) + "."
+               for p in meta["panels"] if values_for(p["year"])))
+    return (
+        f'<figure class="ninomap" role="img" aria-label="{h(alt)}">'
+        f'<p class="section-sub" style="margin-top:22px">{h(NINO_MAP_INTRO)}</p>'
+        + "".join(panels) +
+        f'<div class="nm-legend"><span>&minus;{sc:g}</span>{legend}'
+        f'<span>+{sc:g} °C</span></div>'
+        + rec_html +
+        f'<figcaption class="chart-caption">{h(NINO_MAP_CAPTION)}</figcaption>'
+        '</figure>')
+
+
+def _nino_region_rows(phys: dict) -> str:
+    """Nino 3 and Nino 1+2 beside Nino 3.4 (2026-10-18). Same CPC weekly
+    file and base as the Nino 3.4 row, and the same week in 1997 and 2015.
+    Skipped, not guessed, when the region block is absent (fallback)."""
+    regions = phys.get("nino_regions") or {}
+    analogs = phys.get("nino34_analogs_same_week") or {}
+    out = ""
+    for key, label in (("nino3", "Niño 3 weekly (traditional)"),
+                       ("nino12", "Niño 1+2 weekly (traditional)")):
+        cur = (regions.get(key) or {}).get("anom")
+        if cur is None:
+            continue
+        a97 = (analogs.get("1997") or {}).get(key)
+        a15 = (analogs.get("2015") or {}).get(key)
+        cell = lambda v: (f'{_signed_temp(v)}°C' if v is not None else "n/a")
+        out += ('<tr>'
+                f'<td>{label}{_basis("same week")}</td>'
+                f'<td class="num">{_signed_temp(cur)}°C</td>'
+                f'<td class="num">{cell(a97)}</td>'
+                f'<td class="num">{cell(a15)}</td>'
+                '</tr>')
+    return out
+
+
 def build_public_html(fetched: dict, freshness: dict, headline: dict,
                       methodology_href: str, brief_date_iso: str,
                       canonical_url: str, og_image_url: str,
@@ -4280,7 +4470,19 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         hc_97 = analog_same.get("1997_apr_heat_content")
         hc_15 = analog_same.get("2015_apr_heat_content")
         hc_basis = "late April"
-    if "1997_same_week_nino34_weekly" in analog_same:
+    # Same week from the CPC weekly file when the fetcher carries it
+    # (physical_state.nino34_analogs_same_week, live since 2026-10-18 and
+    # what the internal brief already uses). The Nino 3 and Nino 1+2 rows
+    # beneath compare on the same week, and a Nino 3.4 row on 22 April
+    # beside them read as 1997 at -0.1 against Nino 3 at +2.8.
+    _n34_same = phys.get("nino34_analogs_same_week") or {}
+    if all((_n34_same.get(y) or {}).get("anom") is not None for y in ("1997", "2015")):
+        analog_same = dict(analog_same,
+                           _sw97=_n34_same["1997"]["anom"],
+                           _sw15=_n34_same["2015"]["anom"])
+        n34_97, n34_15 = "_sw97", "_sw15"
+        n34_basis = "same week"
+    elif "1997_same_week_nino34_weekly" in analog_same:
         n34_97, n34_15 = ("1997_same_week_nino34_weekly",
                           "2015_same_week_nino34_weekly")
         n34_basis = "same week"
@@ -4314,6 +4516,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         '<td class="num">n/a (pre-RONI)</td>'
         '<td class="num">n/a (pre-RONI)</td>'
         '</tr>'
+        + _nino_region_rows(phys) +
         '<tr>'
         f'<td>0–300 m heat content anomaly{_basis(hc_basis)}</td>'
         f'<td class="num">{h(hc_str)}</td>'
@@ -4364,6 +4567,10 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     # 2026 draws in INK, not the accent. It is below both super analogs, and
     # under D-043 colour carries the finding rather than the recency: drawing
     # it in hue would claim a record this series does not hold.
+    physical_html += _nino_map_html(
+        phys, str((freshness.get("oisst_weekly") or {}).get("issued")
+                  or phys.get("issued") or "")[:10], root_prefix)
+
     _wind = chart_wind(phys)
     if _wind:
         physical_html += (

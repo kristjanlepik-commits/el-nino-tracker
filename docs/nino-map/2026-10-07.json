@@ -1,0 +1,49 @@
+{
+  "cpc_week": "2026-10-07",
+  "extent": {
+    "lon_west": 130.0,
+    "lon_east": 290.0,
+    "lat_south": -20.0,
+    "lat_north": 20.0
+  },
+  "full_scale": 3.0,
+  "fill_floor": 1.0,
+  "panels": [
+    {
+      "year": "2026",
+      "week": "2026-10-07",
+      "png": "2026-10-07.png",
+      "days": [
+        "2026-10-04",
+        "2026-10-10"
+      ],
+      "n_days": 7,
+      "max_c": 7.8
+    },
+    {
+      "year": "1997",
+      "week": "1997-10-08",
+      "png": "1997-10-08.png",
+      "days": [
+        "1997-10-05",
+        "1997-10-11"
+      ],
+      "n_days": 7,
+      "max_c": 5.4
+    },
+    {
+      "year": "2015",
+      "week": "2015-10-07",
+      "png": "2015-10-07.png",
+      "days": [
+        "2015-10-04",
+        "2015-10-10"
+      ],
+      "n_days": 7,
+      "max_c": 4.8
+    }
+  ],
+  "source": "NOAA OISST v2.1 (0.25 deg daily), 7-day mean centred on the CPC week, against 1991-2020",
+  "generated_at": "2026-10-18T10:13:52Z",
+  "generator": "design/make_nino_map.py"
+}
