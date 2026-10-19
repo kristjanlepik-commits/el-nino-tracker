@@ -667,6 +667,13 @@
   }
   table.phys td.num { white-space: nowrap; font-size: 14px; }
   table.phys tbody tr:last-child td { border-bottom: 3px solid var(--ink); }
+  /* At 375 px the table was 420 px wide in a 335 px column: the two
+     "n/a (pre-RONI)" cells cannot break while they are nowrap. Numbers
+     carry no spaces, so letting cells wrap moves only those words. */
+  @media (max-width: 600px) {
+    table.phys td.num { white-space: normal; }
+    table.phys th, table.phys td { padding-right: 8px; }
+  }
   /* ---------- the Nino regions map ---------- */
   .ninomap { margin: 0; }
   .nm-panel { margin: 30px 0 26px; }
