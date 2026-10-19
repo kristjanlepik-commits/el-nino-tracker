@@ -181,6 +181,11 @@ def _rung_rows(headline):
     return out
 
 
+# "Three rungs." was typed; the ladder now counts itself (Science,
+# 2026-10-19), so the lede stays true when +3.0 retires.
+_RUNG_WORDS = {2: "Two", 3: "Three", 4: "Four", 5: "Five"}
+
+
 def _retired_phrase(headline):
     """The retired rungs, named from the data rather than typed.
 
@@ -333,6 +338,24 @@ def _rung_note(fetched, headline, briefs_root):
     return c["rung_note_label"], c["rung_note"]
 
 
+def _heat_rank(fetched):
+    """" Rank r of n months, first to last.", computed from the series.
+
+    This read "Rank 1 of 571 months, 1979-01 to 2026-07", typed, and
+    stayed that way while the figure beside it moved to September's
+    +3.39 (Science, 2026-10-19). Empty when the series is absent."""
+    phys = fetched.get("physical_state") or {}
+    ser = phys.get("heat_content_series") or {}
+    month = phys.get("heat_content_data_month")
+    vals = {k: v for k, v in ser.items() if isinstance(v, (int, float))}
+    if not vals or month not in vals:
+        return ""
+    cur = vals[month]
+    rank = 1 + sum(1 for v in vals.values() if v > cur)
+    keys = sorted(vals)
+    return f" Rank {rank} of {len(vals)} months, {keys[0]} to {keys[-1]}."
+
+
 def _provenance(fetched, brief_date, headline=None):
     """One register. VD's 03: the caveats are not the problem, they are the
     product's honesty. The problem was three registers in the reading path,
@@ -357,13 +380,124 @@ def _provenance(fetched, brief_date, headline=None):
         f'<div>{_retired_phrase(headline)}</div>'
         '<div class="k">Ocean heat</div>'
         '<div>CPC heat content index, mean 0-300 m anomaly, 180W-100W, '
-        '1981-2010 climatology. Rank 1 of 571 months, 1979-01 to 2026-07. '
+        f'1981-2010 climatology.{_heat_rank(fetched)} '
         'The figure carries hue while the record stands.</div>'
         '<div class="k">Wind forcing</div>'
         '<div>ERA5, 5N-5S, 130E-150W, m/s&middot;days, cumulative since '
         '1 March and therefore not comparable to a climatological mean at a '
         'given day.</div>'
         '</div>')
+
+
+# ---------------------------------------------------------------------------
+# THE FULL ISSUE ON THE LANDING PAGE (D-338, Kristjan 2026-10-19: "/elnino
+# should have the full report"). The week's new material, Nino 3 and Nino
+# 1+2, the records line and the Nino map, went live only on the dated issue
+# and nobody landing here could see it.
+#
+# HOW, AND WHY THIS WAY. The issue body is rendered by the same function
+# (run_brief.build_public_html) from the same inputs the dated archive is
+# rebuilt from in scripts/publish_shell.py: the stored snapshot, its own
+# _freshness, meta.json's headline, and the stored prior issues. Then the
+# span between ISSUE_BODY_START and ISSUE_BODY_END is lifted as it stands.
+# Nothing is re-derived here, so this page and the dated issue cannot
+# disagree on a number, which was Science's first constraint. Images point
+# into the dated issue's own folder for the same reason.
+#
+# The summary above it stays: the question, Observed, Outlook, Trajectory.
+# The ladder and the analog chart therefore appear twice, once as the
+# summary and once in full with the caveats that govern them; the
+# alternative was to edit the issue into something it is not.
+# ---------------------------------------------------------------------------
+
+def _scoped_css(css, scope):
+    """Prefix every selector in a stylesheet with `scope`, recursing into
+    @media and @supports. Rules for html, body, :root and * are dropped:
+    this page already sets them, and the issue's must not restyle the
+    summary above it. Other at-rules (@font-face, @keyframes) are dropped
+    too; the fonts are already loaded here."""
+    # Comments first. A comment directly above a rule used to be read as
+    # part of its selector, and the rule was dropped: every rule in
+    # PUBLIC_CSS that follows a comment, which is most of them.
+    import re
+    css = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
+    out, i, n = [], 0, len(css)
+    while i < n:
+        j = css.find("{", i)
+        if j < 0:
+            break
+        sel = css[i:j].strip()
+        depth, k = 1, j + 1
+        while k < n and depth:
+            depth += {"{": 1, "}": -1}.get(css[k], 0)
+            k += 1
+        body = css[j + 1:k - 1]
+        i = k
+        if sel.startswith(("@media", "@supports")):
+            inner = _scoped_css(body, scope)
+            if inner.strip():
+                out.append(f"{sel}{{{inner}}}")
+            continue
+        if sel.startswith("@"):
+            continue
+        keep = []
+        for one in sel.split(","):
+            one = one.strip()
+            if not one or one.split()[0].split(":")[0].split("[")[0] in ("html", "body", "*", "") \
+                    or one.startswith(":root"):
+                continue
+            keep.append(f"{scope} {one}")
+        if keep:
+            out.append(", ".join(keep) + "{" + body + "}")
+    return "\n".join(out)
+
+
+def _full_issue(fetched, meta, brief_date, briefs_href):
+    """The dated issue's body, rendered from stored state; "" if it cannot be.
+
+    A failure here must not take the landing page down with it, so it is
+    caught and printed loudly rather than raised."""
+    try:
+        import run_brief as R
+        import snapshot as _snap
+        di = brief_date.isoformat()
+        # The analog caption quotes 2026's latest observed ONI from
+        # oni_history, which the snapshot does not store, so a stored-state
+        # render printed "near 0" where the dated issue printed +2.2 (found
+        # diffing the two, 2026-10-19). data/oni_full_history.csv is the
+        # same CPC series, committed, and is stored state rather than a
+        # fetch. Used only when the snapshot carries no history of its own.
+        fetched = dict(fetched)
+        if not (fetched.get("oni_history") or {}).get("by_year"):
+            by_year = {}
+            for line in (ROOT / "data/oni_full_history.csv").read_text().splitlines():
+                parts = line.split(",")
+                if len(parts) == 3 and parts[0].isdigit():
+                    try:
+                        by_year.setdefault(int(parts[0]), {})[parts[1]] = float(parts[2])
+                    except ValueError:
+                        continue
+            fetched["oni_history"] = {"by_year": by_year}
+        html_text = R.build_public_html(
+            fetched, fetched.get("_freshness") or {}, meta["headline_buckets"],
+            methodology_href="../methodology.html", brief_date_iso=di,
+            canonical_url=f"{PAGES_BASE_URL}/elnino/",
+            og_image_url=f"{PAGES_BASE_URL}/card.png",
+            world_map_href="../world-map.svg",
+            prev_headline=R._load_prev_headline_smoothed(brief_date),
+            prev_snapshot=_snap.load_prior_snapshot(before=brief_date),
+            prev_headline_month=R._load_month_prior_headline_smoothed(brief_date),
+            briefs_href=briefs_href, root_prefix="../", is_front=False,
+            asset_prefix=f"{briefs_href}{di}/")
+        a = html_text.index(R.ISSUE_BODY_START) + len(R.ISSUE_BODY_START)
+        b = html_text.index(R.ISSUE_BODY_END)
+        c = html_text.index(R.ISSUE_PROV_START) + len(R.ISSUE_PROV_START)
+        d = html_text.index(R.ISSUE_PROV_END)
+        return (html_text[a:b], _scoped_css(R.PUBLIC_CSS, ".issue-full"),
+                html_text[c:d])
+    except Exception as e:                       # noqa: BLE001
+        print(f"WARNING: /elnino/ full issue not rendered: {e!r}", file=sys.stderr)
+        return "", "", ""
 
 
 def render(fetched, meta, brief_date, root_prefix="../",
@@ -379,6 +513,8 @@ def render(fetched, meta, brief_date, root_prefix="../",
                      h(brief_date.isoformat()) + '/">as published</a>')
     headline = meta.get("headline_buckets") or {}
     di = brief_date.isoformat()
+    full_body, full_css, full_prov = (("", "", "") if is_archive else
+                                      _full_issue(fetched, meta, brief_date, briefs_href))
     # Computed here rather than inline: an f-string expression cannot carry
     # a backslash on 3.9, and the finding needs its markup stripped before
     # it can be a meta description.
@@ -450,7 +586,7 @@ body{{margin:0;background:var(--paper);color:var(--ink-soft);
  font-family:"{T.FONT_PROSE}",Georgia,serif;font-size:17px;line-height:1.62}}
 main{{max-width:820px;margin:0 auto;padding:34px 26px 90px}}
 {SITE_MASTHEAD_CSS}
-.eyebrow{{font-family:"{T.FONT_DATA}",monospace;font-size:9.5px;
+.eyebrow:not(.issue-full *){{font-family:"{T.FONT_DATA}",monospace;font-size:9.5px;
  letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);
  margin-top:26px}}
 h1{{font-weight:400;font-size:40px;line-height:1.1;letter-spacing:-.018em;
@@ -460,13 +596,13 @@ h1{{font-weight:400;font-size:40px;line-height:1.1;letter-spacing:-.018em;
  text-wrap:pretty}}
 .finding strong{{font-weight:500}}
 .sec{{margin-top:50px;border-top:3px solid var(--ink);padding-top:13px}}
-.sec h2{{font-family:"{T.FONT_DATA}",monospace;font-size:9.5px;
+.sec>h2{{font-family:"{T.FONT_DATA}",monospace;font-size:9.5px;
  letter-spacing:.22em;text-transform:uppercase;color:var(--ink);
  margin:0;font-weight:500}}
 .lede{{margin:12px 0 18px;max-width:62ch;text-wrap:pretty}}
 .aside{{font-family:"{T.FONT_DATA}",monospace;font-size:12px;
  color:var(--ink-faint);margin:14px 0 0}}
-.tag{{font-family:"{T.FONT_DATA}",monospace;font-size:9.5px;
+.tag:not(.issue-full *){{font-family:"{T.FONT_DATA}",monospace;font-size:9.5px;
  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);
  margin-bottom:10px}}
 .r{{display:grid;grid-template-columns:72px minmax(0,1fr) 104px;gap:14px;
@@ -483,10 +619,10 @@ h1{{font-weight:400;font-size:40px;line-height:1.1;letter-spacing:-.018em;
 /* the note's chart, lifted out of the box: pulled up so it reads as the
    note's, not as the first thing in section 01 */
 .ednote-fig{{margin:-12px 0 0}}
-.note{{font-family:"{T.FONT_DATA}",monospace;font-size:11px;
+.note:not(.issue-full *){{font-family:"{T.FONT_DATA}",monospace;font-size:11px;
  color:var(--ink-faint)}}
-.track{{position:relative;height:21px;background:var(--paper-sunk)}}
-.fill{{position:absolute;left:0;top:0;height:21px}}
+.track:not(.issue-full *){{position:relative;height:21px;background:var(--paper-sunk)}}
+.fill:not(.issue-full *){{position:absolute;left:0;top:0;height:21px}}
 /* THE BAR HAD ZERO WIDTH ON A PHONE, which is worse than the 12px of
    sideways scroll it also caused. 72 + 68 + 190 of fixed columns plus
    three gaps exceed a 390px screen on their own, so the flexible track
@@ -495,9 +631,9 @@ h1{{font-weight:400;font-size:40px;line-height:1.1;letter-spacing:-.018em;
    page was affected. Label and figure share the top line, the bar takes
    the full width beneath them, and the note sits under the bar it
    annotates. */
-.chx{{font-family:"{T.FONT_DATA}",monospace;font-size:10px;
+.chx:not(.issue-full *){{font-family:"{T.FONT_DATA}",monospace;font-size:10px;
  fill:var(--ink-faint);font-variant-numeric:tabular-nums}}
-.chnow{{font-family:"{T.FONT_DATA}",monospace;font-size:12px;font-weight:600;
+.chnow:not(.issue-full *){{font-family:"{T.FONT_DATA}",monospace;font-size:12px;font-weight:600;
  fill:var(--ink);font-variant-numeric:tabular-nums}}
 .rnote{{margin:26px 0 0;padding:15px 0 0;border-top:2px solid var(--ink)}}
 .rnk{{font-family:"{T.FONT_DATA}",monospace;font-size:9.5px;letter-spacing:.2em;
@@ -510,12 +646,12 @@ h1{{font-weight:400;font-size:40px;line-height:1.1;letter-spacing:-.018em;
  font-family:"{T.FONT_DATA}",monospace;font-size:11.5px;line-height:1.75}}
 .ledger>div{{padding:11px 0;border-top:1px solid var(--rule)}}
 .ledger .k{{color:var(--ink)}}
-figure{{margin:0}}
-figure img{{width:100%;height:auto;display:block}}
-.foot{{font-family:"{T.FONT_DATA}",monospace;font-size:11px;
+figure:not(.issue-full *){{margin:0}}
+figure:not(.issue-full *) img{{width:100%;height:auto;display:block}}
+.foot:not(.issue-full *){{font-family:"{T.FONT_DATA}",monospace;font-size:11px;
  color:var(--ink-faint);margin-top:44px;padding-top:16px;
  border-top:1px solid var(--rule)}}
-.foot a{{color:var(--ink-faint)}}
+.foot:not(.issue-full *) a{{color:var(--ink-faint)}}
 
 /* THE PHONE RULES GO LAST, and that placement is the whole point rather
    than tidiness. They sat above the base rules for one build: a media
@@ -534,7 +670,7 @@ figure img{{width:100%;height:auto;display:block}}
     grid-template-areas:"yr val" "bar bar" "note note";gap:5px 12px;
     padding:9px 0}}
   .yr{{grid-area:yr}} .v{{grid-area:val}}
-  .track{{grid-area:bar}} .note{{grid-area:note}}
+  .track:not(.issue-full *){{grid-area:bar}} .note{{grid-area:note}}
   /* THE CHART TEXT IS LEFT ALONE, and this is a deliberate non-fix rather
      than an oversight. It renders at 4.4px on a phone, which is not
      readable, and every way of enlarging it from here makes the page
@@ -556,14 +692,14 @@ figure img{{width:100%;height:auto;display:block}}
      picture of a chart rather than a chart. It keeps a readable width and
      the panel scrolls: a swipe to read the axis beats a figure that
      cannot be read at all. */
-  figure{{overflow-x:auto;-webkit-overflow-scrolling:touch}}
+  figure:not(.issue-full *){{overflow-x:auto;-webkit-overflow-scrolling:touch}}
   /* WIDTH 700, NOT AUTO. `width:auto` with `max-width:none` renders each
      image at its intrinsic pixel width, and these are 2x rasters: the
      analog chart came out 1780px wide on a 375px phone and the note chart
      2108px, three times the readable width this rule exists for. Science
      measured it on 2026-09-28 while widening the note chart (D-309). The
      comment above states the intent; this makes the rule say it. */
-  figure img{{width:700px;max-width:none}}
+  figure:not(.issue-full *) img{{width:700px;max-width:none}}
   /* The provenance register held a 200px key column against 112px of
      value, so every source note wrapped to five lines beside a mostly
      empty label. One column: the key reads as a heading over what it
@@ -573,6 +709,15 @@ figure img{{width:100%;height:auto;display:block}}
   .ledger .k{{padding:11px 0 2px;border-top:1px solid var(--rule)}}
   .ledger>div:not(.k){{padding-bottom:11px}}
 }}
+{full_css}
+/* This page's rules for class names the issue also uses (.eyebrow, .tag,
+   .note, .track, .fill, .chx, .chnow, .foot, figure) carry :not(.issue-full *),
+   so they stop at the lifted issue. Found by comparing computed styles
+   element by element against the dated page; at phone width .track
+   stretched the issue's ladder bars 299 px past the column. */
+/* The issue's own base, measured off the dated page (17.5px, 1.62, INK):
+   without it the block inherited this page's ink-soft body text. */
+.issue-full{{margin-top:18px;color:var(--ink);font-size:17.5px;line-height:1.62}}
 </style>
 {ANALYTICS_SNIPPET}
 </head>
@@ -595,7 +740,7 @@ figure img{{width:100%;height:auto;display:block}}
 <div class="sec"><h2>01 &middot; Observed</h2>{observed}</div>
 
 <div class="sec"><h2>02 &middot; Outlook</h2>
-<p class="lede">Three rungs. A rung retires when it reaches the display
+<p class="lede">{_RUNG_WORDS.get(outlook.count('class="r wide"'), "The")} rungs. A rung retires when it reaches the display
 bound rather than when someone edits this page.</p>
 {outlook}</div>
 
@@ -616,10 +761,17 @@ carried forward. The bands are the spread, not a second opinion.</p>
      at exactly this line. -->
 {_SUB_BAND}
 
-<div class="sec"><h2>04 &middot; Provenance</h2>
+{('<div class="sec" id="issue"><h2>04 &middot; The full issue</h2>'
+  '<p class="lede">Everything in this week&rsquo;s issue, as published on '
+  + h(di) + ', from the same stored data. <a href="' + h(briefs_href) + h(di)
+  + '/">The dated copy</a> is the citable one.</p>'
+  '<div class="issue-full">' + full_body + '</div></div>') if full_body else ''}
+
+<div class="sec"><h2>{"05" if full_body else "04"} &middot; Provenance</h2>
 <p class="lede">What each source said, when it said it, and every caveat
 that governs a figure above. One register rather than three.</p>
-{_provenance(fetched, brief_date, headline)}</div>
+{_provenance(fetched, brief_date, headline)}
+{('<div class="issue-full"><div class="foot">' + full_prov + '</div></div>') if full_prov else ''}</div>
 
 <div class="foot">{h(AUTHOR_NAME)} (2026). {h(SITE_NAME)}.
  <a href="{h(PAGES_BASE_URL)}/">{h(PAGES_BASE_URL.split("//")[-1])}</a>

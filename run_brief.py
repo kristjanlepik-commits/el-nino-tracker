@@ -1216,6 +1216,13 @@ _PUBLIC_CSS_TEMPLATE = """
   }
   table.phys td.num { white-space: nowrap; font-size: 14px; }
   table.phys tbody tr:last-child td { border-bottom: 3px solid var(--ink); }
+  /* At 375 px the table was 420 px wide in a 335 px column: the two
+     "n/a (pre-RONI)" cells cannot break while they are nowrap. Numbers
+     carry no spaces, so letting cells wrap moves only those words. */
+  @media (max-width: 600px) {
+    table.phys td.num { white-space: normal; }
+    table.phys th, table.phys td { padding-right: 8px; }
+  }
   /* ---------- the Nino regions map ---------- */
   .ninomap { margin: 0; }
   .nm-panel { margin: 30px 0 26px; }
@@ -3929,6 +3936,12 @@ def _nino_region_rows(phys: dict) -> str:
     return out
 
 
+ISSUE_BODY_START = "<!--issue-body-->"
+ISSUE_BODY_END = "<!--/issue-body-->"
+ISSUE_PROV_START = "<!--issue-prov-->"
+ISSUE_PROV_END = "<!--/issue-prov-->"
+
+
 def build_public_html(fetched: dict, freshness: dict, headline: dict,
                       methodology_href: str, brief_date_iso: str,
                       canonical_url: str, og_image_url: str,
@@ -4424,6 +4437,13 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
             except (KeyError, TypeError, ValueError):
                 continue
     obs_str = _signed_temp(obs_val, 1) if obs_val is not None else "near 0"
+    # With no ONI history the caption used to print "runs to the latest
+    # season at near 0°C", a number nobody measured: a stored-state render
+    # of the 2026-10-19 issue said it where the issue said +2.2. Without
+    # the value the clause names the line and quotes nothing.
+    _obs_clause = (f"2026's observed ONI (the solid red line) runs to the "
+                   f"{h(obs_season)} season at {obs_str}°C; " if obs_val is not None
+                   else "2026's observed ONI is the solid red line; ")
     seas5_end = _fmt_cal(ecmwf.get("max_lead_calendar"), "this autumn")
     # Extension end date: prefer the v1.9 pooled NMME trajectory, fall back
     # to the older CFSv2-only key so pre-v1.9 data still captions cleanly.
@@ -4451,8 +4471,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         '<div class="chart-caption">'
         f'<strong>Read this week:</strong> the shaded red field marks El Niño territory, '
         f'deepening through moderate, strong and super up to the +2.5°C line that 1997 and '
-        f'2015 peaked near. 2026\'s observed ONI (the solid red line) runs to the {h(obs_season)} '
-        f'season at {obs_str}°C; 1997 and 2023 were similarly cool this early and still became '
+        f'2015 peaked near. {_obs_clause}1997 and 2023 were similarly cool this early and still became '
         f'super events, so position this far out is a weak discriminator. Forward, the forecast '
         f'is one combined ensemble: the dashed line and grey bands are ECMWF SEAS5 (median with '
         f'25-75 and 5-95 percentile spreads) to its {h(seas5_end)} horizon, and the dotted line '
@@ -4674,7 +4693,13 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
 
     # Footer freshness grid
     fresh_rows = []
-    for src, info in freshness.items():
+    # In PUBLIC_SOURCE_NAMES order, not the dict's: a live run keeps fetch
+    # order and a snapshot comes back alphabetical, so the same issue's
+    # register printed in two orders on /briefs/ and /elnino/ (2026-10-19).
+    _order = list(PUBLIC_SOURCE_NAMES)
+    for src, info in sorted(freshness.items(),
+                            key=lambda kv: (_order.index(kv[0])
+                                            if kv[0] in _order else len(_order))):
         # Never fall back to the raw key on a public page. A missing
         # name is a build-time omission to fix, not something to print
         # at a reader on the one block whose whole job is provenance.
@@ -4714,6 +4739,10 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         f'<a href="{h(briefs_href)}">Archive</a>'
         f'<a href="{h(GITHUB_REPO_URL)}">GitHub</a>'
         '</div></div>'
+        # ISSUE_PROV_START/END: the source register, offset line and
+        # licence, lifted into /elnino/'s Provenance (D-338, Science's
+        # review: it listed four of the issue's ten sources).
+        + ISSUE_PROV_START
         + ("" if is_front else
            '<div>'
            '<span class="foot-fresh-label">Source freshness this issue</span>'
@@ -4735,6 +4764,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         'permission. Every issue archived, immutable. Disagreements are '
         'surfaced, not averaged.'
         '</p>'
+        + ISSUE_PROV_END +
         '</div></div></footer>'
     )
 
@@ -4912,10 +4942,17 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         # impact outlook it has always carried and the channel page drops
         # it, which is what was actually asked for. Removing it from both
         # was me changing a surface nobody mentioned.
+        # ISSUE_BODY_START/END bracket the week's record, everything after
+        # the finding line. /elnino/ lifts exactly this span from a render
+        # of the same stored state (D-338, templates/elnino_page.py), so the
+        # landing page carries the full issue and cannot disagree with it.
+        # Comments, so the dated page renders identically with or without.
         body_sections = (_finding_line(headline, phys)
+                         + ISSUE_BODY_START
                          + physical_html + analyst_html + ladder_html
                          + chart_html + impacts_html + sources_html
-                         + caveats_html)
+                         + caveats_html
+                         + ISSUE_BODY_END)
     body_sections = _number_sections(body_sections)
     return (head + body_sections + footer_html
             + '\n</body>\n</html>\n')
