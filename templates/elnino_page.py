@@ -334,8 +334,23 @@ def _rung_note(fetched, headline, briefs_root):
         "elnino",
         {"p40": p40, "nearest": f"{nearest:g}",
          "p35_then": p35_then, "p35_now": p35_now},
-        wanted=["rung_note_label", "rung_note"])
+        wanted=["rung_note_label", "rung_note"],
+        placed_elsewhere=["issue_full_lede"])
     return c["rung_note_label"], c["rung_note"]
+
+
+def _issue_lede(di, briefs_href):
+    """The lede over the full issue: editor's words, copy/elnino.md
+    `issue_full_lede`. Copy carries no links (copydeck), so {dated_copy} is
+    the link, its words fixed here as "dated copy" at the editor's request;
+    {date} is the issue date in the ISO form the rest of the page uses."""
+    import copydeck
+    return copydeck.render(
+        "elnino",
+        {"date": h(di),
+         "dated_copy": f'<a href="{h(briefs_href)}{h(di)}/">dated copy</a>'},
+        wanted=["issue_full_lede"],
+        placed_elsewhere=["rung_note_label", "rung_note"])["issue_full_lede"]
 
 
 def _heat_rank(fetched):
@@ -762,9 +777,7 @@ carried forward. The bands are the spread, not a second opinion.</p>
 {_SUB_BAND}
 
 {('<div class="sec" id="issue"><h2>04 &middot; The full issue</h2>'
-  '<p class="lede">Everything in this week&rsquo;s issue, as published on '
-  + h(di) + ', from the same stored data. <a href="' + h(briefs_href) + h(di)
-  + '/">The dated copy</a> is the citable one.</p>'
+  '<p class="lede">' + _issue_lede(di, briefs_href) + '</p>'
   '<div class="issue-full">' + full_body + '</div></div>') if full_body else ''}
 
 <div class="sec"><h2>{"05" if full_body else "04"} &middot; Provenance</h2>

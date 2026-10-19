@@ -68,12 +68,18 @@ def _inline(md):
     return md.replace(" °C", "&nbsp;°C")
 
 
-def render(name, values, wanted, withheld=()):
+def render(name, values, wanted, withheld=(), placed_elsewhere=()):
     """Return {slot: html} for exactly `wanted`, or raise saying why not.
 
     `values` are the assembled figures. `wanted` is what the renderer will
     actually place on the page, so a slot present in neither direction is
     an error rather than a default.
+
+    `placed_elsewhere` names slots a different render() call on the same
+    page places. They are exempt from the unused check here and nothing
+    else; the call that places them still checks them in full. Added for
+    /elnino/, which renders the +4.0 note and the full-issue lede from two
+    places with different figures (2026-10-19).
 
     `withheld` is {slot: reason} for copy the data says not to place on
     this build. It is still rendered, still guarded, and reported on
@@ -91,7 +97,7 @@ def render(name, values, wanted, withheld=()):
             f"{f} is missing {len(missing)} slot(s) the page needs: "
             f"{', '.join(missing)}. Add a '## <slot>' heading for each.")
 
-    unused = [s for s in slots if s not in wanted]
+    unused = [s for s in slots if s not in wanted and s not in placed_elsewhere]
     if unused:
         raise SystemExit(
             f"{f} has {len(unused)} slot(s) nothing renders: "
