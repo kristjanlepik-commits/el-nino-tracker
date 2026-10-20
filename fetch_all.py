@@ -193,6 +193,9 @@ def fetch_all() -> dict:
         out["iri"].update({
             "issued": r.issued,
             "three_cat": r.payload.get("three_cat", out["iri"]["three_cat"]),
+            # Which seasons IRI's prose actually stated and which were
+            # filled (2026-10-20); absent on payloads from before then.
+            "three_cat_basis": r.payload.get("three_cat_basis"),
             "used_fallback": r.used_fallback,
             "fallback_note": _fallback_note(r),
             "fetched_at": r.fetched_at,
