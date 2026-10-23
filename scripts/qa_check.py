@@ -1736,6 +1736,50 @@ def check_large_files(violations):
                 f"LARGE_FILE_ALLOWED in scripts/qa_check.py with a reason.")
 
 
+def check_venv_matches_requirements(advisories):
+    """Is everything requirements.txt declares installed in THIS environment?
+
+    Advisory only, and only when run from the shared repo .venv. FLO found
+    on 2026-10-23 that pyhdf, declared since 3e34b668, had vanished from
+    the shared .venv; nothing noticed until a MODIS read failed. CI builds
+    a fresh env from requirements.txt every run, so this can only ever
+    find something on the laptop. It never blocks: a missing local package
+    is not caused by the commit being pushed, and blocking every chat's
+    push on it is the coupling D-242 and D-264 rule against.
+    """
+    if Path(sys.prefix).name != ".venv":
+        return
+    try:
+        from importlib import metadata
+        from packaging.requirements import Requirement
+        from packaging.version import Version
+    except ImportError:
+        return
+    bad = []
+    for line in (ROOT / "requirements.txt").read_text().splitlines():
+        line = line.split("#", 1)[0].strip()
+        if not line or line.startswith("-"):
+            continue
+        try:
+            r = Requirement(line)
+        except Exception:
+            continue
+        if r.marker and not r.marker.evaluate():
+            continue
+        try:
+            v = metadata.version(r.name)
+        except metadata.PackageNotFoundError:
+            bad.append(f"{r.name} missing")
+            continue
+        if r.specifier and Version(v) not in r.specifier:
+            bad.append(f"{r.name} {v} does not satisfy {r.specifier}")
+    if bad:
+        advisories.append(
+            f"the shared .venv has drifted from requirements.txt: "
+            f"{'; '.join(bad)}. Fix with: .venv/bin/pip install -r "
+            f"requirements.txt")
+
+
 ALLHANDS_MAX_ENTRIES = 10
 ALLHANDS_MAX_AGE_DAYS = 30
 
@@ -1922,6 +1966,7 @@ def main():
     check_page_lags_data(violations)
     check_emitted_fields(advisories if args.for_publish else violations)
     check_allhands(violations, violations if args.daily else advisories)
+    check_venv_matches_requirements(advisories)
     check_allhands_cadence(violations if args.daily else advisories)
     # Advisory during a publish, blocking in CI, same split and same reason
     # as check_emitted_fields: a nav that lags is a completeness defect and
