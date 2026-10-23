@@ -121,6 +121,29 @@ days, diag = SR.daily(lines, 6)
 check("iR 3 placed as zero", (days.get("2023-01-05"),
       diag["iR3_zeros_placed"]), ((2.0, False, 2), 1))
 
+# FLOODS' REVIEW CASE. A station mixing 6 h and 12 h groups at 06Z sends
+# iR 3 at 06Z, and the 00Z bulletin is missing. iR 3 vouches only for the
+# shortest period, 00-06, so 18-00 is unknown and there is NO DAY. The old
+# placement put a 12 h zero at 06Z, completing 18-06 as dry.
+mixed = []
+for d in ("01", "02", "03"):
+    mixed += [bull(f"2023-02-{d}", 0, "12/75 42302 60051"),
+              bull(f"2023-02-{d}", 6, "12/75 42302 60012"),
+              bull(f"2023-02-{d}", 12, "12/75 42302 60001"),
+              bull(f"2023-02-{d}", 18, "12/75 42302 60002")]
+mixed += [bull("2023-02-03", 6, "12/75 42302 60001")]   # some 06Z are 6 h
+mixed += [bull("2023-02-04", 6, "32/75 42302 10092")]   # iR 3; 00Z missing
+days, diag = SR.daily(mixed, 6)
+check("iR 3 places the shortest period only, so no day",
+      days.get("2023-02-04"), None)
+
+# 989 is 989 mm OR MORE: unrankable, so the day is refused, not summed.
+lines = [bull("2023-03-01", 18, "12/75 42302 60052"),
+         bull("2023-03-02", 6, "12/75 42302 69892")]
+days, diag = SR.daily(lines, 6)
+check("989 refuses the day", (days.get("2023-03-02"),
+      diag["open_ended_days"]), (None, ["2023-03-02"]))
+
 # iR 4 at the same hour is not placed: the day does not exist.
 lines[-2] = bull("2023-01-04", 18, "42/75 42302 10092")
 days, diag = SR.daily(lines, 6)

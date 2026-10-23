@@ -219,18 +219,23 @@ def _reports(lines):
 
 
 def _modal_periods(by):
-    """Which (hours, source) this station reports at each hour of day,
-    measured from its own explicit groups, so iR 3 can be placed."""
-    seen = defaultdict(Counter)
+    """The ONE (hours, source) an iR 3 bulletin at each hour may be read as:
+    the SHORTEST period this station's own explicit groups use at that hour.
+
+    iR 3 says the bulletin's own rain group was omitted because none fell,
+    and nothing about any longer period. This used to place a zero for every
+    period seen at the hour, so a station mixing 6 h and 12 h groups at 06Z
+    got a 12 h zero claiming 18-06 was dry; with the 00Z bulletin missing,
+    that zero completed the tiling and evening rain read as a dry day. Found
+    by floods in review (D-321). The shortest period asserts least, and a
+    day it cannot complete is simply absent.
+    """
+    seen = defaultdict(set)
     for t, d in by.items():
         for key in d:
             if key[1] != "r24":
-                seen[t.hour][key] += 1
-    out = {}
-    for h, c in seen.items():
-        top = max(c.values())
-        out[h] = [k for k, v in c.items() if v >= top / 3]
-    return out
+                seen[t.hour].add(key)
+    return {h: min(keys) for h, keys in seen.items()}
 
 
 def daily(lines, end_hour):
@@ -239,17 +244,21 @@ def daily(lines, end_hour):
     modal = _modal_periods(by)
     placed = 0
     for t in zeros:
-        for key in modal.get(t.hour, []):
-            if not by[t].get(key):
-                by[t][key].add((0.0, False))
-                placed += 1
+        key = modal.get(t.hour)
+        if key and not by[t].get(key):
+            by[t][key].add((0.0, False))
+            placed += 1
 
     # A slot reporting two different values (a correction, a duplicate that
     # disagrees) is unusable rather than resolved by picking one.
     conflicts_slot = 0
     pieces = defaultdict(list)          # end time -> [(hours, mm, trace, tol)]
+    open_ended = []                     # (start, end) of any 989-or-more
     for t, d in by.items():
         for (hours, src), vals in d.items():
+            if any(mm is None for mm, _tr in vals):
+                open_ended.append((t - dt.timedelta(hours=hours), t))
+                continue
             if len(vals) > 1:
                 conflicts_slot += 1
                 continue
@@ -273,10 +282,15 @@ def daily(lines, end_hour):
                         break
         return frozenset(out)
 
-    days, conflict_days = {}, []
-    ends = sorted({t.date() for t in pieces})
+    days, conflict_days, open_days = {}, [], []
+    ends = sorted({t.date() for t in pieces}
+                  | {b.date() for _a, b in open_ended})
     for d in ends:
         t = dt.datetime(d.year, d.month, d.day, end_hour)
+        if any(a < t and b > t - dt.timedelta(hours=24)
+               for a, b in open_ended):
+            open_days.append(str(d))
+            continue
         cands = tilings(t, 24)
         if not cands:
             continue
@@ -286,7 +300,8 @@ def daily(lines, end_hour):
             continue
         days[str(d)] = (best[0], best[1] and best[0] == 0.0, best[3])
     diag = {"iR3_zeros_placed": placed, "slot_conflicts": conflicts_slot,
-            "conflict_days": conflict_days, "flags": dict(flags)}
+            "conflict_days": conflict_days, "open_ended_days": open_days,
+            "flags": dict(flags)}
     return days, diag
 
 

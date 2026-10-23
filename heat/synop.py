@@ -271,7 +271,12 @@ def rain_reports(msg):
             flags.append(f"{sec}_regional_period")
             continue
         if g["open_ended"]:
+            # 989 means 989 mm OR MORE. Carried with mm None so the
+            # assembler refuses any day it touches: an open-ended value
+            # cannot be ranked, and summing 989 would understate it.
             flags.append(f"{sec}_989_or_more")
+            reps.append((g["hours"], None, False, sec))
+            continue
         reps.append((g["hours"], g["mm"], g["trace"], sec))
     if r["r24"] is not None:
         reps.append((24, r["r24"]["mm"], r["r24"]["trace"], "r24"))
