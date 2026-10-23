@@ -557,9 +557,30 @@ def render(fetched, meta, brief_date, root_prefix="../",
             '<div class="tag">Ocean heat, 0 to 300 m &middot; equatorial '
             'Pacific &middot; °C anomaly through each development year</div>'
             + heat)
+    # THE WEEK'S NEW MATERIAL LEADS (Kristjan, 23 Oct). The Nino regions
+    # map and the records line went live on 19 Oct only in "04 The full
+    # issue", far below a summary that looked unchanged, so a reader
+    # landing here saw no update. 2026's panel and the records now open
+    # Observed; 1997 and 2015 stay in the full issue. Same function and
+    # same CPC values as the issue, so the two cannot disagree.
+    import run_brief as _R
+    _wk = str(((fetched.get("_freshness") or {}).get("oisst_weekly") or {})
+              .get("issued") or phys.get("issued") or "")[:10]
+    _top_map = _R._nino_map_html(phys, _wk, root_prefix, years=("2026",),
+                                  intro="", caption=_R.NINO_MAP_TOP_CAPTION)
+    if _top_map:
+        observed = ('<div class="issue-full">' + _top_map + '</div>'
+                    '<p class="aside"><a href="#issue">The same week in 1997 '
+                    'and 2015, and the full table, in section 04</a></p>'
+                    + observed)
+    _reg = phys.get("nino_regions") or {}
+    _n3 = (_reg.get("nino3") or {}).get("anom")
+    _n12 = (_reg.get("nino12") or {}).get("anom")
     if n34 is not None:
+        _east = (f', Niño 3 at {_n3:+.1f} and Niño 1+2 at {_n12:+.1f}'
+                 if _n3 is not None and _n12 is not None else '')
         observed += (f'<p class="aside">Niño 3.4 is at {n34:+.1f}&nbsp;°C this '
-                     f'week' + (f', and {wwb} westerly wind bursts have been '
+                     f'week{_east}' + (f', and {wwb} westerly wind bursts have been '
                                 f'recorded since 1 March' if wwb else '') + '.</p>')
     if wind:
         observed += (

@@ -3804,7 +3804,19 @@ NINO_MAP_CAPTION = ("Anomalies against 1991-2020, NOAA OISST, averaged over "
                     "begins in September 1981.")
 
 
-def _nino_map_html(phys: dict, week: str, root_prefix: str) -> str:
+# The same map leading /elnino/ with 2026 alone (23 Oct). The table sits
+# below it there, in section 04, so the issue caption's "the table above"
+# would point the wrong way. EDITOR'S, drafted by design to replace.
+NINO_MAP_TOP_CAPTION = ("Anomalies against 1991-2020, NOAA OISST, averaged "
+                        "over the CPC week. Water within 1 °C of normal is "
+                        "not shaded. The numbers are CPC's weekly index "
+                        "values, the same as the table in section 04. A "
+                        "record is the highest week in CPC's weekly series, "
+                        "which begins in September 1981.")
+
+
+def _nino_map_html(phys: dict, week: str, root_prefix: str, years=None,
+                   intro=None, caption=None) -> str:
     regions = phys.get("nino_regions") or {}
     if not week or not all((regions.get(k) or {}).get("anom") is not None
                            for k, *_ in NINO_BOXES):
@@ -3842,6 +3854,11 @@ def _nino_map_html(phys: dict, week: str, root_prefix: str) -> str:
 
     panels = []
     for p in meta["panels"]:
+        # years: the panels to draw. /elnino/ leads with 2026 alone at the
+        # top of the page (Kristjan, 23 Oct: the update was there but only
+        # in section 04, so nobody landing saw it); None draws all three.
+        if years is not None and p["year"] not in years:
+            continue
         vals = values_for(p["year"])
         if vals is None:
             continue
@@ -3901,14 +3918,15 @@ def _nino_map_html(phys: dict, week: str, root_prefix: str) -> str:
                for p in meta["panels"] if values_for(p["year"])))
     return (
         f'<figure class="ninomap" role="img" aria-label="{h(alt)}">'
-        f'<p class="section-sub" style="margin-top:22px">{h(NINO_MAP_INTRO)}</p>'
+        + (f'<p class="section-sub" style="margin-top:22px">{h(NINO_MAP_INTRO if intro is None else intro)}</p>'
+           if (NINO_MAP_INTRO if intro is None else intro) else '')
         + "".join(panels) +
         f'<div class="nm-legend"><span>&minus;{sc:g}</span>{legend}'
         + "".join(f'<span>+{e["from"]:g}</span><i style="background:{e["colour"]}"></i>'
                   for e in ext)
         + f'<span>{"" if ext else "+%g " % sc}°C</span></div>'
         + rec_html +
-        f'<figcaption class="chart-caption">{h(NINO_MAP_CAPTION)}</figcaption>'
+        f'<figcaption class="chart-caption">{h(NINO_MAP_CAPTION if caption is None else caption)}</figcaption>'
         '</figure>')
 
 
