@@ -1,0 +1,101 @@
+{
+ "region_id": "somalia_shabelle_juba",
+ "label": "Juba and Shabelle basins",
+ "window": {
+  "start": "2026-10-01",
+  "end": "2026-10-21"
+ },
+ "generated": "2026-10-23",
+ "location": {
+  "lat": 3.75,
+  "lon": 44.25,
+  "kind": "box_centroid",
+  "box": [
+   42.0,
+   46.5,
+   1.0,
+   6.5
+  ],
+  "note": "the centre of the box we measured, NOT a place anything was observed. On a catchment it may sit on high ground with no river beneath it."
+ },
+ "event_corroboration": {
+  "occurred": null,
+  "state": "unknown",
+  "source": "FAO SWALIM FRRIMS river gauge, Jowhar (Shabelle)",
+  "detail": "Jowhar read 5.37 to 5.38 m on 13 to 15 Oct 2026, above SWALIM's high flood-risk level (5.25 m) and 12 cm below bankfull (5.50 m); no primary report of flooding found as of 23 Oct",
+  "note": "This channel's own instruments measure rainfall and flood extent. Neither establishes that a flood occurred, so this field carries evidence from outside them and is not derived from anything above."
+ },
+ "measured_to": "2026-10-21",
+ "instrument_coverage": {
+  "data_through": "2026-10-21",
+  "days_behind_run_date": 2,
+  "window_truncated": false,
+  "window_closed": true,
+  "note": "the rainfall instrument holds data to 2026-10-21, past the window end of 2026-10-21, so this window is complete"
+ },
+ "methodology_version": "1.4",
+ "authorship": "tls_built",
+ "evidence_basis": "measured",
+ "attribution": "enso_linked",
+ "series": [
+  {
+   "id": "rainfall",
+   "instrument": "GPM IMERG Late Run v07",
+   "measures": "rainfall, NOT flooding",
+   "units": "mm, area mean over the region",
+   "expected_slots": 21,
+   "due_slots": 0,
+   "values_present": 0,
+   "baseline_years": 0,
+   "verdict": "no_baseline",
+   "no_baseline_reason": [
+    "the rainfall baseline file holds no year with a complete window, so there is nothing to compare this period against"
+   ]
+  },
+  {
+   "id": "flood_extent",
+   "instrument": "NASA MODIS MCDWD 3-Day composite",
+   "measures": "standing water outside the reference water mask",
+   "units": "250m pixels",
+   "expected_slots": 21,
+   "due_slots": 20,
+   "values_present": 21,
+   "present_may_exceed_due_because": "due_slots is computed from a conservative 3-day composite latency. When the product publishes sooner, present legitimately exceeds due. A validator asserting present <= due would fail this series for being correct.",
+   "baseline_years": 23,
+   "observability": {
+    "current": 0.8502,
+    "baseline_median": 0.851,
+    "baseline_min": 0.677
+   },
+   "qualification": {
+    "observability_dependence": 0.36,
+    "max_allowed": 0.5,
+    "median_count": 3850,
+    "count_floor": 300,
+    "qualifies": true
+   },
+   "value": 7986,
+   "basis": {
+    "median": 3850,
+    "x_median": 2.07,
+    "rank": 6,
+    "of": 24
+   },
+   "finding": {
+    "rank": 6,
+    "of": 24,
+    "tied_with_n": 0,
+    "ordinal_safe": true,
+    "ratio_safe": true,
+    "claim": "notable",
+    "guards": []
+   },
+   "verdict": "measured"
+  }
+ ],
+ "notes": [
+  "The flooded area is likely an undercount: on 13 to 19 October, when the Shabelle at Jowhar peaked, cloud let the satellite see only 52 to 74 percent of the region, and those days read almost no flooding. A day the satellite could not see is not a dry day.",
+  "Rainfall is not ranked here: satellite rainfall may only point where to look (D-322), and no same-window rainfall baseline exists for this region.",
+  "Attribution: ENSO-loaded window, per the science desk's ruling of 23 Oct 2026 (October to December short rains; IRI El Nino rainfall composites). The tag claims the season's odds, not this flood."
+ ]
+}

@@ -528,6 +528,10 @@ def main():
     # MULTIPLE PATHS. Ranges are fetched separately so a dropped
     # connection costs one range, not the build. Overlaps are refused.
     ap.add_argument("--rain-baseline", required=True, nargs="+")
+    # Caveats belong in the payload, not in a message to design: a note that lives in a chat
+    # is lost to the page (Somalia, 23 Oct: the river peak fell on cloudy days).
+    ap.add_argument("--note", action="append", default=[],
+                    help="a sentence the page must carry; repeatable")
     # Optional since 2026-08-16. Omitting it yields verdict not_assessed
     # on the flood series, never cannot_say, and never silence.
     ap.add_argument("--flood-baseline", default=None, nargs="+")
@@ -641,7 +645,7 @@ def main():
         # not guess. The caller states it or the emit fails.
         "attribution": args.attribution,
         "series": [],
-        "notes": [],
+        "notes": list(args.note),
     }
 
     # ---- rainfall -------------------------------------------------------
@@ -798,7 +802,19 @@ def main():
         qualifies = (dep <= OBS_DEPENDENCE_MAX) and (med_ct >= COUNT_FLOOR)
 
         cur_recs = load_jsonl(args.flood_current) if args.flood_current else []
-        cur_px = sum(r.get("flood_px", 0) for r in cur_recs) or None
+        # A current file may be in the capture format (flood_px per record) or the
+        # baseline's own format (flood_hist), and the second used to read as ZERO
+        # flood pixels here: 21 present days of Somalia emitted "awaiting_data"
+        # (23 Oct). Derive it exactly as flood_series() does for the baseline, so
+        # current and baseline are counted the same way, and refuse a record that
+        # carries neither rather than count it as dry.
+        def _px(r):
+            if "flood_px" in r:
+                return int(r["flood_px"])
+            if "flood_hist" in r:
+                return int(r["flood_hist"].get("2", 0)) + int(r["flood_hist"].get("3", 0))
+            raise SystemExit(f"current record {r.get('date')} has neither flood_px nor flood_hist")
+        cur_px = sum(_px(r) for r in cur_recs) or None
         cur_obs = (round(sum(r["observed_px"] for r in cur_recs)
                          / sum(r["box_px"] for r in cur_recs), 4)
                    if cur_recs else None)
