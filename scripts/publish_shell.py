@@ -117,7 +117,12 @@ def main() -> None:
     ap.add_argument("--rebuild-archive", action="store_true",
                     help=("re-render docs/briefs/<latest>/index.html from the "
                           "stored snapshot. Overwrites a frozen archive: "
-                          "needs Kristjan's authorisation per invariant 5."))
+                          "needs Kristjan's authorisation per invariant 5. "
+                          "Snapshots before 2026-10-19 hold no ONI seasons, "
+                          "so a rebuild of an older issue renders the "
+                          "analog caption without its latest-season value "
+                          "(design, 2026-10-18; Science stores it from "
+                          "e9b2d85a). Diff against the live issue first."))
     args = ap.parse_args()
 
     di = latest_issue()

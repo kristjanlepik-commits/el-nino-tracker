@@ -45,6 +45,7 @@ is not a contract until a third case has shown which parts are stable.
 from __future__ import annotations
 
 import math
+import re
 import sys
 from pathlib import Path
 
@@ -71,10 +72,12 @@ region        str, what the piece is about ("France", "Nino 3.4")
 window        str, the period in words
 claim         str, the headline at display size
 standfirst    str, one paragraph under the claim
+body          optional [str], further paragraphs of editor copy; **x** is bold
 value         {display, caption}
 chart         {label, series[{x,y}], current_x, baseline{value,label},
                unit, diverging, annotations[{x,text}]}
-source        {name, detail, as_of}
+source        {name, detail, as_of}, or a list of them when a piece cites
+              more than one instrument
 attribution   one of enso | non_enso | pending
 notes         {what_this_is, what_this_is_not}
 """
@@ -279,6 +282,59 @@ def fr_instruments(piece):
             'was not</caption>%s</table>\n' % "".join(out))
 
 
+def _prose(text):
+    """Escaped text with the editor's **bold** kept, and nothing else.
+
+    Copy arrives as markdown from copy/, and bold is the one mark the
+    editor uses to carry a measured figure. Escaping first means the only
+    markup that can reach the page is the <b> this adds.
+    """
+    return re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", h(text))
+
+
+def _plain(text):
+    """Text for a meta tag: the editor's markup removed, not converted.
+
+    CPO caught it on the Barcelona preview: the standfirst feeds
+    description, og:description and twitter:description, and those read
+    "**159.1 mm**" with the asterisks, which is what every link preview
+    would have shown. Anything that reaches a head tag goes through here,
+    so the next piece cannot repeat it.
+    """
+    return re.sub(r"\*\*(.+?)\*\*", r"\1", text or "")
+
+
+def fr_body(piece):
+    """Further paragraphs of editor copy, under the standfirst.
+
+    ADDED FOR THE FIRST STATION PIECE (Barcelona, October 2026). Every
+    earlier piece was one finding in one sentence; a station record has a
+    claim, the older record that qualifies it, and the neighbours that
+    bound it, and squeezing three into a standfirst would hide the
+    qualifier, which is the part a reader most needs.
+    """
+    paras = piece.get("body") or []
+    if not paras:
+        return ""
+    return ('  <div class="fr-body">%s</div>\n'
+            % "".join("<p>%s</p>" % _prose(t) for t in paras))
+
+
+def fr_sources(src):
+    """One source line per instrument the page quotes a figure from.
+
+    A LIST SINCE THE BARCELONA PIECE, whose sea-temperature sentence is an
+    ERA5 figure on a page otherwise sourced to one AEMET gauge. A figure
+    with no source line beside it is uncitable, and folding two
+    instruments into one line would date one of them wrongly.
+    """
+    items = src if isinstance(src, list) else [src]
+    label = "Source." if len(items) == 1 else "Sources."
+    lines = ["%s, %s. As of %s." % (h(x.get("name", "")), h(x.get("detail", "")),
+                                    h(x.get("as_of", ""))) for x in items]
+    return "    <p><b>%s</b> %s</p>" % (label, "<br>".join(lines))
+
+
 def fr_corroboration(piece):
     """Whether the event happened, when we have not established it.
 
@@ -341,8 +397,9 @@ def render(piece: dict, root_prefix: str = "../../") -> str:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-{head_meta(title=f'{piece.get("region", "")} | {SITE_NAME}',
-           description=piece.get("standfirst", "") or piece.get("claim", ""),
+<title>{h(_plain(f'{piece.get("region", "")} | {SITE_NAME}'))}</title>
+{head_meta(title=_plain(f'{piece.get("region", "")} | {SITE_NAME}'),
+           description=_plain(piece.get("standfirst", "") or piece.get("claim", "")),
            path=piece.get("path", "/"),
            og_image=piece.get("og_image"))}
 <style>
@@ -410,6 +467,8 @@ h1 {{
   letter-spacing: -0.018em; margin: 0 0 16px; text-wrap: balance;
 }}
 .fr-stand {{ color: var(--ink-soft); max-width: 60ch; margin: 0 0 34px; }}
+.fr-body {{ max-width: 60ch; margin: -18px 0 34px; }}
+.fr-body p {{ margin: 0 0 14px; }}
 .fr-cell {{ border-top: 3px solid var(--ink); padding-top: 14px; }}
 .fr-hero {{
   font-family: "{T.FONT_DATA}", ui-monospace, monospace;
@@ -474,8 +533,8 @@ h1 {{
   <p class="fr-eyebrow">{h(piece.get("region", ""))} &middot;
      {h(piece.get("window", ""))}{" &middot; " + h(piece["measured"]) if piece.get("measured") else ""}</p>
   <h1>{h(piece.get("claim", ""))}</h1>
-{fr_stale(piece)}{fr_corroboration(piece)}  <p class="fr-stand">{h(piece.get("standfirst", ""))}</p>
-
+{fr_stale(piece)}{fr_corroboration(piece)}  <p class="fr-stand">{_prose(piece.get("standfirst", ""))}</p>
+{fr_body(piece)}
 {fr_instruments(piece)}
   <div class="fr-cell">
     <div class="fr-hero">{h((piece.get("value") or {}).get("display", ""))}</div>
@@ -495,8 +554,7 @@ h1 {{
   </div>
 
   <div class="fr-src">
-    <p><b>Source.</b> {h(src.get("name", ""))}, {h(src.get("detail", ""))}.
-    As of {h(src.get("as_of", ""))}.</p>
+{fr_sources(src)}
   </div>
 </main>
 </body>

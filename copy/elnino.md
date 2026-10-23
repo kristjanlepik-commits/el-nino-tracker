@@ -40,3 +40,8 @@ So {p40}% is not an uncertain estimate. **It falls in a gap between 0 and
 
 We added the rung because +3.5 has climbed from {p35_then} to {p35_now}
 since July, and the rungs above it keep topping out.
+
+## issue_full_lede
+
+This week's issue in full, as published on {date}. To cite it, use the
+{dated_copy}.

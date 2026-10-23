@@ -162,6 +162,14 @@ CSS = """
 .fxlimit b{font-family:var(--serif);font-size:18px;line-height:1.35;
   display:block;margin-bottom:6px}
 .fxlimit span{font-size:14.5px;line-height:1.55;color:var(--ink-soft)}
+/* The explainer, set apart from the basin list: a different kind of page. */
+.fxexpl{display:block;text-decoration:none;color:inherit;border:2px solid var(--ink);
+  padding:18px 20px;margin:22px 0 0;max-width:62ch}
+.fxexpl span{display:block;font-family:"__D__",ui-monospace,monospace;font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.fxexpl b{display:block;font-family:var(--serif);font-weight:500;font-size:30px;line-height:1.1;margin:6px 0}
+.fxexpl em{font-style:normal;font-size:15px;color:var(--ink-soft)}
+.fxexpl:hover b{text-decoration:underline}
 ul.fxlist{list-style:none;margin:0;padding:0}
 .fx{border-bottom:1px solid var(--rule);padding:18px 0 15px}
 .fxa{display:block;text-decoration:none;color:inherit}
@@ -217,7 +225,18 @@ def render(root_prefix="../", today="2026-08-30"):
             "the page says so rather than leaving the row out."
             % (assessed, n))
 
-    body = """
+    # THE EXPLAINER, linked only once it exists in docs/ (16 Oct 2026), so
+    # the index never points at a page that is not there, and the explainer
+    # is never an orphan once it is.
+    expl = ""
+    if (ROOT / "docs/floods/how-a-flood-is-made/index.html").exists():
+        es = (ROOT / "docs/floods/asi-se-forma-una-inundacion/index.html").exists()
+        expl = ('<a class="fxexpl" href="how-a-flood-is-made/"><span>Explainer &middot; 16 October 2026</span>'
+                '<b>How a flood is made</b><em>Barcelona&#x27;s record day, the sea, the air, the pump and the '
+                'ground, and this weekend in ECMWF&#x27;s forecast.</em></a>'
+                + ('<p class="fxnote"><a href="asi-se-forma-una-inundacion/" lang="es" hreflang="es">'
+                   'En español: Así se forma una inundación</a></p>' if es else ""))
+    body = expl + """
 <div class="fxlimit"><b>This channel measures rainfall. It does not
 measure flooding.</b><span>Rain gauges and satellites can say how much
 fell and how that compares with the same fortnight in every year since

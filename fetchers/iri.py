@@ -161,6 +161,50 @@ def _extract_three_cat_from_prose(page_text: str) -> tuple[int, int, int] | None
     return None
 
 
+_SEASON_CODES = ("DJF", "JFM", "FMA", "MAM", "AMJ", "MJJ",
+                 "JJA", "JAS", "ASO", "SON", "OND", "NDJ")
+_SEASON_RE = "(" + "|".join(_SEASON_CODES) + ")"
+
+
+def _three_cat_by_season(page_text: str, labels: list) -> tuple[dict, dict]:
+    """{season label: (la, neu, en)} for the seasons IRI's prose states,
+    and {label: basis}. Three sentence shapes, all from the 2026-10-19
+    issue: "X% from AAA through BBB", "X% in AAA", and "By AAA, neutral
+    ... N%, while the El Niño probability drops to E%". Where only the El
+    Niño share is stated, La Niña is taken as 0, the same convention as
+    the flat fill. Codes are matched to the issue's nine labels by code,
+    which is unique inside one forecast window."""
+    by_code = {lab.split()[0]: lab for lab in labels}
+    order = [lab.split()[0] for lab in labels]
+    out, basis = {}, {}
+    for sm in re.finditer(r"[^.!?]*\d{1,3}\s*%[^.!?]*[.!?]", page_text):
+        s = " ".join(sm.group(0).split())
+        sl = s.lower()
+        if "iod" in sl or "dipole" in sl or not re.search(r"\b" + _SEASON_RE + r"\b", s):
+            continue
+        for m in re.finditer(r"(\d{1,3})\s*%\s*from\s+" + _SEASON_RE + r"(?:\s+\d{4})?\s+(?:through|to|until)\s+"
+                             + _SEASON_RE, s):
+            v, a, b = int(m.group(1)), m.group(2), m.group(3)
+            if a in order and b in order and order.index(a) <= order.index(b):
+                for code in order[order.index(a):order.index(b) + 1]:
+                    out[by_code[code]] = (0, 100 - v, v)
+                    basis[by_code[code]] = f"stated: {m.group(0)}"
+        for m in re.finditer(r"(\d{1,3})\s*%\s*in\s+" + _SEASON_RE + r"\b", s):
+            v, code = int(m.group(1)), m.group(2)
+            if code in by_code and ("el niño" in sl or "el nino" in sl):
+                out[by_code[code]] = (0, 100 - v, v)
+                basis[by_code[code]] = f"stated: {m.group(0)}"
+        bm = re.search(r"\bBy\s+" + _SEASON_RE + r"\b", s)
+        neu = re.search(r"neutral[^%]{0,60}?(\d{1,3})\s*%", s, re.IGNORECASE)
+        en = re.search(r"El Ni[ñn]o[^%]{0,60}?(\d{1,3})\s*%", s)
+        if bm and neu and en and bm.group(1) in by_code:
+            n, e = int(neu.group(1)), int(en.group(1))
+            if n + e <= 100:
+                out[by_code[bm.group(1)]] = (100 - n - e, n, e)
+                basis[by_code[bm.group(1)]] = f"stated: neutral {n}%, El Niño {e}%"
+    return out, basis
+
+
 def _extract_qualitative_summary(page_text: str) -> str:
     """Return a short string summarising IRI's framing, for the brief."""
     # Prefer a sentence containing a probability range; fall back to any
@@ -258,13 +302,32 @@ def fetch() -> FetchResult:
                        "changed page format again."),
             )
 
-        # Populate all 9 overlapping seasons with the same tuple. IRI's
-        # prose describes a "narrow range" across the forecast horizon,
-        # so per-season variation is within ~1-2 ppt and is not worth
-        # attempting to recover from prose alone.
+        # PER SEASON FROM THE PROSE, NOT ONE VALUE COPIED INTO ALL NINE.
+        # This filled every season with the prose's highest percentage, on
+        # the reasoning that IRI's seasons differed by 1-2 points. True all
+        # summer; false from the 2026-10-19 issue, which reads "100% from
+        # OND 2026 through MAM 2027, then ease to 92% in AMJ and 60% in MJJ
+        # 2027. By JJA 2027, ENSO-neutral ... 51%, while the El Niño
+        # probability drops to 37%". The flat fill stored 100 for all three.
+        # Now each season gets what the prose states for it; a season it
+        # does not state is left out rather than invented. DJF is the one
+        # season read downstream (run_brief, snapshot diff), so if the prose
+        # does not reach it, it keeps the old flat value and says so.
         three_cat: dict = {}
-        for i in range(9):
-            three_cat[_season_label(issued_year, issued_month, i)] = triple
+        basis: dict = {}
+        labels = [_season_label(issued_year, issued_month, i) for i in range(9)]
+        try:
+            three_cat, basis = _three_cat_by_season(page_text, labels)
+        except Exception:
+            three_cat, basis = {}, {}
+        if not three_cat:
+            for lab in labels:
+                three_cat[lab] = triple
+                basis[lab] = "flat fill: prose maximum, no per-season statement parsed"
+        djf = next((lab for lab in labels if lab.startswith("DJF ")), None)
+        if djf and djf not in three_cat:
+            three_cat[djf] = triple
+            basis[djf] = "flat fill: prose maximum, DJF not stated"
 
         qualitative = _extract_qualitative_summary(page_text)
 
@@ -275,6 +338,7 @@ def fetch() -> FetchResult:
             fetched_at=now_iso(),
             payload={
                 "three_cat": three_cat,
+                "three_cat_basis": basis,
                 "qualitative_summary": qualitative,
             },
         )

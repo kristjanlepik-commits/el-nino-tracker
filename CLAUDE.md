@@ -542,6 +542,24 @@ both are easy to get wrong and neither is visible in the code:
   humanitarian, economic). Fire-specific content stays with the
   Fire chat; aftereffects owns the view that reads across channels.
 
+### News chat ("TLS News", the NOW desk; commissioned D-325)
+
+- `research/news/`: the daily digest (`YYYY-MM-DD.md`, named for its
+  end date, each stating the exact range it covers), the dated weather
+  notes behind it, `sources.md`, and the format in `README.md`.
+- `research/news/board.md`: the next-two-weeks board, days 0 to about
+  15, rewritten in place each run. News's since D-336 (2026-10-17); it
+  replaces the retired THE NEXT TWO WEEKS section of
+  `research/abnormality_calendar.md` and
+  `research/data/lookahead_flags.json`. Week 3 to 18 months stays
+  aftereffects'.
+- Quotes named forecasters and never authors a forecast; routes items
+  to the owning desk, which decides what becomes an event; its "nobody
+  covers this" list feeds aftereffects' monthly miss audit. Internal
+  only: anything public is product's (D-095).
+- Runs when opened, not on a schedule (D-325, option C): each run
+  catches up from the last digest's end date.
+
 ### Country reports chat
 
 - Per-country baseline pieces: the research, the baselines, the

@@ -1,0 +1,1401 @@
+{
+ "prereg": "floods/prereg/spain_dana2_2026-10.md (7f242975, 297e5366, 8c684a9c)",
+ "window": [
+  "2026-10-16",
+  "2026-10-21"
+ ],
+ "stations": [
+  {
+   "id": "0367",
+   "name": "Girona Aeropuerto",
+   "window_days_reported": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-19"
+   ],
+   "role": "declared",
+   "unbroken_since": 2010,
+   "1day": {
+    "start": "2026-10-17",
+    "mm": 35.4,
+    "rank_full": 183,
+    "n_full": 19202,
+    "full_from": 1973,
+    "rank_unbroken": 43,
+    "unbroken_since": 2010,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "3day": {
+    "start": "2026-10-17",
+    "mm": 43.2,
+    "rank_full": 216,
+    "n_full": 1867,
+    "full_from": 1973,
+    "rank_unbroken": 54,
+    "unbroken_since": 2010,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "completeness_sensitivity": {
+    "0.70": {
+     "1day": 43,
+     "3day": 54
+    },
+    "0.80": {
+     "1day": 43,
+     "3day": 54
+    },
+    "0.90": {
+     "1day": 43,
+     "3day": 54
+    },
+    "0.95": {
+     "1day": 43,
+     "3day": 54
+    },
+    "1.00": {
+     "1day": 23,
+     "3day": 22
+    }
+   }
+  },
+  {
+   "id": "0370B",
+   "name": "Girona, Antic Institut",
+   "window_days_reported": [],
+   "role": "declared",
+   "status": "no window day published by AEMET yet"
+  },
+  {
+   "id": "0200E",
+   "name": "Barcelona, Fabra",
+   "window_days_reported": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-19"
+   ],
+   "role": "declared",
+   "unbroken_since": 1978,
+   "1day": {
+    "start": "2026-10-19",
+    "mm": 12.4,
+    "rank_full": 1566,
+    "n_full": 38169,
+    "full_from": 1920,
+    "rank_unbroken": 716,
+    "unbroken_since": 1978,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false,
+    "storm1_higher_mm": 159.1
+   },
+   "3day": {
+    "start": "2026-10-17",
+    "mm": 27.9,
+    "rank_full": 662,
+    "n_full": 3514,
+    "full_from": 1920,
+    "rank_unbroken": 293,
+    "unbroken_since": 1978,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false,
+    "storm1_higher_mm": 238.2
+   },
+   "completeness_sensitivity": {
+    "0.70": {
+     "1day": 716,
+     "3day": 293
+    },
+    "0.80": {
+     "1day": 716,
+     "3day": 293
+    },
+    "0.90": {
+     "1day": 716,
+     "3day": 293
+    },
+    "0.95": {
+     "1day": 716,
+     "3day": 293
+    },
+    "1.00": {
+     "1day": 716,
+     "3day": 293
+    }
+   }
+  },
+  {
+   "id": "0076",
+   "name": "Barcelona Aeropuerto",
+   "window_days_reported": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-19"
+   ],
+   "role": "declared",
+   "unbroken_since": 2011,
+   "1day": {
+    "start": "2026-10-17",
+    "mm": 32.7,
+    "rank_full": 314,
+    "n_full": 34903,
+    "full_from": 1924,
+    "rank_unbroken": 56,
+    "unbroken_since": 2011,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false,
+    "storm1_higher_mm": 135.6
+   },
+   "3day": {
+    "start": "2026-10-17",
+    "mm": 53.6,
+    "rank_full": 195,
+    "n_full": 2983,
+    "full_from": 1924,
+    "rank_unbroken": 31,
+    "unbroken_since": 2011,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false,
+    "storm1_higher_mm": 182.0
+   },
+   "completeness_sensitivity": {
+    "0.70": {
+     "1day": 299,
+     "3day": 183
+    },
+    "0.80": {
+     "1day": 299,
+     "3day": 183
+    },
+    "0.90": {
+     "1day": 56,
+     "3day": 31
+    },
+    "0.95": {
+     "1day": 56,
+     "3day": 31
+    },
+    "1.00": {
+     "1day": 11,
+     "3day": 6
+    }
+   }
+  },
+  {
+   "id": "0016A",
+   "name": "Reus Aeropuerto",
+   "window_days_reported": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-19"
+   ],
+   "role": "declared",
+   "unbroken_since": 1956,
+   "1day": {
+    "start": "2026-10-19",
+    "mm": 25.7,
+    "rank_full": 345,
+    "n_full": 28554,
+    "full_from": 1945,
+    "rank_unbroken": 317,
+    "unbroken_since": 1956,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "3day": {
+    "start": "2026-10-17",
+    "mm": 39.3,
+    "rank_full": 246,
+    "n_full": 2507,
+    "full_from": 1945,
+    "rank_unbroken": 223,
+    "unbroken_since": 1956,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "completeness_sensitivity": {
+    "0.70": {
+     "1day": 331,
+     "3day": 235
+    },
+    "0.80": {
+     "1day": 331,
+     "3day": 235
+    },
+    "0.90": {
+     "1day": 317,
+     "3day": 223
+    },
+    "0.95": {
+     "1day": 63,
+     "3day": 41
+    },
+    "1.00": {
+     "1day": 63,
+     "3day": 41
+    }
+   }
+  },
+  {
+   "id": "9981A",
+   "name": "Tortosa (Roquetes)",
+   "window_days_reported": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-19"
+   ],
+   "role": "declared",
+   "unbroken_since": 1920,
+   "1day": {
+    "start": "2026-10-19",
+    "mm": 35.4,
+    "rank_full": 315,
+    "n_full": 38718,
+    "full_from": 1920,
+    "rank_unbroken": 315,
+    "unbroken_since": 1920,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false,
+    "storm1_higher_mm": 179.2
+   },
+   "3day": {
+    "start": "2026-10-17",
+    "mm": 54.6,
+    "rank_full": 209,
+    "n_full": 3454,
+    "full_from": 1920,
+    "rank_unbroken": 209,
+    "unbroken_since": 1920,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false,
+    "storm1_higher_mm": 200.8
+   },
+   "completeness_sensitivity": {
+    "0.70": {
+     "1day": 315,
+     "3day": 209
+    },
+    "0.80": {
+     "1day": 315,
+     "3day": 209
+    },
+    "0.90": {
+     "1day": 315,
+     "3day": 209
+    },
+    "0.95": {
+     "1day": 315,
+     "3day": 209
+    },
+    "1.00": {
+     "1day": 315,
+     "3day": 209
+    }
+   }
+  },
+  {
+   "id": "8500A",
+   "name": "Castello - Almassora",
+   "window_days_reported": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-19"
+   ],
+   "role": "declared",
+   "unbroken_since": 1976,
+   "1day": {
+    "start": "2026-10-17",
+    "mm": 37.6,
+    "rank_full": 98,
+    "n_full": 18264,
+    "full_from": 1976,
+    "rank_unbroken": 98,
+    "unbroken_since": 1976,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "3day": {
+    "start": "2026-10-17",
+    "mm": 78.2,
+    "rank_full": 44,
+    "n_full": 1505,
+    "full_from": 1976,
+    "rank_unbroken": 44,
+    "unbroken_since": 1976,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "completeness_sensitivity": {
+    "0.70": {
+     "1day": 98,
+     "3day": 44
+    },
+    "0.80": {
+     "1day": 98,
+     "3day": 44
+    },
+    "0.90": {
+     "1day": 98,
+     "3day": 44
+    },
+    "0.95": {
+     "1day": 98,
+     "3day": 44
+    },
+    "1.00": {
+     "1day": 98,
+     "3day": 44
+    }
+   }
+  },
+  {
+   "id": "8414A",
+   "name": "Valencia Aeropuerto",
+   "window_days_reported": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-19"
+   ],
+   "role": "declared",
+   "unbroken_since": 1966,
+   "1day": {
+    "start": "2026-10-18",
+    "mm": 32.1,
+    "rank_full": 165,
+    "n_full": 21916,
+    "full_from": 1966,
+    "rank_unbroken": 165,
+    "unbroken_since": 1966,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "3day": {
+    "start": "2026-10-17",
+    "mm": 72.9,
+    "rank_full": 66,
+    "n_full": 1734,
+    "full_from": 1966,
+    "rank_unbroken": 66,
+    "unbroken_since": 1966,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "completeness_sensitivity": {
+    "0.70": {
+     "1day": 165,
+     "3day": 66
+    },
+    "0.80": {
+     "1day": 165,
+     "3day": 66
+    },
+    "0.90": {
+     "1day": 165,
+     "3day": 66
+    },
+    "0.95": {
+     "1day": 165,
+     "3day": 66
+    },
+    "1.00": {
+     "1day": 165,
+     "3day": 66
+    }
+   }
+  },
+  {
+   "id": "8416",
+   "name": "Valencia",
+   "window_days_reported": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-19"
+   ],
+   "role": "declared",
+   "unbroken_since": 1938,
+   "1day": {
+    "start": "2026-10-18",
+    "mm": 36.0,
+    "rank_full": 202,
+    "n_full": 32198,
+    "full_from": 1937,
+    "rank_unbroken": 202,
+    "unbroken_since": 1938,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "3day": {
+    "start": "2026-10-17",
+    "mm": 70.6,
+    "rank_full": 93,
+    "n_full": 2575,
+    "full_from": 1937,
+    "rank_unbroken": 93,
+    "unbroken_since": 1938,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "completeness_sensitivity": {
+    "0.70": {
+     "1day": 202,
+     "3day": 93
+    },
+    "0.80": {
+     "1day": 202,
+     "3day": 93
+    },
+    "0.90": {
+     "1day": 202,
+     "3day": 93
+    },
+    "0.95": {
+     "1day": 202,
+     "3day": 93
+    },
+    "1.00": {
+     "1day": 51,
+     "3day": 25
+    }
+   }
+  },
+  {
+   "id": "8019",
+   "name": "Alicante-Elche Aeropuerto",
+   "window_days_reported": [],
+   "role": "declared",
+   "status": "no window day published by AEMET yet"
+  },
+  {
+   "id": "8025",
+   "name": "Alacant/Alicante",
+   "window_days_reported": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-19"
+   ],
+   "role": "declared",
+   "unbroken_since": 2025,
+   "1day": {
+    "start": "2026-10-17",
+    "mm": 40.6,
+    "rank_full": 86,
+    "n_full": 31836,
+    "full_from": 1938,
+    "rank_unbroken": 1,
+    "unbroken_since": 2025,
+    "most_since": 2021,
+    "record_full": false,
+    "record_unbroken": true
+   },
+   "3day": {
+    "start": "2026-10-17",
+    "mm": 78.0,
+    "rank_full": 36,
+    "n_full": 2360,
+    "full_from": 1938,
+    "rank_unbroken": 1,
+    "unbroken_since": 2025,
+    "most_since": 2019,
+    "record_full": false,
+    "record_unbroken": true
+   },
+   "completeness_sensitivity": {
+    "0.70": {
+     "1day": 86,
+     "3day": 36
+    },
+    "0.80": {
+     "1day": 86,
+     "3day": 36
+    },
+    "0.90": {
+     "1day": 1,
+     "3day": 1
+    },
+    "0.95": {
+     "1day": 1,
+     "3day": 1
+    },
+    "1.00": {
+     "1day": 1,
+     "3day": 1
+    }
+   }
+  },
+  {
+   "id": "7031",
+   "name": "San Javier Aeropuerto",
+   "window_days_reported": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18"
+   ],
+   "role": "declared",
+   "unbroken_since": 1945,
+   "1day": {
+    "start": "2026-10-17",
+    "mm": 23.3,
+    "rank_full": 261,
+    "n_full": 29735,
+    "full_from": 1944,
+    "rank_unbroken": 257,
+    "unbroken_since": 1945,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "3day": {
+    "start": "2026-10-16",
+    "mm": 38.6,
+    "rank_full": 170,
+    "n_full": 1886,
+    "full_from": 1944,
+    "rank_unbroken": 167,
+    "unbroken_since": 1945,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "completeness_sensitivity": {
+    "0.70": {
+     "1day": 257,
+     "3day": 167
+    },
+    "0.80": {
+     "1day": 257,
+     "3day": 167
+    },
+    "0.90": {
+     "1day": 257,
+     "3day": 167
+    },
+    "0.95": {
+     "1day": 257,
+     "3day": 167
+    },
+    "1.00": {
+     "1day": 29,
+     "3day": 23
+    }
+   }
+  },
+  {
+   "id": "7228",
+   "name": "Alcantarilla, Base Aerea",
+   "window_days_reported": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-19"
+   ],
+   "role": "declared",
+   "unbroken_since": 1941,
+   "1day": {
+    "start": "2026-10-19",
+    "mm": 5.0,
+    "rank_full": 1285,
+    "n_full": 31139,
+    "full_from": 1940,
+    "rank_unbroken": 1281,
+    "unbroken_since": 1941,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "3day": {
+    "start": "2026-10-17",
+    "mm": 9.9,
+    "rank_full": 669,
+    "n_full": 2059,
+    "full_from": 1940,
+    "rank_unbroken": 667,
+    "unbroken_since": 1941,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "completeness_sensitivity": {
+    "0.70": {
+     "1day": 1281,
+     "3day": 667
+    },
+    "0.80": {
+     "1day": 1281,
+     "3day": 667
+    },
+    "0.90": {
+     "1day": 1281,
+     "3day": 667
+    },
+    "0.95": {
+     "1day": 1281,
+     "3day": 667
+    },
+    "1.00": {
+     "1day": 1281,
+     "3day": 667
+    }
+   }
+  },
+  {
+   "id": "7178I",
+   "name": "Murcia",
+   "window_days_reported": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-19"
+   ],
+   "role": "declared",
+   "unbroken_since": 1985,
+   "1day": {
+    "start": "2026-10-17",
+    "mm": 11.6,
+    "rank_full": 287,
+    "n_full": 15251,
+    "full_from": 1984,
+    "rank_unbroken": 283,
+    "unbroken_since": 1985,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "3day": {
+    "start": "2026-10-17",
+    "mm": 20.2,
+    "rank_full": 163,
+    "n_full": 1073,
+    "full_from": 1984,
+    "rank_unbroken": 159,
+    "unbroken_since": 1985,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "completeness_sensitivity": {
+    "0.70": {
+     "1day": 287,
+     "3day": 163
+    },
+    "0.80": {
+     "1day": 283,
+     "3day": 159
+    },
+    "0.90": {
+     "1day": 283,
+     "3day": 159
+    },
+    "0.95": {
+     "1day": 283,
+     "3day": 159
+    },
+    "1.00": {
+     "1day": 283,
+     "3day": 159
+    }
+   }
+  },
+  {
+   "id": "6155A",
+   "name": "Malaga Aeropuerto",
+   "window_days_reported": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-19"
+   ],
+   "role": "declared",
+   "unbroken_since": 1943,
+   "1day": {
+    "start": "2026-10-18",
+    "mm": 3.9,
+    "rank_full": 2272,
+    "n_full": 30562,
+    "full_from": 1942,
+    "rank_unbroken": 2248,
+    "unbroken_since": 1943,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "3day": {
+    "start": "2026-10-17",
+    "mm": 9.1,
+    "rank_full": 917,
+    "n_full": 1871,
+    "full_from": 1942,
+    "rank_unbroken": 906,
+    "unbroken_since": 1943,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "completeness_sensitivity": {
+    "0.70": {
+     "1day": 2248,
+     "3day": 906
+    },
+    "0.80": {
+     "1day": 2248,
+     "3day": 906
+    },
+    "0.90": {
+     "1day": 2248,
+     "3day": 906
+    },
+    "0.95": {
+     "1day": 2248,
+     "3day": 906
+    },
+    "1.00": {
+     "1day": 2248,
+     "3day": 906
+    }
+   }
+  },
+  {
+   "id": "6156X",
+   "name": "Malaga, Centro Meteorologico",
+   "window_days_reported": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-19"
+   ],
+   "role": "declared",
+   "unbroken_since": 2001,
+   "1day": {
+    "start": "2026-10-17",
+    "mm": 8.5,
+    "rank_full": 383,
+    "n_full": 9132,
+    "full_from": 2001,
+    "rank_unbroken": 383,
+    "unbroken_since": 2001,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "3day": {
+    "start": "2026-10-17",
+    "mm": 14.7,
+    "rank_full": 182,
+    "n_full": 594,
+    "full_from": 2001,
+    "rank_unbroken": 182,
+    "unbroken_since": 2001,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "completeness_sensitivity": {
+    "0.70": {
+     "1day": 383,
+     "3day": 182
+    },
+    "0.80": {
+     "1day": 383,
+     "3day": 182
+    },
+    "0.90": {
+     "1day": 383,
+     "3day": 182
+    },
+    "0.95": {
+     "1day": 383,
+     "3day": 182
+    },
+    "1.00": {
+     "1day": 383,
+     "3day": 182
+    }
+   }
+  },
+  {
+   "id": "B954",
+   "name": "Ibiza Aeropuerto",
+   "window_days_reported": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-19"
+   ],
+   "role": "declared",
+   "unbroken_since": 1961,
+   "1day": {
+    "start": "2026-10-18",
+    "mm": 176.9,
+    "rank_full": 1,
+    "n_full": 26955,
+    "full_from": 1944,
+    "rank_unbroken": 1,
+    "unbroken_since": 1961,
+    "most_since": null,
+    "record_full": true,
+    "record_unbroken": true
+   },
+   "3day": {
+    "start": "2026-10-17",
+    "mm": 224.6,
+    "rank_full": 1,
+    "n_full": 2215,
+    "full_from": 1944,
+    "rank_unbroken": 1,
+    "unbroken_since": 1961,
+    "most_since": null,
+    "record_full": true,
+    "record_unbroken": true
+   },
+   "completeness_sensitivity": {
+    "0.70": {
+     "1day": 1,
+     "3day": 1
+    },
+    "0.80": {
+     "1day": 1,
+     "3day": 1
+    },
+    "0.90": {
+     "1day": 1,
+     "3day": 1
+    },
+    "0.95": {
+     "1day": 1,
+     "3day": 1
+    },
+    "1.00": {
+     "1day": 1,
+     "3day": 1
+    }
+   }
+  },
+  {
+   "id": "B957",
+   "name": "Eivissa",
+   "window_days_reported": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-19"
+   ],
+   "role": "declared",
+   "unbroken_since": 2018,
+   "1day": {
+    "start": "2026-10-18",
+    "mm": 126.7,
+    "rank_full": 2,
+    "n_full": 3485,
+    "full_from": 2015,
+    "rank_unbroken": 2,
+    "unbroken_since": 2018,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "3day": {
+    "start": "2026-10-17",
+    "mm": 185.0,
+    "rank_full": 2,
+    "n_full": 284,
+    "full_from": 2015,
+    "rank_unbroken": 2,
+    "unbroken_since": 2018,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "completeness_sensitivity": {
+    "0.70": {
+     "1day": 2,
+     "3day": 2
+    },
+    "0.80": {
+     "1day": 2,
+     "3day": 2
+    },
+    "0.90": {
+     "1day": 2,
+     "3day": 2
+    },
+    "0.95": {
+     "1day": 2,
+     "3day": 2
+    },
+    "1.00": {
+     "1day": null,
+     "3day": null
+    }
+   }
+  },
+  {
+   "id": "B278",
+   "name": "Palma de Mallorca Aeropuerto",
+   "window_days_reported": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-19",
+    "2026-10-20"
+   ],
+   "role": "declared",
+   "unbroken_since": 1973,
+   "1day": {
+    "start": "2026-10-19",
+    "mm": 35.3,
+    "rank_full": 80,
+    "n_full": 19512,
+    "full_from": 1972,
+    "rank_unbroken": 79,
+    "unbroken_since": 1973,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "3day": {
+    "start": "2026-10-18",
+    "mm": 51.4,
+    "rank_full": 65,
+    "n_full": 1665,
+    "full_from": 1972,
+    "rank_unbroken": 63,
+    "unbroken_since": 1973,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "completeness_sensitivity": {
+    "0.70": {
+     "1day": 79,
+     "3day": 63
+    },
+    "0.80": {
+     "1day": 79,
+     "3day": 63
+    },
+    "0.90": {
+     "1day": 79,
+     "3day": 63
+    },
+    "0.95": {
+     "1day": 79,
+     "3day": 63
+    },
+    "1.00": {
+     "1day": 79,
+     "3day": 63
+    }
+   }
+  },
+  {
+   "id": "B228",
+   "name": "Palma, Puerto",
+   "window_days_reported": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-19",
+    "2026-10-20"
+   ],
+   "role": "declared",
+   "unbroken_since": 1978,
+   "1day": {
+    "start": "2026-10-19",
+    "mm": 57.4,
+    "rank_full": 14,
+    "n_full": 17533,
+    "full_from": 1978,
+    "rank_unbroken": 14,
+    "unbroken_since": 1978,
+    "most_since": 2023,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "3day": {
+    "start": "2026-10-18",
+    "mm": 70.9,
+    "rank_full": 27,
+    "n_full": 1494,
+    "full_from": 1978,
+    "rank_unbroken": 27,
+    "unbroken_since": 1978,
+    "most_since": 2024,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "completeness_sensitivity": {
+    "0.70": {
+     "1day": 14,
+     "3day": 27
+    },
+    "0.80": {
+     "1day": 14,
+     "3day": 27
+    },
+    "0.90": {
+     "1day": 14,
+     "3day": 27
+    },
+    "0.95": {
+     "1day": 14,
+     "3day": 27
+    },
+    "1.00": {
+     "1day": 14,
+     "3day": 27
+    }
+   }
+  },
+  {
+   "id": "B893",
+   "name": "Menorca Aeropuerto",
+   "window_days_reported": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-19",
+    "2026-10-20"
+   ],
+   "role": "declared",
+   "unbroken_since": 1970,
+   "1day": {
+    "start": "2026-10-18",
+    "mm": 43.3,
+    "rank_full": 70,
+    "n_full": 21298,
+    "full_from": 1965,
+    "rank_unbroken": 66,
+    "unbroken_since": 1970,
+    "most_since": 2024,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "3day": {
+    "start": "2026-10-18",
+    "mm": 67.4,
+    "rank_full": 50,
+    "n_full": 2015,
+    "full_from": 1965,
+    "rank_unbroken": 50,
+    "unbroken_since": 1970,
+    "most_since": 2024,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "completeness_sensitivity": {
+    "0.70": {
+     "1day": 68,
+     "3day": 50
+    },
+    "0.80": {
+     "1day": 66,
+     "3day": 50
+    },
+    "0.90": {
+     "1day": 66,
+     "3day": 50
+    },
+    "0.95": {
+     "1day": 63,
+     "3day": 49
+    },
+    "1.00": {
+     "1day": 56,
+     "3day": 43
+    }
+   }
+  },
+  {
+   "id": "8058X",
+   "name": "Oliva",
+   "window_days_reported": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-19",
+    "2026-10-20"
+   ],
+   "role": "declared",
+   "unbroken_since": null,
+   "1day": {
+    "start": "2026-10-18",
+    "mm": 530.9,
+    "rank_full": 1,
+    "n_full": 9797,
+    "full_from": 1992,
+    "rank_unbroken": null,
+    "unbroken_since": null,
+    "most_since": null,
+    "record_full": true,
+    "record_unbroken": false
+   },
+   "3day": {
+    "start": "2026-10-17",
+    "mm": 578.4,
+    "rank_full": 1,
+    "n_full": 935,
+    "full_from": 1992,
+    "rank_unbroken": null,
+    "unbroken_since": null,
+    "most_since": null,
+    "record_full": true,
+    "record_unbroken": false
+   },
+   "completeness_sensitivity": {
+    "0.70": {
+     "1day": null,
+     "3day": null
+    },
+    "0.80": {
+     "1day": null,
+     "3day": null
+    },
+    "0.90": {
+     "1day": null,
+     "3day": null
+    },
+    "0.95": {
+     "1day": null,
+     "3day": null
+    },
+    "1.00": {
+     "1day": null,
+     "3day": null
+    }
+   }
+  },
+  {
+   "id": "8293X",
+   "name": "Xativa",
+   "window_days_reported": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-19"
+   ],
+   "role": "declared",
+   "unbroken_since": 2021,
+   "1day": {
+    "start": "2026-10-18",
+    "mm": 81.0,
+    "rank_full": 17,
+    "n_full": 11556,
+    "full_from": 1990,
+    "rank_unbroken": 4,
+    "unbroken_since": 2021,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "3day": {
+    "start": "2026-10-17",
+    "mm": 98.4,
+    "rank_full": 22,
+    "n_full": 978,
+    "full_from": 1990,
+    "rank_unbroken": 5,
+    "unbroken_since": 2021,
+    "most_since": 2025,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "completeness_sensitivity": {
+    "0.70": {
+     "1day": 9,
+     "3day": 11
+    },
+    "0.80": {
+     "1day": 4,
+     "3day": 5
+    },
+    "0.90": {
+     "1day": 4,
+     "3day": 5
+    },
+    "0.95": {
+     "1day": 3,
+     "3day": 4
+    },
+    "1.00": {
+     "1day": null,
+     "3day": null
+    }
+   }
+  },
+  {
+   "id": "8050X",
+   "name": "Javea / Xabia",
+   "window_days_reported": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-19",
+    "2026-10-20"
+   ],
+   "role": "declared",
+   "unbroken_since": 2023,
+   "1day": {
+    "start": "2026-10-18",
+    "mm": 185.6,
+    "rank_full": 2,
+    "n_full": 9692,
+    "full_from": 1997,
+    "rank_unbroken": 1,
+    "unbroken_since": 2023,
+    "most_since": 2019,
+    "record_full": false,
+    "record_unbroken": true
+   },
+   "3day": {
+    "start": "2026-10-17",
+    "mm": 233.8,
+    "rank_full": 2,
+    "n_full": 863,
+    "full_from": 1997,
+    "rank_unbroken": 1,
+    "unbroken_since": 2023,
+    "most_since": 2019,
+    "record_full": false,
+    "record_unbroken": true
+   },
+   "completeness_sensitivity": {
+    "0.70": {
+     "1day": 2,
+     "3day": 2
+    },
+    "0.80": {
+     "1day": 2,
+     "3day": 2
+    },
+    "0.90": {
+     "1day": 1,
+     "3day": 1
+    },
+    "0.95": {
+     "1day": null,
+     "3day": null
+    },
+    "1.00": {
+     "1day": null,
+     "3day": null
+    }
+   }
+  },
+  {
+   "id": "6325O",
+   "name": "Almeria Aeropuerto",
+   "window_days_reported": [
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18",
+    "2026-10-19",
+    "2026-10-20"
+   ],
+   "role": "body text only (declared at the warned onset)",
+   "unbroken_since": 1968,
+   "1day": {
+    "start": "2026-10-18",
+    "mm": 26.4,
+    "rank_full": 62,
+    "n_full": 21155,
+    "full_from": 1968,
+    "rank_unbroken": 62,
+    "unbroken_since": 1968,
+    "most_since": 2023,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "3day": {
+    "start": "2026-10-17",
+    "mm": 37.6,
+    "rank_full": 49,
+    "n_full": 1178,
+    "full_from": 1968,
+    "rank_unbroken": 49,
+    "unbroken_since": 1968,
+    "most_since": 2023,
+    "record_full": false,
+    "record_unbroken": false
+   },
+   "completeness_sensitivity": {
+    "0.70": {
+     "1day": 62,
+     "3day": 49
+    },
+    "0.80": {
+     "1day": 62,
+     "3day": 49
+    },
+    "0.90": {
+     "1day": 62,
+     "3day": 49
+    },
+    "0.95": {
+     "1day": 62,
+     "3day": 49
+    },
+    "1.00": {
+     "1day": 62,
+     "3day": 49
+    }
+   }
+  },
+  {
+   "id": "6332X",
+   "name": "Carboneras",
+   "window_days_reported": [],
+   "role": "body text only (declared at the warned onset)",
+   "status": "no window day published by AEMET yet"
+  },
+  {
+   "id": "6367B",
+   "name": "Huercal-Overa",
+   "window_days_reported": [],
+   "role": "body text only (declared at the warned onset)",
+   "status": "no window day published by AEMET yet"
+  }
+ ],
+ "summary": {
+  "stations_declared": 27,
+  "stations_with_window_data": 23,
+  "tests_declared": 54,
+  "tests_run": 46,
+  "headline_records_30y_unbroken": 2,
+  "headline_records": [
+   "B954 1day 176.9 mm, unbroken since 1961",
+   "B954 3day 224.6 mm, unbroken since 1961"
+  ],
+  "body_text_records_in_gapped_records": [
+   "8058X 1day 530.9 mm, most in records from 1992 (with gaps)",
+   "8058X 3day 578.4 mm, most in records from 1992 (with gaps)"
+  ],
+  "twice_in_three_weeks": {
+   "qualifying_days_at_five_stations": [],
+   "qualifies": false
+  }
+ }
+}

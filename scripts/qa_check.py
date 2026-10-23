@@ -1341,6 +1341,60 @@ def check_social_card(violations, advisories):
         advisories.append(msg)
 
 
+# Pages published before the title rule existed, without a <title>.
+# SELF-EXPIRING: the check names any listed page that has gained one, so
+# the entry is deleted the day templates/fast_reaction.py is fixed and the
+# pages rebuilt. A known gap we have agreed to ship, not an exemption.
+KNOWN_NO_TITLE = {
+}
+
+
+def check_title_present(violations):
+    """Every committed page has exactly one non-empty <title> in its <head>.
+
+    Design's catch, 2026-10-16: templates/page_head.head_meta does not emit
+    <title>, so a page whose template forgets its own ships with none. The
+    browser tab then shows a URL, and a search result shows whatever the
+    engine guesses. Measured on origin/main before writing this: 336
+    pages, four without a title, all fast-reaction pages, all carrying an
+    og:title, so the data exists and only the tag is missing.
+
+    `git ls-files docs`, not a glob: the committed set is what is served,
+    and reading the working tree gave the heat-payload check false
+    positives on transient files (2026-09-07).
+    """
+    r = subprocess.run(["git", "ls-files", "docs"], cwd=ROOT,
+                       capture_output=True, text=True)
+    pages = [f for f in r.stdout.split() if f.endswith(".html")]
+    head_re = re.compile(r"<head\b[^>]*>(.*?)</head>", re.S | re.I)
+    title_re = re.compile(r"<title\b[^>]*>(.*?)</title>", re.S | re.I)
+    for rel in pages:
+        try:
+            text = (ROOT / rel).read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            continue
+        m = head_re.search(text)
+        titles = title_re.findall(m.group(1)) if m else []
+        ok = len(titles) == 1 and titles[0].strip()
+        if rel in KNOWN_NO_TITLE:
+            if ok:
+                violations.append(
+                    f"{rel} now has a <title>; delete it from KNOWN_NO_TITLE "
+                    f"in scripts/qa_check.py so the exemption cannot outlive "
+                    f"the defect.")
+            continue
+        if ok:
+            continue
+        why = ("no <head>" if not m else
+               "no <title>" if not titles else
+               f"{len(titles)} <title> tags" if len(titles) > 1 else
+               "an empty <title>")
+        violations.append(
+            f"{rel} has {why}; every page needs exactly one non-empty "
+            f"<title> in <head>. head_meta does not emit one, so the "
+            f"template must.")
+
+
 def check_masthead_present(violations):
     """Does every published shell and channel page still HAVE a masthead?
 
@@ -1733,7 +1787,7 @@ def check_allhands_cadence(advisories):
                 f"which is the point of checking it here.")
 
 
-def check_allhands(violations):
+def check_allhands(violations, aged=None):
     """Is the all-hands board still inside its cap?
 
     D-059 caps `research/allhands.md` at ten entries or thirty days,
@@ -1792,8 +1846,15 @@ def check_allhands(violations):
             violations.append(f"research/allhands.md: unparseable entry "
                               f"date '{d}'")
             continue
+        # The AGE cap goes to `aged`: violations under --daily, advisories
+        # on a push. Time made the entry old, not the commit being pushed,
+        # and as a plain violation it blocked every chat's push through the
+        # post-commit hook five times between 09-13 and 10-12 (FLO had four
+        # commits stuck behind one of Heat's entries). Same rule as the
+        # other time-based checks here. The COUNT cap stays a violation:
+        # an eleventh entry is caused by the commit that adds it.
         if age > ALLHANDS_MAX_AGE_DAYS and d not in standing:
-            violations.append(
+            (violations if aged is None else aged).append(
                 f"research/allhands.md entry dated {d} is {age} days old, "
                 f"cap is {ALLHANDS_MAX_AGE_DAYS} (D-059). Delete it. An "
                 f"entry nobody has objected to in a month has been "
@@ -1860,7 +1921,7 @@ def main():
     check_schedule_claims(violations)
     check_page_lags_data(violations)
     check_emitted_fields(advisories if args.for_publish else violations)
-    check_allhands(violations)
+    check_allhands(violations, violations if args.daily else advisories)
     check_allhands_cadence(violations if args.daily else advisories)
     # Advisory during a publish, blocking in CI, same split and same reason
     # as check_emitted_fields: a nav that lags is a completeness defect and
@@ -1873,6 +1934,7 @@ def main():
     # publishing malformed markup is worse than publishing nothing.
     check_masthead_wellformed(violations)
     check_masthead_present(violations)
+    check_title_present(violations)
     check_social_card(violations, advisories)
     check_conflict_markers(violations)
     check_heat_pages_match_reference(violations)

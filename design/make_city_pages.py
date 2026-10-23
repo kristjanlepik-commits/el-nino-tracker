@@ -1563,6 +1563,14 @@ for name, v in sorted(C.items()):
     bl_lo, bl_hi = (v.get("pctl_baseline") or [1971, 2000])
     bl_span = bl_hi + 1 - bl_lo
     thr_from = max(int(bl_lo), int(v["record_from"]))
+    # The months the threshold is computed from are each station's own two
+    # warmest consecutive months, in the payload as season.months. This
+    # said "July-August" for every city, which is winter in Argentina
+    # (tls-internal#46, found by News): Santiago del Estero's threshold is
+    # from December-January. Every European city is [7, 8], so its text is
+    # unchanged.
+    thr_months = "-".join(MON[m - 1] for m in
+                          ((v.get("season") or {}).get("months") or [7, 8]))
     thr_years = bl_hi + 1 - thr_from
     thr_note = ("" if thr_years >= bl_span else
                 f' That window is {thr_years} of the {bl_span} years this '
@@ -1745,7 +1753,7 @@ for name, v in sorted(C.items()):
      it had already been corrected to the per-station window. Murcia's page
      therefore stated two different reference periods for the same number,
      two paragraphs apart, and the false one was the definition. -->
-<span>Hot days, this station's own 95th percentile of July-August maxima, {thr_from} to {bl_hi}</span>
+<span>Hot days, this station's own 95th percentile of {thr_months} maxima, {thr_from} to {bl_hi}</span>
 <span style="text-align:right">{th} &deg;C</span>
 <!-- Same defect editor found in the prose, in the line that DEFINES the
      metric. 'At or above 20' drops the minimum and describes a night that

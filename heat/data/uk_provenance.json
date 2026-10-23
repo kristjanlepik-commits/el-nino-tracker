@@ -1,10 +1,10 @@
 {
- "Belfast": {
-  "station": "01450_aldergrove",
+ "Nottingham": {
+  "station": "00556_nottingham-watnall",
   "midas_files": "committed",
-  "history": "1930-2025",
+  "history": "1957-2025",
   "baseline_years_1971_2000": 30,
-  "season_2026_days": 270,
+  "season_2026_days": 291,
   "season_source": "Met Office NMLA, Crown Copyright, re-use with acknowledgement",
   "season_provenance": {
    "official_to": "2026-08-10",
@@ -56,48 +56,47 @@
     "2026-09-24",
     "2026-09-25",
     "2026-09-26",
-    "2026-09-27"
+    "2026-09-27",
+    "2026-09-28",
+    "2026-09-29",
+    "2026-09-30",
+    "2026-10-01",
+    "2026-10-02",
+    "2026-10-03",
+    "2026-10-04",
+    "2026-10-05",
+    "2026-10-06",
+    "2026-10-07",
+    "2026-10-08",
+    "2026-10-09",
+    "2026-10-10",
+    "2026-10-11",
+    "2026-10-12",
+    "2026-10-13",
+    "2026-10-14",
+    "2026-10-15",
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18"
    ],
-   "overlap_days": 102,
+   "overlap_days": 81,
    "overlap_worst_c": 0.0,
-   "hours": {
-    "min": "09",
-    "max": "18"
-   },
-   "hours_note": "Fitted against the Met Office series over the overlap, not inferred from the bulletins. UK stations report at four hours and only one pair reproduces the climatological day.",
-   "agree": true,
-   "wmo_block": "03917",
-   "note": "Days after the workbook come from the station's own WMO bulletins, checked against the official series where they overlap. Not applied when they disagree."
-  }
- },
- "Aberdeen": {
-  "station": "00161_dyce",
-  "midas_files": "committed",
-  "history": "1957-2025",
-  "baseline_years_1971_2000": 30,
-  "season_2026_days": 222,
-  "season_source": "Met Office NMLA, Crown Copyright, re-use with acknowledgement",
-  "season_provenance": {
-   "official_to": "2026-08-10",
-   "synop_days": [],
-   "overlap_days": 102,
-   "overlap_worst_c": 0.6,
    "hours": {
     "min": "06",
     "max": "18"
    },
    "hours_note": "Fitted against the Met Office series over the overlap, not inferred from the bulletins. UK stations report at four hours and only one pair reproduces the climatological day.",
-   "agree": false,
-   "wmo_block": "03091",
+   "agree": true,
+   "wmo_block": "03354",
    "note": "Days after the workbook come from the station's own WMO bulletins, checked against the official series where they overlap. Not applied when they disagree."
   }
  },
- "Nottingham": {
-  "station": "00556_nottingham-watnall",
+ "Belfast": {
+  "station": "01450_aldergrove",
   "midas_files": "committed",
-  "history": "1957-2025",
+  "history": "1930-2025",
   "baseline_years_1971_2000": 30,
-  "season_2026_days": 249,
+  "season_2026_days": 291,
   "season_source": "Met Office NMLA, Crown Copyright, re-use with acknowledgement",
   "season_provenance": {
    "official_to": "2026-08-10",
@@ -128,19 +127,74 @@
     "2026-09-03",
     "2026-09-04",
     "2026-09-05",
-    "2026-09-06"
+    "2026-09-06",
+    "2026-09-07",
+    "2026-09-08",
+    "2026-09-09",
+    "2026-09-10",
+    "2026-09-11",
+    "2026-09-12",
+    "2026-09-13",
+    "2026-09-14",
+    "2026-09-15",
+    "2026-09-16",
+    "2026-09-17",
+    "2026-09-18",
+    "2026-09-19",
+    "2026-09-20",
+    "2026-09-21",
+    "2026-09-22",
+    "2026-09-23",
+    "2026-09-24",
+    "2026-09-25",
+    "2026-09-26",
+    "2026-09-27",
+    "2026-09-28",
+    "2026-09-29",
+    "2026-09-30",
+    "2026-10-01",
+    "2026-10-02",
+    "2026-10-03",
+    "2026-10-04",
+    "2026-10-05",
+    "2026-10-06",
+    "2026-10-07",
+    "2026-10-08",
+    "2026-10-09",
+    "2026-10-10",
+    "2026-10-11",
+    "2026-10-12",
+    "2026-10-13",
+    "2026-10-14",
+    "2026-10-15",
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18"
    ],
    "overlap_days": 102,
    "overlap_worst_c": 0.0,
    "hours": {
-    "min": "06",
+    "min": "09",
     "max": "18"
    },
    "hours_note": "Fitted against the Met Office series over the overlap, not inferred from the bulletins. UK stations report at four hours and only one pair reproduces the climatological day.",
    "agree": true,
-   "wmo_block": "03354",
+   "wmo_block": "03917",
    "note": "Days after the workbook come from the station's own WMO bulletins, checked against the official series where they overlap. Not applied when they disagree."
-  },
-  "carried_forward": "This build did not write this city's series, so its previous provenance stands. Held or refused; see the builder status for which."
+  }
+ },
+ "Aberdeen": {
+  "station": "00161_dyce",
+  "midas_files": "committed",
+  "history": "1957-2025",
+  "baseline_years_1971_2000": 30,
+  "season_2026_days": 222,
+  "season_source": "Met Office NMLA, Crown Copyright, re-use with acknowledgement",
+  "season_provenance": {
+   "agree": false,
+   "synop_days": [],
+   "official_to": "2026-08-10",
+   "note": "no hour pair overlapped the workbook enough to fit, which usually means the bulletin fetch returned little or nothing"
+  }
  }
 }

@@ -136,6 +136,23 @@ def _headline_for_snapshot(fetched: dict, headline: dict | None) -> dict:
         return {"error": f"headline not computed: {type(e).__name__}: {e}"}
 
 
+def _oni_history_for_snapshot(block: dict | None) -> dict | None:
+    """The ONI block trimmed to the current and previous year. Never
+    raises: a missing or failed block is stored as given, or None."""
+    if not isinstance(block, dict):
+        return None
+    try:
+        by_year = block.get("by_year") or {}
+        latest = int(block.get("latest_year")) if block.get("latest_year") else None
+        keep = {k: v for k, v in by_year.items()
+                if latest is not None and int(k) in (latest - 1, latest)}
+        return {k: block.get(k) for k in ("ok", "issued", "latest_year",
+                                          "latest_season", "used_fallback")} | {"by_year": keep}
+    except Exception:
+        return {k: block.get(k) for k in ("ok", "issued", "latest_year",
+                                          "latest_season", "used_fallback")}
+
+
 def current_snapshot(fetched: dict, headline: dict | None = None,
                      freshness: dict | None = None) -> dict:
     """Capture the current state of inputs as a flat dict.
@@ -175,6 +192,14 @@ def current_snapshot(fetched: dict, headline: dict | None = None,
         "nmme": fetched.get("nmme"),
         "bom": fetched["bom"],
         "physical_state": fetched["physical_state"],
+        # The latest CPC ONI seasons, stored for the same reason as
+        # `_freshness` below: a page rebuilt from this file could not say
+        # where the current-year line ends. Found by design on 2026-10-19,
+        # when /elnino/ rendered from stored state captioned the analog
+        # chart "the latest season at near 0°C" where the issue said "JAS
+        # season at +2.2°C". Only the current and previous year: the full
+        # series is data/oni_full_history.csv.
+        "oni_history": _oni_history_for_snapshot(fetched.get("oni_history")),
         # Per-source freshness, stored for the same reason as `nmme`
         # above: a page rebuilt from this file cannot otherwise be
         # rebuilt faithfully.

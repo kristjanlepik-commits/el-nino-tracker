@@ -108,10 +108,51 @@ def _analogs_same_week(text: str, issued_iso: str) -> dict:
         prev = out.get(str(d.year))
         if prev is None or dist < prev["_dist"]:
             out[str(d.year)] = {"anom": float(nums[5]),
+                                "nino12": float(nums[1]),
+                                "nino3": float(nums[3]),
+                                "nino4": float(nums[7]),
                                 "week": d.isoformat(), "_dist": dist}
     for v in out.values():
         v.pop("_dist", None)
     return out
+
+
+# Column order in wksst9120.for: Nino1+2 SST, SSTA, Nino3 SST, SSTA,
+# Nino3.4 SST, SSTA, Nino4 SST, SSTA.
+_REGION_COLS = {"nino12": 1, "nino3": 3, "nino34": 5, "nino4": 7}
+
+
+def _regions(text: str, issued_iso: str) -> dict:
+    """This week's anomaly in each Nino region, and the highest weekly
+    anomaly that region had in the series before this calendar year.
+
+    Added 2026-10-18. Niño 3.4 is the index the ladder uses, but this
+    event is east-based: in the week of 7 October Niño 3 (+4.1) and Niño
+    1+2 (+5.3 a week earlier) were 0.8 C above their previous records,
+    against 0.3 for Niño 3.4. The brief now prints the eastern regions
+    beside it. Same file, same fixed 1991-2020 base, so "record" means the
+    highest week in CPC's weekly OISST series, which starts in Sept 1981.
+    """
+    cur = datetime.fromisoformat(issued_iso).date()
+    latest, prior = {}, {k: None for k in _REGION_COLS}
+    for line in text.splitlines():
+        if not _DATE_RE.match(line):
+            continue
+        try:
+            d = datetime.fromisoformat(_parse_date(line)).date()
+        except ValueError:
+            continue
+        nums = _FLOAT_RE.findall(line)
+        if len(nums) < 8:
+            continue
+        for k, i in _REGION_COLS.items():
+            v = float(nums[i])
+            if d == cur:
+                latest[k] = v
+            if d.year < cur.year and (prior[k] is None or v > prior[k]["anom"]):
+                prior[k] = {"anom": v, "week": d.isoformat()}
+    return {k: {"anom": latest.get(k), "prior_record": prior[k]}
+            for k in _REGION_COLS}
 
 
 def _sst_by_year(text: str) -> dict:
@@ -196,6 +237,7 @@ def fetch() -> FetchResult:
                 "weekly_relative": weekly_relative,
                 "roni_to_oni_offset": offset,
                 "analogs_same_week": _analogs_same_week(r_trad.text, issued),
+                "regions": _regions(r_trad.text, issued),
                 "sst_by_year": _sst_by_year(r_trad.text),
             },
         )
