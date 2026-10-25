@@ -126,6 +126,20 @@ def _extent_state(piece):
     return "not assessed"
 
 
+def _rain_state(piece):
+    """What the rainfall instrument said. Typed as "rainfall measured" until
+    the Somalia piece (25 Oct), the first where rainfall had no baseline, and
+    the index then said the opposite of the page."""
+    for row in piece.get("instruments", []):
+        if row.get("name") == "Rainfall":
+            return ("measured" if row.get("state") == "measured"
+                    else row.get("value") or "not assessed")
+    # No Rainfall row: Alto Beni, a gauge-led piece whose payload carries
+    # daily IMERG rain. The index has always said "measured" for it, which
+    # holds; only a row that says otherwise changes the word.
+    return "measured"
+
+
 def _rows(pieces, root_prefix):
     out = []
     for p in pieces:
@@ -136,11 +150,11 @@ def _rows(pieces, root_prefix):
             '<span class="fxwin">%s</span>'
             '<span class="fxclaim">%s</span>'
             '</a>'
-            '<span class="fxmeta">rainfall measured &middot; '
+            '<span class="fxmeta">rainfall %s &middot; '
             'flood extent %s</span>'
             '</li>'
             % (root_prefix.rstrip("/"), p["path"], p["region"], p["window"],
-               p["claim"], _extent_state(p)))
+               p["claim"], _rain_state(p), _extent_state(p)))
     return "\n".join(out)
 
 

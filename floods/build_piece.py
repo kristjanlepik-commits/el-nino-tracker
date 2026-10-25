@@ -656,7 +656,7 @@ def _extent_piece(payload, rain, extent, today):
             "REFUSING TO BUILD: %s has no per-year flood-extent series.\n"
             "  Needs series[flood_extent].basis.series as {year: value}, the\n"
             "  %s values rank %s and median %s are computed from, and\n"
-            "  basis.value_means: one line saying what a value is. Asked of\n"
+            "  basis.value_definition: what a value is. Asked of\n"
             "  FLO 25 Oct. Not computed here from the mcdwd jsonl: the\n"
             "  aggregation is FLO's method."
             % (payload["region_id"], basis["of"], basis["rank"], basis["median"]))
@@ -674,12 +674,16 @@ def _extent_piece(payload, rain, extent, today):
     cur = str(max(int(y) for y in years))
     ratio, ordinal = find.get("ratio_safe"), find.get("ordinal_safe")
     x, rank, of = basis["x_median"], basis["rank"], basis["of"]
-    means = basis.get("value_means") or "flood-extent value"
+    # FLO's definition (d25609d3): "flooded 250 m pixels, summed over the
+    # 21 days ... this is pixel-days, not area". So nothing on the page may
+    # say "area": the headline once did.
+    definition = basis.get("value_definition") or basis.get("value_means") or ""
+    unit = "flooded pixel-days" if "pixel-days" in definition else "value"
 
     if ratio and ordinal:
-        claim = ("Satellites saw %.1f times the usual area of standing water "
-                 "across the %s from %s, the %s most in %s years of the same "
-                 "%d days." % (x, lab, window, _nth(rank), of, ndays))
+        claim = ("Satellites saw %.1f times the usual standing water across "
+                 "the %s from %s, the %s most in %s years of the same %d days."
+                 % (x, lab, window, _nth(rank), of, ndays))
     elif ordinal:
         claim = ("Satellites saw the %s most standing water in %s years "
                  "across the %s from %s." % (_nth(rank), of, lab, window))
@@ -692,6 +696,10 @@ def _extent_piece(payload, rain, extent, today):
     if ratio and ordinal:
         stand.append("That is %.2f times the median and the %s highest of the "
                      "%s years compared." % (x, _nth(rank), of))
+    if unit == "flooded pixel-days":
+        stand.append("The measure is flooded pixel-days: each 250 m square "
+                     "counts once for every day it shows water, so it combines "
+                     "how much water there was and how long it stayed.")
     stand.append("This measures water seen from orbit, not flood damage, and "
                  "cloud hid part of the region at the peak.")
 
@@ -737,9 +745,11 @@ def _extent_piece(payload, rain, extent, today):
             "current_x": cur,
             "baseline": {"value": basis["median"], "label": "median"},
             "unit": "",
+            # The values are pixel-days; the header says so once rather
+            # than every label carrying the unit.
             "decimals": 0,
             "header": "FLOOD EXTENT, %s \u00b7 %s \u00b7 ONE SLOT PER YEAR"
-                      % (window.upper(), means.upper()),
+                      % (window.upper(), unit.upper()),
             "lo": 0,
             "noun": "year",
             "noun_plural": "years",
@@ -760,7 +770,8 @@ def _extent_piece(payload, rain, extent, today):
             "what_this_is": (
                 "Standing water outside a reference water mask, from the "
                 "NASA MODIS 3-day flood composite, over %s, compared with the "
-                "same %d days in each year since %s." % (window, ndays, first)),
+                "same %d days in each year since %s. Each value is %s."
+                % (window, ndays, first, _full_stop(definition).rstrip(".") or unit)),
             "what_this_is_not": (
                 "Not a measurement of flood damage or of who was affected, and "
                 "not proof a flood occurred. A day cloud hid is not a dry day."),
