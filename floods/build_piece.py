@@ -385,6 +385,16 @@ def piece_from(payload: dict, today: str) -> dict:
     if rain is None:
         raise SystemExit("no rainfall series in payload")
 
+    # FLOOD EXTENT LEADS WHEN RAINFALL CANNOT. Somalia (FLO, 23 Oct): the
+    # rainfall series has no same-window baseline (verdict no_baseline),
+    # while MODIS flood extent is measured, qualified and ranked. Every
+    # earlier piece was rainfall-led with extent not assessed; this is the
+    # first the other way round, so it gets its own branch rather than a
+    # rainfall page with an empty chart.
+    if (rain.get("verdict") == "no_baseline" and extent
+            and extent.get("verdict") == "measured" and extent.get("basis")):
+        return _extent_piece(payload, rain, extent, today)
+
     # A PAYLOAD STILL WAITING FOR DATA HAS NO BASIS TO RENDER. Reaching
     # straight into rain["basis"] turned that into a bare KeyError, which
     # reads like a broken template rather than a payload that is honestly
@@ -615,6 +625,145 @@ def piece_from(payload: dict, today: str) -> dict:
                    "week-to-week satellite visibility varies enough that a "
                    "ranking would rank the weather over the sensor. That is "
                    "a limit we measured, not one we assumed.")),
+        },
+    }
+
+
+def _full_stop(t):
+    """A payload sentence placed before another: FLO's gauge detail ends
+    without one, and ran into the next sentence ("23 Oct Our own")."""
+    t = (t or "").strip()
+    return t if not t or t[-1] in ".!?" else t + "."
+
+
+def _extent_piece(payload, rain, extent, today):
+    """A piece led by MODIS flood extent, for a region with no rainfall
+    baseline. Same guards as the rainfall path: corroboration must be
+    stated, a "false" refuses, the per-year series is the chart and its
+    absence refuses, attribution maps through D-033's three strings."""
+    basis, find = extent["basis"], extent.get("finding") or {}
+    corr = payload.get("event_corroboration") or {}
+    state = corr.get("state")
+    if state not in ("true", "false", "unknown"):
+        raise SystemExit("REFUSING TO BUILD: %s carries no event_corroboration."
+                         % payload["region_id"])
+    if state == "false":
+        raise SystemExit("REFUSING TO BUILD: %s did not flood.\n  %s"
+                         % (payload["region_id"], corr.get("detail", "")))
+    years = basis.get("series")
+    if not years:
+        raise SystemExit(
+            "REFUSING TO BUILD: %s has no per-year flood-extent series.\n"
+            "  Needs series[flood_extent].basis.series as {year: value}, the\n"
+            "  %s values rank %s and median %s are computed from, and\n"
+            "  basis.value_means: one line saying what a value is. Asked of\n"
+            "  FLO 25 Oct. Not computed here from the mcdwd jsonl: the\n"
+            "  aggregation is FLO's method."
+            % (payload["region_id"], basis["of"], basis["rank"], basis["median"]))
+    ATTRIBUTION = {"enso_linked": "enso", "not_enso_linked": "non_enso",
+                   "attribution_pending": "pending"}
+    tag = ATTRIBUTION.get(payload.get("attribution"))
+    if tag is None:
+        raise SystemExit("attribution %r is not one of D-033's three strings"
+                         % payload.get("attribution"))
+
+    window = _window_words(payload["window"])
+    lab = payload["label"]
+    ndays = _days_between(payload["window"]["start"], payload["window"]["end"]) + 1
+    first = min(int(y) for y in years)
+    cur = str(max(int(y) for y in years))
+    ratio, ordinal = find.get("ratio_safe"), find.get("ordinal_safe")
+    x, rank, of = basis["x_median"], basis["rank"], basis["of"]
+    means = basis.get("value_means") or "flood-extent value"
+
+    if ratio and ordinal:
+        claim = ("Satellites saw %.1f times the usual area of standing water "
+                 "across the %s from %s, the %s most in %s years of the same "
+                 "%d days." % (x, lab, window, _nth(rank), of, ndays))
+    elif ordinal:
+        claim = ("Satellites saw the %s most standing water in %s years "
+                 "across the %s from %s." % (_nth(rank), of, lab, window))
+    else:
+        claim = ("Satellites saw more standing water than usual across the "
+                 "%s from %s." % (lab, window))
+    stand = ["Standing water outside the usual rivers and lakes, measured by "
+             "MODIS over %s, against the same %d days in every year since %s."
+             % (window, ndays, first)]
+    if ratio and ordinal:
+        stand.append("That is %.2f times the median and the %s highest of the "
+                     "%s years compared." % (x, _nth(rank), of))
+    stand.append("This measures water seen from orbit, not flood damage, and "
+                 "cloud hid part of the region at the peak.")
+
+    rows = [{
+        "name": "Flood extent",
+        "detail": extent["instrument"],
+        "value": "%.2f\u00d7 median" % x if ratio else str(extent.get("value")),
+        "rank": _rank_words(basis, find),
+        "state": "measured",
+    }, {
+        "name": "Rainfall",
+        "detail": rain["instrument"],
+        "value": "no baseline",
+        "rank": "",
+        "state": "not_assessed",
+        "caveat": (rain.get("no_baseline_reason") or [""])[0],
+    }]
+
+    return {
+        "channel": "flood",
+        "region": lab,
+        "window": window,
+        "measured": "published " + _pretty(today),
+        "staleness": _staleness(payload["window"], today).replace(
+            "The rain fell", "The water was measured"),
+        "corroboration": (
+            "Whether this water is a flood has not been established. %s "
+            "Our own instruments measure rainfall and flood extent, and "
+            "neither can answer it." % _full_stop(corr.get("detail", ""))
+            if state == "unknown" else ""),
+        "path": "/floods/%s-%s/" % (payload["region_id"],
+                                    payload["window"]["end"]),
+        "claim": claim,
+        "standfirst": " ".join(stand),
+        "value": {
+            "display": ("%.2f\u00d7" % x) if ratio else _nth(rank),
+            "caption": ("the median for these %d days" % ndays) if ratio
+                       else "of %s years" % of,
+        },
+        "chart": {
+            "label": "Standing water over %s, by year" % window,
+            "series": [{"x": y, "y": v} for y, v in sorted(years.items())],
+            "current_x": cur,
+            "baseline": {"value": basis["median"], "label": "median"},
+            "unit": "",
+            "decimals": 0,
+            "header": "FLOOD EXTENT, %s \u00b7 %s \u00b7 ONE SLOT PER YEAR"
+                      % (window.upper(), means.upper()),
+            "lo": 0,
+            "noun": "year",
+            "noun_plural": "years",
+            "current_kicker": cur,
+            "diverging": False,
+            "annotations": [],
+        },
+        "source": {
+            "name": extent["instrument"],
+            "detail": extent["measures"],
+            "as_of": _pretty(payload["measured_to"]),
+        },
+        "instruments": rows,
+        "attribution": tag,
+        # FLO's notes, in FLO's order: the cloud-hidden peak first.
+        "body": list(payload.get("notes") or []),
+        "notes": {
+            "what_this_is": (
+                "Standing water outside a reference water mask, from the "
+                "NASA MODIS 3-day flood composite, over %s, compared with the "
+                "same %d days in each year since %s." % (window, ndays, first)),
+            "what_this_is_not": (
+                "Not a measurement of flood damage or of who was affected, and "
+                "not proof a flood occurred. A day cloud hid is not a dry day."),
         },
     }
 
