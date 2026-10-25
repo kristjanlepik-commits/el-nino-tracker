@@ -857,7 +857,18 @@ def main():
             s["value"] = cur_px
             s["basis"] = {"median": int(med_ct),
                           "x_median": round(cur_px / med_ct, 2) if med_ct else None,
-                          "rank": rank_of(cur_px, hist), "of": len(hist) + 1}
+                          "rank": rank_of(cur_px, hist), "of": len(hist) + 1,
+                          # The distribution the rank and median are computed from, so the
+                          # page's chart is drawn from the same numbers as the claim (design,
+                          # 25 Oct: the aggregation is floods' method, not design's to redo).
+                          "series": {**{str(y): int(fl[y]["flood_px"]) for y in yrs},
+                                     str(year): int(cur_px)},
+                          "series_observed_frac": {**{str(y): fl[y]["observed_frac"] for y in yrs},
+                                                   str(year): cur_obs},
+                          "value_definition": (
+                              f"flooded 250 m pixels, summed over the {expected} days of the window "
+                              f"(MODIS MCDWD 3-day composite, values 2 and 3); a pixel flooded on "
+                              f"several days counts once per day, so this is pixel-days, not area")}
             s["finding"] = classify(cur_px, list(hist), med_ct,
                                     len(cur_recs) >= due)
             s["verdict"] = "measured"
