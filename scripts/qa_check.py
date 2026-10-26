@@ -366,6 +366,27 @@ KNOWN_SNAPSHOT_GAPS = {
     # ENSO tracker chat, whose change it is, on 2026-08-24 with
     # Kristjan's go-ahead to publish; scripts/ is platform's.
     ("2026-08-24.json", "nmme.models"),
+
+    # 2026-10-26: the issue shipped without its wind row (tls-internal#48).
+    # Both weekend ERA5 refreshes timed out on the CDS queue (33 and 42
+    # minute waits against a 30-minute burst budget), and the refresher
+    # discarded the wind series that DID succeed because it committed
+    # all-or-nothing. Kristjan chose to leave the issue as published
+    # (D-343). Same set as 2026-09-07 plus cwwa_rate_14d, confirmed by
+    # running the check, not derived. Self-expiring: dead the moment the
+    # 2026-11-02 snapshot exists; Science retires it.
+    ("2026-10-26.json", "_freshness.era5_burst"),
+    ("2026-10-26.json", "_freshness.era5_wwe"),
+    ("2026-10-26.json", "physical_state.cwwa_analogs"),
+    ("2026-10-26.json", "physical_state.cwwa_domain"),
+    ("2026-10-26.json", "physical_state.cwwa_ms_days"),
+    ("2026-10-26.json", "physical_state.cwwa_rate_14d"),
+    ("2026-10-26.json", "physical_state.cwwa_series"),
+    ("2026-10-26.json", "physical_state.sources"),
+    ("2026-10-26.json", "physical_state.wwb_analogs"),
+    ("2026-10-26.json", "physical_state.wwb_domain"),
+    ("2026-10-26.json", "physical_state.wwb_events_detail"),
+    ("2026-10-26.json", "physical_state.wwb_events_since_mar1"),
 }
 
 
