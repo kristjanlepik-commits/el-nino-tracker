@@ -47,8 +47,14 @@ def _live(source, fn, budget_s, required):
 def main():
     failures = []
     for source, fn, budget, req in (
-        ("era5_wwe",   era5_wwe.fetch,   25 * 60, ("cwwa_ms_days", "cwwa_series")),
-        ("era5_burst", era5_burst.fetch, 30 * 60, ("events_since_mar1",)),
+        # 75 minutes each, raised from 25 and 30 on 2026-10-26
+        # (tls-internal#48): the CDS queue alone waited 33 and 42 minutes
+        # that weekend. This runs on the laptop at the weekend, off the
+        # Monday path (D-300), so a long wait costs nothing and a short
+        # budget cost a published wind row. The runner's own budgets in
+        # the fetchers are unchanged; it no longer pulls ERA5 at all.
+        ("era5_wwe",   era5_wwe.fetch,   75 * 60, ("cwwa_ms_days", "cwwa_series")),
+        ("era5_burst", era5_burst.fetch, 75 * 60, ("events_since_mar1",)),
     ):
         r = _live(source, fn, budget, req)
         if not r.ok or r.used_fallback:
