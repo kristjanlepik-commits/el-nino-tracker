@@ -55,7 +55,7 @@ import numpy as np
 import xarray as xr
 
 from ._common import (CACHE_DIR, FetchResult, now_iso, committed_result,
-                      _force_live)
+                      _force_live, on_runner, committed_stale_fallback)
 
 DATASET = "reanalysis-era5-pressure-levels"
 REGION = [5, 130, -5, 210]   # N, W, S, E in 0-360 longitude
@@ -206,6 +206,11 @@ def fetch() -> FetchResult:
         _c = committed_result("era5_wwe", max_age_days=10)
         if _c is not None:
             return _c
+        # Past the bound. The runner has no live path, so do not spend the
+        # timeout budget proving it (2026-10-26): publish the committed
+        # file labelled stale, or fail in seconds.
+        if on_runner():
+            return committed_stale_fallback("era5_wwe", fresh_days=10)
     try:
         today = date.today()
         end = today - timedelta(days=5)

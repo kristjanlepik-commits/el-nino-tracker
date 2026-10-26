@@ -70,7 +70,7 @@ import xarray as xr
 from scipy.ndimage import uniform_filter
 
 from ._common import (CACHE_DIR, FetchResult, now_iso, committed_result,
-                      _force_live)
+                      _force_live, on_runner, committed_stale_fallback)
 
 DATASET = "reanalysis-era5-pressure-levels"
 REGION = [10, 130, -10, 210]   # N, W, S, E in 0-360 longitude; wider than CWWA's 5N-5S
@@ -401,6 +401,11 @@ def fetch() -> FetchResult:
         _c = committed_result("era5_burst", max_age_days=10)
         if _c is not None:
             return _c
+        # Past the bound. The runner has no live path, so do not spend the
+        # timeout budget proving it (2026-10-26): publish the committed
+        # file labelled stale, or fail in seconds.
+        if on_runner():
+            return committed_stale_fallback("era5_burst", fresh_days=10)
     try:
         today = date.today()
         end = today - timedelta(days=5)

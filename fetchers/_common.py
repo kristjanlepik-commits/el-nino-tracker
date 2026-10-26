@@ -197,6 +197,53 @@ def committed_result(source: str, max_age_days: int,
     return r
 
 
+
+# ---- the runner's second line: a stale committed file, labelled ----
+#
+# 2026-10-26. committed_result above is the fresh path. Past its bound the
+# ERA5 fetchers used to try a live pull, which on the runner cannot
+# succeed: there is no .fetch_cache climatology there, so the pull spends
+# its whole safe_fetch budget and then finds no cache to fall back to.
+# That morning it cost 55 minutes of timeouts (25 for era5_wwe, 30 for
+# era5_burst) and published the issue with the CWWA row and the burst
+# paragraph missing, while a 14-day-old committed file sat in data/era5/.
+# The weekend refreshes had both timed out on a CDS queue wait.
+#
+# A labelled stale value beats a dropped row. ok=True with
+# used_fallback=True renders as "cached (issued ...)" in the source grid,
+# which is the date the reader needs. Bounded, not open-ended: CWWA
+# accumulates, so a month-old total understates it by more than a label
+# carries. 21 days is three missed weekly refreshes; past that the row
+# goes to placeholder as before, but in seconds rather than an hour.
+RUNNER_FALLBACK_MAX_DAYS = 21
+
+
+def on_runner() -> bool:
+    """True on GitHub Actions, which sets GITHUB_ACTIONS=true."""
+    return os.environ.get("GITHUB_ACTIONS", "").strip().lower() == "true"
+
+
+def committed_stale_fallback(source: str, fresh_days: int,
+                             max_age_days: int = RUNNER_FALLBACK_MAX_DAYS,
+                             today=None,
+                             directory: Optional[Path] = None) -> FetchResult:
+    """The committed file past its `fresh_days` bound but within
+    `max_age_days`, as a labelled fallback; otherwise ok=False saying why.
+    For a caller with no live path (the runner). Never raises."""
+    r = committed_result(source, max_age_days=max_age_days, today=today,
+                         directory=directory)
+    if r is None:
+        name = committed_path(source, directory).name
+        return FetchResult(source=source, ok=False, fetched_at=now_iso(),
+                           error=(f"no live path on the runner, and {name} is "
+                                  f"absent, unreadable or older than "
+                                  f"{max_age_days} days"))
+    r.used_fallback = True
+    r.error = (f"committed file past its {fresh_days}-day bound; no live "
+               f"path on the runner (no climatology cache)")
+    r.fallback_note = "stale, " + r.fallback_note
+    return r
+
 def write_committed(source: str, result: FetchResult,
                     directory: Optional[Path] = None) -> Path:
     """Persist a successful live result as the committed file. Same atomic
