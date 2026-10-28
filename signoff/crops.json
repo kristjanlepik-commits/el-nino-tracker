@@ -1,10 +1,10 @@
 {
   "channel": "crops",
-  "approved_hash": "7db91c5cb012c5df5d35e48cdb64ba395c1108594780370814229981b15568c2",
-  "approved_commit": "5938afa5e00a5f42e90ca4781498dbbf29a803de",
-  "approved_at": "2026-10-28T11:36:37+00:00",
+  "approved_hash": "40db126da28c7170028d22367a883007101e93122b3ee743bba57341091eae58",
+  "approved_commit": "61f8e9d78e89ba94042b8885cb48fae28b12dc3c",
+  "approved_at": "2026-10-28T11:38:47+00:00",
   "approved_by": "TLS Crops",
-  "note": "Design's bcf28cf1, text only, reviewed live and as a preview built at origin/main: the preview is byte-identical to the published pages, so this approves what readers see. 'Previous worst' appears 0 times and '0 was' 0 times; the twelve-year window is now named everywhere it applies (h1 'None had been at a record low in any of the last twelve years', '15 other countries also passed their worst of the last twelve years', 'higher than any of the last twelve years'). Every sentence is true as written. Numbers unchanged from the 2026-10-11 sign-off. CORRECTION TO MY OWN REPORT: the sentence counts selected_for_display (16), not all 23 places clearing recent_max; on that set 9 of 16 clear their all-time worst, not 11 of 23. The template auto-switches to prior_max fields when the next dekad emits them.",
+  "note": "Design's 61f8e9d7, editor's all-time ruling, reviewed live and as a preview built at origin/main; preview byte-identical to published. The others line now counts all places, not the display set: live reads '22 other countries also passed their worst of the last twelve years' (23 with Rwanda), true as written, and no calibration clause remains. It falls back to the twelve-year claim until the next dekad emits prior_max / prior_max_year / clears_own_prior_max, then switches. Numbers unchanged from the 2026-10-11 sign-off. QA clean.",
   "inputs": [
     "crops/build_country_pages.py",
     "crops/build_page.py",
