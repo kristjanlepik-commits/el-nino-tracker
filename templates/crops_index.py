@@ -103,55 +103,58 @@ TAG_SLUG = {"enso": "loaded", "non_enso": "notlink", "pending": "pending"}
 
 def _word(n: int) -> str:
     """Small numbers spelled out, because this one sits in prose."""
-    # 0 is "none": "0 was the previous worst" and "all but 0 of the last
-    # twelve years" were both live (Crops, 28 Oct).
-    return {0: "none", 1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six",
+    return {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six",
             7: "seven", 8: "eight", 9: "nine", 10: "ten", 11: "eleven",
             12: "twelve"}.get(n, str(n))
 
 
-# "PREVIOUS WORST" MEANS ALL-TIME, AND recent_max IS NOT. Crops, 28 Oct:
-# the page called chance_baseline.recent_max, the worst of the last twelve
-# years, "the previous worst", so 23 countries "passed their own previous
-# worst" when 11 had; Hungary read as past its worst with 2003 far worse
-# in our own data. Each sentence now says the claim its field supports:
-# prior_max (all 25 prior years, emitted by Crops from the next build) is
-# "the previous worst"; recent_max alone is "the worst of the last twelve
-# years". No sentence states the stronger claim from the weaker field.
+# "PREVIOUS WORST" MEANS ALL-TIME (editor's ruling, 28 Oct). The page
+# called chance_baseline.recent_max, the worst of the last twelve years,
+# "the previous worst": 23 countries "passed their own previous worst"
+# where 11 had, and Hungary read as past its worst with 2003 far worse in
+# our own data. Words below are editor's, as written. They read Crops'
+# all-time fields (prior_max, prior_max_year, clears_own_prior_max); until
+# a payload carries them, the sentences make only the twelve-year claim
+# recent_max supports, so no sentence states the stronger claim from the
+# weaker field. "Which is a normal number in any given week" is CUT on
+# both paths: its base rate was measured on the twelve-year clearance.
+def _has_prior(places):
+    return any((pl.get("chance_baseline") or {}).get("clears_own_prior_max")
+               is not None for pl in places)
+
+
 def _previous_worst(cb):
     if cb.get("prior_max") is not None:
-        n, yr = cb["prior_max"], cb.get("prior_max_year")
+        n = cb["prior_max"]
         if n == 0:
-            return "None had been at a record low in any earlier year."
-        return (f"The previous worst was {_word(n)}"
-                + (f", in {yr}." if yr else "."))
+            return "Before this year there had never been one."
+        return (f"The most at once before this year was {_word(n)}, "
+                f"in {cb.get('prior_max_year')}.")
     n = cb.get("recent_max")
     if not n:
         return "None had been at a record low in any of the last twelve years."
     return f"The worst of the last twelve years was {_word(n)}."
 
 
-def _others_sentence(rest):
-    """The other flagged countries, split by which worst they passed.
-    The "normal number" clause belongs to the twelve-year count: that is
-    the set its percentile was computed on (CRO)."""
-    n12 = len(rest)
-    have_prior = rest and all(cb.get("clears_own_prior_max") is not None
-                              for _, cb, _ in rest)
-    if not n12:
-        return ("No other country passed its worst of the last twelve "
-                "years, which is within the normal range for a week.")
-    twelve = (f"{_word(n12).capitalize()} other "
-              f"{'country' if n12 == 1 else 'countries'} also passed "
-              f"{'its' if n12 == 1 else 'their'} worst of the last twelve "
-              f"years, which is a normal number in any given week.")
-    if not have_prior:
-        return twelve
-    n_all = sum(1 for _, cb, _ in rest if cb.get("clears_own_prior_max"))
-    return (twelve + " " + (
-        f"{_word(n_all).capitalize()} of them also passed "
-        f"{'its' if n_all == 1 else 'their'} all-time previous worst."
-        if n_all else "None of them passed an older, all-time worst."))
+def _others_sentence(places, lead):
+    """How many OTHER countries passed their own previous worst. With the
+    all-time fields, the set is clears_own_prior_max over every place
+    (editor: today 11, not 23); without them, the twelve-year clearance."""
+    if _has_prior(places):
+        n = sum(1 for pl in places if pl.get("place") != lead and
+                (pl.get("chance_baseline") or {}).get("clears_own_prior_max"))
+        noun = "their own previous worst"
+        single = "its own previous worst"
+    else:
+        n = sum(1 for pl in places if pl.get("place") != lead and
+                (pl.get("chance_baseline") or {}).get("clears_own_recent_max"))
+        noun = "their worst of the last twelve years"
+        single = "its worst of the last twelve years"
+    if n == 0:
+        return f"No other country passed {single}."
+    if n == 1:
+        return f"One other country also passed {single}."
+    return f"{_word(n).capitalize()} other countries also passed {noun}."
 
 
 def _and(names) -> str:
@@ -1628,13 +1631,14 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
         # "flagged, and the rest ordinary" overstates the set. CRO's
         # correction, and the finer version of what I had proposed.
         others = len(clusters) - 1
-        flagged = _others_sentence(clusters[1:])
+        flagged = _others_sentence(places, lc)
         opening = flagged + " "
     else:
         headline = (f"No country has more cropland at a record low than "
                     f"its own recent history explains.")
-        opening = (f"No country passed its worst of the last twelve years, "
-                   f"which is within the normal range for a week. ")
+        opening = ("No country passed its own previous worst. "
+                   if _has_prior(places) else
+                   "No country passed its worst of the last twelve years. ")
 
     # NO ADJECTIVE, in either direction. This said "Globally that is an
     # ordinary week", and 81 against a typical 59 is the 83rd percentile,
