@@ -103,9 +103,55 @@ TAG_SLUG = {"enso": "loaded", "non_enso": "notlink", "pending": "pending"}
 
 def _word(n: int) -> str:
     """Small numbers spelled out, because this one sits in prose."""
-    return {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six",
+    # 0 is "none": "0 was the previous worst" and "all but 0 of the last
+    # twelve years" were both live (Crops, 28 Oct).
+    return {0: "none", 1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six",
             7: "seven", 8: "eight", 9: "nine", 10: "ten", 11: "eleven",
             12: "twelve"}.get(n, str(n))
+
+
+# "PREVIOUS WORST" MEANS ALL-TIME, AND recent_max IS NOT. Crops, 28 Oct:
+# the page called chance_baseline.recent_max, the worst of the last twelve
+# years, "the previous worst", so 23 countries "passed their own previous
+# worst" when 11 had; Hungary read as past its worst with 2003 far worse
+# in our own data. Each sentence now says the claim its field supports:
+# prior_max (all 25 prior years, emitted by Crops from the next build) is
+# "the previous worst"; recent_max alone is "the worst of the last twelve
+# years". No sentence states the stronger claim from the weaker field.
+def _previous_worst(cb):
+    if cb.get("prior_max") is not None:
+        n, yr = cb["prior_max"], cb.get("prior_max_year")
+        if n == 0:
+            return "None had been at a record low in any earlier year."
+        return (f"The previous worst was {_word(n)}"
+                + (f", in {yr}." if yr else "."))
+    n = cb.get("recent_max")
+    if not n:
+        return "None had been at a record low in any of the last twelve years."
+    return f"The worst of the last twelve years was {_word(n)}."
+
+
+def _others_sentence(rest):
+    """The other flagged countries, split by which worst they passed.
+    The "normal number" clause belongs to the twelve-year count: that is
+    the set its percentile was computed on (CRO)."""
+    n12 = len(rest)
+    have_prior = rest and all(cb.get("clears_own_prior_max") is not None
+                              for _, cb, _ in rest)
+    if not n12:
+        return ("No other country passed its worst of the last twelve "
+                "years, which is within the normal range for a week.")
+    twelve = (f"{_word(n12).capitalize()} other "
+              f"{'country' if n12 == 1 else 'countries'} also passed "
+              f"{'its' if n12 == 1 else 'their'} worst of the last twelve "
+              f"years, which is a normal number in any given week.")
+    if not have_prior:
+        return twelve
+    n_all = sum(1 for _, cb, _ in rest if cb.get("clears_own_prior_max"))
+    return (twelve + " " + (
+        f"{_word(n_all).capitalize()} of them also passed "
+        f"{'its' if n_all == 1 else 'their'} all-time previous worst."
+        if n_all else "None of them passed an older, all-time worst."))
 
 
 def _and(names) -> str:
@@ -728,7 +774,7 @@ def _country_group(country, regions, cb=None, units=None) -> str:
     n = len(regions)
     if cb and units:
         # Above its own recent maximum: say so here, in its own terms.
-        sub = (f"{n} of {units} regions, against a previous high of "
+        sub = (f"{n} of {units} regions, against a twelve-year high of "
                f"{cb['recent_max']} and a recent average of "
                f"{cb['recent_mean']:g}")
         cls = " up"
@@ -1574,8 +1620,7 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
         lc, lcb, lcu = clusters[0]
         headline = (f"{_word(lcb['this_year']).capitalize()} of {h(lc)}&rsquo;s "
                     f"{lcu} crop regions are at a record low. "
-                    f"{_word(lcb['recent_max']).capitalize()} was the "
-                    f"previous worst.")
+                    + _previous_worst(lcb))
         # BOTH halves, because both are true and each alone misleads.
         # Sudan's 3 really does beat its previous 2, so calling the five
         # noise understates Sudan; and six countries clearing their own
@@ -1583,22 +1628,13 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
         # "flagged, and the rest ordinary" overstates the set. CRO's
         # correction, and the finer version of what I had proposed.
         others = len(clusters) - 1
-        if others == 1:
-            flagged = ("One other country also passed its own previous "
-                       "worst, which is a normal number in any given week.")
-        elif others:
-            flagged = (f"{_word(others).capitalize()} other countries also "
-                       f"passed their own previous worst, which is a normal "
-                       f"number in any given week.")
-        else:
-            flagged = ("No other country passed its own previous worst, "
-                       "which is within the normal range for a week.")
+        flagged = _others_sentence(clusters[1:])
         opening = flagged + " "
     else:
         headline = (f"No country has more cropland at a record low than "
                     f"its own recent history explains.")
-        opening = (f"No country passed its own previous worst, which is "
-                   f"within the normal range for a week. ")
+        opening = (f"No country passed its worst of the last twelve years, "
+                   f"which is within the normal range for a week. ")
 
     # NO ADJECTIVE, in either direction. This said "Globally that is an
     # ordinary week", and 81 against a typical 59 is the 83rd percentile,
@@ -1617,8 +1653,10 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
     n_years = agg.get("recent_years_counted")
     rank_clause = ""
     if n_below is not None and n_years:
-        rank_clause = (f", higher than all but {_word(n_years - n_below)} "
-                       f"of the last {_word(n_years)} years")
+        rank_clause = ((f", higher than any of the last {_word(n_years)} years")
+                       if n_years - n_below == 0 else
+                       (f", higher than all but {_word(n_years - n_below)} "
+                        f"of the last {_word(n_years)} years"))
     lede = opening + (
         f"{len(hits)} crop regions worldwide are at their worst on record "
         # No decimal on an average of counts. 59.2 reads more precise
