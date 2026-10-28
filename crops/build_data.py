@@ -2579,6 +2579,7 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
         "instrument_disagreement": instrument_disagreement(places),
         "isthmus_comparison": isthmus_comparison(places),
         "country_record_baseline": country_record_baseline(places),
+        "prior_max_clearance_baseline": prior_max_clearance_baseline(places),
         "places": places,
     }
 
@@ -2993,6 +2994,77 @@ def country_record_baseline(places: list) -> dict:
                   "records cluster within a country, so the observed count "
                   "sits below it in most years without that meaning a calm "
                   "season.",
+    }
+
+def prior_max_clearance_baseline(places: list) -> dict:
+    """How many countries beat every other year of their own record, per year.
+
+    THE BASE RATE FOR clears_own_prior_max, asked for by editor on
+    2026-10-28 after the index switched from the twelve-year window to
+    the all-time one. The old sentence called the twelve-year clearance
+    count "a normal number in any given week"; that base rate does not
+    transfer, so editor cut the sentence until this existed.
+
+    Leave-one-out, the channel's own method. For every year, count the
+    countries whose number of regions at their worst is STRICTLY greater
+    than in each of their other 25 years. For the current year that is
+    exactly clears_own_prior_max, so this year and every prior year are
+    measured the same way. A tie counts against: a year that only equals
+    another is not that country's worst.
+    """
+    per_year, n = {}, 0
+    for q in places:
+        s = {int(y): v for y, v in ((q.get("chance_baseline") or {})
+                                    .get("series") or {}).items()}
+        if len(s) < 26:
+            continue
+        n += 1
+        for y, v in s.items():
+            if v > max(w for z, w in s.items() if z != y):
+                per_year[y] = per_year.get(y, 0) + 1
+    if not n:
+        return {"available": False}
+    years = sorted({int(y) for q in places for y in
+                    ((q.get("chance_baseline") or {}).get("series") or {})})
+    per_year = {y: per_year.get(y, 0) for y in years}
+    cur = max(years)
+    prior = sorted(per_year[y] for y in years if y != cur)
+    k = len(prior)
+    med = prior[k // 2] if k % 2 else (prior[k // 2 - 1] + prior[k // 2]) / 2
+    rank = 1 + sum(1 for v in prior if v > per_year[cur])
+    above = sorted(y for y in years if y != cur and per_year[y] > per_year[cur])
+    W = {0: "none", 1: "one", 2: "two", 3: "three", 4: "four", 5: "five"}
+    return {
+        "available": True,
+        "_what": "countries whose count of regions at their worst on record "
+                 "is higher than in every other year of their own 26, per "
+                 "year, at this dekad",
+        "countries_measured": n,
+        "series": {str(y): per_year[y] for y in years},
+        "this_year": per_year[cur],
+        "prior_mean": round(sum(prior) / k, 1),
+        "prior_median": med,
+        "prior_min": prior[0],
+        "prior_max": prior[-1],
+        "years_above_this_one": above,
+        "rank_among_years": rank,
+        "of_years": len(years),
+        "ties_count_against": True,
+        "statement": (
+            f"{per_year[cur]} countries have more crop regions at their "
+            f"worst on record than in any other year of their own 26. In "
+            f"the 25 years before, the median was {med:g} and "
+            + (f"only {W.get(len(above), len(above))} year"
+               f"{'s' if len(above) != 1 else ''}, "
+               f"{', '.join(map(str, above))}, had more."
+               if above else "no year had more.")),
+        "is_not": "a statement about why the earliest years are high. "
+                  "2001, 2002 and 2003 carry the largest counts in the "
+                  "record at several dekads, here as in "
+                  "chance_baseline_aggregate. Whether that is real or a "
+                  "start-of-record effect in the source is not established, "
+                  "so do not describe this year as the worst since a date "
+                  "inside that span without saying so.",
     }
 
 def main() -> int:
