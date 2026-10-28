@@ -47,7 +47,59 @@ LOG = HERE / "data" / "publication_log.json"
 GRACE_DAYS = 3
 
 
+SIGNOFF = HERE.parent / "signoff" / "crops.json"
+
+# A dekad is ten days. One full cycle of a held sign-off is ordinary: the
+# payload lands and a person has not looked yet. Two is not.
+SIGNOFF_GRACE_DAYS = 10
+
+
+def rendered_lag():
+    """(approved dekad, held dekad, days since approval) or None.
+
+    THE SECOND HALF OF THIS CHECK, added 2026-10-28. Everything below it
+    compares ASAP against the PAYLOAD. The payload was current for a
+    month while the page was not: crops sat blocked on D-200 sign-off
+    from 2026-09-20 to 2026-10-28, CI committed four dekads that never
+    rendered, the live page served dekad 09-01 labelled "15 days ago"
+    when it was 48, and this check printed "up to date" every morning.
+    D-303's rule, applied to my own check: a freshness signal covers
+    every consumer of the thing it measures, or it must not say
+    "up to date".
+
+    The marker records the commit it approved at, so the dekad a reader
+    actually sees is readable from git rather than from the site.
+    """
+    if not SIGNOFF.exists():
+        return None
+    mark = json.loads(SIGNOFF.read_text())
+    commit, at = mark.get("approved_commit"), mark.get("approved_at")
+    if not commit or not at:
+        return None
+    import subprocess
+    out = subprocess.run(
+        ["git", "show", f"{commit}:crops/data/stress_current.json"],
+        cwd=HERE.parent, capture_output=True, text=True)
+    if out.returncode != 0:
+        return None
+    approved = json.loads(out.stdout)["dekad"]
+    held = json.loads(PAYLOAD.read_text())["dekad"]
+    days = (dt.date.today() - dt.datetime.fromisoformat(at).date()).days
+    return approved, held, days
+
+
 def main() -> int:
+    lag = rendered_lag()
+    if lag:
+        approved, held, days = lag
+        if approved < held and days > SIGNOFF_GRACE_DAYS:
+            print(f"::error::crops pipeline: the payload holds {held} but "
+                  f"readers see {approved}, because sign-off has not run "
+                  f"for {days} day(s). This is a SIGN-OFF block, not a "
+                  f"collection failure: the data is current and the page "
+                  f"is not. Owner CROPS: review a preview build and run "
+                  f"scripts/approve_channel.py crops.")
+            return 1
     if not PAYLOAD.exists() or not LOG.exists():
         print("crops pipeline: payload or publication log missing, "
               "cannot check")
