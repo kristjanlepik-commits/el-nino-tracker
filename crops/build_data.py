@@ -2073,6 +2073,28 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
         empirical["clears_own_recent_max"] = bool(
             recent and empirical["this_year"] > max(recent))
 
+        # ALL 25 PRIOR YEARS, beside the twelve-year window, 2026-10-28.
+        # recent_max is the worst since 2014 and the index rendered it as
+        # "the previous worst". On dekad 2026-10-11 that told readers 23
+        # countries had passed their own previous worst when 11 had:
+        # Hungary 3 against 17 in 2003, Kenya 9 against 16 in 2009. The
+        # recent field is right for the bar it was built for; the sentence
+        # needed this one. Emitted with the year so a renderer can name it.
+        prior = {y: v for y, v in series.items()
+                 if BASE_FIRST <= y <= BASE_LAST}
+        if prior:
+            pm = max(prior.values())
+            empirical["prior_max"] = int(pm)
+            empirical["prior_max_year"] = (
+                max(y for y, v in prior.items() if v == pm) if pm else None)
+            empirical["clears_own_prior_max"] = bool(
+                empirical["this_year"] > pm)
+            empirical["prior_max_means"] = (
+                "the most admin units at their worst on record in any ONE "
+                "of the 25 prior years at this dekad, 2001-2025. Not "
+                "recent_max, which is 2014-2025 only. 'Previous worst' "
+                "without a window means this field.")
+
         # Ordering key, for design, replacing a floor they wrote
         # themselves. Neither of their two suggestions survives the data:
         # a share excess ranks China's 0-to-1 above Turkiye's 2-to-4
