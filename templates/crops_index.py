@@ -157,6 +157,25 @@ def _others_sentence(places, lead):
     return f"{_word(n).capitalize()} other countries also passed {noun}."
 
 
+def _base_rate_sentence(doc, places):
+    """Editor's sentence after the others line, from Crops'
+    prior_max_clearance_baseline: "Eleven in all. A typical year has
+    three." this_year counts the lead country too, so it is "in all", never
+    set against "N other". Only on the all-time path and only at two or
+    more: at one, the others line already says no other country did. No
+    rank, on purpose: "4th of 26" invites "most since 2003", and Crops'
+    is_not says the early years may be a start-of-record effect."""
+    pb = doc.get("prior_max_clearance_baseline") or {}
+    if not (pb.get("available") and _has_prior(places)):
+        return ""
+    n, med = pb.get("this_year"), pb.get("prior_median")
+    if n is None or med is None or n < 2:
+        return ""
+    m = int(med + 0.5)
+    return (f"{_word(n).capitalize()} in all. A typical year has "
+            f"{'none' if m == 0 else _word(m)}.")
+
+
 def _and(names) -> str:
     return names[0] if len(names) == 1 else " and ".join(names)
 
@@ -1632,6 +1651,9 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
         # correction, and the finer version of what I had proposed.
         others = len(clusters) - 1
         flagged = _others_sentence(places, lc)
+        _br = _base_rate_sentence(doc, places)
+        if _br:
+            flagged += " " + _br
         opening = flagged + " "
     else:
         headline = (f"No country has more cropland at a record low than "
