@@ -1,10 +1,10 @@
 {
   "channel": "crops",
-  "approved_hash": "85b2420bd3888527e9397c0e156df3b8809cea8928138119d827840046bab25e",
-  "approved_commit": "dbfe2dad2f17e22b6f324543dd5898741cd9c858",
-  "approved_at": "2026-10-28T11:04:45+00:00",
-  "approved_by": "CRO",
-  "note": "Clears a month-long block: crops held on sign-off since 2026-09-20 while CI committed dekads 09-11, 09-21, 10-01 and 10-11, so the live page served dekad 09-01 labelled '15 days ago' when it was 48. Reviewed a preview built in a worktree at origin/main (the shared tree is 45 commits behind): dekad 2026-10-11, 165 places, URL set unchanged, boundary notice at the top, age line correct ('8 days ago'), isthmus sentence assembled from isthmus_comparison (7 of 8 in worst four, 2 worse in 2015), QA clean. ONE PRE-EXISTING DEFECT, NOT A CONDITION, ALREADY LIVE SINCE AUGUST: templates/crops_index.py labels chance_baseline.recent_max (worst of the last twelve years) as 'the previous worst'. 23 countries are said to have 'passed their own previous worst'; only 11 beat their all-time prior worst (Hungary 3 now vs 17 in 2003, Kenya 9 vs 16 in 2009, France 4 vs 6 in 2003). The headline's '0 was the previous worst' for Rwanda is the same defect: 2002 had one region at record. The live page carries the identical label, so holding this update protects no reader from it; reported to design and editor separately.",
+  "approved_hash": "7db91c5cb012c5df5d35e48cdb64ba395c1108594780370814229981b15568c2",
+  "approved_commit": "5938afa5e00a5f42e90ca4781498dbbf29a803de",
+  "approved_at": "2026-10-28T11:36:37+00:00",
+  "approved_by": "TLS Crops",
+  "note": "Design's bcf28cf1, text only, reviewed live and as a preview built at origin/main: the preview is byte-identical to the published pages, so this approves what readers see. 'Previous worst' appears 0 times and '0 was' 0 times; the twelve-year window is now named everywhere it applies (h1 'None had been at a record low in any of the last twelve years', '15 other countries also passed their worst of the last twelve years', 'higher than any of the last twelve years'). Every sentence is true as written. Numbers unchanged from the 2026-10-11 sign-off. CORRECTION TO MY OWN REPORT: the sentence counts selected_for_display (16), not all 23 places clearing recent_max; on that set 9 of 16 clear their all-time worst, not 11 of 23. The template auto-switches to prior_max fields when the next dekad emits them.",
   "inputs": [
     "crops/build_country_pages.py",
     "crops/build_page.py",

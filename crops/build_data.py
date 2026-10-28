@@ -3064,7 +3064,13 @@ def prior_max_clearance_baseline(places: list) -> dict:
                   "chance_baseline_aggregate. Whether that is real or a "
                   "start-of-record effect in the source is not established, "
                   "so do not describe this year as the worst since a date "
-                  "inside that span without saying so.",
+                  "inside that span without saying so. AND IT COUNTS ALL "
+                  "places with a full series. The index's 'K of them also "
+                  "passed their all-time worst' counts only places "
+                  "selected_for_display, a subset chosen by this year's own "
+                  "data that cannot be reconstructed for earlier years. "
+                  "Grade this_year against this series, never K: on dekad "
+                  "2026-10-11 this_year is 11 and K is 9 of 16.",
     }
 
 def main() -> int:
