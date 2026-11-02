@@ -3560,10 +3560,6 @@ def chart_prob_history(briefs_dir):
 
 _FINDING_SAYS_SETTLED = False
 _FINDING_SAYS_OPEN = False
-# How far below the series record the ocean lede may still say "near".
-# A tenth of a degree is about 3% of the current anomaly, a few times the
-# month-to-month revision in CPC's estimate.
-NEAR_RECORD_MARGIN_C = 0.10
 
 
 def _finding_line(headline, phys):
@@ -3702,8 +3698,9 @@ def _ocean_lede(phys):
         # against September's record +3.39, the sentence withdrew itself as
         # designed, and the empty finding took /elnino/ down with it (its
         # meta description is this line). "Near" is still guarded: past
-        # NEAR_RECORD_MARGIN_C below the record the claim goes, not softens.
-        if top - now_v > NEAR_RECORD_MARGIN_C:
+        # HC_MATERIAL_MARGIN_C below the record the claim goes, not softens.
+        # The house margin, so this line and design's heat lede agree.
+        if top - now_v > HC_MATERIAL_MARGIN_C:
             return ""
         first = f"Heat beneath the Pacific's surface is near a {years}-year record."
     else:
