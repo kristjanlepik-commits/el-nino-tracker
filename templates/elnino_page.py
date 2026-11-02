@@ -353,6 +353,58 @@ def _issue_lede(di, briefs_href):
         placed_elsewhere=["rung_note_label", "rung_note"])["issue_full_lede"]
 
 
+_MONTHS = ("January", "February", "March", "April", "May", "June", "July",
+           "August", "September", "October", "November", "December")
+
+# Editor's to replace. Used only when the generated finding is empty.
+ELNINO_FALLBACK_DESC = ("El Ni\u00f1o 2026-27, week by week: agency forecasts, "
+                        "ocean observations, and the chance of each peak.")
+
+
+def _heat_lede(phys):
+    """The ocean-heat lede, computed from the series every build.
+
+    It was typed, twice: "at the highest value in the 47-year record" went
+    false when October (+3.36) came in under September (+3.39), and its
+    replacement "near a 47-year record" (Science, 5439a5b, D-344) would go
+    false the same way at the next move. "Roughly three months of seasonal
+    build still ahead" was written against September. Now: the record
+    month says highest; within HC_MATERIAL_MARGIN_C (0.10 C, the house
+    rule for a claimable difference) says near; otherwise below. The 1997
+    comparison is read from the same series."""
+    import run_brief as _R
+    ser = {k: v for k, v in (phys.get("heat_content_series") or {}).items()
+           if isinstance(v, (int, float))}
+    month = phys.get("heat_content_data_month")
+    if not ser or month not in ser:
+        return "<strong>Subsurface heat, 0 to 300 m.</strong>"
+    keys = sorted(ser)
+    span = int(keys[-1][:4]) - int(keys[0][:4])
+    cur = ser[month]
+    rec_k = max(ser, key=lambda k: (ser[k], k))
+    rec_v = ser[rec_k]
+
+    def mon(k):
+        return f"{_MONTHS[int(k[5:7]) - 1]} {k[:4]}"
+    if rec_k == month:
+        lead = (f"<strong>Subsurface heat is at the highest value in the "
+                f"{span}-year record:</strong> {cur:+.2f}&nbsp;°C in {mon(month)}.")
+    elif rec_v - cur <= _R.HC_MATERIAL_MARGIN_C:
+        lead = (f"<strong>Subsurface heat is near a {span}-year record:"
+                f"</strong> {cur:+.2f}&nbsp;°C in {mon(month)}, against "
+                f"{rec_v:+.2f} in {mon(rec_k)}.")
+    else:
+        lead = (f"<strong>Subsurface heat is {cur:+.2f}&nbsp;°C in "
+                f"{mon(month)}</strong>, below the {span}-year record of "
+                f"{rec_v:+.2f} set in {mon(rec_k)}.")
+    y97 = {k: v for k, v in ser.items() if k.startswith("1997")}
+    if y97:
+        k97 = max(y97, key=lambda k: y97[k])
+        lead += (f" {'Above' if cur > y97[k97] else 'Below'} 1997&rsquo;s own "
+                 f"peak of {y97[k97]:+.2f}, in {mon(k97)}.")
+    return lead
+
+
 def _heat_rank(fetched):
     """" Rank r of n months, first to last.", computed from the series.
 
@@ -534,7 +586,13 @@ def render(fetched, meta, brief_date, root_prefix="../",
     # a backslash on 3.9, and the finding needs its markup stripped before
     # it can be a meta description.
     _og_title = "El Ni\u00f1o 2026-27 \u00b7 " + SITE_NAME
-    _og_desc = _plain(_finding_line(headline, phys))
+    # NEVER EMPTY (tls-internal#49). The generated finding withdraws its
+    # record claim when the data stops supporting it, which is correct, and
+    # it was also this page's meta description: head_meta raised on the
+    # empty string and on 2 Nov every shell page rolled back. A withdrawn
+    # claim now falls back to a fixed line rather than taking the page down.
+    _og_desc = (_plain(_finding_line(headline, phys)).strip()
+                or ELNINO_FALLBACK_DESC)
 
     # The curve when the series is there, the bars only until it is. The
     # series landed in the 08-10 snapshot (science, 35034e5), so the curve
@@ -550,10 +608,7 @@ def render(fetched, meta, brief_date, root_prefix="../",
     observed = ""
     if heat:
         observed += (
-            '<p class="lede"><strong>Subsurface heat is near a 47-year '
-            'record.</strong> Above 1997\'s own October peak '
-            'of +2.56, with roughly three months of seasonal build still '
-            'ahead.</p>'
+            '<p class="lede">' + _heat_lede(phys) + '</p>'
             '<div class="tag">Ocean heat, 0 to 300 m &middot; equatorial '
             'Pacific &middot; °C anomaly through each development year</div>'
             + heat)
