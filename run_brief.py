@@ -3560,6 +3560,10 @@ def chart_prob_history(briefs_dir):
 
 _FINDING_SAYS_SETTLED = False
 _FINDING_SAYS_OPEN = False
+# How far below the series record the ocean lede may still say "near".
+# A tenth of a degree is about 3% of the current anomaly, a few times the
+# month-to-month revision in CPC's estimate.
+NEAR_RECORD_MARGIN_C = 0.10
 
 
 def _finding_line(headline, phys):
@@ -3692,10 +3696,19 @@ def _ocean_lede(phys):
         return ""
     months = len(series)
     years = months // 12
-    if max(series.values()) > now_v:            # no longer the record
-        return ""
-    first = (f"The Pacific has not been this warm beneath the surface in the "
-             f"{years} years we have measured it.")
+    top = max(series.values())
+    if top > now_v:
+        # NEAR, NOT AT (Kristjan, 2026-11-02). October came in at +3.36
+        # against September's record +3.39, the sentence withdrew itself as
+        # designed, and the empty finding took /elnino/ down with it (its
+        # meta description is this line). "Near" is still guarded: past
+        # NEAR_RECORD_MARGIN_C below the record the claim goes, not softens.
+        if top - now_v > NEAR_RECORD_MARGIN_C:
+            return ""
+        first = f"Heat beneath the Pacific's surface is near a {years}-year record."
+    else:
+        first = (f"The Pacific has not been this warm beneath the surface in the "
+                 f"{years} years we have measured it.")
 
     # The analog comparison, from the analogs the payload names.
     analogs = [y for y in (phys.get("heat_content_analogs_same_month") or {})]

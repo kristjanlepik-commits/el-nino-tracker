@@ -550,8 +550,8 @@ def render(fetched, meta, brief_date, root_prefix="../",
     observed = ""
     if heat:
         observed += (
-            '<p class="lede"><strong>Subsurface heat is at the highest value '
-            'in the 47-year record.</strong> Above 1997\'s own October peak '
+            '<p class="lede"><strong>Subsurface heat is near a 47-year '
+            'record.</strong> Above 1997\'s own October peak '
             'of +2.56, with roughly three months of seasonal build still '
             'ahead.</p>'
             '<div class="tag">Ocean heat, 0 to 300 m &middot; equatorial '
