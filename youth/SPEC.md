@@ -463,3 +463,9 @@ because rounding makes the printed figures disagree in 22 of 84 rows
 - **C5 and France:** EOS checked all five rows; every row had corrections, so
   "passed" means checked and corrected. France's fixes are pushed; its corrected
   map still awaits Kristjan, so use its findings, not its map.
+
+**Publishing needs, from platform (2026-11-05).** By about 16 November, on
+main: template and payload paths for `SIGNOFF_INPUTS` (a listed file missing
+from main halts every channel's publish), and the build command, for a build
+step in `publish_all.py` plus `CHANNEL_OF_STEP` and `CHANNEL_PATH_PREFIXES`
+entries. Sign-off is `approve_channel.py youth` after looking at a preview.
