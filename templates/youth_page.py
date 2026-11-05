@@ -119,6 +119,7 @@ h1{font-weight:400;font-size:36px;line-height:1.14;letter-spacing:-.016em;
 .ymap a:hover .c,.ymap a:focus .c{stroke:var(--ink);stroke-width:1.6}
 .ymap .video{stroke:var(--ink);stroke-width:1;stroke-dasharray:3 2}
 .ymap .o{fill:none;stroke:var(--rule);stroke-width:.6}
+.ywho{max-width:62ch;margin:16px 0 0;font-size:17.5px}
 .yread{font-family:var(--mono);font-size:12.5px;min-height:1.7em;color:var(--ink);margin:8px 0 0}
 .ylg{display:flex;flex-wrap:wrap;gap:6px 14px;font-family:var(--mono);font-size:11px;
  color:var(--ink-faint);margin:10px 0 0;align-items:center}
@@ -209,11 +210,19 @@ def _key(young_label, older_label):
 def render_map(doc, geo, root_prefix="../"):
     M = doc["measure"]
     eu = M["comparator"]["young_pct"]
-    copy = copydeck.render(
-        "youth", {"eu_avg": int(eu + 0.5)}, wanted=["map_lede"],
-        placed_elsewhere=["map_title", "block2_name", "block3_name", "block4_name",
-                          "block5_name", "block6_name", "block7_name", "block8_name",
-                          "not_checked", "not_measured"])
+    # EU27 rows only, for the range and the counts: the UK is on the map but
+    # is not one of the 27 the sentences name.
+    eu_rows = [c for c in doc["countries"].values() if c.get("in_eu27_average")]
+    lo_c = min(eu_rows, key=lambda c: c["map_value_pct"])
+    hi_c = max(eu_rows, key=lambda c: c["map_value_pct"])
+    lede = _slot("map_lede", eu_avg=int(eu + 0.5),
+                 min_pct=_whole(lo_c, "map_value_pct"), min_name=lo_c["name"],
+                 max_pct=_whole(hi_c, "map_value_pct"), max_name=hi_c["name"])
+    young_hi = sorted(c["name"] for c in eu_rows if c.get("gap_read") == "young higher")
+    n_older = sum(1 for c in eu_rows if c.get("gap_read") == "older higher")
+    who = (_slot("older_some", n_young_higher=len(young_hi),
+                 young_higher_names=", ".join(young_hi), n_older_higher=n_older)
+           if young_hi else _slot("older_none", n_older_higher=n_older))
     title = _plain_slot("map_title")
     W, H = 800, 802  # the frame's own aspect, so nothing is stretched
     by_name = {f["properties"]["name"]: f for f in geo["features"]}
@@ -267,24 +276,25 @@ def render_map(doc, geo, root_prefix="../"):
             f'<div class="yrow" title="{h(tip)}"><span><a href="{iso.lower()}/">{h(c["name"])}</a>{mark}{out}</span>'
             f'<span class="n">{_whole(c, "map_value_pct")}%</span>'
             + _strip(c["map_value_pct"], c.get("older_pct"), eu)
-            + f'<span class="r">{h(c.get("gap_read") or "")}</span></div>')
+            + f'<span class="r">{h(_gap_words(c.get("gap_read")))}</span></div>')
     limits = "".join(f"<li>{h(x)}</li>" for x in M.get("limits", []))
     body = (
-        f'<h1>{h(title)}</h1><p class="ylede">{copy["map_lede"]}</p>'
+        f'<h1>{h(title)}</h1><p class="ylede">{lede}</p>'
         + svg + '<p class="yread" id="yread" aria-live="polite"></p>'
-        f'<div class="ylg">{legend}<span><i class="dv"></i>interviewed by video in one wave</span>'
+        f'<div class="ylg">{legend}<span><i class="dv"></i>{h(_plain_slot("video_legend"))}</span>'
         f'<span>% of people {h(M["young"])}</span></div>'
-        f'<div class="ysec"><h2>Every country</h2>'
+        f'<p class="ywho">{who}</p>'
+        f'<div class="ysec"><h2>{h(_plain_slot("every_country_heading"))}</h2>'
         + _key(M["young"], M["older"]) + "".join(rows)
-        + (f'<p class="ymono" style="margin-top:12px">* Not in the EU average. &dagger; {h(doc.get("interview_mode_note",""))}</p>')
+        + (f'<p class="ymono" style="margin-top:12px">* Not in the EU average. &dagger; {h(_plain_slot("video_note"))}</p>')
         + '</div>'
-        f'<div class="ysec"><h2>What this can and cannot say</h2><ul class="ylist">{limits}</ul>'
-        f'<p class="ymono" style="margin-top:12px">{h(M["wording"])}. {h(M["source"])} {h(M.get("display",""))}</p></div>')
+        f'<div class="ysec"><h2>{h(_plain_slot("limits_heading"))}</h2><ul class="ylist">{limits}</ul>'
+        f'<p class="ymono" style="margin-top:12px">{h(M["wording"])}. {h(M["source"])}</p></div>')
     script = """<script>(function(){var r=document.getElementById('yread');
 if(!r)return;document.querySelectorAll('.ymap a').forEach(function(a){
 function s(){r.innerHTML=a.getAttribute('data-r')}
 a.addEventListener('mouseenter',s);a.addEventListener('focus',s);});})();</script>"""
-    return _page(title, _strip_tags(copy["map_lede"]), "/youth/", root_prefix, body, script)
+    return _page(title, _strip_tags(lede), "/youth/", root_prefix, body, script)
 
 
 def dots_join(dots):
@@ -298,6 +308,30 @@ def _strip_tags(s):
 
 def _plain_slot(name):
     return " ".join(copydeck.load("youth")[name].split())
+
+
+def _slot(name, **values):
+    """One slot with figures, through copydeck's checks (a placeholder with
+    no value, or a value no slot uses, refuses the build)."""
+    others = [k for k in copydeck.load("youth") if k != name]
+    return copydeck.render("youth", values, wanted=[name],
+                           placed_elsewhere=others)[name]
+
+
+# gap_read is TLS Youth's enum; what a reader sees is the editor's.
+_GAP_SLOT = {"older higher": "gap_older_higher",
+             "young higher": "gap_young_higher",
+             "no clear difference": "gap_no_clear"}
+
+
+def _gap_words(read):
+    """Refuses an unknown value: printing the raw enum is how "older higher"
+    reached the page in the first place."""
+    if not read:
+        return ""
+    if read not in _GAP_SLOT:
+        raise SystemExit(f"gap_read {read!r} has no words in copy/youth.md")
+    return _plain_slot(_GAP_SLOT[read])
 
 
 def _dashed(text=None):
@@ -347,7 +381,7 @@ def render_country(c, entry, doc, root_prefix="../../", show_grey=False):
             + _strip(r.get("young_pct"), r.get("older_pct"), cmp_, height=30)
             + f'<div class="r">Young {_whole(r, "young_pct")}% &middot; older {_whole(r, "older_pct")}%'
             + (f' &middot; young Europeans {cmp_w}%' if cmp_w is not None else "")
-            + f' &middot; {h(r.get("gap_read") or "")}</div></div>')
+            + f' &middot; {h(_gap_words(r.get("gap_read")))}</div></div>')
     block2 = _key(c["young"], c["older"]) + "".join(rows) if rows else _dashed()
 
     # Block 3.
@@ -392,7 +426,7 @@ def render_country(c, entry, doc, root_prefix="../../", show_grey=False):
     # Block 8.
     src = f'<p class="ymono">{h(c.get("source") or "")}</p>'
     if c.get("interview_mode_mark"):
-        src += f'<p class="ymono">&dagger; {h(doc.get("interview_mode_note",""))}</p>'
+        src += f'<p class="ymono">&dagger; {h(_plain_slot("video_note"))}</p>'
     limits = "".join(f"<li>{h(x)}</li>" for x in M.get("limits", []))
     help_ = c.get("helpline")
     block8 = (src + f'<ul class="ylist" style="margin-top:10px">{limits}</ul>'
