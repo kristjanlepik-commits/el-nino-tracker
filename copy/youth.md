@@ -59,13 +59,13 @@ Not yet measured.
 
 ## older_none
 
-In none of the 27 countries are young people clearly more dissatisfied than
+In none of the 27 EU countries are young people clearly more dissatisfied than
 over-55s. Over-55s are clearly more dissatisfied in {n_older_higher}.
 
 ## older_some
 
 Young people are clearly more dissatisfied than over-55s in {n_young_higher}
-of 27 countries: {young_higher_names}. Over-55s are clearly more dissatisfied
+of the 27 EU countries: {young_higher_names}. Over-55s are clearly more dissatisfied
 in {n_older_higher}.
 
 ## gap_older_higher
