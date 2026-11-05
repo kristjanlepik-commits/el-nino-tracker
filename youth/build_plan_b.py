@@ -223,6 +223,7 @@ def main():
     old = json.loads((DATA / "eb_2019.json").read_text())["cells"]
     series = json.loads((DATA / "eurostat.json").read_text())["series"]
     scale = json.loads((DATA / "index.json").read_text())["se_scale"]["applied"]
+    ran = json.loads((DATA / "checks.json").read_text()) if (DATA / "checks.json").exists() else {}
 
     y, ny = pool(cells, WAVES, EU27, "gz")
     o, no = pool(cells, WAVES, EU27, "o55")
@@ -240,11 +241,15 @@ def main():
         block2 = {k: dots(y, o, ny, no, c, k, eu_mean, eu_older, scale, cells) for k in COMPONENTS}
         block4, w = issues_block(issues, c, scale)
         widths += w
-        checks = {"C1": True, "C2": True, "C3": True, "C4": True, "C5": False}
+        # C2 holds by construction (the extractor stops on a missing item), and C3 is
+        # met by showing the interval. C1 and C4 come from the checks that actually ran.
+        checks = {"C1": ran.get("C1", {}).get("passed", False), "C2": True, "C3": True,
+                  "C4": ran.get("C4", {}).get("passed", False), "C5": False}
+        common = checks["C1"] and checks["C4"]
         rows[c] = {
             "name": NAMES[c],
-            "level": "common",
-            "grey_reason": None,
+            "level": "common" if common else "grey",
+            "grey_reason": None if common else "Checks C1 or C4 have not passed",
             "map_value_pct": block2["democracy"]["young_pct"],
             "map_value_display": block2["democracy"]["young_display"],
             "map_interval90": block2["democracy"]["young_interval90"],

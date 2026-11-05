@@ -10,8 +10,11 @@ the map. Each value keeps Eurostat's flag, since a "u" is low reliability.
 import argparse
 import json
 import sys
+import time
+import urllib.error
 import urllib.parse
 import urllib.request
+from datetime import date
 from pathlib import Path
 
 OUT = Path(__file__).parent / "data" / "eurostat.json"
@@ -43,7 +46,14 @@ SERIES = {
 
 def pull(dataset, filters):
     query = urllib.parse.urlencode({"format": "JSON", "lang": "EN", **filters})
-    data = json.load(urllib.request.urlopen(f"{API}{dataset}?{query}", timeout=120))
+    for attempt in range(5):
+        try:
+            data = json.load(urllib.request.urlopen(f"{API}{dataset}?{query}", timeout=120))
+            break
+        except (urllib.error.URLError, ConnectionError, TimeoutError):
+            if attempt == 4:
+                raise
+            time.sleep(20 * (attempt + 1))
     dims, sizes = data["id"], data["size"]
     geo_at, time_at = dims.index("geo"), dims.index("time")
     mult = [1] * len(dims)
@@ -75,6 +85,14 @@ def build():
     return out
 
 
+def record_check(name, passed, detail):
+    """The builder reads this file, so a check that never ran is a check that has not passed."""
+    path = OUT.parent / "checks.json"
+    checks = json.loads(path.read_text()) if path.exists() else {}
+    checks[name] = {"passed": passed, "detail": detail, "date": date.today().isoformat()}
+    path.write_text(json.dumps(checks, indent=1))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true")
@@ -91,6 +109,7 @@ def main():
                if fresh["series"][k]["values"].get(g, {}).get("value") != v["value"]
                or fresh["series"][k]["year"] != s["year"]]
     print(f"C4: {len(changed)} values differ from the stored copy")
+    record_check("C4", not changed, f"{len(changed)} values differ")
     for row in changed[:20]:
         print(" ", row)
     sys.exit(1 if changed else 0)

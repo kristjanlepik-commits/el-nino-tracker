@@ -17,6 +17,7 @@ from pathlib import Path
 import openpyxl
 
 from extract_eb import ANSWERS, COUNTRIES, FAMILY, SHEETS, clean
+from fetch_eurostat import record_check
 
 TOLERANCE = 0.005
 
@@ -50,6 +51,7 @@ def main():
     print(f"C1: {checked} cells checked, {len(bad)} more than {TOLERANCE * 100} points out")
     for row in bad[:20]:
         print(" ", row)
+    record_check("C1", not bad, f"{checked} cells, {len(bad)} out")
     sys.exit(1 if bad else 0)
 
 
