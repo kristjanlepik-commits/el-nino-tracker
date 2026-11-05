@@ -135,6 +135,7 @@ CHANNEL_OF_STEP = {
     "heat channel": "heat",
     "heat city pages": "heat",
     "notes": "notes",
+    "youth pages": "youth",
     "sitemap": "shell",
 }
 
@@ -149,6 +150,7 @@ CHANNEL_PATH_PREFIXES = {
     "crops": "docs/crops/",
     "heat": "docs/heat/",
     "notes": "docs/notes/",
+    "youth": "docs/youth/",
 }
 
 # The ENSO shell. Invariant 1 in CLAUDE.md: the weekly brief always
@@ -220,6 +222,15 @@ GENERATORS = [
 # D-208 confirmed its cadence math is fine and generalising fires' fix to
 # crops was considered and rejected for exactly that reason.
 SIGNOFF_INPUTS = {
+    # Templates only until the youth/ PR merges (due 2026-11-10): the data
+    # paths and the "youth pages" STEP land with it, because a listed file
+    # missing from main makes channel_signoff_hash REFUSE every publish.
+    # Shared inputs (design/copydeck.py, the country outlines) are left
+    # out on design's advice: a change in either is not a youth change.
+    "youth": [
+        "templates/youth_page.py", "design/make_youth_pages.py",
+        "copy/youth.md",
+    ],
     "crops": [
         "templates/crops_index.py", "templates/crops_page.py",
         "templates/crops_country.py", "templates/crops_region.py",
@@ -447,6 +458,8 @@ def snapshot_targets() -> dict[str, bytes | None]:
     # is rebuilt; this decides whether it can be RESTORED when a publish
     # fails partway. D-028 rollback was silently not covering 40 live
     # pages, so a half-finished crops build had no way back.
+    for p in (ROOT / "docs" / "youth").glob("**/index.html"):
+        saved[str(p.relative_to(ROOT))] = p.read_bytes()
     for p in (ROOT / "docs" / "crops").glob("*/index.html"):
         rel = str(p.relative_to(ROOT))
         saved[rel] = p.read_bytes()
@@ -893,6 +906,16 @@ def main() -> None:
             print(f"    {channel}: {reason}")
             payloads = shell_payloads_of(channel)
             if not payloads:
+                continue
+            # NEVER APPROVED IS NOT THE SAME AS UNMATCHED. A new channel has
+            # no marker until its first sign-off, so nothing live was built
+            # from its payload and there is no approved state to swap in.
+            # Refusing here stopped EVERY channel's publish (reproduced
+            # 2026-11-05 listing youth/data/map.json before Youth's first
+            # sign-off), which is D-289's coupling reached through D-303.
+            # A marker whose hash matches nothing still refuses below: that
+            # is a channel with live pages and an unknown approved state.
+            if not (SIGNOFF_DIR / f"{channel}.json").exists():
                 continue
             c = approved_payload_commit(channel)
             if c is None:
