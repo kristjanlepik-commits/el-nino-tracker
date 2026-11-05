@@ -1,11 +1,16 @@
 ## intro
 
 This map shows how many young Europeans are dissatisfied with how democracy
-works in their country. That is not anger: no survey asks about anger across
-Europe. The newest answers were collected by 1 April 2026, so this autumn's
+works in their country. That is not anger: we found no free survey that asks
+about anger by age in every EU country. The newest answers were collected by 1 April 2026, so this autumn's
 protests are not in it.
 
-## older
+## older_none
+
+In none of the 27 countries are young people clearly more dissatisfied than
+over-55s. Over-55s are clearly more dissatisfied in {n_older_higher}.
+
+## older_some
 
 Young people are clearly more dissatisfied than over-55s in {n_young_higher}
 of 27 countries: {young_higher_names}. Over-55s are clearly more dissatisfied
