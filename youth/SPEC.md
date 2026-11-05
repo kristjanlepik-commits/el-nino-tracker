@@ -424,8 +424,12 @@ Three logged corrections, none touching the index result:
 - **C1 compares weighted counts, not rounded shares.** On shares, 2 of 504
   cells were 1 point out, both Croatia in wave 103: the two published tables
   differ slightly there (base 1,016 against 1,020) and values at x.5 round
-  differently. On counts all cells pass. The small source discrepancy is
-  noted, not corrected.
+  differently. On counts all 504 pass. The small source discrepancy is
+  noted, not corrected. **Correction:** commit `b0edab0` said this while C1
+  was still failing, because a row offset meant both scripts compared shares
+  and not counts. Fixed in the next commit. A deliberately wrong table makes
+  the check fail (165 of 504), so it can catch a misread. No share, base or
+  index input changed in either fix.
 - **Flash 585 Q7a parser bug fixed.** It read a weighted count as a share.
   It was not an index input. V5's Q18.1 was computed from counts, correctly.
 - **`youth/data/` carries whole-number display guidance**, since the source

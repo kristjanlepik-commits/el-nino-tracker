@@ -35,8 +35,8 @@ def main():
             header = {str(v).split("\n")[-1].strip(): j for j, v in enumerate(rows[8]) if v}
             # Count rows sit above the share rows. Compared on counts, because shares are
             # rounded to a point and a value at x.5 flips between the two tables on its own.
-            labelled = {re.sub(r"\s+", " ", str(r[1])).strip(): rows[i + 8]
-                        for i, r in enumerate(rows[9:], 1) if r[1]}
+            labelled = {re.sub(r"\s+", " ", str(r[1])).strip(): rows[i - 1]
+                        for i, r in enumerate(rows[9:], 9) if r[1]}
             bad_labels, rest = ANSWERS[FAMILY[item]]
             for country in COUNTRIES:
                 j = header[country]

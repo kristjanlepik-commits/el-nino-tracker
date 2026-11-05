@@ -71,8 +71,9 @@ def read_sheet(ws, item):
             raise ValueError(f"{ws.title} column {col} is {rows[HEADER_ROW][COLUMNS[col]]!r}")
     if not str(rows[BASE_ROW][1]).startswith("Weighted Base"):
         raise ValueError(f"{ws.title} base row is {rows[BASE_ROW][1]!r}")
-    labelled = {re.sub(r"\s+", " ", str(r[1])).strip(): (r, rows[i + BASE_ROW])
-                for i, r in enumerate(rows[BASE_ROW + 1:], 1) if r[1]}
+    # enumerate from BASE_ROW + 1, so rows[i - 1] is the row directly above r
+    labelled = {re.sub(r"\s+", " ", str(r[1])).strip(): (r, rows[i - 1])
+                for i, r in enumerate(rows[BASE_ROW + 1:], BASE_ROW + 1) if r[1]}
     bad, rest = ANSWERS[FAMILY[item]]
     out = {}
     for col, j in COLUMNS.items():
