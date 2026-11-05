@@ -1,0 +1,23 @@
+#!/bin/bash
+# A new git worktree gets its research/ symlink here, once.
+#
+# research/ is a separate nested repo this repo gitignores, so a fresh
+# worktree has none, and CLAUDE.md calls the link load-bearing: without it
+# a chat has no ledger, theses, team.md or all-hands. Nothing created it,
+# so it depended on someone remembering. TLS Youth's worktree ran without
+# it until 2026-11-05, and three others did until 2026-08-01.
+#
+# NEVER RUN ln IF ANYTHING IS ALREADY THERE. With research already a link
+# to a directory, a second `ln -s target research` follows it and writes
+# inside the main tree: that is the stray research/research of 2026-11-05,
+# made 22 seconds after that worktree's real link.
+#
+# Fails silently by design: a checkout must never be blocked by this.
+top=$(git rev-parse --show-toplevel 2>/dev/null) || exit 0
+common=$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null) || exit 0
+main=$(dirname "$common")
+[ "$top" = "$main" ] && exit 0                       # the main tree owns the real one
+[ -e "$top/research" ] || [ -L "$top/research" ] && exit 0
+[ -d "$main/research" ] || exit 0
+ln -s "$main/research" "$top/research"
+exit 0
