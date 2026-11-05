@@ -388,3 +388,27 @@ or later, with 15-24 as a published side check.
 ## 15. Amendments
 
 None.
+
+## 16. Result of the run (2026-11-05)
+
+One run, on commit `dfde680`'s recipe. Full output: `youth/data/index.json`.
+
+| Gate | Result | Bar | |
+|---|---|---|---|
+| V1 coherence | 0.64 | 0.5 | Pass |
+| V2 C reliability | 0.92 | 0.7 | Pass |
+| V3 B reliability | 0.80 | 0.4 | Pass |
+| V4 placement | 20 of 27 | 20 | Pass, exactly at the bar |
+| V5 outside check | 0.41 | 0.5 | **Fail** |
+
+**Under section 5 the index is dropped and the page moves to Plan B.** No
+threshold, item or validator has been changed after seeing this. V5's
+validator was itself swapped for Flash 556 before the run, without seeing
+any value; it is a differently worded question, and the failure may say as
+much about that choice as about the index. That is a reason to test again
+on new data, not to re-read this result. Overriding it would need Kristjan
+and a post hoc label on the page (section 13).
+
+Standard errors were scaled by R = 1.41, since waves differ by more than
+sampling alone implies. Side checks: 3 tiers change under 15-24 (AT, FR,
+HR), 2 if video-interview countries leave the reference (AT, DK).
