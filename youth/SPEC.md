@@ -442,3 +442,24 @@ appears anywhere on the page. Map classes are numeric only and carry no
 heat words. Gaps are shown by dots and `gap_read`, not as a printed number,
 because rounding makes the printed figures disagree in 22 of 84 rows
 (Germany's distrust would read 59 against 58, gap 0).
+
+**Further log (2026-11-05), after EOS's reply and a check of the Hungary gap.**
+
+- **"Clear" tightened, knowingly after seeing the data.** `gap_read` now needs
+  the 90% interval and the same sign in all three waves. This is page display,
+  not the frozen recipe, and it applies to every row. It exists because of
+  Hungary: young minus older on democracy is +11, -1, +21 by wave, and 27
+  countries at this interval give about 1.4 false calls per direction by
+  chance. All 14 "older higher" countries hold in every wave; Hungary moves to
+  "no clear difference". So on this measure the young are clearly more
+  dissatisfied in none of the 27, which replaces "only Hungary".
+- **Section 1's "No source measures anger" is too strong.** Read: we found no
+  free survey that asks about anger by age in every EU country. EOS recalls
+  Gallup's World Poll asking about anger (licensed, unchecked), and Flash 4021
+  (2019) asks about emotions towards the EU, anger unconfirmed.
+- **ESS:** EOS reports 23 of 27 in round 11 (no DK, LU, MT, RO; Czechia by
+  another mode) and terms limited to not-for-profit purposes, silent on AI. Not
+  used at launch.
+- **C5 and France:** EOS checked all five rows; every row had corrections, so
+  "passed" means checked and corrected. France's fixes are pushed; its corrected
+  map still awaits Kristjan, so use its findings, not its map.

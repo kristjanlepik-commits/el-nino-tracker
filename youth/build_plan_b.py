@@ -51,14 +51,20 @@ def share_se(p, n, scale):
     return scale * np.sqrt(DEFF * p * (1 - p) / n)
 
 
-def dots(y, o, ny, no, c, k, eu_mean, scale):
-    """One measure for one country: young, older, the gap and how sure we are of it."""
+def dots(y, o, ny, no, c, k, eu_mean, scale, cells):
+    """One measure for one country: young, older, the gap and how sure we are of it.
+
+    "Clear" takes both the 90% interval and the same sign in all three waves. With
+    27 countries a 90% interval alone gives about 1.4 false calls per direction.
+    """
     sy, so = share_se(y[k][c], ny[k][c], scale), share_se(o[k][c], no[k][c], scale)
     gap = y[k][c] - o[k][c]
     half = Z90 * np.sqrt(sy ** 2 + so ** 2)
-    if gap - half > 0:
+    by_wave = [component_share(cells[v], c, k, "gz") - component_share(cells[v], c, k, "o55")
+               for v in WAVES]
+    if gap - half > 0 and min(by_wave) > 0:
         read = "young higher"
-    elif gap + half < 0:
+    elif gap + half < 0 and max(by_wave) < 0:
         read = "older higher"
     else:
         read = "no clear difference"
@@ -70,6 +76,7 @@ def dots(y, o, ny, no, c, k, eu_mean, scale):
         "gap_points": pct(gap),
         "gap_interval90": [pct(gap - half), pct(gap + half)],
         "gap_read": read,
+        "gap_by_wave_points": [pct(g) for g in by_wave],
         "comparator": {"label": COMPARATOR, "young_pct": pct(eu_mean[k])},
         "n_young": round(ny[k][c]),
         "n_older": round(no[k][c]),
@@ -103,7 +110,7 @@ def main():
     (DATA / "countries").mkdir(exist_ok=True)
     rows = {}
     for c in EU27 + ["UK"]:
-        block2 = {k: dots(y, o, ny, no, c, k, eu_mean, scale) for k in COMPONENTS}
+        block2 = {k: dots(y, o, ny, no, c, k, eu_mean, scale, cells) for k in COMPONENTS}
         checks = {"C1": True, "C2": True, "C3": True, "C4": False, "C5": False}
         common = checks["C1"] and checks["C2"] and checks["C3"] and checks["C4"]
         rows[c] = {
@@ -147,7 +154,8 @@ def main():
             "limits": ["Stops before the autumn 2026 protests.",
                        "Covers nationals and EU citizens resident in each country; young people "
                        "from outside the EU are not in it.",
-                       "Measures dissatisfaction with democracy, not anger. No source measures anger."],
+                       "Measures dissatisfaction with democracy, not anger. We found no free survey that "
+                       "asks about anger by age in every EU country."],
         },
         "interview_mode_note": "In wave 104, Cyprus, Denmark, Malta, the Netherlands, Finland and Sweden "
                                "were interviewed by remote video, the rest in person.",
