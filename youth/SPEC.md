@@ -434,3 +434,11 @@ Three logged corrections, none touching the index result:
   It was not an index input. V5's Q18.1 was computed from counts, correctly.
 - **`youth/data/` carries whole-number display guidance**, since the source
   rounds each wave to a point.
+
+**Plan B consequences for the page (2026-11-05, on design's query).** Under
+D-349, wherever sections 8 and 9 list tier, type or score, read them as
+removed: block 1 is name, data date and headline. No score, tier or type
+appears anywhere on the page. Map classes are numeric only and carry no
+heat words. Gaps are shown by dots and `gap_read`, not as a printed number,
+because rounding makes the printed figures disagree in 22 of 84 rows
+(Germany's distrust would read 59 against 58, gap 0).
