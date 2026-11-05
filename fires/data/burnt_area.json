@@ -8,7 +8,7 @@
   "carry its own as_of. Hectares and detections measure",
   "different things and are never converted into each other."
  ],
- "fetched": "2026-11-05T05:22:57Z",
+ "fetched": "2026-11-05T10:52:35Z",
  "year": 2026,
  "effis_cycle": {
   "known": true,
@@ -54,7 +54,7 @@
    },
    "max_ha": 40477930,
    "multiple": 0.54,
-   "week_step_ha": null,
+   "week_step_ha": 17701,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.46,
    "fires": 56572
@@ -99,7 +99,7 @@
    },
    "max_ha": 127491,
    "multiple": 0.91,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.19,
    "fires": 94
@@ -139,7 +139,7 @@
    },
    "max_ha": 9078100,
    "multiple": 0.29,
-   "week_step_ha": null,
+   "week_step_ha": 22201,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.12,
    "fires": 3444
@@ -179,7 +179,7 @@
    },
    "max_ha": 51436909,
    "multiple": 0.68,
-   "week_step_ha": null,
+   "week_step_ha": 606469,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.38,
    "fires": 30071
@@ -212,7 +212,7 @@
    },
    "max_ha": 1016,
    "multiple": 1.46,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.44,
    "fires": 5
@@ -253,7 +253,7 @@
    },
    "max_ha": 2180,
    "multiple": 9.66,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 1.39,
    "fires": 7
@@ -299,7 +299,7 @@
    },
    "max_ha": 67598,
    "multiple": 0.67,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.13,
    "fires": 72
@@ -344,7 +344,7 @@
    },
    "max_ha": 100107,
    "multiple": 2.42,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.81,
    "fires": 260
@@ -384,7 +384,7 @@
    },
    "max_ha": 16261799,
    "multiple": 0.28,
-   "week_step_ha": null,
+   "week_step_ha": 87877,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.1,
    "fires": 4513
@@ -424,7 +424,7 @@
    },
    "max_ha": 38295572,
    "multiple": 0.42,
-   "week_step_ha": null,
+   "week_step_ha": 367047,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.31,
    "fires": 27894
@@ -464,7 +464,7 @@
    },
    "max_ha": 4922369,
    "multiple": 0.54,
-   "week_step_ha": null,
+   "week_step_ha": 225111,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.21,
    "fires": 1853
@@ -504,7 +504,7 @@
    },
    "max_ha": 14810523,
    "multiple": 0.65,
-   "week_step_ha": null,
+   "week_step_ha": 27158,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.18,
    "fires": 3667
@@ -544,7 +544,7 @@
    },
    "max_ha": 878903,
    "multiple": 0.86,
-   "week_step_ha": null,
+   "week_step_ha": 1639,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.36,
    "fires": 970
@@ -584,7 +584,7 @@
    },
    "max_ha": 4971833,
    "multiple": 1.03,
-   "week_step_ha": null,
+   "week_step_ha": 192410,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.59,
    "fires": 9910
@@ -624,7 +624,7 @@
    },
    "max_ha": 49258314,
    "multiple": 0.54,
-   "week_step_ha": null,
+   "week_step_ha": 12657,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.46,
    "fires": 67815
@@ -664,7 +664,7 @@
    },
    "max_ha": 2004766,
    "multiple": 0.64,
-   "week_step_ha": null,
+   "week_step_ha": 2163,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.53,
    "fires": 3792
@@ -704,7 +704,7 @@
    },
    "max_ha": 3299512,
    "multiple": 0.54,
-   "week_step_ha": null,
+   "week_step_ha": 2959,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.31,
    "fires": 3067
@@ -744,7 +744,7 @@
    },
    "max_ha": 786118,
    "multiple": 0.52,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.29,
    "fires": 772
@@ -790,7 +790,7 @@
    },
    "max_ha": 13459,
    "multiple": 0.14,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.02,
    "fires": 2
@@ -825,7 +825,7 @@
    },
    "max_ha": 1436,
    "multiple": 0.23,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.03,
    "fires": 1
@@ -864,7 +864,7 @@
    },
    "max_ha": 5475,
    "multiple": 2.36,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.61,
    "fires": 31
@@ -899,7 +899,7 @@
    },
    "max_ha": 463,
    "multiple": 0.39,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.15,
    "fires": 2
@@ -939,7 +939,7 @@
    },
    "max_ha": 105458,
    "multiple": 0.6,
-   "week_step_ha": null,
+   "week_step_ha": 125,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.32,
    "fires": 99
@@ -982,7 +982,7 @@
    },
    "max_ha": 200980,
    "multiple": 5.29,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 1.76,
    "fires": 366
@@ -1022,7 +1022,7 @@
    },
    "max_ha": 181475,
    "multiple": 0.55,
-   "week_step_ha": null,
+   "week_step_ha": 425,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.33,
    "fires": 288
@@ -1068,7 +1068,7 @@
    },
    "max_ha": 392109,
    "multiple": 3.19,
-   "week_step_ha": null,
+   "week_step_ha": 46,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.77,
    "fires": 471
@@ -1102,7 +1102,7 @@
    },
    "max_ha": 385,
    "multiple": 4.29,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.78,
    "fires": 2
@@ -1137,7 +1137,7 @@
    },
    "max_ha": 2558,
    "multiple": 0.15,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.03,
    "fires": 2
@@ -1183,7 +1183,7 @@
    },
    "max_ha": 66304,
    "multiple": 6.74,
-   "week_step_ha": null,
+   "week_step_ha": 30,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 1.49,
    "fires": 385
@@ -1224,7 +1224,7 @@
    },
    "max_ha": 47879,
    "multiple": 2.13,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.52,
    "fires": 79
@@ -1264,7 +1264,7 @@
    },
    "max_ha": 49377,
    "multiple": 0.47,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.28,
    "fires": 55
@@ -1310,7 +1310,7 @@
    },
    "max_ha": 271715,
    "multiple": 0.71,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.13,
    "fires": 56
@@ -1356,7 +1356,7 @@
    },
    "max_ha": 67666,
    "multiple": 1.61,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.31,
    "fires": 65
@@ -1396,7 +1396,7 @@
    },
    "max_ha": 21678,
    "multiple": 0.5,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.3,
    "fires": 38
@@ -1441,7 +1441,7 @@
    },
    "max_ha": 7287,
    "multiple": 2.98,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.31,
    "fires": 25
@@ -1481,7 +1481,7 @@
    },
    "max_ha": 13487534,
    "multiple": 2.55,
-   "week_step_ha": null,
+   "week_step_ha": 147090,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.65,
    "fires": 31754
@@ -1521,7 +1521,7 @@
    },
    "max_ha": 10533642,
    "multiple": 0.69,
-   "week_step_ha": null,
+   "week_step_ha": 22625,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.39,
    "fires": 14023
@@ -1562,7 +1562,7 @@
    },
    "max_ha": 16724,
    "multiple": 0.69,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.18,
    "fires": 18
@@ -1595,7 +1595,7 @@
    },
    "max_ha": 112,
    "multiple": 0.0,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.0,
    "fires": 0
@@ -1631,7 +1631,7 @@
    },
    "max_ha": 1064,
    "multiple": 0.0,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.0,
    "fires": 0
@@ -1674,7 +1674,7 @@
    },
    "max_ha": 16004,
    "multiple": 0.65,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.1,
    "fires": 9
@@ -1720,7 +1720,7 @@
    },
    "max_ha": 153481,
    "multiple": 2.06,
-   "week_step_ha": null,
+   "week_step_ha": 31,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.77,
    "fires": 700
@@ -1760,7 +1760,7 @@
    },
    "max_ha": 17799,
    "multiple": 0.82,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.34,
    "fires": 21
@@ -1800,7 +1800,7 @@
    },
    "max_ha": 18456,
    "multiple": 1.41,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.87,
    "fires": 58
@@ -1840,7 +1840,7 @@
    },
    "max_ha": 6224845,
    "multiple": 0.3,
-   "week_step_ha": null,
+   "week_step_ha": 14809,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.12,
    "fires": 2400
@@ -1880,7 +1880,7 @@
    },
    "max_ha": 4534428,
    "multiple": 0.54,
-   "week_step_ha": null,
+   "week_step_ha": 154,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.34,
    "fires": 5242
@@ -1920,7 +1920,7 @@
    },
    "max_ha": 69761,
    "multiple": 0.26,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.04,
    "fires": 15
@@ -1960,7 +1960,7 @@
    },
    "max_ha": 6601291,
    "multiple": 0.72,
-   "week_step_ha": null,
+   "week_step_ha": 289,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.4,
    "fires": 6501
@@ -1999,7 +1999,7 @@
    },
    "max_ha": 11043,
    "multiple": 4.17,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.61,
    "fires": 80
@@ -2038,7 +2038,7 @@
    },
    "max_ha": 5924,
    "multiple": 0.0,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.0,
    "fires": 0
@@ -2078,7 +2078,7 @@
    },
    "max_ha": 88177,
    "multiple": 0.47,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.23,
    "fires": 109
@@ -2111,7 +2111,7 @@
    },
    "max_ha": 305,
    "multiple": 0.55,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.15,
    "fires": 1
@@ -2134,7 +2134,7 @@
    },
    "max_ha": 0,
    "multiple": null,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": null,
    "fires": 0
@@ -2178,7 +2178,7 @@
    },
    "max_ha": 2493,
    "multiple": 1.78,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.13,
    "fires": 2
@@ -2221,7 +2221,7 @@
    },
    "max_ha": 32045,
    "multiple": 1.07,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.19,
    "fires": 34
@@ -2261,7 +2261,7 @@
    },
    "max_ha": 5398926,
    "multiple": 0.55,
-   "week_step_ha": null,
+   "week_step_ha": 102357,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.4,
    "fires": 9024
@@ -2301,7 +2301,7 @@
    },
    "max_ha": 6127344,
    "multiple": 0.32,
-   "week_step_ha": null,
+   "week_step_ha": 2848,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.22,
    "fires": 4422
@@ -2346,7 +2346,7 @@
    },
    "max_ha": 95181,
    "multiple": 1.43,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.27,
    "fires": 69
@@ -2380,7 +2380,7 @@
    },
    "max_ha": 34,
    "multiple": 0.0,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.0,
    "fires": 0
@@ -2420,7 +2420,7 @@
    },
    "max_ha": 8192748,
    "multiple": 0.67,
-   "week_step_ha": null,
+   "week_step_ha": 126,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.53,
    "fires": 11680
@@ -2465,7 +2465,7 @@
    },
    "max_ha": 51531,
    "multiple": 2.6,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.84,
    "fires": 136
@@ -2505,7 +2505,7 @@
    },
    "max_ha": 19210390,
    "multiple": 0.54,
-   "week_step_ha": null,
+   "week_step_ha": 219175,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.47,
    "fires": 29425
@@ -2545,7 +2545,7 @@
    },
    "max_ha": 1165254,
    "multiple": 0.4,
-   "week_step_ha": null,
+   "week_step_ha": 22692,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.28,
    "fires": 1417
@@ -2585,7 +2585,7 @@
    },
    "max_ha": 447171,
    "multiple": 0.39,
-   "week_step_ha": null,
+   "week_step_ha": 245,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.14,
    "fires": 228
@@ -2625,7 +2625,7 @@
    },
    "max_ha": 4877482,
    "multiple": 0.55,
-   "week_step_ha": null,
+   "week_step_ha": 11583,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.19,
    "fires": 1708
@@ -2666,7 +2666,7 @@
    },
    "max_ha": 822,
    "multiple": 4.71,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.77,
    "fires": 3
@@ -2710,7 +2710,7 @@
    },
    "max_ha": 4515,
    "multiple": 1.49,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.35,
    "fires": 23
@@ -2750,7 +2750,7 @@
    },
    "max_ha": 1417310,
    "multiple": 0.27,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.11,
    "fires": 769
@@ -2790,7 +2790,7 @@
    },
    "max_ha": 47618,
    "multiple": 0.68,
-   "week_step_ha": null,
+   "week_step_ha": 406,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.47,
    "fires": 118
@@ -2830,7 +2830,7 @@
    },
    "max_ha": 1173295,
    "multiple": 0.47,
-   "week_step_ha": null,
+   "week_step_ha": 4473,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.34,
    "fires": 1684
@@ -2870,7 +2870,7 @@
    },
    "max_ha": 465186,
    "multiple": 1.06,
-   "week_step_ha": null,
+   "week_step_ha": 645,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.53,
    "fires": 1625
@@ -2910,7 +2910,7 @@
    },
    "max_ha": 1783107,
    "multiple": 4.84,
-   "week_step_ha": null,
+   "week_step_ha": 61126,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 1.27,
    "fires": 5624
@@ -2948,7 +2948,7 @@
    },
    "max_ha": 5383,
    "multiple": 2.4,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.27,
    "fires": 3
@@ -2994,7 +2994,7 @@
    },
    "max_ha": 563023,
    "multiple": 0.68,
-   "week_step_ha": null,
+   "week_step_ha": 163,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.13,
    "fires": 221
@@ -3034,7 +3034,7 @@
    },
    "max_ha": 5360902,
    "multiple": 0.29,
-   "week_step_ha": null,
+   "week_step_ha": 10676,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.14,
    "fires": 2410
@@ -3075,7 +3075,7 @@
    },
    "max_ha": 152941,
    "multiple": 0.81,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.2,
    "fires": 235
@@ -3115,7 +3115,7 @@
    },
    "max_ha": 25156430,
    "multiple": 0.55,
-   "week_step_ha": null,
+   "week_step_ha": 27276,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.31,
    "fires": 13414
@@ -3155,7 +3155,7 @@
    },
    "max_ha": 0,
    "multiple": 0.0,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": null,
    "fires": 0
@@ -3200,7 +3200,7 @@
    },
    "max_ha": 36508,
    "multiple": 4.47,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 1.02,
    "fires": 148
@@ -3232,7 +3232,7 @@
    },
    "max_ha": 362,
    "multiple": 7.95,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 3.22,
    "fires": 6
@@ -3278,7 +3278,7 @@
    },
    "max_ha": 4388,
    "multiple": 1.11,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.08,
    "fires": 2
@@ -3322,7 +3322,7 @@
    },
    "max_ha": 21320,
    "multiple": 0.08,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.01,
    "fires": 4
@@ -3362,7 +3362,7 @@
    },
    "max_ha": 192658,
    "multiple": 0.03,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.0,
    "fires": 10
@@ -3402,7 +3402,7 @@
    },
    "max_ha": 3877812,
    "multiple": 1.15,
-   "week_step_ha": null,
+   "week_step_ha": 233,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.69,
    "fires": 6902
@@ -3442,7 +3442,7 @@
    },
    "max_ha": 182311,
    "multiple": 0.31,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.13,
    "fires": 107
@@ -3485,7 +3485,7 @@
    },
    "max_ha": 28493,
    "multiple": 3.74,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 1.02,
    "fires": 78
@@ -3531,7 +3531,7 @@
    },
    "max_ha": 197313,
    "multiple": 1.21,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.32,
    "fires": 224
@@ -3571,7 +3571,7 @@
    },
    "max_ha": 11423516,
    "multiple": 0.42,
-   "week_step_ha": null,
+   "week_step_ha": 80427,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.32,
    "fires": 12939
@@ -3611,7 +3611,7 @@
    },
    "max_ha": 2329222,
    "multiple": 0.49,
-   "week_step_ha": null,
+   "week_step_ha": 3785,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.29,
    "fires": 3092
@@ -3643,7 +3643,7 @@
    },
    "max_ha": 915011,
    "multiple": 1.16,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.48,
    "fires": 2769
@@ -3683,7 +3683,7 @@
    },
    "max_ha": 71833,
    "multiple": 0.47,
-   "week_step_ha": null,
+   "week_step_ha": 0,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.2,
    "fires": 71
@@ -3723,7 +3723,7 @@
    },
    "max_ha": 6650555,
    "multiple": 0.69,
-   "week_step_ha": null,
+   "week_step_ha": 33894,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.53,
    "fires": 8006
@@ -3763,7 +3763,7 @@
    },
    "max_ha": 7867497,
    "multiple": 0.77,
-   "week_step_ha": null,
+   "week_step_ha": 34578,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.41,
    "fires": 8642
@@ -3803,7 +3803,7 @@
    },
    "max_ha": 1476660,
    "multiple": 0.41,
-   "week_step_ha": null,
+   "week_step_ha": 612,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.21,
    "fires": 1821
@@ -3843,7 +3843,7 @@
    },
    "max_ha": 4077219,
    "multiple": 0.5,
-   "week_step_ha": null,
+   "week_step_ha": 20100,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.38,
    "fires": 6117
@@ -3883,7 +3883,7 @@
    },
    "max_ha": 23536357,
    "multiple": 0.53,
-   "week_step_ha": null,
+   "week_step_ha": 49227,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.46,
    "fires": 33129
@@ -3923,7 +3923,7 @@
    },
    "max_ha": 3062557,
    "multiple": 0.45,
-   "week_step_ha": null,
+   "week_step_ha": 47331,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.33,
    "fires": 3399
