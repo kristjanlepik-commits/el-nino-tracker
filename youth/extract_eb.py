@@ -87,6 +87,23 @@ def read_sheet(ws, item):
     return out
 
 
+def read_issues(ws):
+    """QA3 or QA4, multi-answer shares for the young band, in count-then-share row pairs."""
+    rows = list(ws.iter_rows(max_row=60, values_only=True))
+    j = COLUMNS["gz"]
+    if COLUMN_CHECK["gz"] not in str(rows[HEADER_ROW][j]):
+        raise ValueError(f"{ws.title} column gz is {rows[HEADER_ROW][j]!r}")
+    out, base = {}, clean(rows[BASE_ROW][j])
+    for r in rows[BASE_ROW + 3::2]:
+        if not r[1]:
+            continue
+        label = re.sub(r"\s*/\s*", " / ", re.sub(r"\s+", " ", str(r[1])).strip())
+        if label.startswith(("Other", "None", "Don't know", "Total")):
+            continue
+        out[label] = clean(r[j])
+    return {"base": base, "shares": out}
+
+
 def read_flash(path):
     """Q18.1, share disagreeing among those answering, and Q7a, share yes.
 
@@ -117,7 +134,7 @@ def main():
     ap.add_argument("--out", default=str(Path(__file__).parent / "data" / "eb_cells.json"))
     args = ap.parse_args()
 
-    cells = {}
+    cells, issues = {}, {}
     for wave, sheets in SHEETS.items():
         for country in COUNTRIES:
             found = [f for f in glob.glob(f"{args.tables}/{wave}/*")
@@ -127,6 +144,8 @@ def main():
             wb = openpyxl.load_workbook(found[0], read_only=True, data_only=True)
             for item, sheet in sheets.items():
                 cells.setdefault(wave, {}).setdefault(country, {})[item] = read_sheet(wb[sheet], item)
+            for sheet, key in (("QA3", "issues_country"), ("QA4", "issues_personal")):
+                issues.setdefault(wave, {}).setdefault(country, {})[key] = read_issues(wb[sheet])
             wb.close()
 
     Path(args.out).parent.mkdir(exist_ok=True)
@@ -134,7 +153,7 @@ def main():
         {"source": "Standard Eurobarometer 103, 104, 105, Volume C, EC open data portal, COM_REUSE. "
                    "Flash Eurobarometer 585 Volume A, same licence.",
          "share_is": "share giving the discontented answer, don't-knows and spontaneous 'neither' excluded",
-         "cells": cells, "flash585": read_flash(args.flash)}, indent=1))
+         "cells": cells, "issues": issues, "flash585": read_flash(args.flash)}, indent=1))
     print(f"wrote {args.out}")
 
 

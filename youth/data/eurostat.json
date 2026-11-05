@@ -1,0 +1,859 @@
+{
+ "source": "Eurostat, reuse with attribution",
+ "series": {
+  "life_young": {
+   "dataset": "ilc_pw01",
+   "label": "Life satisfaction, 0 to 10",
+   "ages": "16-29",
+   "unit": "rating",
+   "year": "2025",
+   "updated": "2026-10-20T23:00:00+0200",
+   "values": {
+    "AT": {
+     "value": 7.6,
+     "flag": ""
+    },
+    "BE": {
+     "value": 7.8,
+     "flag": ""
+    },
+    "BG": {
+     "value": 7.2,
+     "flag": ""
+    },
+    "CY": {
+     "value": 7.7,
+     "flag": ""
+    },
+    "CZ": {
+     "value": 8.0,
+     "flag": ""
+    },
+    "DE": {
+     "value": 7.2,
+     "flag": ""
+    },
+    "DK": {
+     "value": 7.5,
+     "flag": ""
+    },
+    "EE": {
+     "value": 7.6,
+     "flag": ""
+    },
+    "EL": {
+     "value": 7.4,
+     "flag": ""
+    },
+    "ES": {
+     "value": 7.6,
+     "flag": ""
+    },
+    "FI": {
+     "value": 7.6,
+     "flag": ""
+    },
+    "FR": {
+     "value": 7.4,
+     "flag": "u"
+    },
+    "HR": {
+     "value": 8.4,
+     "flag": ""
+    },
+    "HU": {
+     "value": 7.6,
+     "flag": "u"
+    },
+    "IE": {
+     "value": 7.5,
+     "flag": ""
+    },
+    "IT": {
+     "value": 7.4,
+     "flag": ""
+    },
+    "LT": {
+     "value": 8.0,
+     "flag": "p"
+    },
+    "LU": {
+     "value": 7.5,
+     "flag": "b"
+    },
+    "LV": {
+     "value": 7.3,
+     "flag": ""
+    },
+    "MT": {
+     "value": 7.7,
+     "flag": ""
+    },
+    "NL": {
+     "value": 7.4,
+     "flag": ""
+    },
+    "PL": {
+     "value": 7.9,
+     "flag": "u"
+    },
+    "PT": {
+     "value": 7.7,
+     "flag": "u"
+    },
+    "RO": {
+     "value": 8.2,
+     "flag": ""
+    },
+    "SE": {
+     "value": 7.2,
+     "flag": ""
+    },
+    "SI": {
+     "value": 8.1,
+     "flag": ""
+    },
+    "SK": {
+     "value": 8.1,
+     "flag": ""
+    },
+    "EU27_2020": {
+     "value": 7.5,
+     "flag": ""
+    }
+   }
+  },
+  "life_all": {
+   "dataset": "ilc_pw01",
+   "label": "Life satisfaction, 0 to 10",
+   "ages": "16 and over",
+   "unit": "rating",
+   "year": "2025",
+   "updated": "2026-10-20T23:00:00+0200",
+   "values": {
+    "AT": {
+     "value": 7.7,
+     "flag": ""
+    },
+    "BE": {
+     "value": 7.6,
+     "flag": ""
+    },
+    "BG": {
+     "value": 6.3,
+     "flag": ""
+    },
+    "CY": {
+     "value": 7.4,
+     "flag": ""
+    },
+    "CZ": {
+     "value": 7.4,
+     "flag": ""
+    },
+    "DE": {
+     "value": 7.0,
+     "flag": ""
+    },
+    "DK": {
+     "value": 7.7,
+     "flag": ""
+    },
+    "EE": {
+     "value": 7.3,
+     "flag": ""
+    },
+    "EL": {
+     "value": 6.9,
+     "flag": ""
+    },
+    "ES": {
+     "value": 7.2,
+     "flag": ""
+    },
+    "FI": {
+     "value": 7.8,
+     "flag": ""
+    },
+    "FR": {
+     "value": 7.1,
+     "flag": "u"
+    },
+    "HR": {
+     "value": 7.4,
+     "flag": ""
+    },
+    "HU": {
+     "value": 7.1,
+     "flag": "u"
+    },
+    "IE": {
+     "value": 7.6,
+     "flag": ""
+    },
+    "IT": {
+     "value": 7.1,
+     "flag": ""
+    },
+    "LT": {
+     "value": 7.3,
+     "flag": "p"
+    },
+    "LU": {
+     "value": 7.4,
+     "flag": "b"
+    },
+    "LV": {
+     "value": 6.9,
+     "flag": ""
+    },
+    "MT": {
+     "value": 7.6,
+     "flag": ""
+    },
+    "NL": {
+     "value": 7.6,
+     "flag": ""
+    },
+    "PL": {
+     "value": 7.7,
+     "flag": "u"
+    },
+    "PT": {
+     "value": 7.3,
+     "flag": "u"
+    },
+    "RO": {
+     "value": 7.8,
+     "flag": ""
+    },
+    "SE": {
+     "value": 7.4,
+     "flag": ""
+    },
+    "SI": {
+     "value": 7.6,
+     "flag": ""
+    },
+    "SK": {
+     "value": 7.4,
+     "flag": ""
+    },
+    "EU27_2020": {
+     "value": 7.2,
+     "flag": ""
+    }
+   }
+  },
+  "housing": {
+   "dataset": "ilc_lvho07a",
+   "label": "Spending over 40% of household income on housing",
+   "ages": "15-29",
+   "unit": "%",
+   "year": "2025",
+   "updated": "2026-10-29T23:00:00+0100",
+   "values": {
+    "AT": {
+     "value": 6.9,
+     "flag": ""
+    },
+    "BE": {
+     "value": 6.1,
+     "flag": ""
+    },
+    "BG": {
+     "value": 6.9,
+     "flag": ""
+    },
+    "CY": {
+     "value": 2.3,
+     "flag": ""
+    },
+    "CZ": {
+     "value": 8.4,
+     "flag": ""
+    },
+    "DE": {
+     "value": 14.3,
+     "flag": ""
+    },
+    "DK": {
+     "value": 22.5,
+     "flag": "b"
+    },
+    "EE": {
+     "value": 12.7,
+     "flag": ""
+    },
+    "EL": {
+     "value": 25.6,
+     "flag": ""
+    },
+    "ES": {
+     "value": 7.2,
+     "flag": ""
+    },
+    "FI": {
+     "value": 9.8,
+     "flag": ""
+    },
+    "FR": {
+     "value": 7.4,
+     "flag": ""
+    },
+    "HR": {
+     "value": 1.5,
+     "flag": ""
+    },
+    "HU": {
+     "value": 5.7,
+     "flag": ""
+    },
+    "IE": {
+     "value": 5.7,
+     "flag": ""
+    },
+    "IT": {
+     "value": 4.1,
+     "flag": ""
+    },
+    "LT": {
+     "value": 5.7,
+     "flag": "p"
+    },
+    "LU": {
+     "value": 9.0,
+     "flag": "b"
+    },
+    "LV": {
+     "value": 5.9,
+     "flag": ""
+    },
+    "MT": {
+     "value": 7.0,
+     "flag": ""
+    },
+    "NL": {
+     "value": 12.7,
+     "flag": ""
+    },
+    "PL": {
+     "value": 3.9,
+     "flag": ""
+    },
+    "PT": {
+     "value": 7.5,
+     "flag": ""
+    },
+    "RO": {
+     "value": 10.0,
+     "flag": ""
+    },
+    "SE": {
+     "value": 13.7,
+     "flag": ""
+    },
+    "SI": {
+     "value": 3.1,
+     "flag": ""
+    },
+    "SK": {
+     "value": 3.3,
+     "flag": "b"
+    },
+    "EU27_2020": {
+     "value": 9.0,
+     "flag": ""
+    }
+   }
+  },
+  "poverty": {
+   "dataset": "ilc_peps01n",
+   "label": "At risk of poverty or social exclusion",
+   "ages": "16-29",
+   "unit": "%",
+   "year": "2025",
+   "updated": "2026-10-20T23:00:00+0200",
+   "values": {
+    "AT": {
+     "value": 21.3,
+     "flag": ""
+    },
+    "BE": {
+     "value": 18.0,
+     "flag": ""
+    },
+    "BG": {
+     "value": 29.5,
+     "flag": ""
+    },
+    "CY": {
+     "value": 13.0,
+     "flag": ""
+    },
+    "CZ": {
+     "value": 12.6,
+     "flag": ""
+    },
+    "DE": {
+     "value": 26.5,
+     "flag": ""
+    },
+    "DK": {
+     "value": 31.6,
+     "flag": ""
+    },
+    "EE": {
+     "value": 19.7,
+     "flag": ""
+    },
+    "EL": {
+     "value": 29.7,
+     "flag": ""
+    },
+    "ES": {
+     "value": 27.0,
+     "flag": ""
+    },
+    "FI": {
+     "value": 31.8,
+     "flag": ""
+    },
+    "FR": {
+     "value": 24.9,
+     "flag": ""
+    },
+    "HR": {
+     "value": 12.6,
+     "flag": ""
+    },
+    "HU": {
+     "value": 22.2,
+     "flag": ""
+    },
+    "IE": {
+     "value": 17.3,
+     "flag": ""
+    },
+    "IT": {
+     "value": 24.6,
+     "flag": ""
+    },
+    "LT": {
+     "value": 21.1,
+     "flag": "p"
+    },
+    "LU": {
+     "value": 24.0,
+     "flag": "b"
+    },
+    "LV": {
+     "value": 19.2,
+     "flag": ""
+    },
+    "MT": {
+     "value": 15.0,
+     "flag": ""
+    },
+    "NL": {
+     "value": 21.3,
+     "flag": ""
+    },
+    "PL": {
+     "value": 15.9,
+     "flag": ""
+    },
+    "PT": {
+     "value": 18.5,
+     "flag": ""
+    },
+    "RO": {
+     "value": 30.5,
+     "flag": ""
+    },
+    "SE": {
+     "value": 26.4,
+     "flag": ""
+    },
+    "SI": {
+     "value": 10.2,
+     "flag": ""
+    },
+    "SK": {
+     "value": 18.0,
+     "flag": "b"
+    },
+    "EU27_2020": {
+     "value": 24.0,
+     "flag": ""
+    }
+   }
+  },
+  "unemployment": {
+   "dataset": "lfsa_urgan",
+   "label": "Unemployed, share of those in the labour force",
+   "ages": "15-29",
+   "unit": "%",
+   "year": "2025",
+   "updated": "2026-10-30T23:00:00+0100",
+   "values": {
+    "AT": {
+     "value": 9.5,
+     "flag": ""
+    },
+    "BE": {
+     "value": 12.9,
+     "flag": ""
+    },
+    "BG": {
+     "value": 7.7,
+     "flag": ""
+    },
+    "CY": {
+     "value": 9.3,
+     "flag": ""
+    },
+    "CZ": {
+     "value": 6.4,
+     "flag": ""
+    },
+    "DE": {
+     "value": 6.3,
+     "flag": ""
+    },
+    "DK": {
+     "value": 11.9,
+     "flag": ""
+    },
+    "EE": {
+     "value": 14.9,
+     "flag": ""
+    },
+    "EL": {
+     "value": 16.5,
+     "flag": ""
+    },
+    "ES": {
+     "value": 18.6,
+     "flag": "d"
+    },
+    "FI": {
+     "value": 17.0,
+     "flag": ""
+    },
+    "FR": {
+     "value": 15.4,
+     "flag": "d"
+    },
+    "HR": {
+     "value": 12.7,
+     "flag": ""
+    },
+    "HU": {
+     "value": 9.1,
+     "flag": ""
+    },
+    "IE": {
+     "value": 9.1,
+     "flag": ""
+    },
+    "IT": {
+     "value": 14.4,
+     "flag": ""
+    },
+    "LT": {
+     "value": 11.0,
+     "flag": ""
+    },
+    "LU": {
+     "value": 12.1,
+     "flag": ""
+    },
+    "LV": {
+     "value": 11.1,
+     "flag": ""
+    },
+    "MT": {
+     "value": 6.1,
+     "flag": ""
+    },
+    "NL": {
+     "value": 7.1,
+     "flag": ""
+    },
+    "PL": {
+     "value": 7.3,
+     "flag": ""
+    },
+    "PT": {
+     "value": 13.4,
+     "flag": ""
+    },
+    "RO": {
+     "value": 15.4,
+     "flag": ""
+    },
+    "SE": {
+     "value": 18.2,
+     "flag": ""
+    },
+    "SI": {
+     "value": 8.7,
+     "flag": ""
+    },
+    "SK": {
+     "value": 11.0,
+     "flag": ""
+    },
+    "EU27_2020": {
+     "value": 11.7,
+     "flag": ""
+    }
+   }
+  },
+  "with_parents": {
+   "dataset": "ilc_lvps08",
+   "label": "Living with their parents",
+   "ages": "18-34",
+   "unit": "%",
+   "year": "2025",
+   "updated": "2026-10-20T23:00:00+0200",
+   "values": {
+    "AT": {
+     "value": 40.3,
+     "flag": ""
+    },
+    "BE": {
+     "value": 51.4,
+     "flag": ""
+    },
+    "BG": {
+     "value": 57.8,
+     "flag": ""
+    },
+    "CY": {
+     "value": 58.0,
+     "flag": ""
+    },
+    "CZ": {
+     "value": 46.0,
+     "flag": ""
+    },
+    "DE": {
+     "value": 32.1,
+     "flag": ""
+    },
+    "DK": {
+     "value": 18.4,
+     "flag": ""
+    },
+    "EE": {
+     "value": 36.7,
+     "flag": ""
+    },
+    "EL": {
+     "value": 68.0,
+     "flag": ""
+    },
+    "ES": {
+     "value": 68.7,
+     "flag": ""
+    },
+    "FI": {
+     "value": 16.6,
+     "flag": ""
+    },
+    "FR": {
+     "value": 41.1,
+     "flag": ""
+    },
+    "HR": {
+     "value": 75.3,
+     "flag": ""
+    },
+    "HU": {
+     "value": 55.2,
+     "flag": ""
+    },
+    "IE": {
+     "value": 61.7,
+     "flag": ""
+    },
+    "IT": {
+     "value": 69.1,
+     "flag": ""
+    },
+    "LT": {
+     "value": 35.0,
+     "flag": "p"
+    },
+    "LU": {
+     "value": 46.1,
+     "flag": "b"
+    },
+    "LV": {
+     "value": 53.1,
+     "flag": ""
+    },
+    "MT": {
+     "value": 52.1,
+     "flag": ""
+    },
+    "NL": {
+     "value": 34.9,
+     "flag": ""
+    },
+    "PL": {
+     "value": 66.5,
+     "flag": ""
+    },
+    "PT": {
+     "value": 61.0,
+     "flag": ""
+    },
+    "RO": {
+     "value": 53.2,
+     "flag": ""
+    },
+    "SE": {
+     "value": 25.1,
+     "flag": ""
+    },
+    "SI": {
+     "value": 60.4,
+     "flag": ""
+    },
+    "SK": {
+     "value": 69.4,
+     "flag": ""
+    },
+    "EU27_2020": {
+     "value": 49.8,
+     "flag": ""
+    }
+   }
+  },
+  "age_leaving": {
+   "dataset": "yth_demo_030",
+   "label": "Average age on leaving the parental home",
+   "ages": "all leavers",
+   "unit": "years",
+   "year": "2025",
+   "updated": "2026-04-16T23:00:00+0200",
+   "values": {
+    "AT": {
+     "value": 25.2,
+     "flag": ""
+    },
+    "BE": {
+     "value": 26.2,
+     "flag": ""
+    },
+    "BG": {
+     "value": 27.9,
+     "flag": ""
+    },
+    "CY": {
+     "value": 27.0,
+     "flag": ""
+    },
+    "CZ": {
+     "value": 25.8,
+     "flag": ""
+    },
+    "DE": {
+     "value": 24.1,
+     "flag": ""
+    },
+    "DK": {
+     "value": 21.8,
+     "flag": ""
+    },
+    "EE": {
+     "value": 22.7,
+     "flag": ""
+    },
+    "EL": {
+     "value": 30.9,
+     "flag": ""
+    },
+    "ES": {
+     "value": 30.2,
+     "flag": ""
+    },
+    "FI": {
+     "value": 21.3,
+     "flag": ""
+    },
+    "FR": {
+     "value": 23.8,
+     "flag": ""
+    },
+    "HR": {
+     "value": 31.5,
+     "flag": ""
+    },
+    "HU": {
+     "value": 27.3,
+     "flag": ""
+    },
+    "IE": {
+     "value": 26.9,
+     "flag": ""
+    },
+    "IT": {
+     "value": 30.2,
+     "flag": ""
+    },
+    "LT": {
+     "value": 22.7,
+     "flag": ""
+    },
+    "LU": {
+     "value": 26.6,
+     "flag": ""
+    },
+    "LV": {
+     "value": 25.7,
+     "flag": ""
+    },
+    "MT": {
+     "value": 27.5,
+     "flag": ""
+    },
+    "NL": {
+     "value": 23.4,
+     "flag": ""
+    },
+    "PL": {
+     "value": 26.8,
+     "flag": ""
+    },
+    "PT": {
+     "value": 28.8,
+     "flag": ""
+    },
+    "RO": {
+     "value": 27.4,
+     "flag": ""
+    },
+    "SE": {
+     "value": 23.1,
+     "flag": ""
+    },
+    "SI": {
+     "value": 28.8,
+     "flag": ""
+    },
+    "SK": {
+     "value": 30.9,
+     "flag": ""
+    },
+    "EU27_2020": {
+     "value": 26.3,
+     "flag": ""
+    }
+   }
+  }
+ }
+}

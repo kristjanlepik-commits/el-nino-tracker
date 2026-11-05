@@ -469,3 +469,11 @@ main: template and payload paths for `SIGNOFF_INPUTS` (a listed file missing
 from main halts every channel's publish), and the build command, for a build
 step in `publish_all.py` plus `CHANNEL_OF_STEP` and `CHANNEL_PATH_PREFIXES`
 entries. Sign-off is `approve_channel.py youth` after looking at a preview.
+
+**Block 7 rule, set after looking at candidate pairs (2026-11-05).** Section 8's
+wording predates D-349, which removes C(i). Now: of the EU countries within 1.5
+on block 5 (standardised distance, typical pair 2.7), the one furthest on the
+map measure, if at least 15 points apart; otherwise the page says there is no
+clear contrast. A rule forcing the five nearest paired Spain with Luxembourg.
+The since-2019 marker's tables were not cross-checked against a second table,
+unlike C1.

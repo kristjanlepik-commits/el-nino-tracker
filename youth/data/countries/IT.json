@@ -8,19 +8,33 @@
   "C1": true,
   "C2": true,
   "C3": true,
-  "C4": false,
+  "C4": true,
   "C5": false
  },
  "interview_mode_mark": false,
+ "block_confidence": {
+  "block2": "Three waves of a face-to-face or video survey, margins shown. Young samples are small.",
+  "block3": "Same survey; life satisfaction from official Eurostat statistics, 2025.",
+  "block4": "Same survey. Noisy: treat close bars as ties.",
+  "block5": "Official Eurostat statistics. Not on the map, and no cause is claimed.",
+  "block6": "Flash Eurobarometer 585, online, June to July 2026, ages 15-30.",
+  "block7": "Chosen by a fixed rule, not by hand."
+ },
  "block2_discontent": {
   "distrust": {
    "wording": "Tend not to trust the national government, parliament and political parties (mean of the three)",
    "young_pct": 63.2,
+   "young_display": 63,
    "young_interval90": [
     57.0,
     69.4
    ],
+   "young_interval90_display": [
+    57,
+    69
+   ],
    "older_pct": 67.7,
+   "older_display": 68,
    "gap_points": -4.5,
    "gap_interval90": [
     -11.6,
@@ -34,7 +48,10 @@
    ],
    "comparator": {
     "label": "average of the 27 EU countries, each counted once",
-    "young_pct": 61.3
+    "young_pct": 61.3,
+    "young_display": 61,
+    "older_pct": 63.6,
+    "older_display": 64
    },
    "n_young": 491,
    "n_older": 1401
@@ -42,11 +59,17 @@
   "democracy": {
    "wording": "Not very or not at all satisfied with the way democracy works in their country",
    "young_pct": 39.8,
+   "young_display": 40,
    "young_interval90": [
     33.6,
     46.1
    ],
+   "young_interval90_display": [
+    34,
+    46
+   ],
    "older_pct": 50.2,
+   "older_display": 50,
    "gap_points": -10.3,
    "gap_interval90": [
     -17.7,
@@ -60,7 +83,10 @@
    ],
    "comparator": {
     "label": "average of the 27 EU countries, each counted once",
-    "young_pct": 33.6
+    "young_pct": 33.6,
+    "young_display": 34,
+    "older_pct": 42.4,
+    "older_display": 42
    },
    "n_young": 491,
    "n_older": 1401
@@ -68,11 +94,17 @@
   "direction": {
    "wording": "Things are going in the wrong direction in their country",
    "young_pct": 59.5,
+   "young_display": 59,
    "young_interval90": [
     53.2,
     65.8
    ],
+   "young_interval90_display": [
+    53,
+    66
+   ],
    "older_pct": 63.8,
+   "older_display": 64,
    "gap_points": -4.4,
    "gap_interval90": [
     -11.6,
@@ -86,31 +118,379 @@
    ],
    "comparator": {
     "label": "average of the 27 EU countries, each counted once",
-    "young_pct": 53.9
+    "young_pct": 53.9,
+    "young_display": 54,
+    "older_pct": 61.5,
+    "older_display": 61
    },
    "n_young": 491,
    "n_older": 1401
   }
  },
+ "block2_since_2019": {
+  "ages": "15-24 in both periods",
+  "mode_changed": false,
+  "then": "Standard Eurobarometer 91 and 92, 2019",
+  "distrust": {
+   "wording": "Tend not to trust the national government, parliament and political parties (mean of the three)",
+   "now_pct": 64.5,
+   "now_display": 64,
+   "then_pct": 73.3,
+   "then_display": 73,
+   "change_points": -8.8,
+   "change_interval90": [
+    -19.9,
+    2.3
+   ],
+   "read": "no clear change"
+  },
+  "direction": {
+   "wording": "Things are going in the wrong direction in their country",
+   "now_pct": 58.9,
+   "now_display": 59,
+   "then_pct": 68.2,
+   "then_display": 68,
+   "change_points": -9.3,
+   "change_interval90": [
+    -20.9,
+    2.2
+   ],
+   "read": "no clear change"
+  }
+ },
  "block3_life_against_country": {
   "young": {
    "my_life_wrong_pct": 17.0,
-   "my_country_wrong_pct": 59.5
+   "my_life_wrong_display": 17,
+   "my_country_wrong_pct": 59.5,
+   "my_country_wrong_display": 59
   },
   "older": {
    "my_life_wrong_pct": 25.7,
-   "my_country_wrong_pct": 63.8
+   "my_life_wrong_display": 26,
+   "my_country_wrong_pct": 63.8,
+   "my_country_wrong_display": 64
+  },
+  "life_satisfaction": {
+   "young": 7.4,
+   "all_adults": 7.1,
+   "eu_young": 7.5,
+   "ages": "young 16-29, all adults 16 and over",
+   "scale": "0 to 10",
+   "year": "2025",
+   "flag": "",
+   "source": "Eurostat ilc_pw01",
+   "sentence": "Young people here rate their lives 7.4 out of 10, all adults 7.1. Young people across the EU: 7.5."
   }
+ },
+ "block4_issues": {
+  "rows": [
+   {
+    "label": "Rising prices / inflation / cost of living",
+    "value_pct": 35.4,
+    "value_display": 35,
+    "interval90_display": [
+     29,
+     42
+    ],
+    "eu_young_pct": 46.7,
+    "eu_young_display": 47
+   },
+   {
+    "label": "The education system",
+    "value_pct": 22.6,
+    "value_display": 23,
+    "interval90_display": [
+     17,
+     28
+    ],
+    "eu_young_pct": 19.8,
+    "eu_young_display": 20
+   },
+   {
+    "label": "Unemployment",
+    "value_pct": 18.3,
+    "value_display": 18,
+    "interval90_display": [
+     13,
+     23
+    ],
+    "eu_young_pct": 8.9,
+    "eu_young_display": 9
+   },
+   {
+    "label": "The environment and risks related to climate change",
+    "value_pct": 13.4,
+    "value_display": 13,
+    "interval90_display": [
+     9,
+     18
+    ],
+    "eu_young_pct": 9.2,
+    "eu_young_display": 9
+   },
+   {
+    "label": "The economic situation in this country",
+    "value_pct": 12.3,
+    "value_display": 12,
+    "interval90_display": [
+     8,
+     17
+    ],
+    "eu_young_pct": 10.9,
+    "eu_young_display": 11
+   }
+  ],
+  "personal": {
+   "rows": [
+    {
+     "label": "Rising prices / inflation / cost of living",
+     "value_pct": 35.4,
+     "value_display": 35,
+     "interval90_display": [
+      29,
+      42
+     ],
+     "eu_young_pct": 46.7,
+     "eu_young_display": 47
+    },
+    {
+     "label": "The education system",
+     "value_pct": 22.6,
+     "value_display": 23,
+     "interval90_display": [
+      17,
+      28
+     ],
+     "eu_young_pct": 19.8,
+     "eu_young_display": 20
+    },
+    {
+     "label": "Unemployment",
+     "value_pct": 18.3,
+     "value_display": 18,
+     "interval90_display": [
+      13,
+      23
+     ],
+     "eu_young_pct": 8.9,
+     "eu_young_display": 9
+    },
+    {
+     "label": "The environment and risks related to climate change",
+     "value_pct": 13.4,
+     "value_display": 13,
+     "interval90_display": [
+      9,
+      18
+     ],
+     "eu_young_pct": 9.2,
+     "eu_young_display": 9
+    },
+    {
+     "label": "The economic situation in this country",
+     "value_pct": 12.3,
+     "value_display": 12,
+     "interval90_display": [
+      8,
+      17
+     ],
+     "eu_young_pct": 10.9,
+     "eu_young_display": 11
+    }
+   ],
+   "n_young": 491,
+   "question": "The two most important issues you are facing personally"
+  },
+  "national": {
+   "rows": [
+    {
+     "label": "Rising prices / inflation / cost of living",
+     "value_pct": 29.6,
+     "value_display": 30,
+     "interval90_display": [
+      24,
+      35
+     ],
+     "eu_young_pct": 36.6,
+     "eu_young_display": 37
+    },
+    {
+     "label": "The economic situation",
+     "value_pct": 23.0,
+     "value_display": 23,
+     "interval90_display": [
+      18,
+      28
+     ],
+     "eu_young_pct": 17.3,
+     "eu_young_display": 17
+    },
+    {
+     "label": "The international situation",
+     "value_pct": 20.8,
+     "value_display": 21,
+     "interval90_display": [
+      16,
+      26
+     ],
+     "eu_young_pct": 11.5,
+     "eu_young_display": 11
+    },
+    {
+     "label": "Unemployment",
+     "value_pct": 15.6,
+     "value_display": 16,
+     "interval90_display": [
+      11,
+      20
+     ],
+     "eu_young_pct": 10.0,
+     "eu_young_display": 10
+    },
+    {
+     "label": "The education system",
+     "value_pct": 12.3,
+     "value_display": 12,
+     "interval90_display": [
+      8,
+      16
+     ],
+     "eu_young_pct": 10.5,
+     "eu_young_display": 10
+    }
+   ],
+   "n_young": 491,
+   "question": "The two most important issues facing this country"
+  },
+  "comparator": "average of the 27 EU countries, each counted once",
+  "young": "born 1997 or later",
+  "source": "Standard Eurobarometer 103, 104, 105, Volume C. Fieldwork 26 Mar to 10 May 2025, 9 Oct to 5 Nov 2025, 12 Mar to 1 Apr 2026."
+ },
+ "block5_starting_out": {
+  "rows": [
+   {
+    "key": "housing",
+    "label": "Spending over 40% of household income on housing",
+    "ages": "15-29",
+    "year": "2025",
+    "unit": "%",
+    "value": 4.1,
+    "eu_value": 9.0,
+    "flag": "",
+    "source": "Eurostat ilc_lvho07a",
+    "value_pct": 4.1,
+    "value_display": 4,
+    "eu_display": 9
+   },
+   {
+    "key": "poverty",
+    "label": "At risk of poverty or social exclusion",
+    "ages": "16-29",
+    "year": "2025",
+    "unit": "%",
+    "value": 24.6,
+    "eu_value": 24.0,
+    "flag": "",
+    "source": "Eurostat ilc_peps01n",
+    "value_pct": 24.6,
+    "value_display": 25,
+    "eu_display": 24
+   },
+   {
+    "key": "unemployment",
+    "label": "Unemployed, share of those in the labour force",
+    "ages": "15-29",
+    "year": "2025",
+    "unit": "%",
+    "value": 14.4,
+    "eu_value": 11.7,
+    "flag": "",
+    "source": "Eurostat lfsa_urgan",
+    "value_pct": 14.4,
+    "value_display": 14,
+    "eu_display": 12
+   },
+   {
+    "key": "with_parents",
+    "label": "Living with their parents",
+    "ages": "18-34",
+    "year": "2025",
+    "unit": "%",
+    "value": 69.1,
+    "eu_value": 49.8,
+    "flag": "",
+    "source": "Eurostat ilc_lvps08",
+    "value_pct": 69.1,
+    "value_display": 69,
+    "eu_display": 50
+   },
+   {
+    "key": "age_leaving",
+    "label": "Average age on leaving the parental home",
+    "ages": "all leavers",
+    "year": "2025",
+    "unit": "years",
+    "value": 30.2,
+    "eu_value": 26.3,
+    "flag": "",
+    "source": "Eurostat yth_demo_030"
+   }
+  ]
+ },
+ "block7_contrast": {
+  "iso": "PT",
+  "name": "Portugal",
+  "rule": "Of the EU countries closely alike on the Starting out figures, the one furthest from this country on the map measure, if at least 15 points apart.",
+  "rows": [
+   {
+    "label": "Not very or not at all satisfied with the way democracy works in their country",
+    "this_display": 40,
+    "other_display": 20
+   },
+   {
+    "label": "Spending over 40% of household income on housing",
+    "unit": "%",
+    "this_value": 4.1,
+    "other_value": 7.5
+   },
+   {
+    "label": "At risk of poverty or social exclusion",
+    "unit": "%",
+    "this_value": 24.6,
+    "other_value": 18.5
+   },
+   {
+    "label": "Unemployed, share of those in the labour force",
+    "unit": "%",
+    "this_value": 14.4,
+    "other_value": 13.4
+   },
+   {
+    "label": "Living with their parents",
+    "unit": "%",
+    "this_value": 69.1,
+    "other_value": 61.0
+   },
+   {
+    "label": "Average age on leaving the parental home",
+    "unit": "years",
+    "this_value": 30.2,
+    "other_value": 28.8
+   }
+  ]
  },
  "block6_action_to_change_society": {
   "wording": "Took action to change society in the past year, for example a petition, a rally or a letter to a politician. A petition counts, so this is not protest.",
   "young_pct": 54.7,
+  "young_display": 55,
   "ages": "15-30",
   "fieldwork": "19 Jun to 1 Jul 2026",
   "source": "Flash Eurobarometer 585, Volume A",
   "comparator": {
    "label": "EU27 as published",
-   "young_pct": 54.7
+   "young_pct": 54.7,
+   "young_display": 55
   }
  }
 }
