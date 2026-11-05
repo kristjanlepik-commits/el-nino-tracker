@@ -1,0 +1,416 @@
+{
+ "mode": "plan_b",
+ "ruling": "D-349",
+ "measure": {
+  "wording": "Not very or not at all satisfied with the way democracy works in their country",
+  "young": "born 1997 or later",
+  "older": "55 and over",
+  "source": "Standard Eurobarometer 103, 104, 105, Volume C. Fieldwork 26 Mar to 10 May 2025, 9 Oct to 5 Nov 2025, 12 Mar to 1 Apr 2026.",
+  "newest_fieldwork_ends": "2026-04-01",
+  "display": "Whole numbers. The source rounds each wave to a point, so a decimal here is not real.",
+  "comparator": {
+   "label": "average of the 27 EU countries, each counted once",
+   "young_pct": 33.6
+  },
+  "limits": [
+   "Stops before the autumn 2026 protests.",
+   "Covers nationals and EU citizens resident in each country; young people from outside the EU are not in it.",
+   "Measures dissatisfaction with democracy, not anger. No source measures anger."
+  ]
+ },
+ "interview_mode_note": "In wave 104, Cyprus, Denmark, Malta, the Netherlands, Finland and Sweden were interviewed by remote video, the rest in person.",
+ "countries": {
+  "AT": {
+   "name": "Austria",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 29.5,
+   "map_interval90": [
+    23.9,
+    35.0
+   ],
+   "older_pct": 38.0,
+   "gap_read": "older higher",
+   "interview_mode_mark": false,
+   "in_eu27_average": true
+  },
+  "BE": {
+   "name": "Belgium",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 33.7,
+   "map_interval90": [
+    28.2,
+    39.2
+   ],
+   "older_pct": 37.3,
+   "gap_read": "no clear difference",
+   "interview_mode_mark": false,
+   "in_eu27_average": true
+  },
+  "BG": {
+   "name": "Bulgaria",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 31.6,
+   "map_interval90": [
+    25.5,
+    37.6
+   ],
+   "older_pct": 66.4,
+   "gap_read": "older higher",
+   "interview_mode_mark": false,
+   "in_eu27_average": true
+  },
+  "CY": {
+   "name": "Cyprus",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 67.3,
+   "map_interval90": [
+    59.5,
+    75.2
+   ],
+   "older_pct": 60.1,
+   "gap_read": "no clear difference",
+   "interview_mode_mark": true,
+   "in_eu27_average": true
+  },
+  "CZ": {
+   "name": "Czechia",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 25.8,
+   "map_interval90": [
+    20.4,
+    31.2
+   ],
+   "older_pct": 47.5,
+   "gap_read": "older higher",
+   "interview_mode_mark": false,
+   "in_eu27_average": true
+  },
+  "DE": {
+   "name": "Germany",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 36.1,
+   "map_interval90": [
+    31.4,
+    40.8
+   ],
+   "older_pct": 39.1,
+   "gap_read": "no clear difference",
+   "interview_mode_mark": false,
+   "in_eu27_average": true
+  },
+  "DK": {
+   "name": "Denmark",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 9.2,
+   "map_interval90": [
+    5.2,
+    13.1
+   ],
+   "older_pct": 7.0,
+   "gap_read": "no clear difference",
+   "interview_mode_mark": true,
+   "in_eu27_average": true
+  },
+  "EE": {
+   "name": "Estonia",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 28.9,
+   "map_interval90": [
+    23.4,
+    34.4
+   ],
+   "older_pct": 49.3,
+   "gap_read": "older higher",
+   "interview_mode_mark": false,
+   "in_eu27_average": true
+  },
+  "EL": {
+   "name": "Greece",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 68.2,
+   "map_interval90": [
+    62.4,
+    74.0
+   ],
+   "older_pct": 72.0,
+   "gap_read": "no clear difference",
+   "interview_mode_mark": false,
+   "in_eu27_average": true
+  },
+  "ES": {
+   "name": "Spain",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 39.3,
+   "map_interval90": [
+    33.3,
+    45.4
+   ],
+   "older_pct": 47.6,
+   "gap_read": "older higher",
+   "interview_mode_mark": false,
+   "in_eu27_average": true
+  },
+  "FI": {
+   "name": "Finland",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 17.1,
+   "map_interval90": [
+    12.4,
+    21.7
+   ],
+   "older_pct": 17.6,
+   "gap_read": "no clear difference",
+   "interview_mode_mark": true,
+   "in_eu27_average": true
+  },
+  "FR": {
+   "name": "France",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 46.5,
+   "map_interval90": [
+    40.8,
+    52.2
+   ],
+   "older_pct": 52.2,
+   "gap_read": "no clear difference",
+   "interview_mode_mark": false,
+   "in_eu27_average": true
+  },
+  "HR": {
+   "name": "Croatia",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 42.2,
+   "map_interval90": [
+    36.1,
+    48.3
+   ],
+   "older_pct": 58.9,
+   "gap_read": "older higher",
+   "interview_mode_mark": false,
+   "in_eu27_average": true
+  },
+  "HU": {
+   "name": "Hungary",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 57.2,
+   "map_interval90": [
+    51.1,
+    63.2
+   ],
+   "older_pct": 47.1,
+   "gap_read": "young higher",
+   "interview_mode_mark": false,
+   "in_eu27_average": true
+  },
+  "IE": {
+   "name": "Ireland",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 18.6,
+   "map_interval90": [
+    14.2,
+    23.1
+   ],
+   "older_pct": 24.0,
+   "gap_read": "no clear difference",
+   "interview_mode_mark": false,
+   "in_eu27_average": true
+  },
+  "IT": {
+   "name": "Italy",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 39.8,
+   "map_interval90": [
+    33.6,
+    46.1
+   ],
+   "older_pct": 50.2,
+   "gap_read": "older higher",
+   "interview_mode_mark": false,
+   "in_eu27_average": true
+  },
+  "LT": {
+   "name": "Lithuania",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 26.5,
+   "map_interval90": [
+    21.0,
+    32.0
+   ],
+   "older_pct": 47.9,
+   "gap_read": "older higher",
+   "interview_mode_mark": false,
+   "in_eu27_average": true
+  },
+  "LU": {
+   "name": "Luxembourg",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 10.1,
+   "map_interval90": [
+    5.1,
+    15.1
+   ],
+   "older_pct": 10.5,
+   "gap_read": "no clear difference",
+   "interview_mode_mark": false,
+   "in_eu27_average": true
+  },
+  "LV": {
+   "name": "Latvia",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 29.1,
+   "map_interval90": [
+    23.5,
+    34.7
+   ],
+   "older_pct": 41.7,
+   "gap_read": "older higher",
+   "interview_mode_mark": false,
+   "in_eu27_average": true
+  },
+  "MT": {
+   "name": "Malta",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 43.4,
+   "map_interval90": [
+    35.0,
+    51.9
+   ],
+   "older_pct": 46.5,
+   "gap_read": "no clear difference",
+   "interview_mode_mark": true,
+   "in_eu27_average": true
+  },
+  "NL": {
+   "name": "Netherlands",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 31.6,
+   "map_interval90": [
+    26.5,
+    36.7
+   ],
+   "older_pct": 32.4,
+   "gap_read": "no clear difference",
+   "interview_mode_mark": true,
+   "in_eu27_average": true
+  },
+  "PL": {
+   "name": "Poland",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 17.1,
+   "map_interval90": [
+    12.3,
+    21.9
+   ],
+   "older_pct": 28.9,
+   "gap_read": "older higher",
+   "interview_mode_mark": false,
+   "in_eu27_average": true
+  },
+  "PT": {
+   "name": "Portugal",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 20.2,
+   "map_interval90": [
+    15.1,
+    25.4
+   ],
+   "older_pct": 30.9,
+   "gap_read": "older higher",
+   "interview_mode_mark": false,
+   "in_eu27_average": true
+  },
+  "RO": {
+   "name": "Romania",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 39.9,
+   "map_interval90": [
+    34.1,
+    45.7
+   ],
+   "older_pct": 66.1,
+   "gap_read": "older higher",
+   "interview_mode_mark": false,
+   "in_eu27_average": true
+  },
+  "SE": {
+   "name": "Sweden",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 13.7,
+   "map_interval90": [
+    8.4,
+    19.0
+   ],
+   "older_pct": 14.7,
+   "gap_read": "no clear difference",
+   "interview_mode_mark": true,
+   "in_eu27_average": true
+  },
+  "SI": {
+   "name": "Slovenia",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 36.3,
+   "map_interval90": [
+    30.1,
+    42.6
+   ],
+   "older_pct": 52.8,
+   "gap_read": "older higher",
+   "interview_mode_mark": false,
+   "in_eu27_average": true
+  },
+  "SK": {
+   "name": "Slovakia",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 48.1,
+   "map_interval90": [
+    41.9,
+    54.2
+   ],
+   "older_pct": 58.3,
+   "gap_read": "older higher",
+   "interview_mode_mark": false,
+   "in_eu27_average": true
+  },
+  "UK": {
+   "name": "United Kingdom",
+   "level": "grey",
+   "grey_reason": "Eurostat blocks not built yet",
+   "map_value_pct": 41.3,
+   "map_interval90": [
+    35.8,
+    46.8
+   ],
+   "older_pct": 48.6,
+   "gap_read": "older higher",
+   "interview_mode_mark": false,
+   "in_eu27_average": false
+  }
+ }
+}

@@ -71,19 +71,27 @@ def read_sheet(ws, item):
             raise ValueError(f"{ws.title} column {col} is {rows[HEADER_ROW][COLUMNS[col]]!r}")
     if not str(rows[BASE_ROW][1]).startswith("Weighted Base"):
         raise ValueError(f"{ws.title} base row is {rows[BASE_ROW][1]!r}")
-    labelled = {re.sub(r"\s+", " ", str(r[1])).strip(): r for r in rows[BASE_ROW + 1:] if r[1]}
+    labelled = {re.sub(r"\s+", " ", str(r[1])).strip(): (r, rows[i + BASE_ROW])
+                for i, r in enumerate(rows[BASE_ROW + 1:], 1) if r[1]}
     bad, rest = ANSWERS[FAMILY[item]]
     out = {}
     for col, j in COLUMNS.items():
-        num = sum(clean(labelled[a][j]) for a in bad)
-        den = num + sum(clean(labelled[a][j]) for a in rest)
+        num = sum(clean(labelled[a][0][j]) for a in bad)
+        den = num + sum(clean(labelled[a][0][j]) for a in rest)
+        # The row above each English share holds its weighted count, for check C1.
+        count_num = sum(clean(labelled[a][1][j]) for a in bad)
+        count_den = count_num + sum(clean(labelled[a][1][j]) for a in rest)
         out[col] = {"share": round(num / den, 6), "base": clean(rows[BASE_ROW][j]),
-                    "answered": round(den, 4)}
+                    "answered": round(den, 4), "count_num": count_num, "count_den": count_den}
     return out
 
 
 def read_flash(path):
-    """Q18.1, share disagreeing among those answering, and Q7a, share yes."""
+    """Q18.1, share disagreeing among those answering, and Q7a, share yes.
+
+    Labelled rows here hold weighted counts, with the share unlabelled below,
+    so both are computed from counts.
+    """
     wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
     out = {}
     for sheet, key in (("Q18.1", "q18_1_disagree"), ("Q7a", "q7a_yes")):
@@ -96,7 +104,7 @@ def read_flash(path):
                 good = clean(labelled["Total 'Agree'"][j])
                 value = bad / (bad + good)
             else:
-                value = clean(labelled["Yes"][j])
+                value = clean(labelled["Yes"][j]) / clean(labelled["Base: Total (weighted)"][j])
             out.setdefault(code, {})[key] = round(value, 6)
     return out
 

@@ -1,0 +1,101 @@
+{
+ "iso": "FI",
+ "name": "Finland",
+ "young": "born 1997 or later",
+ "older": "55 and over",
+ "source": "Standard Eurobarometer 103, 104, 105, Volume C. Fieldwork 26 Mar to 10 May 2025, 9 Oct to 5 Nov 2025, 12 Mar to 1 Apr 2026.",
+ "checks": {
+  "C1": true,
+  "C2": true,
+  "C3": true,
+  "C4": false,
+  "C5": false
+ },
+ "interview_mode_mark": true,
+ "block2_discontent": {
+  "distrust": {
+   "wording": "Tend not to trust the national government, parliament and political parties (mean of the three)",
+   "young_pct": 51.5,
+   "young_interval90": [
+    45.3,
+    57.7
+   ],
+   "older_pct": 51.3,
+   "gap_points": 0.2,
+   "gap_interval90": [
+    -7.1,
+    7.6
+   ],
+   "gap_read": "no clear difference",
+   "comparator": {
+    "label": "average of the 27 EU countries, each counted once",
+    "young_pct": 61.3
+   },
+   "n_young": 525,
+   "n_older": 1292
+  },
+  "democracy": {
+   "wording": "Not very or not at all satisfied with the way democracy works in their country",
+   "young_pct": 17.1,
+   "young_interval90": [
+    12.4,
+    21.7
+   ],
+   "older_pct": 17.6,
+   "gap_points": -0.5,
+   "gap_interval90": [
+    -6.1,
+    5.1
+   ],
+   "gap_read": "no clear difference",
+   "comparator": {
+    "label": "average of the 27 EU countries, each counted once",
+    "young_pct": 33.6
+   },
+   "n_young": 525,
+   "n_older": 1292
+  },
+  "direction": {
+   "wording": "Things are going in the wrong direction in their country",
+   "young_pct": 67.0,
+   "young_interval90": [
+    61.1,
+    72.8
+   ],
+   "older_pct": 65.0,
+   "gap_points": 2.0,
+   "gap_interval90": [
+    -5.0,
+    8.9
+   ],
+   "gap_read": "no clear difference",
+   "comparator": {
+    "label": "average of the 27 EU countries, each counted once",
+    "young_pct": 53.9
+   },
+   "n_young": 525,
+   "n_older": 1292
+  }
+ },
+ "block3_life_against_country": {
+  "young": {
+   "my_life_wrong_pct": 5.2,
+   "my_country_wrong_pct": 67.0
+  },
+  "older": {
+   "my_life_wrong_pct": 10.2,
+   "my_country_wrong_pct": 65.0
+  }
+ },
+ "block6_action_to_change_society": {
+  "wording": "Took action to change society in the past year, for example a petition, a rally or a letter to a politician. A petition counts, so this is not protest.",
+  "young_pct": 56.6,
+  "ages": "15-30",
+  "fieldwork": "19 Jun to 1 Jul 2026",
+  "source": "Flash Eurobarometer 585, Volume A",
+  "comparator": {
+   "label": "EU27 as published",
+   "young_pct": 54.7
+  }
+ }
+}

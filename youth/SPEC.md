@@ -412,3 +412,21 @@ and a post hoc label on the page (section 13).
 Standard errors were scaled by R = 1.41, since waves differ by more than
 sampling alone implies. Side checks: 3 tiers change under 15-24 (AT, FR,
 HR), 2 if video-interview countries leave the reference (AT, DK).
+
+## 17. Log after the run (2026-11-05)
+
+Kristjan ruled Plan B (D-349). `youth/data/index.json` stays as the audit
+record and is not the page's data; the page reads `youth/data/map.json`.
+Nothing in sections 2 to 6 changed.
+
+Three logged corrections, none touching the index result:
+
+- **C1 compares weighted counts, not rounded shares.** On shares, 2 of 504
+  cells were 1 point out, both Croatia in wave 103: the two published tables
+  differ slightly there (base 1,016 against 1,020) and values at x.5 round
+  differently. On counts all cells pass. The small source discrepancy is
+  noted, not corrected.
+- **Flash 585 Q7a parser bug fixed.** It read a weighted count as a share.
+  It was not an index input. V5's Q18.1 was computed from counts, correctly.
+- **`youth/data/` carries whole-number display guidance**, since the source
+  rounds each wave to a point.
