@@ -112,6 +112,11 @@ that OWNS the ledger was one of them. If `ls research/` is empty where
 you are, stop and say so rather than proceeding without the shared
 artifacts, because everything above silently does not apply to you.
 
+`scripts/githooks/post-checkout` creates the link in a new worktree, since
+2026-11-05. **Do not run `ln -s` for it by hand when one already exists:**
+it follows the existing link and writes a stray `research/research` inside
+the main tree.
+
 The symlink is excluded via `.git/info/exclude` as well as `.gitignore`.
 That is not belt-and-braces: git treats a symlink as a file, so the
 `research/` directory pattern does not match it, and worktrees sit on
@@ -559,6 +564,16 @@ both are easy to get wrong and neither is visible in the code:
   only: anything public is product's (D-095).
 - Runs when opened, not on a schedule (D-325, option C): each run
   catches up from the last digest's end date.
+
+### Youth chat ("TLS Youth")
+
+- `youth/`: the science, data and validated output behind the European
+  youth "heat" map, spec at `youth/SPEC.md` (D-345 to D-349). Worked on
+  branch `claude/distracted-mendel-114fa6` until it reaches main.
+- One test page first, with no nav entry; a menu item is discussed only
+  after the page's first week (D-345).
+- Rendering is design's under D-030. Youth signs off on its rendered
+  page before publish and does not build it.
 
 ### Country reports chat
 
