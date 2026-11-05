@@ -11,14 +11,15 @@
 
 ## map_title
 
-How many young people are dissatisfied with democracy where they live
+How many young Europeans are dissatisfied with their democracy
 
 ## map_lede
 
-The share of people born 1997 or later who are not very or not at all satisfied
-with the way democracy works in their country. The average across the 27 EU
-countries is {eu_avg}%. **This measures dissatisfaction, not anger, and the data
-stops on 1 April 2026, before the autumn protests.**
+This map shows how many people born 1997 or later are dissatisfied with how
+democracy works in their country: {eu_avg}% on average across the 27 EU
+countries. **That is not anger:** we found no free survey that asks about anger
+by age in every EU country. **The newest answers were collected by 1 April 2026,
+so this autumn's protests are not in it.**
 
 ## block2_name
 
@@ -30,7 +31,7 @@ My life against my country
 
 ## block4_name
 
-What it is about
+The issues they name
 
 ## block5_name
 
@@ -42,11 +43,11 @@ Right now
 
 ## block7_name
 
-Nearest contrast
+Similar start, different answer
 
 ## block8_name
 
-Trust and care
+Sources, limits and help
 
 ## not_checked
 
