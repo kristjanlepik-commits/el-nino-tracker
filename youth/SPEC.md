@@ -482,3 +482,12 @@ unlike C1.
 (103 findings, `F-20261106-pl-*`, `F-20261106-se-*`). Cite findings, not its
 map, which awaits Kristjan. Candidates for Full by the 16 November cut-off:
 Germany, Spain, Italy, France, Poland, Sweden.
+
+**C5 source (2026-11-06).** EOS now files findings per country at
+`/Users/admin/Eos/eos/domains/soc/threads/gen-z-west/countries/` (commit
+1d91fa1), generated from the findings, so read them and do not copy by hand. A
+deep-dive number passes C5 only if its finding has `status` active, `verified`
+yes and `scope_checked` true. Usable today: Germany 31 of 31, Spain 35 of 35,
+Italy 47 of 48, France 55 of 58, Poland 47 of 47, Sweden 61 of 61. EOS's fifth
+map is approved, which replaces the "findings, not its map" notes above, but
+numbers still trace to findings.
