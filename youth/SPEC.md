@@ -491,3 +491,10 @@ yes and `scope_checked` true. Usable today: Germany 31 of 31, Spain 35 of 35,
 Italy 47 of 48, France 55 of 58, Poland 47 of 47, Sweden 61 of 61. EOS's fifth
 map is approved, which replaces the "findings, not its map" notes above, but
 numbers still trace to findings.
+
+**Austria (2026-11-06).** EOS filed 44 findings in `countries/AT.json`, all
+scope-checked. EOS's cautions for C5: the O3 items are opt-in and the 2026
+tables state no base, so they may include people outside 16-25; vote figures
+are stated vote in surveys weighted to the election-night projection, not
+results by age. EOS's sixth map, with Austria's row, is not yet approved, so
+cite findings only. Austria is not a Full candidate unless Kristjan adds it.
