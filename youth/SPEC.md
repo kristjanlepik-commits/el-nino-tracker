@@ -502,3 +502,13 @@ cite findings only. Austria is not a Full candidate unless Kristjan adds it.
 **Sixth map (2026-11-06).** EOS reports it approved (a455912), so Austria's row
 can be cited. Numbers still trace to findings, and the two Austria cautions
 above still apply.
+
+**What stands out (D-351, 2026-11-06).** Country pages open with a container of
+unusual survey figures, found by EOS; this chat runs no parallel search. Proposed
+field `what_stands_out`: a list of up to three items, each with `text`, `figure`,
+`ages`, `base`, `source`, `as_of`, `compared_with` and `finding_id`. An item
+enters only if its finding passes C5 and `compared_with` names what the figure
+is unusual against: other countries, other ages or an earlier year. Opt-in polls
+are marked. With no items the container is omitted. This is a selection made
+after seeing the data, so the page must not present it as a measure, and it
+stays out of the map. Twenty of the 28 countries have no EOS research yet.
