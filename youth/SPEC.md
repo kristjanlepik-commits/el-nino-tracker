@@ -512,3 +512,6 @@ is unusual against: other countries, other ages or an earlier year. Opt-in polls
 are marked. With no items the container is omitted. This is a selection made
 after seeing the data, so the page must not present it as a measure, and it
 stays out of the map. Twenty of the 28 countries have no EOS research yet.
+
+**Countries without EOS research (D-352, 2026-11-06).** They show no container
+and no survey scan runs for launch. Pages gain it as EOS reaches them.
