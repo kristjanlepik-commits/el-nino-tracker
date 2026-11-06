@@ -521,3 +521,13 @@ working through them. So adding a country must be routine: copy its checked
 items from EOS into `youth/data/`, because the publishing clone cannot read
 `/Users/admin/Eos`, then rebuild. Under D-200 that payload change needs a fresh
 sign-off on a preview each time, which is this chat's standing action.
+
+**EOS's standout grades (2026-11-06).** EOS now grades findings: USE (a fresh
+checker confirmed the standout and its comparator), STATE (may be stated, not
+called abnormal), DROP, CANDIDATE (not separately checked as a standout), plus
+`not_abnormal`. Only USE enters the container at publish. One gap: a file holds
+every finding tagged to a country, including those where it is only a comparison
+row, and `standouts_use` counts them. France's file has 5 USE and none is about
+France. By hand, USE items per country on the page: Poland 7, Spain 2, Austria 2,
+Germany, Italy, UK, Sweden and Greece 1 each, France 0. The entry test needs a
+field naming the country the standout is about.
