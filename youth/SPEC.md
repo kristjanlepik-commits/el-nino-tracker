@@ -515,3 +515,9 @@ stays out of the map. Twenty of the 28 countries have no EOS research yet.
 
 **Countries without EOS research (D-352, 2026-11-06).** They show no container
 and no survey scan runs for launch. Pages gain it as EOS reaches them.
+
+**All countries, step by step (Kristjan, 2026-11-06).** The aim is all 28; EOS is
+working through them. So adding a country must be routine: copy its checked
+items from EOS into `youth/data/`, because the publishing clone cannot read
+`/Users/admin/Eos`, then rebuild. Under D-200 that payload change needs a fresh
+sign-off on a preview each time, which is this chat's standing action.
