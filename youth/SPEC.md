@@ -531,3 +531,23 @@ row, and `standouts_use` counts them. France's file has 5 USE and none is about
 France. By hand, USE items per country on the page: Poland 7, Spain 2, Austria 2,
 Germany, Italy, UK, Sweden and Greece 1 each, France 0. The entry test needs a
 field naming the country the standout is about.
+
+**EOS grades at commit 84eb16a (2026-11-06).** This overtakes the counts in the
+entry above: France now has USE items of its own. EOS reports 248 graded, USE 70,
+STATE 168, DROP 10, and the files match. By hand, USE items by actual subject:
+Estonia, Greece, Poland 7 each, Netherlands 6, France 5, Spain, Sweden 4 each,
+Bulgaria, UK 3 each, Austria, Germany, Ireland, Portugal 2 each, Hungary, Italy 1
+each. Serbia 8 and the US 6 are off the page. Greece's 7 hold two pairs on the same
+figure (radical change, youth unemployment), so 5 distinct. That is 15 of the 28
+page countries; the other 13 have none: BE, CY, CZ, DK, FI, HR, LT, LU, LV, MT, RO,
+SI, SK. `about` is still missing: France's `standouts_use` says 11, of which 6 are
+about other countries.
+
+USE alone does not settle entry. Proposed test for the container, to be applied
+when items are copied in: graded USE; about this country; carries an age cut, so
+Gallup's France jump (27% from 11%, no age data) and Hungary's direction item
+(whole population) stay out; and old items are weighed, so Ifop 2015 is not chosen
+while a newer one says the same. The UK self-harm item is held until confirmed on
+digital.nhs.uk, since EOS read it at a mirror. EOS writes GR where the page writes
+EL. France's items on generational blame and the pupils' protests are still
+CANDIDATE and closer to the page's question than its USE items.
