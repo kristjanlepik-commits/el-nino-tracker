@@ -477,3 +477,8 @@ map measure, if at least 15 points apart; otherwise the page says there is no
 clear contrast. A rule forcing the five nearest paired Spain with Luxembourg.
 The since-2019 marker's tables were not cross-checked against a second table,
 unlike C1.
+
+**Full-level candidates (2026-11-06).** EOS reports Poland and Sweden checked
+(103 findings, `F-20261106-pl-*`, `F-20261106-se-*`). Cite findings, not its
+map, which awaits Kristjan. Candidates for Full by the 16 November cut-off:
+Germany, Spain, Italy, France, Poland, Sweden.
