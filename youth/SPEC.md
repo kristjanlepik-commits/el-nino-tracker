@@ -498,3 +498,7 @@ tables state no base, so they may include people outside 16-25; vote figures
 are stated vote in surveys weighted to the election-night projection, not
 results by age. EOS's sixth map, with Austria's row, is not yet approved, so
 cite findings only. Austria is not a Full candidate unless Kristjan adds it.
+
+**Sixth map (2026-11-06).** EOS reports it approved (a455912), so Austria's row
+can be cited. Numbers still trace to findings, and the two Austria cautions
+above still apply.
