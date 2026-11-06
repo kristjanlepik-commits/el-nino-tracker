@@ -574,3 +574,11 @@ UK self-harm is not confirmed; EOS has asked Kristjan to clear a bot check on
 digital.nhs.uk, and it stays out if that misses the cut-off. The 13 countries with
 no research are Kristjan's spending call, put to him by EOS. 60 candidates remain
 unproven. No second-round search has run for Italy, Poland or Austria.
+
+**Narrow standouts pass (2026-11-06, as reported by EOS).** Kristjan approved it for
+the 13 countries with no research: BE, CY, CZ, DK, FI, HR, LT, LU, LV, MT, RO, SI, SK.
+Each gets a `countries/<CODE>.json` in the same shape, standout findings only, graded
+USE, STATE or DROP by a fresh checker, with `about`, and no full row. A country can end
+with no USE item and then omits the container (D-352). EOS estimates this lands well
+before the 16 November cut-off and has not measured it. Italy is not in the pass, so
+it stays at no USE item unless that changes.
