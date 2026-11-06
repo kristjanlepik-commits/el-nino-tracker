@@ -551,3 +551,26 @@ while a newer one says the same. The UK self-harm item is held until confirmed o
 digital.nhs.uk, since EOS read it at a mirror. EOS writes GR where the page writes
 EL. France's items on generational blame and the pupils' protests are still
 CANDIDATE and closer to the page's question than its USE items.
+
+**EOS grades at commit db04968 (2026-11-06).** This overtakes the counts above.
+Every finding now has `about`, and `standouts_use` counts on it, so hand counts are
+no longer needed; checked here, no USE item is below medium confidence or fails C5.
+USE by `about` on the page: Estonia, France, Greece 7 each, Netherlands, Poland 6
+each, Sweden 4, Bulgaria, Spain, UK 3 each, Austria, Germany, Ireland, Portugal 2
+each, Hungary 1. Italy has none: its only item went to STATE at low confidence, and
+EOS will not lift one to fill the gap. So 14 of the 28 have a USE item. Under the
+proposed test Hungary drops out (whole population), which leaves 13, and Germany's
+Ipsos item and France's Gallup item drop too (no age cut).
+
+France's two items on the page's question are now USE, and carry wording limits
+that go with them. Cluster17: say 83% of 18-34s "pick" benefit seniors, from three
+options, not agree; respondents first read a text on the blockades; the 79% on fewer
+chances is self-placement, not abnormal. Ifop: say "support or sympathy", high under
+35 and flat from 35, not a steady fall. Boomers is STATE. Copy from `stands_out`,
+`comparator` and `caution`, not from the Answers of the two soc/france files, which
+keep their old wording until soc/france applies EOS's proposal.
+
+UK self-harm is not confirmed; EOS has asked Kristjan to clear a bot check on
+digital.nhs.uk, and it stays out if that misses the cut-off. The 13 countries with
+no research are Kristjan's spending call, put to him by EOS. 60 candidates remain
+unproven. No second-round search has run for Italy, Poland or Austria.
