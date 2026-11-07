@@ -582,3 +582,7 @@ USE, STATE or DROP by a fresh checker, with `about`, and no full row. A country 
 with no USE item and then omits the container (D-352). EOS estimates this lands well
 before the 16 November cut-off and has not measured it. Italy is not in the pass, so
 it stays at no USE item unless that changes.
+
+**Italy added to the narrow pass (2026-11-07).** Kristjan, to TLS Youth: add Italy,
+because it had no second-round search and has no USE item of its own. Sent to EOS on
+the same terms: standouts only, no lifting an item to fill the gap.
