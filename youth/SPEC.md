@@ -613,3 +613,51 @@ have none and omit the container. The east-central items run against the
 angry-young reading (young 23 to 37 points more satisfied than 55+ in Lithuania,
 Latvia, Slovakia and Romania), which matches the map, where older people are more
 dissatisfied in 14 countries and the young in none.
+
+## 18. Youth stress index, prototype (2026-11-07)
+
+**Why this exists.** Kristjan, 2026-11-07, after reviewing the 26 What stands out
+boxes: "we now need really to work on the heat index that would be the main driver
+of the map ... I care less about methodological preciseness, but more about finding
+signs where the stress is high and surfacing that." This overrides D-349's condition
+that an index return only after a new pre-registration tested on a later wave. It
+is his call and is logged as such. What is kept from the old discipline: the recipe
+below is committed before any score is computed, so the weights cannot drift toward
+a preferred map.
+
+**What changes from the dropped index.** The dropped index leaned on the gap between
+young and older people, so Bulgaria came out calm because its old are angrier
+(D-349). This one measures young people's own levels only. It asks where the young
+are worst off and most unhappy, not whether they are worse off than their parents.
+
+**Components.** Young people only, newest data already in `youth/data/`.
+Mood (Standard Eurobarometer 103, 104, 105, born 1997 or later, three waves pooled
+by count):
+- M1 dissatisfied with how democracy works in the country (SD18a)
+- M2 tend not to trust the national government
+- M3 country going in the wrong direction
+- M4 own life going in the wrong direction
+Pressure (Eurostat, newest year all 27 share):
+- P1 life satisfaction, 16-29, reversed
+- P2 unemployment, 15-29
+- P3 at risk of poverty or social exclusion, 16-29
+- P4 spending over 40% of income on housing, 15-29
+- P5 living with parents, 18-34
+
+**Arithmetic.** Each component becomes a z-score across the 27 EU countries (EU
+countries counted once each, unweighted), signed so that higher means more stress,
+and capped at plus or minus 2.5 so one extreme figure cannot carry a country. Mood
+is the mean of M1 to M4, Pressure the mean of P1 to P5, and the index is the mean of
+the two, so attitudes and conditions weigh the same. The score shown is 50 plus 15
+times the index, so 50 is the EU average; the map shows five classes by fixed score
+(below 40, 40-47, 47-53, 53-60, 60 and over), not quintiles, so a class means the
+same thing next time. The UK has no Eurostat rows; it is scored on Mood alone and
+marked as such.
+
+**What is not claimed.** Not validated against an outside measure, not anger, and
+not a forecast. Equal weights are a choice, not a finding. Each country page shows
+the nine components beside the score, so a reader can see what drives it.
+
+**Known before computing.** I have seen M1 by country (it is the current map) and
+the Eurostat rows (block 5). I have not combined them or seen M2 to M4 for born
+1997 or later at country level since the dropped run.
