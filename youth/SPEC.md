@@ -661,3 +661,20 @@ the nine components beside the score, so a reader can see what drives it.
 **Known before computing.** I have seen M1 by country (it is the current map) and
 the Eurostat rows (block 5). I have not combined them or seen M2 to M4 for born
 1997 or later at country level since the dropped run.
+
+**Index leads from EOS (2026-11-07), none checked for this purpose.** Mental health:
+Eurostat hlth_cd_aro suicide deaths by age (small countries need pooled years; a
+suicide rate in a stress score is an editor question under safe-messaging practice,
+as for the held items); EHIS 2019 depressive symptoms at 15-29 (old, under-reported
+in the east); Flash EB 579 (2026, ages 13-18); HBSC 2021/22 (ages 11-15). Mood:
+Standard EB 105.2 D70 life satisfaction at 15-24. Loneliness: Eurostat ilc_pw10
+(2022, no Germany). Emigration plans: no all-27 source. Debt: none by age.
+
+EOS's own stress-map plan (sources/youth-stress-map-plan.md in EOS) argues for one
+measure at a time and never a blended score, because the measures disagree: Romania's
+young are worst on material pressure and second most satisfied. The prototype keeps
+mood and pressure visible on every row, but the map colour is still a blend. Whether
+to blend is Kristjan's call (D-353, open); EOS is raising it with him too.
+
+EOS counts on `about`: Hungary has 1 USE item, not 0. Under this page's entry test it
+still drops out, since it covers the whole population, so the page count stays 26.
