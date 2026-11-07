@@ -590,3 +590,26 @@ EOS took the Italy request only once Kristjan confirmed it in EOS's own session;
 did, and its second-round search started the same day. First result from the 13:
 Latvia's four items are all STATE, three of them language-group gaps, so Latvia
 would omit the container.
+
+**Narrow pass published, EOS commit 1d7d289 (2026-11-07).** Checked here: `about` on
+every finding, `standouts_use` equals a count of USE by `about` for all 31 codes, and
+no USE item is below medium confidence or fails C5. USE by country: BE 2, CY 1, CZ 3,
+DK 4, FI 4, HR 2, LT 4, LU 1, LV 4, MT 2, RO 4, SI 2, SK 2. Italy's second round gave
+three STATE items and no USE. EOS totals: USE 105, STATE 234, DROP 12.
+
+Two more limits for the entry test, found in these files:
+- An item built on the map's own question (SD18a, satisfaction with democracy in the
+  country) stays out: block 2 already shows it, in the page's own age bands and
+  pooled over three waves, and a 15-24 figure beside it would give the reader two
+  numbers for one question. This removes one item each for Lithuania and Romania.
+  The EU democracy items (SD18b) are a different question and stay.
+- Suicide and self-harm items (Finland, Lithuania, and the held UK item) are held
+  for editor, since how they are reported is a copy decision under safe-messaging
+  practice, not a data one.
+With the age-cut rule, Malta's fertility item (whole population) also stays out.
+
+Result under the test: 26 of 28 countries have at least one item; Italy and Hungary
+have none and omit the container. The east-central items run against the
+angry-young reading (young 23 to 37 points more satisfied than 55+ in Lithuania,
+Latvia, Slovakia and Romania), which matches the map, where older people are more
+dissatisfied in 14 countries and the young in none.
