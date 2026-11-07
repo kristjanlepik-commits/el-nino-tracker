@@ -678,3 +678,16 @@ to blend is Kristjan's call (D-353, open); EOS is raising it with him too.
 
 EOS counts on `about`: Hungary has 1 USE item, not 0. Under this page's entry test it
 still drops out, since it covers the whole population, so the page count stays 26.
+
+**Third round, EOS commit 37b10e2 (2026-11-07).** Pain first, 35 findings checked:
+USE 4, STATE 30, DROP 1; counts match `standouts_use` for every code, no USE item
+below medium confidence or failing C5. New USE: Hungary (Fidesz 14% of under-30s
+against 50% of over-65s, pre-election poll), Belgium (38% of Flemish 18-24s name
+performance pressure, against 3% of over-65s), Slovenia (Gen Z net trust in the
+speaker -59 against boomers +19), Ireland (trust in politicians 37% of the youngest
+voters against 68% of over-65s). Hungary's item has an age cut, so Hungary now gets
+the container: 27 of 28 pages. Italy has none after three rounds; EOS did not lift
+an item to fill it. EOS notes strong pain items held at STATE for want of a clean
+comparator (German students' housing costs, Portuguese 18-24s' mental-health
+symptoms, Irish opportunity fall); the container shows USE only, so these are not on
+the pages.
