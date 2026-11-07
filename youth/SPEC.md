@@ -586,3 +586,7 @@ it stays at no USE item unless that changes.
 **Italy added to the narrow pass (2026-11-07).** Kristjan, to TLS Youth: add Italy,
 because it had no second-round search and has no USE item of its own. Sent to EOS on
 the same terms: standouts only, no lifting an item to fill the gap.
+EOS took the Italy request only once Kristjan confirmed it in EOS's own session; he
+did, and its second-round search started the same day. First result from the 13:
+Latvia's four items are all STATE, three of them language-group gaps, so Latvia
+would omit the container.
