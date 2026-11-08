@@ -1,10 +1,10 @@
 {
   "source": "era5_wwe",
   "ok": true,
-  "issued": "2026-11-01",
-  "fetched_at": "2026-11-07T07:01:33+00:00",
+  "issued": "2026-11-02",
+  "fetched_at": "2026-11-08T07:10:57+00:00",
   "payload": {
-    "cwwa_ms_days": 1043.1,
+    "cwwa_ms_days": 1048.58,
     "cwwa_series": [
       [
         "2026-03-01",
@@ -989,6 +989,10 @@
       [
         "2026-11-01",
         1043.101806640625
+      ],
+      [
+        "2026-11-02",
+        1048.5821533203125
       ]
     ],
     "cwwa_analogs": {
@@ -5898,7 +5902,7 @@
       ]
     },
     "domain": "5N-5S, 130E-150W",
-    "observation_days": 246
+    "observation_days": 247
   },
   "error": null,
   "used_fallback": false
