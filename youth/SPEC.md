@@ -691,3 +691,17 @@ an item to fill it. EOS notes strong pain items held at STATE for want of a clea
 comparator (German students' housing costs, Portuguese 18-24s' mental-health
 symptoms, Irish opportunity fall); the container shows USE only, so these are not on
 the pages.
+
+**Also worth knowing, 2026-11-08 (D-354).** Kristjan approved a second, plainer list
+under the box for checked STATE items, which have no clean comparison and so never
+reach the box. Entry test: STATE; active, verified, scope checked; medium confidence
+or better; about this country; an age cut or a youth sample; suicide and self-harm
+items held for editor. Up to three per page, chosen pain first, worded so nothing is
+called abnormal. First pass, from EOS 37b10e2: 148 candidates read, 59 items on 25
+pages. Italy gets three, so every page now has content above block 2. Estonia, Latvia
+and Lithuania get none (their candidates are all-adult or lack a youth cut; each has
+a box). Held: Polish school-leaver depression and Spanish suicidal ideation (suicide
+figures in both), Portuguese 18-24 mental-health symptoms (low confidence). Each
+item's numbers were checked against the EOS answer text by script; the only
+mismatches are roundings (59.9% shown as 60%, EUR 35.3k as 35,300, and so on).
+Mock-up version 9.
