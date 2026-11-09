@@ -8,7 +8,7 @@
   "carry its own as_of. Hectares and detections measure",
   "different things and are never converted into each other."
  ],
- "fetched": "2026-11-08T12:51:43Z",
+ "fetched": "2026-11-09T05:22:51Z",
  "year": 2026,
  "effis_cycle": {
   "known": true,
@@ -24,7 +24,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 18774326,
    "avg_ha": 34927629.0,
    "avg_basis": {
@@ -64,7 +64,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 24684,
    "avg_ha": 27047.3,
    "avg_basis": {
@@ -109,8 +109,8 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
-   "area_ha": 1066568,
+   "lag_days": 5,
+   "area_ha": 1066575,
    "avg_ha": 3646375.7,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -149,8 +149,8 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
-   "area_ha": 19701708,
+   "lag_days": 5,
+   "area_ha": 19734519,
    "avg_ha": 28525255.6,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -182,14 +182,14 @@
    "week_step_ha": 765346,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.38,
-   "fires": 30107
+   "fires": 30106
   },
   "AUT": {
    "name": "Austria",
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 444,
    "avg_ha": 303.3,
    "avg_basis": {
@@ -222,7 +222,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 3038,
    "avg_ha": 314.4,
    "avg_basis": {
@@ -263,7 +263,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 8811,
    "avg_ha": 13222.6,
    "avg_basis": {
@@ -309,7 +309,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 80897,
    "avg_ha": 33406.9,
    "avg_basis": {
@@ -354,7 +354,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 1636800,
    "avg_ha": 5824189.2,
    "avg_basis": {
@@ -394,8 +394,8 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
-   "area_ha": 11859423,
+   "lag_days": 5,
+   "area_ha": 11888679,
    "avg_ha": 28032829.8,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -434,7 +434,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 1039515,
    "avg_ha": 1914207.9,
    "avg_basis": {
@@ -474,8 +474,8 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
-   "area_ha": 2668906,
+   "lag_days": 5,
+   "area_ha": 2668923,
    "avg_ha": 4132687.4,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -514,8 +514,8 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
-   "area_ha": 314751,
+   "lag_days": 5,
+   "area_ha": 314756,
    "avg_ha": 365514.1,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -554,8 +554,8 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
-   "area_ha": 2926818,
+   "lag_days": 5,
+   "area_ha": 2926914,
    "avg_ha": 2825238.9,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -594,7 +594,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 22491533,
    "avg_ha": 41576255.4,
    "avg_basis": {
@@ -634,7 +634,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 1057597,
    "avg_ha": 1647203.3,
    "avg_basis": {
@@ -674,7 +674,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 1037215,
    "avg_ha": 1908713.9,
    "avg_basis": {
@@ -714,7 +714,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 224061,
    "avg_ha": 427699.2,
    "avg_basis": {
@@ -754,7 +754,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 326,
    "avg_ha": 2389.5,
    "avg_basis": {
@@ -800,7 +800,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 41,
    "avg_ha": 175.7,
    "avg_basis": {
@@ -835,7 +835,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 3318,
    "avg_ha": 1403.2,
    "avg_basis": {
@@ -874,7 +874,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 70,
    "avg_ha": 181.6,
    "avg_basis": {
@@ -909,7 +909,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 33605,
    "avg_ha": 55864.5,
    "avg_basis": {
@@ -949,7 +949,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 353520,
    "avg_ha": 66777.4,
    "avg_basis": {
@@ -992,7 +992,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 59256,
    "avg_ha": 107042.4,
    "avg_basis": {
@@ -1032,7 +1032,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 301750,
    "avg_ha": 94466.1,
    "avg_basis": {
@@ -1078,7 +1078,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 299,
    "avg_ha": 69.8,
    "avg_basis": {
@@ -1112,7 +1112,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 66,
    "avg_ha": 440.8,
    "avg_basis": {
@@ -1147,7 +1147,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 98697,
    "avg_ha": 14651.0,
    "avg_basis": {
@@ -1193,7 +1193,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 25084,
    "avg_ha": 11776.6,
    "avg_basis": {
@@ -1234,7 +1234,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 13880,
    "avg_ha": 29779.2,
    "avg_basis": {
@@ -1274,7 +1274,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 35321,
    "avg_ha": 49961.8,
    "avg_basis": {
@@ -1320,7 +1320,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 21134,
    "avg_ha": 13164.0,
    "avg_basis": {
@@ -1366,7 +1366,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 6490,
    "avg_ha": 12852.4,
    "avg_basis": {
@@ -1406,7 +1406,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 2287,
    "avg_ha": 766.4,
    "avg_basis": {
@@ -1451,8 +1451,8 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
-   "area_ha": 8753593,
+   "lag_days": 5,
+   "area_ha": 8755761,
    "avg_ha": 3417682.9,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -1484,15 +1484,15 @@
    "week_step_ha": 177925,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.65,
-   "fires": 31831
+   "fires": 31835
   },
   "IND": {
    "name": "India",
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
-   "area_ha": 4138725,
+   "lag_days": 5,
+   "area_ha": 4138798,
    "avg_ha": 6001477.1,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -1531,7 +1531,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 2953,
    "avg_ha": 4266.9,
    "avg_basis": {
@@ -1572,7 +1572,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 0,
    "avg_ha": 21.7,
    "avg_basis": {
@@ -1605,7 +1605,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 0,
    "avg_ha": 189.5,
    "avg_basis": {
@@ -1641,7 +1641,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 1680,
    "avg_ha": 2601.6,
    "avg_basis": {
@@ -1684,7 +1684,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 117574,
    "avg_ha": 57158.1,
    "avg_basis": {
@@ -1730,7 +1730,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 6108,
    "avg_ha": 7419.1,
    "avg_basis": {
@@ -1770,7 +1770,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 16016,
    "avg_ha": 11337.2,
    "avg_basis": {
@@ -1810,7 +1810,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 727680,
    "avg_ha": 2389696.5,
    "avg_basis": {
@@ -1850,8 +1850,8 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
-   "area_ha": 1529499,
+   "lag_days": 5,
+   "area_ha": 1529527,
    "avg_ha": 2843369.4,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -1890,7 +1890,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 3045,
    "avg_ha": 11524.9,
    "avg_basis": {
@@ -1930,7 +1930,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 2643071,
    "avg_ha": 3671546.1,
    "avg_basis": {
@@ -1970,7 +1970,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 6772,
    "avg_ha": 1625.9,
    "avg_basis": {
@@ -2009,7 +2009,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 0,
    "avg_ha": 824.8,
    "avg_basis": {
@@ -2048,7 +2048,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 20210,
    "avg_ha": 42709.6,
    "avg_basis": {
@@ -2088,7 +2088,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 46,
    "avg_ha": 83.4,
    "avg_basis": {
@@ -2121,7 +2121,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 0,
    "avg_ha": null,
    "avg_basis": {
@@ -2144,7 +2144,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 318,
    "avg_ha": 178.9,
    "avg_basis": {
@@ -2188,7 +2188,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 6087,
    "avg_ha": 5597.9,
    "avg_basis": {
@@ -2231,8 +2231,8 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
-   "area_ha": 2190953,
+   "lag_days": 5,
+   "area_ha": 2192406,
    "avg_ha": 3961143.0,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -2271,8 +2271,8 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
-   "area_ha": 1349871,
+   "lag_days": 5,
+   "area_ha": 1349904,
    "avg_ha": 4246822.9,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -2311,7 +2311,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 25323,
    "avg_ha": 17715.6,
    "avg_basis": {
@@ -2356,7 +2356,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 0,
    "avg_ha": 8.2,
    "avg_basis": {
@@ -2390,7 +2390,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 4327141,
    "avg_ha": 6473177.5,
    "avg_basis": {
@@ -2430,7 +2430,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 43351,
    "avg_ha": 16678.1,
    "avg_basis": {
@@ -2475,8 +2475,8 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
-   "area_ha": 9081427,
+   "lag_days": 5,
+   "area_ha": 9082825,
    "avg_ha": 16835530.4,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -2515,8 +2515,8 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
-   "area_ha": 327538,
+   "lag_days": 5,
+   "area_ha": 327949,
    "avg_ha": 809011.6,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -2544,7 +2544,7 @@
     }
    },
    "max_ha": 1165254,
-   "multiple": 0.4,
+   "multiple": 0.41,
    "week_step_ha": 27752,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
    "vs_max": 0.28,
@@ -2555,7 +2555,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 60405,
    "avg_ha": 156455.7,
    "avg_basis": {
@@ -2595,7 +2595,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 905026,
    "avg_ha": 1658582.4,
    "avg_basis": {
@@ -2635,7 +2635,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 635,
    "avg_ha": 134.9,
    "avg_basis": {
@@ -2676,7 +2676,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 1589,
    "avg_ha": 1063.4,
    "avg_basis": {
@@ -2720,7 +2720,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 156365,
    "avg_ha": 575504.9,
    "avg_basis": {
@@ -2760,7 +2760,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 22159,
    "avg_ha": 32801.0,
    "avg_basis": {
@@ -2800,7 +2800,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 398279,
    "avg_ha": 854962.1,
    "avg_basis": {
@@ -2840,7 +2840,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 247726,
    "avg_ha": 234585.8,
    "avg_basis": {
@@ -2880,8 +2880,8 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
-   "area_ha": 2288526,
+   "lag_days": 5,
+   "area_ha": 2291606,
    "avg_ha": 469373.6,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -2912,7 +2912,7 @@
    "multiple": 4.88,
    "week_step_ha": 77186,
    "week_step_means": "Hectares mapped in this ISO week alone, taken as week N minus week N-1 within THIS file so both sides carry the same revisions. Do NOT compute a weekly step by differencing area_ha against a previously published value: GWIS revises earlier weeks upward, so that difference includes backfill and reports land mapped this week as land burned this week. null means the step could not be computed, not that nothing burned.",
-   "vs_max": 1.28,
+   "vs_max": 1.29,
    "fires": 5645
   },
   "POL": {
@@ -2920,7 +2920,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 1458,
    "avg_ha": 606.6,
    "avg_basis": {
@@ -2958,7 +2958,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 73463,
    "avg_ha": 105092.0,
    "avg_basis": {
@@ -3004,7 +3004,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 776167,
    "avg_ha": 2689491.6,
    "avg_basis": {
@@ -3044,7 +3044,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 29993,
    "avg_ha": 36881.1,
    "avg_basis": {
@@ -3085,7 +3085,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 7774896,
    "avg_ha": 14221610.5,
    "avg_basis": {
@@ -3125,7 +3125,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 0,
    "avg_ha": 8232.1,
    "avg_basis": {
@@ -3165,7 +3165,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 37159,
    "avg_ha": 8307.3,
    "avg_basis": {
@@ -3210,7 +3210,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 1164,
    "avg_ha": 146.5,
    "avg_basis": {
@@ -3242,7 +3242,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 354,
    "avg_ha": 318.6,
    "avg_basis": {
@@ -3288,7 +3288,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 185,
    "avg_ha": 2362.7,
    "avg_basis": {
@@ -3332,7 +3332,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 880,
    "avg_ha": 31520.4,
    "avg_basis": {
@@ -3372,7 +3372,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 2671635,
    "avg_ha": 2319793.1,
    "avg_basis": {
@@ -3412,7 +3412,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 24303,
    "avg_ha": 79311.9,
    "avg_basis": {
@@ -3452,7 +3452,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 29154,
    "avg_ha": 7790.6,
    "avg_basis": {
@@ -3495,7 +3495,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 63487,
    "avg_ha": 52589.9,
    "avg_basis": {
@@ -3541,8 +3541,8 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
-   "area_ha": 3728112,
+   "lag_days": 5,
+   "area_ha": 3728532,
    "avg_ha": 8773547.7,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -3581,7 +3581,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 680765,
    "avg_ha": 1378804.4,
    "avg_basis": {
@@ -3621,7 +3621,7 @@
    "source": "EFFIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 437521,
    "avg_ha": 378594.0,
    "avg_basis": {
@@ -3653,7 +3653,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 14539,
    "avg_ha": 30869.8,
    "avg_basis": {
@@ -3693,8 +3693,8 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
-   "area_ha": 3492795,
+   "lag_days": 5,
+   "area_ha": 3492850,
    "avg_ha": 5059537.1,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -3733,8 +3733,8 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
-   "area_ha": 3188856,
+   "lag_days": 5,
+   "area_ha": 3188846,
    "avg_ha": 4145343.9,
    "avg_basis": {
     "basis": "mean of prior years at this week, leading all-zero years dropped as uncovered rather than quiet",
@@ -3773,7 +3773,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 315711,
    "avg_ha": 773607.1,
    "avg_basis": {
@@ -3813,7 +3813,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 1563390,
    "avg_ha": 3107482.4,
    "avg_basis": {
@@ -3853,7 +3853,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 10867060,
    "avg_ha": 20305986.2,
    "avg_basis": {
@@ -3893,7 +3893,7 @@
    "source": "GWIS",
    "week": 44,
    "as_of": "2026-11-04",
-   "lag_days": 4,
+   "lag_days": 5,
    "area_ha": 1006743,
    "avg_ha": 2239207.2,
    "avg_basis": {
