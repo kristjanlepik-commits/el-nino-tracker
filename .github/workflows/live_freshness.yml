@@ -1,0 +1,33 @@
+name: Live freshness alerts
+
+# Business's check_live_freshness.py, routed into the alert issues that
+# reach Kristjan (D-358), one issue per stale page, closed when that page is
+# current again. The check asks the LIVE site, never a run's exit code.
+#
+# SHIPS DRY (LIVE_ALERTS: off). For a week it only logs what it would open
+# or close, because the date budgets for floods, crops and the ocean field
+# are unconfirmed, and a page the check cannot read reports NO DATE: an
+# alarm that cries wolf once stops being read. Business confirms each
+# owner's budget and label during that week; then a person flips
+# LIVE_ALERTS to "on" in a commit. Nothing turns it on by date.
+on:
+  schedule:
+    - cron: "41 9 * * *"   # daily, after the fires and brief publishes land
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check the live site and route findings
+        env:
+          GH_TOKEN: ${{ github.token }}
+          LIVE_ALERTS: "off"
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: python3 scripts/route_freshness_alerts.py

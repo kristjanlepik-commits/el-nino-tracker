@@ -3,6 +3,7 @@
 
     python3 scripts/check_live_freshness.py          table, exit 1 if anything is stale
     python3 scripts/check_live_freshness.py --line   one line, for a log
+    python3 scripts/check_live_freshness.py --json   rows as JSON, for the alert router
 
 WHY THIS EXISTS. In September a reader could have found, on the same day:
 the El Nino issue a week old because the Monday job crashed; heat measured
@@ -125,6 +126,14 @@ def main() -> int:
             print("  CANNOT CHECK: no page could be fetched. This is the "
                   "network, not the site.")
         return 3
+    if "--json" in sys.argv:
+        # For scripts/route_freshness_alerts.py (Business, 2026-11-10): the
+        # same rows, machine-readable, so nothing has to parse the table.
+        import json as _json
+        print(_json.dumps([{"page": r[0], "state": r[1], "claims": r[2],
+                            "budget_days": r[3], "owner": r[4], "detail": r[5]}
+                           for r in rows]))
+        return 1 if bad else 0
     if "--line" in sys.argv:
         print("%s  %s" % (dt.datetime.now().strftime("%Y-%m-%d %H:%M"),
               "ALL CURRENT" if not bad else "STALE: " + ", ".join(
