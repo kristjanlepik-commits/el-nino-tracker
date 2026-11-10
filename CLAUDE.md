@@ -2,6 +2,13 @@
 
 Context for Claude Code working on this repo. Read this first.
 
+## Working rules (approved by Kristjan, 10 November 2026)
+
+1. **Direction before build.** New page layouts, new chart forms, headline and hero copy, social cards and channel launches start with a concept: an outline, a sketch or one screenshot. Build after Kristjan approves the direction. If he has not answered within a day, build, and he reviews it live. Recurring issues, digests, fixes and method work need no concept.
+2. **Three rounds, then escalate.** Two chats still disagreeing after three rounds stop, and one writes the decision's owner a single paragraph on the disagreement. Kristjan only if there is no owner or the owner is a party.
+3. **Corrections become rules.** When Kristjan corrects a desk, it writes his words verbatim as a rule: in its own brief, or in CLAUDE.md if it applies to every desk. He never says it twice.
+4. **Length limits.** Messages between chats: 80 words plus a pointer to the file. Replies to Kristjan: 150 words unless he asks for more. No preamble, no recap. A topic that needs more puts the detail in a file and says so in the first line.
+
 ## What this is
 
 Internal weekly probability tracker for the 2026-27 El Niño event.
