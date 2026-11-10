@@ -130,6 +130,25 @@ before acting on any ledger entry.** Entries are never edited, so an
 entry can be live text and still be overtaken; the index is the only
 place that says so.
 
+## Open alerts come first (D-361)
+
+At the start of every session, before any other work, run:
+
+    gh issue list -R kristjanlepik-commits/el-nino-tracker --state open
+
+Each open issue there is an automated alert from `scripts/open_alert_issue.sh`.
+Alerts close themselves once the problem is gone, so **an open alert is a live
+problem, not history.**
+
+- **In your surface:** fix it first, then tell Kristjan in one line.
+- **Not yours:** send the owning desk one line. Do not fix another desk's surface.
+- **Needs Kristjan** (a token, a login, a payment): make sure it is in
+  `research/awaiting_kristjan.md`, and add it if it is not.
+- **Never close an alert by hand.** It closes when the problem does.
+
+Why: on 2026-11-09 the Monday issue failed to publish. The alert opened three
+minutes later, assigned to Kristjan, and no chat acted on it for 25 hours.
+
 ## The one rule that holds all of this together
 
 **A decision that lives only in a chat's context does not exist.**
