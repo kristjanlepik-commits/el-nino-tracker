@@ -8,8 +8,10 @@ name: Monday issue live check
 # notices nothing, so the noticing has to run on its own.
 #
 # It reads the live landing page and, if this Monday's issue is not on it,
-# emails Kristjan through the brief's own SMTP secrets, the inbox he reads,
-# and fails red. It changes nothing and publishes nothing. The file sits in
+# fails red, and emails Kristjan if the repo ever has SMTP secrets (it has
+# none as of 2026-11-10). The alert that reaches him is the Claude app task
+# "monday-elnino-issue-check"; this is the independent second record, and
+# it runs when the laptop is off. It changes nothing and publishes nothing. The file sits in
 # Platform's directory under Science's mandate; Platform was told first.
 #
 # Two runs, because GitHub starts scheduled Monday runs hours late
@@ -134,11 +136,14 @@ jobs:
           if os.environ.get("DRY_RUN"):
               print(body)
               sys.exit(1)
-          try:
-              host, user = os.environ["SMTP_HOST"], os.environ["SMTP_USER"]
-              pw, to = os.environ["SMTP_PASS"], os.environ["BRIEF_RECIPIENT"]
-          except KeyError as e:
-              print("ALERT NOT SENT: missing secret %s" % e)
+          host, user = os.environ.get("SMTP_HOST"), os.environ.get("SMTP_USER")
+          pw, to = os.environ.get("SMTP_PASS"), os.environ.get("BRIEF_RECIPIENT")
+          if not (host and user and pw and to):
+              # The repo has no SMTP secrets (2026-11-10), so the Monday alert that
+              # reaches Kristjan is the Claude app task "monday-elnino-issue-check".
+              # This run failing red is the second, independent record.
+              print("ALERT NOT EMAILED: no SMTP secrets in this repo. This red run is "
+                    "the record; the Claude app task is the alert.")
               sys.exit(1)
           msg = EmailMessage()
           msg["Subject"], msg["From"], msg["To"] = subject, user, to
