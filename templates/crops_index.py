@@ -157,6 +157,16 @@ def _others_sentence(places, lead):
     return f"{_word(n).capitalize()} other countries also passed {noun}."
 
 
+def crops_empty_sentence(places):
+    """Editor's sentence for a dekad in which no country passed its own
+    worst, all-time when Crops' fields exist, twelve-year otherwise. Also
+    read by templates/frontpage.py, so /crops/ and the front page agree."""
+    if _has_prior(places):
+        return "No country passed its own previous worst in the latest crop data."
+    return ("No country passed its worst of the last twelve years in the "
+            "latest crop data.")
+
+
 def _base_rate_sentence(doc, places):
     """Editor's sentence after the others line, from Crops'
     prior_max_clearance_baseline: "Eleven in all. A typical year has
@@ -1656,11 +1666,13 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
             flagged += " " + _br
         opening = flagged + " "
     else:
-        headline = (f"No country has more cropland at a record low than "
-                    f"its own recent history explains.")
-        opening = ("No country passed its own previous worst. "
-                   if _has_prior(places) else
-                   "No country passed its worst of the last twelve years. ")
+        # Editor, 10 Nov: the empty headline mirrors the claim the rows make,
+        # all-time when the fields exist, and says "the latest crop data"
+        # because crops updates every ten days, not weekly. The front page
+        # uses the same sentence (frontpage.CROPS_EMPTY) so the two agree.
+        # The opening is empty here: the headline already says it.
+        headline = crops_empty_sentence(places)
+        opening = ""
 
     # NO ADJECTIVE, in either direction. This said "Globally that is an
     # ordinary week", and 81 against a typical 59 is the 83rd percentile,

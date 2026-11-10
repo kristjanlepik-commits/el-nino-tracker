@@ -245,13 +245,13 @@ def map_svg(d, nino34):
 # 2 Nov our own withdrawn record claim did it, on 9 Nov a week in which no
 # fire country cleared its bar (max() of nothing, then ev[0]). Science put
 # guards on those two sites (5c096f3); this is the general version. An
-# EMPTY week is a finding and reads as one (the constants below, editor's
-# to word); an ERROR reads "not shown this week" and is printed loudly.
-FIRES_EMPTY = ("No country's fires are far above its own same-week average "
-               "this week.")
-CROPS_EMPTY = ("No country has more cropland at a record low than its own "
-               "recent history explains.")
-NOT_SHOWN = "Not shown this week."
+# EMPTY week is a finding and reads as one (editor's words, 10 Nov); an
+# ERROR reads "We could not check this one this week." and is printed loudly.
+FIRES_EMPTY = ("No country had unusually many fires for this time of year, "
+               "measured against its own past.")
+# Crops' empty sentence is the crops page's own (crops_index.crops_empty_sentence),
+# so the two cannot drift: all-time when Crops' fields exist, else twelve-year.
+NOT_SHOWN = "We could not check this one this week."
 
 
 def _empty(ch, claim):
@@ -385,7 +385,8 @@ def _crops_rows(d):
                (p.get("chance_baseline") or {}).get("notable"))]
     sel.sort(key=lambda p: -((p.get("chance_baseline") or {}).get("excess_share") or 0))
     if not sel:
-        return [_empty("Crops", CROPS_EMPTY)]
+        from templates.crops_index import crops_empty_sentence
+        return [_empty("Crops", crops_empty_sentence(d["crops"]["places"]))]
     best = sel[0]
     regs = best.get("regions") or []
     n1 = [r for r in regs if r.get("rank") == 1]
