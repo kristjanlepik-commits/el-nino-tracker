@@ -1,10 +1,10 @@
 {
   "channel": "crops",
-  "approved_hash": "497b11d33e3350dc1003a1b2f89ca3c4b42aadace31a5fcae91c8d114fc76020",
-  "approved_commit": "cb77c718ee77c557e7fddc83c5f8371c6736280f",
-  "approved_at": "2026-11-10T09:47:33+00:00",
+  "approved_hash": "1a60a6fcd8ea1832f83ca2e4e73f74878001f4d77f180138a3f17d07c1211af4",
+  "approved_commit": "a8d308cde95f054270d860abb369ce34febc2278",
+  "approved_at": "2026-11-10T09:57:26+00:00",
   "approved_by": "TLS Crops",
-  "note": "Design's 4177ff8f, editor's empty-dekad headline, plus dekad 2026-10-21 already reviewed. Preview at origin/main renders byte-identical to the published page; the new branch does not render this dekad. LATENT DEFECT, not a condition, reported to design: crops_empty_sentence fires when no place is selected_for_display, and selection needs the twelve-year clearance AND at least three regions at record, while the sentence claims no country passed its ALL-TIME worst. Proved in a throwaway worktree: with no country selected and Uganda past its all-time worst on two regions, the page renders 'No country passed its own previous worst in the latest crop data.' Not reachable without a new payload, which this gate holds for review, so the live page is unaffected.",
+  "note": "Design's 5e6771f4 (three-state empty headline; lead sorted by margin_past_prior_max with excess_share tie-break, shared with the front page). Reviewed in four states, three on throwaway payload copies discarded before this approval: (0) real payload, preview byte-identical to live; (A) nobody passed: editor's sentence, true; (B) Uganda past its all-time worst on 2 regions, none selected: 'No country had three or more crop regions past its own previous worst', true; (C) real data plus margin_past_prior_max: Burundi leads, 'The most at once before this year was two, in 2006', true. Two non-conditions reported to design: state B omits editor's ruled completion ('One passed it with fewer'), and state C opens '16 of Burundi's 18' because _word stops at twelve. Both true as rendered. (Re-run: the first approval commit was orphaned when a fetch lost a ref-lock race and never pushed.)",
   "inputs": [
     "crops/build_country_pages.py",
     "crops/build_page.py",
