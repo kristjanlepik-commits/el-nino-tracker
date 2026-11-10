@@ -1,10 +1,10 @@
 {
   "channel": "crops",
-  "approved_hash": "418fb6b2b91f33c8ce5221df9fe2b6f36f405f57f5f5a3cf88b8ea56c0eb6bef",
-  "approved_commit": "f7652db14cd67be25e1712a5e77e039401e600b7",
-  "approved_at": "2026-11-10T09:41:45+00:00",
+  "approved_hash": "497b11d33e3350dc1003a1b2f89ca3c4b42aadace31a5fcae91c8d114fc76020",
+  "approved_commit": "cb77c718ee77c557e7fddc83c5f8371c6736280f",
+  "approved_at": "2026-11-10T09:47:33+00:00",
   "approved_by": "TLS Crops",
-  "note": "Dekad 2026-10-21, first payload carrying the all-time fields. Reviewed a preview built at origin/main: 165 places, URL set unchanged, QA clean, boundary notice at the top, age line correct. Every headline number checked against the payload: Luxembourg 3 of 3 regions at rank 1 (values -1.65 to -1.78) with prior_max 0; eleven countries clear their all-time prior worst; base-rate median 2; 192 regions at record against a recent mean of 86.9 and a twelve-year max of 151. EMPHASIS NOTE, not a condition: Luxembourg leads because my own _order_by tells the template to order by excess_share, which rewards small denominators (3 of 3 = 1.0 ahead of Burundi's 16 of 18, previous worst 2). True as written; the fix is mine, an emitted ordering key on margin past the all-time worst, proposed to design and editor.",
+  "note": "Design's 4177ff8f, editor's empty-dekad headline, plus dekad 2026-10-21 already reviewed. Preview at origin/main renders byte-identical to the published page; the new branch does not render this dekad. LATENT DEFECT, not a condition, reported to design: crops_empty_sentence fires when no place is selected_for_display, and selection needs the twelve-year clearance AND at least three regions at record, while the sentence claims no country passed its ALL-TIME worst. Proved in a throwaway worktree: with no country selected and Uganda past its all-time worst on two regions, the page renders 'No country passed its own previous worst in the latest crop data.' Not reachable without a new payload, which this gate holds for review, so the live page is unaffected.",
   "inputs": [
     "crops/build_country_pages.py",
     "crops/build_page.py",
