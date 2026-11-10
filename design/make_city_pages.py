@@ -1046,6 +1046,9 @@ if _preview:
 else:
     _cards = _draw_cards()
     print("built %d share cards" % len(_cards))
+# Cities skipped this build because heat emitted no usable reported season.
+# Their published pages stay as they are; nothing is overwritten.
+_skipped = set()
 for name, v in sorted(C.items()):
     yrs = S[name]["years"]
     D = series(yrs, "days_to_cut", "95")
@@ -1103,6 +1106,15 @@ for name, v in sorted(C.items()):
     # prose, so it survived both the season derivation and the label fix.
     cur_year = int((v.get("days") or {}).get("reported_season_key") or 2026)
     peak = dict(WD).get(cur_year)
+    # A SEASON WITH NO PEAK SKIPS THE CITY, it does not take the build down.
+    # Heat briefly emitted one on 11 Nov (caught in their preview; fc895da9
+    # stops it upstream). The next line would raise on None and fail every
+    # heat page; skipping keeps this city's last published page and says so.
+    if peak is None:
+        print(f"WARNING: {name}: no peak for reported season {cur_year}; "
+              f"page not rebuilt, the published one stays.", file=sys.stderr)
+        _skipped.add(name)
+        continue
     prank = 1 + sum(1 for y, x in WD if x >= peak and y != cur_year)
     pprev = max(x for y, x in WD if y != cur_year)
     pprev_y = max(y for y, x in WD if x == pprev and y != cur_year)
@@ -1831,7 +1843,7 @@ for name, v in sorted(C.items()):
 # promptly wrote a block that was never placed. Editor's prose sitting in a
 # tracked file that no page renders is the same loss as prose deleted, and
 # it looks like success from both ends.
-_placed = {slug(n) for n in built}
+_placed = {slug(n) for n in built} | {slug(n) for n in _skipped}
 _orphan = sorted(k for k in CORRECTIONS if k not in _placed)
 if _orphan:
     raise SystemExit(
