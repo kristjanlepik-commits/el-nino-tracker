@@ -6,6 +6,16 @@ that field, so it is fetched here.
 
 Static field: one timestep is the whole thing. Tiny request, and it runs
 alongside the main pull without competing for anything meaningful.
+
+RENAMED FROM fetch_lsm.py, 2026-11-10, because the name was a promise this
+file does not keep. heat_refresh.yml runs every heat/fetch_*.py as a weekly
+source, so this one-off research pull ran on every refresh. On a fresh CI
+runner it has no cache, so it queued at Copernicus every Monday, and
+cdsapi waits on the queue with no timeout. From 26 October it waited past
+the job's 90-minute limit three Mondays running, every run was cancelled,
+and nothing it held up was on the published path: only the D-049 research
+scripts (gate0.py and its users) read the mask. A fetch_*.py is a weekly
+source; a pull_*.py is run by hand.
 """
 import os
 import sys

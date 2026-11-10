@@ -53,7 +53,7 @@ def great_circle_deg(lat1, lon1, lat2, lon2):
 def load_lsm(region: str):
     p = os.path.join(CACHE, f"lsm_{region}.nc")
     if not os.path.exists(p):
-        raise SystemExit(f"missing land-sea mask {p}; run heat/fetch_lsm.py {region}")
+        raise SystemExit(f"missing land-sea mask {p}; run heat/pull_lsm.py {region}")
     with xr.open_dataset(p) as ds:
         var = "lsm" if "lsm" in ds else list(ds.data_vars)[0]
         return ds[var].squeeze(drop=True).load()
