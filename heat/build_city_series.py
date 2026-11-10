@@ -413,12 +413,25 @@ def shortfall_effect(tx, lo, hi, missing, present, season, counts_fn,
     by = {y: in_season(y) for y in base}
     cold = min(by, key=lambda y: sum(by[y]) / len(by[y]))
     warm = max(by, key=lambda y: sum(by[y]) / len(by[y]))
+    # THE 40-DAY FLOOR CANNOT EXCEED WHAT THE WINDOW HOLDS. It was fixed at
+    # 40, so in the first 40 days of an open window no year qualified, this
+    # returned None, and a city whose baseline is short by one year was
+    # dropped from the payload with "no complete WMO standard normal".
+    # Trelew on 8 November 2026, its window open since 1 November: eight
+    # counted days a year at most, so nothing to assess, and the gate held
+    # all 54 pages on "cities REMOVED". The floor is now the smaller of 40
+    # and 90% of the most any year counts, so it binds exactly as before
+    # once a window holds 40 days, and stops refusing the early weeks.
+    _most = max((len(counted(y)) for y in range(lo, 2027)), default=0)
+    if _most == 0:
+        return None
+    _floor = min(40, max(1, int(0.9 * _most)))
     counts, ranks, ths = [], [], []
     for donor in (cold, warm):
         pool = [v for y in base for v in by[y]] + by[donor] * len(missing)
         t = float(np.percentile(pool, pct))
         cnt = {y: sum(1 for v in counted(y) if v > t)
-               for y in range(lo, 2027) if len(counted(y)) >= 40}
+               for y in range(lo, 2027) if len(counted(y)) >= _floor}
         if not cnt:
             return None
         last = max(cnt)
