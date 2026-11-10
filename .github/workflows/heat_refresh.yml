@@ -74,6 +74,7 @@ jobs:
     timeout-minutes: 90
     permissions:
       contents: write
+      issues: write      # hold and render alerts (open_alert_issue.sh)
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -82,36 +83,9 @@ jobs:
       - name: Install deps
         run: pip install -q -r requirements.txt || pip install -q requests
 
-      # TWO credentials, not one. I claimed AEMET was the only fetcher
-      # needing a key, and the first live run proved otherwise at
-      # fetch_lsm.py: it uses cdsapi, which reads ~/.cdsapirc from inside
-      # the library rather than through any path this repo names, so a
-      # grep for credential handling in heat/ never touched it.
-      #
-      # That is the seventh probe in a day that returned an answer about
-      # something it had not looked at. Worth the line, because the fix
-      # for the class is the same every time: make the probe prove it
-      # found the thing before believing what it says about absence.
-      #
-      # Same format as weekly_brief.yml, which is the version already
-      # known to work against CDS.
-      - name: Configure CDS
-        env:
-          CDS_API_KEY: ${{ secrets.CDS_API_KEY }}
-        run: |
-          if [ -z "$CDS_API_KEY" ]; then
-            echo "::error::CDS_API_KEY is not set and heat/fetch_lsm.py needs"
-            echo "::error::it. Failing rather than producing a payload short"
-            echo "::error::of a city, which the gate would then hold on for"
-            echo "::error::a reason unrelated to the weather."
-            exit 1
-          fi
-          cat > ~/.cdsapirc <<EOF
-          url: https://cds.climate.copernicus.eu/api
-          key: $CDS_API_KEY
-          EOF
-          chmod 600 ~/.cdsapirc
-
+      # The "Configure CDS" step is gone (2026-11-10, Heat): it existed for
+      # fetch_lsm.py, which is now pull_lsm.py and not run here, and no
+      # fetch_*.py uses cdsapi. Re-add it if a fetch_ script ever does.
       # THIS STEP USED TO BE `set -e` OVER THE LOOP, AND THAT IS WHY THIS
       # WORKFLOW HAD NEVER SUCCEEDED ONCE, 2026-08-09 to 2026-09-07, six
       # runs six failures, with nothing alerting because a scheduled job
@@ -155,7 +129,15 @@ jobs:
           for f in heat/fetch_*.py; do
             total=$((total + 1))
             echo "--- $f"
-            if ! python "$f"; then
+            # 15 minutes per source. One hung source used to cancel the
+            # whole job at its 90-minute limit: fetch_lsm.py waited on the
+            # Copernicus queue that long on 26 Oct, 2 Nov and 9 Nov (Heat).
+            # timeout exits 124 when it fires; the loop carries on.
+            timeout 900 python "$f"; rc=$?
+            if [ $rc -eq 124 ]; then
+              echo "::warning::$f did not finish in 15 minutes; stopped, continuing with the rest."
+              failed="$failed $f"
+            elif [ $rc -ne 0 ]; then
               echo "::warning::$f failed; continuing with the rest."
               failed="$failed $f"
             fi
@@ -311,6 +293,8 @@ jobs:
       # to ignore a red heat-refresh. Written to the job summary so it is
       # visible without opening logs, because there is no alerting yet.
       - name: Refresh gate
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set +e
           out=$(python heat/refresh_gate.py 2>&1); code=$?
@@ -331,4 +315,40 @@ jobs:
             echo "$out"
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
+          # A HOLD used to live only in this summary of a green run, so the
+          # gate held from 2026-10-05 to 11-10 and nobody saw it until
+          # Business's live-freshness check did, 45 days in (Heat). Now a
+          # hold opens one issue assigned to Kristjan (later weeks comment
+          # on it), and the first PUBLISH closes it.
+          title="Heat refresh gate is holding"
+          if [ $code -ne 0 ]; then
+            bash scripts/open_alert_issue.sh "$title" \
+              "heat/refresh_gate.py held the refresh: the last approved heat pages stay live and publish_all skips the heat steps until product decides. Verdict: $(echo "$out" | tail -5 | tr '\n' ' ') Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" || true
+          else
+            for n in $(gh issue list --state open --search "\"$title\" in:title" --json number,title \
+                         --jq ".[] | select(.title == \"$title\") | .number"); do
+              gh issue close "$n" -c "The refresh gate passes again (PUBLISH). Closed by heat_refresh." || true
+            done
+          fi
           exit 0
+
+      # Render the heat pages from this payload without publishing them, so
+      # a builder that cannot render it fails here, the day it lands, not at
+      # the next publish_all. Heat caught one in a preview on 2026-11-10
+      # (fixed in fc895da9). Nothing here is committed: the commit step ran
+      # above, and docs/ changes die with the runner.
+      - name: Render the heat pages (dry run, not published)
+        id: render
+        continue-on-error: true
+        run: |
+          python design/make_heat_index.py
+          python design/make_city_pages.py
+
+      - name: Tell Kristjan the heat pages would not render
+        if: steps.render.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          bash scripts/open_alert_issue.sh \
+            "Heat pages would not render: $(date -u +%F)" \
+            "The refreshed heat payload is committed, but design's heat page builders failed on it, so the next publish will skip or roll back heat. Log: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
