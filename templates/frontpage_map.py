@@ -395,10 +395,12 @@ def map_block(d, root_prefix=""):
     # Biggest first so a small mark is never hidden under a large one.
     ms.sort(key=lambda m: -(HEAT_R if m["ch"] == "heat" else radius(m["sev"])))
 
-    top = max((m for m in ms if m["ch"] == "fires"), key=lambda m: m["sev"])
-    topc = max((m for m in ms if m["ch"] == "crops"), key=lambda m: m["sev"])
-    heat = next(m for m in ms if m["ch"] == "heat")
-    labelled = {id(top), id(topc), id(heat)}
+    top = max((m for m in ms if m["ch"] == "fires"), key=lambda m: m["sev"],
+              default=None)
+    topc = max((m for m in ms if m["ch"] == "crops"), key=lambda m: m["sev"],
+               default=None)
+    heat = next((m for m in ms if m["ch"] == "heat"), None)
+    labelled = {id(m) for m in (top, topc, heat) if m is not None}
     for m in ms:
         r = HEAT_R if m["ch"] == "heat" else radius(m["sev"])
         m["place"] = place_label(m, ms, r)

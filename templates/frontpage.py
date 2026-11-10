@@ -244,57 +244,60 @@ def readings(d):
 
     ev = sorted([e for e in d["events"] if e.get("anomalous")],
                 key=lambda e: -float(str(e.get("stat", "0")).rstrip("x") or 0))
-    top = ev[0]
-    geo = None
-    for c in d["fires_week"]["countries"].values():
-        if c.get("name") == top["region"]:
-            geo = c
-    # THE DENOMINATOR IS OBSERVATIONS, NOT CALENDAR SLOTS, and the two
-    # absences are different in kind. Georgia holds 12 prior years; 2022 is
-    # missing from the archive and 2021 is excluded deliberately as not
-    # comparable, which fires declares in the payload. Product proposed "of
-    # 15, two absent"; that is better than 15 and still merges a gap with a
-    # choice, so both are named.
-    _hist = (geo or {}).get("hist") or {}
-    n_obs = (len(_hist) if isinstance(_hist, (dict, list))
-             else int(_hist)) + 1
-    span = (geo or {}).get("hist_expected", 0) + 1
-    excl = (geo or {}).get("hist_excluded_for_comparability") or []
-    # THE GAP COMES FROM hist_due, NOT FROM SUBTRACTION. Fires emits
-    # hist_due as expected minus the deliberate exclusions, so the archive
-    # gap is due minus held and needs no arithmetic here. My version
-    # recomputed it from expected and the exclusion list, which agrees with
-    # theirs this week and would drift the moment they add a second kind of
-    # exclusion, which they did today: years_excluded_defective now sits
-    # beside years_excluded_no_archive.
-    #
-    # Same rule I have been applying to other people's constants all day.
-    # A number derived in two places is a number that will disagree in one.
-    due = (geo or {}).get("hist_due")
-    held = len(_hist) if isinstance(_hist, (dict, list)) else int(_hist or 0)
-    gap = (due - held) if due is not None else (span - n_obs - len(excl))
-    ev_bits = "same-week mean &middot; heaviest of %d observed weeks" % n_obs
-    tail = []
-    if gap:
-        tail.append("%d missing from the archive" % gap)
-    if excl:
-        tail.append("%s excluded as not comparable" % ", ".join(excl))
-    rows.append(dict(
-        ch="Fires", place=top["region"], claim=top.get("title", ""),
-        # House rule: every figure is typeset. Fires emits "6.2x".
-        fig=str(top.get("stat", "")).replace("x", "\u00d7"),
-        ev=ev_bits + ("<br>of a %d-year span: %s" % (span, "; ".join(tail))
-                      if tail else ""),
-        # D-076: "pending" comes OFF reader-facing surfaces as a NULL, not
-        # as a softer word. It is a work state rather than a finding and
-        # carries nothing to a reader; Kristjan's reasoning was that it
-        # reads as researcher design rather than reader design. The null IS
-        # the finding, and its correct render is no chip, exactly as heat
-        # and crops get no column. I turned the null back into the word the
-        # decision removed, on the most-read surface we have.
-        src="NASA FIRMS SNPP &middot; week to 10 Aug",
-        tag={"enso": "ENSO-loaded window",
-             "non_enso": "not ENSO-linked"}.get(top.get("attribution"), "")))
+    # No fire country cleared its anomaly gate this week: no fires row,
+    # rather than an IndexError that takes the weekly issue down.
+    if ev:
+        top = ev[0]
+        geo = None
+        for c in d["fires_week"]["countries"].values():
+            if c.get("name") == top["region"]:
+                geo = c
+        # THE DENOMINATOR IS OBSERVATIONS, NOT CALENDAR SLOTS, and the two
+        # absences are different in kind. Georgia holds 12 prior years; 2022 is
+        # missing from the archive and 2021 is excluded deliberately as not
+        # comparable, which fires declares in the payload. Product proposed "of
+        # 15, two absent"; that is better than 15 and still merges a gap with a
+        # choice, so both are named.
+        _hist = (geo or {}).get("hist") or {}
+        n_obs = (len(_hist) if isinstance(_hist, (dict, list))
+                 else int(_hist)) + 1
+        span = (geo or {}).get("hist_expected", 0) + 1
+        excl = (geo or {}).get("hist_excluded_for_comparability") or []
+        # THE GAP COMES FROM hist_due, NOT FROM SUBTRACTION. Fires emits
+        # hist_due as expected minus the deliberate exclusions, so the archive
+        # gap is due minus held and needs no arithmetic here. My version
+        # recomputed it from expected and the exclusion list, which agrees with
+        # theirs this week and would drift the moment they add a second kind of
+        # exclusion, which they did today: years_excluded_defective now sits
+        # beside years_excluded_no_archive.
+        #
+        # Same rule I have been applying to other people's constants all day.
+        # A number derived in two places is a number that will disagree in one.
+        due = (geo or {}).get("hist_due")
+        held = len(_hist) if isinstance(_hist, (dict, list)) else int(_hist or 0)
+        gap = (due - held) if due is not None else (span - n_obs - len(excl))
+        ev_bits = "same-week mean &middot; heaviest of %d observed weeks" % n_obs
+        tail = []
+        if gap:
+            tail.append("%d missing from the archive" % gap)
+        if excl:
+            tail.append("%s excluded as not comparable" % ", ".join(excl))
+        rows.append(dict(
+            ch="Fires", place=top["region"], claim=top.get("title", ""),
+            # House rule: every figure is typeset. Fires emits "6.2x".
+            fig=str(top.get("stat", "")).replace("x", "\u00d7"),
+            ev=ev_bits + ("<br>of a %d-year span: %s" % (span, "; ".join(tail))
+                          if tail else ""),
+            # D-076: "pending" comes OFF reader-facing surfaces as a NULL, not
+            # as a softer word. It is a work state rather than a finding and
+            # carries nothing to a reader; Kristjan's reasoning was that it
+            # reads as researcher design rather than reader design. The null IS
+            # the finding, and its correct render is no chip, exactly as heat
+            # and crops get no column. I turned the null back into the word the
+            # decision removed, on the most-read surface we have.
+            src="NASA FIRMS SNPP &middot; week to 10 Aug",
+            tag={"enso": "ENSO-loaded window",
+                 "non_enso": "not ENSO-linked"}.get(top.get("attribution"), "")))
 
     dh = d["heat"]["day_headline"]
     floors = (d["heat"].get("coverage") or {}).get("counts_are_floors")
