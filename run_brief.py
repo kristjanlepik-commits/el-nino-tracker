@@ -6675,24 +6675,43 @@ def main():
     shutil.copyfile(brief_dir / _ANALOG_ONI, DOCS_DIR / _ANALOG_ONI)
     # meta.json is written earlier now, before the pages that read it.
 
+    # 7, 7b and 8 run AFTER the dated archive is on disk, and the workflow
+    # commits only if this script exits 0, so an exception in any of them
+    # would leave the written issue uncommitted: the 2026-11-09 outcome by
+    # a different route (found checking D-356's coverage). Each is built in
+    # isolation; on failure the previous page stays and the alert step
+    # names it, the same rule as the front page above and card.py below.
+    def _isolated(what, build):
+        try:
+            build()
+        except Exception:
+            import traceback as _tb
+            _record_render_failure(what, _tb.format_exc())
+
     # 7. Archive index (regenerated each run from meta.json files)
-    (DOCS_DIR / "briefs" / "index.html").write_text(build_archive_html())
-    print(f"wrote: {DOCS_DIR / 'briefs' / 'index.html'}")
+    def _archive_index():
+        (DOCS_DIR / "briefs" / "index.html").write_text(build_archive_html())
+        print(f"wrote: {DOCS_DIR / 'briefs' / 'index.html'}")
+    _isolated("archive index (docs/briefs/index.html)", _archive_index)
 
     # 7b. About page. A credibility surface: it leads with what the site
     # refuses to do, ahead of where the numbers come from.
-    (DOCS_DIR / "about.html").write_text(build_about_html())
-    print(f"wrote: {DOCS_DIR / 'about.html'}")
+    def _about():
+        (DOCS_DIR / "about.html").write_text(build_about_html())
+        print(f"wrote: {DOCS_DIR / 'about.html'}")
+    _isolated("about page (docs/about.html)", _about)
 
     # 8. Methodology overview HTML, regenerated from methodology.md if present
-    meth_md = Path(__file__).parent / "methodology.md"
-    if meth_md.exists():
-        meth_html = DOCS_DIR / "methodology.html"
-        meth_html.write_text(render_html(
-            meth_md.read_text(),
-            title=f"Methodology, {PRODUCT_NAME} · {SITE_NAME}",
-            root_prefix="", analytics=True))
-        print(f"wrote: {meth_html}")
+    def _methodology():
+        meth_md = Path(__file__).parent / "methodology.md"
+        if meth_md.exists():
+            meth_html = DOCS_DIR / "methodology.html"
+            meth_html.write_text(render_html(
+                meth_md.read_text(),
+                title=f"Methodology, {PRODUCT_NAME} · {SITE_NAME}",
+                root_prefix="", analytics=True))
+            print(f"wrote: {meth_html}")
+    _isolated("methodology page (docs/methodology.html)", _methodology)
 
     # 9. Weekly situation card (card.py, public-side): a one-page PNG
     # summary composed entirely from the artifacts written above, so it is
