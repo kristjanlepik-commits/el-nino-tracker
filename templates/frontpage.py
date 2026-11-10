@@ -252,6 +252,7 @@ FIRES_EMPTY = ("No country had unusually many fires for this time of year, "
 # Crops' empty sentence is the crops page's own (crops_index.crops_empty_sentence),
 # so the two cannot drift: all-time when Crops' fields exist, else twelve-year.
 NOT_SHOWN = "We could not check this one this week."
+MAP_UNAVAILABLE = "The map did not build this week."  # editor, 11 Nov
 
 
 def _empty(ch, claim):
@@ -795,7 +796,7 @@ def page(d, canonical, og_image_url, root_prefix, desc, brief_date_iso):
     except Exception as e:                       # noqa: BLE001
         print("WARNING: front page map not rendered: %r" % (e,), file=sys.stderr)
         map_ok = False
-        _mb = dict(svg='<p class="mapna">%s</p>' % h(NOT_SHOWN), legend="",
+        _mb = dict(svg='<p class="mapna">%s</p>' % h(MAP_UNAVAILABLE), legend="",
                    script="", sst_date=None, n_shown=0, n_fires_rec=0,
                    n_crops_rec=0, bar_f="", bar_c="", below_crops=0,
                    below_fires=0)

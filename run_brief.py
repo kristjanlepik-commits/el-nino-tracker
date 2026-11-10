@@ -3970,7 +3970,7 @@ def _nino_region_rows(phys: dict) -> str:
 # front page at main() level (ce63cf88); this is the finer version inside
 # the issue: a section builder that raises leaves a line saying so, prints a
 # WARNING, and the rest of the issue renders.
-SECTION_UNAVAILABLE = "We could not check this one this week."
+SECTION_UNAVAILABLE = "This section did not build this week."  # editor, 11 Nov
 
 
 def _section(name, fn, *args, **kwargs):
