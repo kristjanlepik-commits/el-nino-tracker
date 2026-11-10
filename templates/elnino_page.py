@@ -621,12 +621,20 @@ def render(fetched, meta, brief_date, root_prefix="../",
     import run_brief as _R
     _wk = str(((fetched.get("_freshness") or {}).get("oisst_weekly") or {})
               .get("issued") or phys.get("issued") or "")[:10]
+    # Without section 04 the caption cannot point the reader to its table.
+    _cap = (_R.NINO_MAP_TOP_CAPTION if full_body else
+            _R.NINO_MAP_TOP_CAPTION.replace(", the same as the table in section 04", ""))
     _top_map = _R._nino_map_html(phys, _wk, root_prefix, years=("2026",),
-                                  intro="", caption=_R.NINO_MAP_TOP_CAPTION)
+                                  intro="", caption=_cap)
     if _top_map:
+        # The link only when section 04 rendered: without it #issue is a dead
+        # anchor, qa_check rejects the shell page and the whole publish rolls
+        # back, so the fallback would have become a failed publish (platform,
+        # forced 10 Nov).
         observed = ('<div class="issue-full">' + _top_map + '</div>'
-                    '<p class="aside"><a href="#issue">The same week in 1997 '
-                    'and 2015, and the full table, in section 04</a></p>'
+                    + ('<p class="aside"><a href="#issue">The same week in 1997 '
+                       'and 2015, and the full table, in section 04</a></p>'
+                       if full_body else '')
                     + observed)
     _reg = phys.get("nino_regions") or {}
     _n3 = (_reg.get("nino3") or {}).get("anom")
