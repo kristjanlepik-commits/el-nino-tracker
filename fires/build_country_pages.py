@@ -206,7 +206,7 @@ def build_piece(ev, det, area_cur, area_years, window, elsewhere, year):
             "daily": daily,
             "multiple": now / mean if mean else 0.0,
             "baseline_span": f"{min(hist)} to {max(hist)}",
-            "instrument": "NASA FIRMS SNPP VIIRS, daily, 375 m",
+            "instrument": _instrument_line(det) + ", daily, 375 m",
             "daily_note": (
                 f"{cleared} of {len(daily)} days cleared one seventh of a "
                 f"normal week. The peak, {peak_val:,} on "
@@ -296,7 +296,7 @@ def build_piece(ev, det, area_cur, area_years, window, elsewhere, year):
         # EFFIS, so a literal would name a European instrument for
         # Canadian fires.
         piece["rail_instruments"] = (
-            f'NASA FIRMS SNPP VIIRS<br>thermal anomaly counts, daily, 375 m'
+            f'{_instrument_line(det)}<br>thermal anomaly counts, daily, 375 m'
             f'<br><br>{area_cur.get("source", "")} burnt area<br>'
             f'mapped perimeters, weekly. Area lands in the week it is '
             f'mapped, which need not be the week it burned.')
@@ -311,7 +311,7 @@ def build_piece(ev, det, area_cur, area_years, window, elsewhere, year):
     else:
         piece["area"] = None
         piece["rail_instruments"] = (
-            'NASA FIRMS SNPP VIIRS<br>thermal anomaly counts, daily, 375 m')
+            f'{_instrument_line(det)}<br>thermal anomaly counts, daily, 375 m')
         piece["rail_baseline"] = (
             f'Weekly multiple: same-week mean, {min(hist)} to {max(hist)}.')
         piece["rail_revision"] = (
@@ -622,6 +622,22 @@ def tracked_slug_set() -> set:
     except (OSError, ValueError, KeyError):
         return set()
     return {slugify(n) for n in names}
+
+
+def _instrument_line(det):
+    """Which sensor this page's CURRENT week came from, stated plainly.
+
+    Suomi NPP ended its mission on 2026-11-01. The baseline years are SNPP
+    throughout; the current week since then is NOAA-20, scaled to
+    SNPP-equivalent. A page that said "SNPP" on a NOAA-20 count would be
+    naming an instrument that no longer exists, and one that said "same
+    sensor throughout" would be false. So the line is read from the
+    payload's own `sensor` field rather than written here.
+    """
+    if "VIIRS_NOAA20_NRT" in (det.get("sensor") or []):
+        return ("NASA FIRMS VIIRS, this week on NOAA-20 scaled to "
+                "SNPP-equivalent; baseline years on Suomi NPP")
+    return "NASA FIRMS SNPP VIIRS"
 
 
 def stamp_unregenerated(live_slugs, window_label) -> str:

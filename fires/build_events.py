@@ -44,7 +44,7 @@ import os
 import re
 import sys
 import time
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 
 import numpy as np
 import pandas as pd
@@ -498,15 +498,51 @@ def load_rings(isos):
     return rings
 
 
+# SUOMI NPP ENDED ITS MISSION ON 2026-11-01 AT 13:00 UTC, AND THIS CHANNEL
+# KEPT READING IT FOR A WEEK.
+#
+# It was known in August. fires/data/noaa20_calibration.json was derived on
+# 2026-08-06 for exactly this and says so in its first lines, and nothing
+# connected it to the live fetch. From 3 November every new day arrived as
+# zero detections in all 97 countries; the trailing window filled with
+# them; the anomalous set went 6, 8, 6, 2, 1, 0 between 5 and 10 November;
+# and the page led on "Botswana is burning at 4.4x" computed from two real
+# days and five days of a decommissioned satellite. Science asked whether
+# the decline was real. It was not. Same box, same day, 8 November: SNPP
+# returned 0 rows, NOAA-20 5,508 and NOAA-21 6,032.
+#
+# So a chunk that reaches past the end date reads NOAA-20, and its counts
+# are scaled to SNPP-equivalent by the calibrated factor, so the current
+# week stays comparable with the 2012-2025 SNPP baseline. The factor's
+# single-day spread travels with every scaled datum (D-051): a NOAA-20 day
+# is an estimate of an SNPP day, not a measurement of one.
+SNPP_END = date(2026, 11, 1)
+_CAL = json.load(open(os.path.join(
+    REPO, "fires", "data", "noaa20_calibration.json")))
+NOAA20_SCALE = float(_CAL["scale_factor"])
+NOAA20_SCALE_CV = float(_CAL["scale_cv"])
+
+
+def sensor_for(last_day):
+    """The live source for a chunk whose last day is `last_day`."""
+    return ("VIIRS_SNPP_NRT" if last_day < SNPP_END
+            else "VIIRS_NOAA20_NRT")
+
+
 def fetch_window(key, box, rings, start, days):
-    """Return the detections inside the country for a date window."""
+    """Return the detections inside the country for a date window.
+
+    Each row carries `_sensor`, so counts can be scaled per row and the
+    payload can say which instrument produced them.
+    """
     w, s, e, n = box
     frames = []
     cur, left = start, days
     while left > 0:
         chunk = min(5, left)  # API caps a request at 5 days
+        sensor = sensor_for(cur + timedelta(days=chunk - 1))
         url = (f"https://firms.modaps.eosdis.nasa.gov/api/area/csv/{key}/"
-               f"VIIRS_SNPP_NRT/{w},{s},{e},{n}/{chunk}/{cur.isoformat()}")
+               f"{sensor}/{w},{s},{e},{n}/{chunk}/{cur.isoformat()}")
         for attempt in (1, 2):
             try:
                 df = _http.read_csv(url)
@@ -537,7 +573,7 @@ def fetch_window(key, box, rings, start, days):
             mask = np.zeros(len(pts), dtype=bool)
             for ring in rings:
                 mask |= contains_points(ring, pts)
-            frames.append(df[mask])
+            frames.append(df[mask].assign(_sensor=sensor))
         cur += timedelta(days=chunk)
         left -= chunk
         time.sleep(1)
@@ -739,7 +775,13 @@ def main():
             h = hist_doc["countries"][iso]
             df = fetch_window(key, tuple(h["box"]), rings[iso], start,
                               window_days)
-            count = int(len(df))
+            # SNPP-EQUIVALENT COUNT. A NOAA-20 detection counts as
+            # NOAA20_SCALE of an SNPP one; an SNPP detection counts as one.
+            weight = (np.where(df["_sensor"] == "VIIRS_NOAA20_NRT",
+                               NOAA20_SCALE, 1.0)
+                      if len(df) else np.zeros(0))
+            count = int(round(float(weight.sum())))
+            sensors = sorted(set(df["_sensor"])) if len(df) else []
             mean = h["mean"]
             # A COUNTRY THAT HAS NEVER BURNED IN THIS WEEK HAS NO MULTIPLE.
             #
@@ -769,6 +811,22 @@ def main():
             # A country that did not burn is last, not first.
             rank = (len(h["hist"]) + 1 if count == 0
                     else 1 + sum(1 for v in h["hist"].values() if v > count))
+            # A RECORD INSIDE THE CONVERSION ERROR IS NOT A RECORD. Since
+            # Suomi NPP's end of mission the current week is NOAA-20 scaled
+            # to SNPP-equivalent, and that conversion carries ~22% spread
+            # on a single day, about 8% over seven. On 2026-11-10 Angola
+            # read "just past its 2020 record week" at 2,254 against 2,236,
+            # a +0.8% margin on a count converted from another satellite:
+            # a claim the instrument cannot make. So on a converted week a
+            # first place must clear the record by more than the weekly
+            # error, or it reads as level with it. Only the first-place
+            # boundary moves; every other rank is left as measured.
+            converted = "VIIRS_NOAA20_NRT" in sensors
+            rec_inside_error = False
+            if converted and rank == 1 and count and h["hist"]:
+                top = max(h["hist"].values())
+                if count < top * (1 + NOAA20_SCALE_CV / 7 ** 0.5):
+                    rank, rec_inside_error = 2, True
             lat, lon, basis = centroid(df, rings[iso])
             # EVERY day of the window, zeros written explicitly.
             #
@@ -784,7 +842,8 @@ def main():
             # zero on 4 August and the chart ended on a modest bar on the
             # 3rd instead. Same shape as the archive gap and the day cache,
             # where absence and zero were rendered indistinguishable.
-            seen = (df.groupby("acq_date").size().to_dict() if len(df) else {})
+            seen = (df.assign(_w=weight).groupby("acq_date")["_w"].sum()
+                    .round().astype(int).to_dict() if len(df) else {})
             daily = {}
             for k in range(window_days):
                 day = (start + timedelta(days=k)).isoformat()
@@ -923,6 +982,15 @@ def main():
                         cropland = None
 
             detail[iso] = {"iso": iso, "name": h["name"], "count": count,
+                       # The instrument behind THIS count, so no page has
+                       # to assume it. The baseline is SNPP throughout.
+                       "sensor": sensors,
+                       "sensor_scale": (NOAA20_SCALE if "VIIRS_NOAA20_NRT"
+                                        in sensors else None),
+                       "sensor_scale_cv": (NOAA20_SCALE_CV
+                                           if "VIIRS_NOAA20_NRT" in sensors
+                                           else None),
+                       "record_inside_conversion_error": rec_inside_error,
                            "mean": h["mean"], "hist": h["hist"],
                            "daily": daily,
                            # EXPECTED slot counts, carried ON the series.
@@ -1124,6 +1192,32 @@ def main():
                           "and NOT a zero; nothing was computed for it."),
             }
             continue
+
+    # A GLOBAL ZERO DAY IS A DEAD FEED, NOT A QUIET PLANET.
+    #
+    # This guard did not exist on 2026-11-03, when Suomi NPP's end of
+    # mission began returning zero rows, so seven consecutive days of zero
+    # detections in all 97 countries, Indonesia and Brazil and the Congo
+    # basin included, were accepted as measurements and published. No
+    # day in fourteen years of this record has had a global total below
+    # several thousand. The whole run refuses rather than publish one,
+    # because a page saying nothing is anomalous anywhere is the most
+    # confident false claim this channel can make.
+    _gday = {}
+    for _r in detail.values():
+        if _r.get("unmeasured"):
+            continue
+        for _d, _n in (_r.get("daily") or {}).items():
+            _gday[_d] = _gday.get(_d, 0) + (_n or 0)
+    _dead = sorted(d for d, n in _gday.items() if n == 0)
+    if _dead:
+        raise RuntimeError(
+            f"REFUSING: {len(_dead)} day(s) with ZERO detections across "
+            f"every measured country: {', '.join(_dead)}. That is a feed "
+            f"or sensor failure, not a quiet week. Check the source with "
+            f"a direct FIRMS request for a box that always burns before "
+            f"believing it. sensors in use: "
+            f"{sorted({x for r in detail.values() for x in (r.get('sensor') or [])})}")
 
     if failed:
         print(f"  {len(failed)} of {len(isos)} countries UNMEASURED this "
@@ -1455,7 +1549,10 @@ def main():
 
     end_fmt = "%-d" if start.month == end.month else "%b %-d"
     win_label = f"wk {start.strftime('%b %-d')}-{end.strftime(end_fmt)}"
-    source = f"NASA FIRMS SNPP, {win_label}"
+    _live = sorted({x for r in detail.values() for x in (r.get("sensor") or [])})
+    source = ("NASA FIRMS NOAA-20, SNPP-equivalent, " + win_label
+              if "VIIRS_NOAA20_NRT" in _live else
+              f"NASA FIRMS SNPP, {win_label}")
 
     # COUNTS, PUBLISHED WITH THEIR DEFINITIONS ATTACHED.
     #

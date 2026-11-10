@@ -255,7 +255,7 @@ def window_dates(start, end, year):
     return out
 
 
-def window_from_cache(iso, start, end):
+def window_from_cache(iso, start, end, drop_md=frozenset()):
     """(hist, missing) for one country, read from the per-day cache.
 
     hist maps year -> summed detections over the window. missing lists
@@ -269,22 +269,30 @@ def window_from_cache(iso, start, end):
     unfetched, and summing it as zero would undercount the baseline and
     inflate every multiple computed against it.
     """
-    # DROP defective calendar days from EVERY year, rather than
-    # reporting them missing.
+    # A KNOWN-DEFECTIVE DATE IS SKIPPED IN ITS OWN YEAR ONLY. Whether its
+    # calendar day also leaves every OTHER year is the caller's decision,
+    # passed in as `drop_md`, because it depends on which strategy main()
+    # picks after seeing every country.
     #
-    # Reporting them missing broke the daily refresh on 2026-08-05: the
-    # window 07-30..08-05 contains 2021-08-04, which is in the register,
-    # so every country reported an unfetchable gap, every country was
-    # dropped, the 80% floor refused to write, and the site quietly
-    # republished the previous window. Silent, plausible, and mine.
+    # Until 2026-11-10 this function dropped the calendar day from every
+    # year unconditionally, while main() separately chose the PREFERRED
+    # strategy, dropping the defective YEAR and keeping all seven days,
+    # and wrote `days_excluded_defective: []` so build_events kept seven
+    # days live. Both strategies were applied to the baseline and only one
+    # to the live count. The register holds 2024-11-03..06, a Suomi NPP
+    # outage, so for 3 to 9 November the baseline summed three days per
+    # year against a seven-day week: baseline/day-cache fell from 0.87 the
+    # week before to 0.44, uniformly, in every country checked, and every
+    # multiple on the page was about 2.3 times what it should have been.
+    # Found because the counts barely moved week to week while the
+    # multiples tripled, and the denominators were what had changed.
     #
-    # A defective date is not fetchable and not a zero, so the only
-    # honest treatment is to remove that calendar day from BOTH sides,
-    # exactly as build_events removes a live incomplete day. Five days
-    # against the same five days of each prior year stays like-for-like.
-    drop_md = {(d.month, d.day) for y in YEARS
-               for d in window_dates(start, end, y) or []
-               if d and d.isoformat() in DEFECTIVE}
+    # Skipped here rather than reported missing, which is what the
+    # original drop was protecting: on 2026-08-05 reporting defective
+    # dates as missing made every country fail an unfetchable gap. A
+    # defective date is not fetchable and not a zero. In the preferred
+    # path its year is dropped whole, so the partial sum never reaches a
+    # page; in the fallback path main() re-reads with `drop_md` set.
     cache = load_cache(iso)
     # Trust the marker only where it is consistent with the file.
     #
@@ -315,9 +323,9 @@ def window_from_cache(iso, start, end):
                 continue
             key = d.isoformat()
             if key in DEFECTIVE:
-                # Known-defective: not a zero and not fetchable. Excluded
-                # from BOTH sides by the caller rather than summed.
-                missing.append((y, d))
+                # Known-defective: not a zero and not fetchable, so neither
+                # summed nor reported missing. The caller drops its year.
+                continue
             elif key in days:
                 total += days[key]
             elif str(y) in complete:
@@ -703,6 +711,17 @@ def main() -> None:
               f"leave only {len(surviving) - len(defective_years)} baseline "
               f"years, below the {MIN_BASELINE_YEARS} needed to rank "
               f"against. Days dropped: {', '.join(dropped)}", file=sys.stderr)
+        # And actually drop them from the BASELINE, in every year. This
+        # used to rely on window_from_cache having already done it for
+        # every window, which is the bug fixed above; now it is done here,
+        # in the only path that wants it, from the cache with no fetch.
+        dmd = frozenset((int(md[:2]), int(md[3:])) for md in dropped)
+        for c_iso, rec in out.items():
+            h2, _ = window_from_cache(c_iso, start, end, drop_md=dmd)
+            rec["hist"] = {y: h2[y] for y in rec["hist"] if y in h2}
+            if rec["hist"]:
+                rec["mean"] = round(sum(rec["hist"].values())
+                                    / len(rec["hist"]), 1)
     doc = {"window": win, "sensor": "VIIRS_SNPP_SP", "years": "2012-2025",
            "days_excluded_defective": dropped,
            "years_excluded_no_archive": no_archive,

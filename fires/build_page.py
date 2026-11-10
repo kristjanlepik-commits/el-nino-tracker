@@ -796,9 +796,14 @@ h1 {{
     burning on a single overpass. A large fire front registers as many
     pixels at once, and a fire that keeps burning is counted again on
     every pass it stays hot. Detections are not burned area.</p>
-    <p><b>Method.</b> NASA FIRMS, VIIRS on Suomi-NPP only so that every
-    year is measured by the same sensor, low-confidence detections
-    excluded, detections assigned to countries by national boundary
+    <p><b>Method.</b> NASA FIRMS VIIRS. The baseline years, 2012 to
+    2025, are all Suomi NPP. Suomi NPP ended its mission on 1 November
+    2026, so the current week now comes from NOAA-20, an identical VIIRS
+    instrument on a sister satellite, with its counts scaled to the Suomi
+    NPP equivalent by a factor of 1.02 derived from eight years of the
+    two flying together. On a single day that conversion carries roughly
+    22% uncertainty, which shrinks over a seven-day total. Low-confidence
+    detections excluded, detections assigned to countries by national boundary
     polygons applied identically in all years. The window is seven
     whole UTC days, refreshed once daily, so no figure here is a
     partial day.</p>
