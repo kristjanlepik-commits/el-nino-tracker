@@ -1,10 +1,10 @@
 {
   "channel": "crops",
   "approved_hash": "1a60a6fcd8ea1832f83ca2e4e73f74878001f4d77f180138a3f17d07c1211af4",
-  "approved_commit": "a8d308cde95f054270d860abb369ce34febc2278",
-  "approved_at": "2026-11-10T09:57:26+00:00",
+  "approved_commit": "338bb33d1b7d15ae5688d8b287708483287ef84d",
+  "approved_at": "2026-11-10T09:57:59+00:00",
   "approved_by": "TLS Crops",
-  "note": "Design's 5e6771f4 (three-state empty headline; lead sorted by margin_past_prior_max with excess_share tie-break, shared with the front page). Reviewed in four states, three on throwaway payload copies discarded before this approval: (0) real payload, preview byte-identical to live; (A) nobody passed: editor's sentence, true; (B) Uganda past its all-time worst on 2 regions, none selected: 'No country had three or more crop regions past its own previous worst', true; (C) real data plus margin_past_prior_max: Burundi leads, 'The most at once before this year was two, in 2006', true. Two non-conditions reported to design: state B omits editor's ruled completion ('One passed it with fewer'), and state C opens '16 of Burundi's 18' because _word stops at twelve. Both true as rendered. (Re-run: the first approval commit was orphaned when a fetch lost a ref-lock race and never pushed.)",
+  "note": "Supersedes 338bb33d, whose note described 5e6771f4 and said state B omitted editor's completion: design pushed a8d308cd while that review ran, and 338bb33d approved current origin without my having looked at it. This approval covers a8d308cd, reviewed in all four states, three on throwaway payload copies discarded first: (0) real payload byte-identical to live; (A) nobody passed: 'No country passed its own previous worst in the latest crop data'; (B) Uganda past its all-time worst on 2 regions, none selected: 'No country had three or more crop regions past its own previous worst in the latest crop data. One passed it with fewer.', editor's ruling in full; (C) real data plus margin_past_prior_max: Burundi leads, 'The most at once before this year was two, in 2006'. All true as written. One non-condition to design: C opens '16 of Burundi's 18' because _word stops at twelve; editor's version was 'Sixteen'.",
   "inputs": [
     "crops/build_country_pages.py",
     "crops/build_page.py",
