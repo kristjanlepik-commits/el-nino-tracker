@@ -378,12 +378,13 @@ def _crops_rows(d):
     # countries typed in August ("Angola", "Chad", "Philippines", "Sudan",
     # "Yemen"); by November the crops page led on Rwanda and none of the
     # five need qualify, which is a crash waiting. Same selection as
-    # templates/crops_index.py: selected_for_display, by excess_share.
+    # templates/crops_index.py: selected_for_display, in its lead_order_key.
     sel = [p for p in d["crops"]["places"]
            if (p.get("chance_baseline") or {}).get(
                "selected_for_display",
                (p.get("chance_baseline") or {}).get("notable"))]
-    sel.sort(key=lambda p: -((p.get("chance_baseline") or {}).get("excess_share") or 0))
+    from templates.crops_index import lead_order_key
+    sel.sort(key=lambda p: lead_order_key(p.get("chance_baseline")))
     if not sel:
         from templates.crops_index import crops_empty_sentence
         return [_empty("Crops", crops_empty_sentence(d["crops"]["places"]))]

@@ -158,13 +158,41 @@ def _others_sentence(places, lead):
 
 
 def crops_empty_sentence(places):
-    """Editor's sentence for a dekad in which no country passed its own
-    worst, all-time when Crops' fields exist, twelve-year otherwise. Also
-    read by templates/frontpage.py, so /crops/ and the front page agree."""
-    if _has_prior(places):
-        return "No country passed its own previous worst in the latest crop data."
-    return ("No country passed its worst of the last twelve years in the "
-            "latest crop data.")
+    """The headline when no country is selected for display. Also read by
+    templates/frontpage.py, so /crops/ and the front page agree.
+
+    THE SENTENCE MUST MATCH ITS TEST (Crops, 10 Nov, proved on a payload):
+    selection needs the twelve-year clearance AND three or more regions at a
+    record, so "nothing selected" is not "no country passed its worst". With
+    nothing selected and Uganda past its all-time worst on two regions, the
+    page said no country had. Editor's sentence now shows only when it is
+    literally true; when some country passed but none qualified for
+    display, Crops' narrower sentence says what was tested."""
+    key = "clears_own_prior_max" if _has_prior(places) else "clears_own_recent_max"
+    anyone = any((pl.get("chance_baseline") or {}).get(key) for pl in places)
+    if not anyone:
+        if key == "clears_own_prior_max":
+            return "No country passed its own previous worst in the latest crop data."
+        return ("No country passed its worst of the last twelve years in the "
+                "latest crop data.")
+    if key == "clears_own_prior_max":
+        return ("No country had three or more crop regions past its own "
+                "previous worst in the latest crop data.")
+    return ("No country had three or more crop regions past its worst of the "
+            "last twelve years in the latest crop data.")
+
+
+def lead_order_key(cb):
+    """How the displayed countries are ordered, and so which leads /crops/
+    and the front page (Crops, 10 Nov). By margin_past_prior_max, this
+    year's count minus the all-time prior worst, then excess_share: a share
+    alone rewards small denominators (Luxembourg's 3 of 3 led over
+    Burundi's 16 of 18 against a previous worst of 2), a margin alone
+    rewards large ones, so neither decides alone. Until Crops emits the
+    margin, excess_share as before."""
+    cb = cb or {}
+    m = cb.get("margin_past_prior_max")
+    return (-m if m is not None else 0, -(cb.get("excess_share") or 0))
 
 
 def _base_rate_sentence(doc, places):
@@ -1532,7 +1560,7 @@ def render(doc: dict, top_n: int = 20, root_prefix: str = "../") -> str:
                 if (pl.get("chance_baseline") or {}).get(
                     "selected_for_display",
                     (pl.get("chance_baseline") or {}).get("notable"))]
-    clusters.sort(key=lambda t: -(t[1].get("excess_share") or 0))
+    clusters.sort(key=lambda t: lead_order_key(t[1]))
 
 
 
