@@ -217,6 +217,20 @@ jobs:
       # The crash case, the same evening rather than the next morning.
       # 2026-09-21 died on a KeyError at 18:26 UTC and nothing reached a
       # person for five days.
+      # A section that failed to render does not fail the run (run_brief
+      # carries on so the issue ships, D-356), so it must be loud here
+      # instead. run_brief records each failure in this file.
+      - name: Tell Kristjan a section failed to render
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          f=/tmp/tls_render_failures.txt
+          [ -s "$f" ] || { echo "every section rendered"; exit 0; }
+          bash scripts/open_alert_issue.sh \
+            "Weekly brief section failed to render: $(date -u +%F)" \
+            "The issue shipped without: $(tr '\n' ';' < "$f"). The previous version of that page stays live. Log: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
       # STATE ONLY WHAT IS KNOWN. The first version of this body said "the
       # site is still serving the previous issue" on 2026-09-28, when the
       # issue had been live since 14:12 and the failing run was a later

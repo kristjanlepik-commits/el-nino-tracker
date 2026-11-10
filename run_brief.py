@@ -6326,6 +6326,20 @@ def _localize_root_images(html: str, archive_dir: Path, docs_root: Path) -> str:
     return _re.sub(r'(<img\b[^>]*?\bsrc=")/([^"]+)"', _swap, html)
 
 
+def _record_render_failure(what: str, tb: str) -> None:
+    """Log a section that failed to render and record it for the alert step.
+
+    The run carries on. weekly_brief.yml's "Tell Kristjan a section failed"
+    step reads the file and opens an issue; a run that ships with a missing
+    section must still be loud. TLS_RENDER_FAILURES overrides the path.
+    """
+    import os as _os
+    print(f"::error::{what} failed to render; the issue ships without it.\n{tb}")
+    path = Path(_os.environ.get("TLS_RENDER_FAILURES", "/tmp/tls_render_failures.txt"))
+    with path.open("a") as fh:
+        fh.write(f"{what}: {tb.strip().splitlines()[-1]}\n")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Generate the weekly El Niño brief.")
@@ -6571,19 +6585,35 @@ def main():
     }, indent=2))
     print(f"wrote: {docs_brief_dir / 'meta.json'}")
 
-    public_html_index = build_public_html(
-        fetched, freshness, headline_smoothed,
-        methodology_href="methodology.html",
-        brief_date_iso=S.BRIEF_DATE.isoformat(),
-        canonical_url=f"{PAGES_BASE_URL}/",
-        og_image_url=f"{PAGES_BASE_URL}/card.png",
-        world_map_href="world-map.svg",
-        prev_headline=prev_headline_smoothed,
-        prev_snapshot=prev,
-        prev_headline_month=prev_headline_smoothed_month,
-        root_prefix="",
-        is_front=True,
-    )
+    # THE FRONT PAGE CANNOT STOP THE ISSUE (Business, D-356). On 2026-11-09
+    # the front page's map raised (max() of an empty fires week) inside
+    # this call, main() died before the dated archive below was written,
+    # and the issue went out a day late. Same rule as D-242 and D-264, one
+    # level down: a renderer that raises is a gate nobody declared. So the
+    # front page is built in isolation. If it raises, the previous
+    # docs/index.html stays (it names last week's issue, which is true),
+    # the traceback is printed, the failure is recorded for the workflow's
+    # alert step, and the archive, the record of the week, still ships.
+    # The archive itself is not isolated: if it cannot render there is no
+    # issue to ship, and the run should fail loudly, as before.
+    try:
+        public_html_index = build_public_html(
+            fetched, freshness, headline_smoothed,
+            methodology_href="methodology.html",
+            brief_date_iso=S.BRIEF_DATE.isoformat(),
+            canonical_url=f"{PAGES_BASE_URL}/",
+            og_image_url=f"{PAGES_BASE_URL}/card.png",
+            world_map_href="world-map.svg",
+            prev_headline=prev_headline_smoothed,
+            prev_snapshot=prev,
+            prev_headline_month=prev_headline_smoothed_month,
+            root_prefix="",
+            is_front=True,
+        )
+    except Exception:
+        import traceback as _tb
+        _record_render_failure("front page (docs/index.html)", _tb.format_exc())
+        public_html_index = None
     public_html_archive = build_public_html(
         fetched, freshness, headline_smoothed,
         methodology_href="../../methodology.html",
@@ -6600,8 +6630,12 @@ def main():
     )
     DOCS_DIR.mkdir(parents=True, exist_ok=True)
     (DOCS_DIR / ".nojekyll").touch()
-    (DOCS_DIR / "index.html").write_text(public_html_index)
-    print(f"wrote: {DOCS_DIR / 'index.html'}")
+    if public_html_index is not None:
+        (DOCS_DIR / "index.html").write_text(public_html_index)
+        print(f"wrote: {DOCS_DIR / 'index.html'}")
+    else:
+        print("NOT written: docs/index.html (the front page failed to "
+              "render; the previous one stays live)")
     # Write as index.html so GitHub Pages serves the brief on the bare
     # directory URL (briefs/YYYY-MM-DD/) without a 404.
     docs_brief_dir.mkdir(parents=True, exist_ok=True)
