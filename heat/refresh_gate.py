@@ -121,6 +121,44 @@ def classify(prev, cur):
         p, n = pc[c], cc[c]
         pr = (p.get("days") or {}).get("rank", {}).get("value")
         nr = (n.get("days") or {}).get("rank", {}).get("value")
+        # A SEASON ROLLING OVER IS THE CALENDAR, NOT A BUILDER FAULT. When a
+        # city starts reporting its new season, its rank stops being a place
+        # among finished seasons and becomes one among seasons to the same
+        # date, so a jump of thirty places is expected and says nothing about
+        # the builder. From 5 October the three Argentine cities did exactly
+        # this, were read as "check the builder", and held all 54 pages for
+        # five weeks. (That rollover was also premature, fixed in
+        # build_city_series: a season now reports only from its first hot
+        # day. This is for the rollover that is real.)
+        #
+        # Reported, never blocked, and no record withdrawn across it: a
+        # finished season's record is not taken back by the next one opening.
+        ps, ns = p.get("reported_season_key"), n.get("reported_season_key")
+        if ps is not None and ns is not None and ps != ns:
+            # EXCEPT INTO AN EMPTY SEASON. Without this the rule above would
+            # have passed the October payload it was written about: the gate
+            # was the only thing that caught "77th of 77", and a rollover
+            # exemption must not be the way that defect gets back out. The
+            # builder now prevents it; this catches the builder regressing.
+            _so_far = (n.get("days_current_season") or {}).get("95")
+            if not _so_far:
+                block.append(
+                    f"{c}: now reports {n.get('season_label') or ns} with no "
+                    f"hot days in it, day rank {nr} of "
+                    f"{((n.get('days') or {}).get('rank') or {}).get('of_years')}."
+                    f" A zero ties with nearly every past year on the same "
+                    f"date, so that rank is last by construction. "
+                    f"build_city_series should hold an empty open season on "
+                    f"the not-begun path; check season_opened_empty.")
+                continue
+            report.append(
+                f"{c}: season rolled over, {p.get('season_label') or ps} -> "
+                f"{n.get('season_label') or ns}; day rank {pr} -> {nr} is "
+                f"across seasons and not compared")
+            pb, nb = p.get("legend_band"), n.get("legend_band")
+            if pb != nb:
+                report.append(f"{c}: legend band {pb} -> {nb}")
+            continue
         if pr != nr and pr is not None and nr is not None:
             move = abs(nr - pr)
             if move >= IMPLAUSIBLE_RANK_MOVE:

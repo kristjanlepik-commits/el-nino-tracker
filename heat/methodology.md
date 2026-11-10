@@ -84,6 +84,15 @@ assumption that it does: an unusable year counting BELOW the current year
 could still have exceeded it in the days it missed. That is unknowable, so
 the veto fires only where the evidence is provable.
 
+**A season is reported from its first hot day, not from the day its
+window opens.** Until the season in progress has a day at its 95th
+percentile, the city keeps reporting its last complete season. A count of
+zero early in a season ties with nearly every past year on the same date,
+and ties count against, so ranking it would place it last by construction
+and read as the coolest season on record. A season that ends with no hot
+days is still reported as itself: that is a measurement, where an open
+season with none yet is only the calendar.
+
 **A gap is not an end, and neither is a thin year.** Each series carries
 how many slots the station record should hold, how many are present, how
 many were observed but too thin to rank, and how many are truly empty.
@@ -170,6 +179,29 @@ A rank of 1 of 43 is a weaker statement than 1 of 106 and the denominator
 is always printed with it.
 
 ## Version history
+
+### v1.5, 2026-11-10
+
+**What changed.** A season is reported from its first hot day rather than
+from the day its counting window opens. No published number moves: the
+seven Argentine cities keep reporting their complete 2025-26 season, at the
+ranks live since September, until their 2026-27 season has a day at its own
+95th percentile. Every northern city is unaffected, its 2026 season being
+complete.
+
+**What went wrong to prompt it.** On 1 October the window opened for
+Laboulaye, Salta and Santiago del Estero, and with it a season with nothing
+in it yet. Their pages would have read "Its hot-day count is 77th of 77",
+for a season eighteen days old that looked like almost every other on that
+date. The refresh gate held it from 5 October, correctly, and because all
+54 cities ship as one payload, the hold froze every heat page at
+27 September for five weeks. Nobody read the hold, because it was reported
+only in a CI step summary.
+
+**The shape worth carrying.** This is the August Santiago defect again, a
+season that had not begun ranked last, arriving one step later: "not begun"
+was defined by the calendar, and a season can be begun by the calendar and
+still have nothing in it to measure.
 
 ### v1.4, 2026-09-07
 

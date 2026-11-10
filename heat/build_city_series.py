@@ -1182,6 +1182,41 @@ def build(city, meta):
           for (m, _), v in tx.get(y, {}).items() if m in season]
     th = {str(p): round(float(np.percentile(ja, p)), 1) for p in (90, 95, 99)}
 
+    # AN OPEN SEASON WITH NOTHING IN IT TAKES THE NOT-BEGUN PATH. On
+    # 1 October the counting window opened for Laboulaye, Salta and Santiago
+    # del Estero, and the season became "started" with zero hot days. Every
+    # year is counted to the same date, so the finished 2025-26 season was
+    # then counted only to 18 October 2025, and the new one ranked last on a
+    # tie with nearly every past year at zero: "Its hot-day count is 77th of
+    # 77", the coolest season on record for a season eighteen days old. The
+    # refresh gate held it from 5 October, correctly, and because the payload
+    # is one file that hold froze all 54 pages at 27 September for five
+    # weeks.
+    #
+    # So until the season in progress has its first hot day at the 95th
+    # percentile, the instrument the page leads with, it is treated exactly
+    # as one whose window has not opened: no current-season count, history
+    # counted on whole seasons, and the emitter reports the last complete
+    # season. That is the state design rendered and heat signed off in
+    # September. A season that FINISHES with none is still reported as
+    # itself, since the test only applies while the cut sits inside the
+    # window: a complete season with no hot days is a measurement, an open
+    # one with none yet is only the calendar.
+    opened_empty = False
+    if season_started and eff != season_end(season):
+        _first = sum(1 for k, v in tx_s.get(CURRENT_YEAR, {}).items()
+                     if _counts(k, CURRENT_YEAR) and v >= th["95"])
+        if _first == 0:
+            opened_empty = True
+            eff, season_started, W = None, False, 0
+            # The shortfall test reads _counts, so it is rerun on the path
+            # the counts now take rather than kept from the one they left.
+            pctl = pick_baseline(tx_s, tn_s, season_cover, season, _counts)
+            ja = [v for y in range(pctl[0], pctl[1] + 1)
+                  for (m, _), v in tx.get(y, {}).items() if m in season]
+            th = {str(p): round(float(np.percentile(ja, p)), 1)
+                  for p in (90, 95, 99)}
+
     # NIGHT thresholds, the same construction applied to minima. The 20 C
     # tropical-night count is a Mediterranean instrument: Amsterdam averages
     # under one such night a year, so every ratio divides by almost nothing
@@ -1348,6 +1383,14 @@ def build(city, meta):
         # season that lives only in a local is a season no page can disclose
         # and no guard can check. Every European city reads (7, 8); an
         # Argentine one reads (12, 1), and a reader deserves to see which.
+        "season_opened_empty": opened_empty,
+        "season_opened_empty_note": (
+            "True while this city's counting window is open but the season "
+            "in progress has no day yet at its 95th percentile. It is then "
+            "handled as not begun: nothing ranked for it, and the last "
+            "complete season reported instead, because a count of zero ties "
+            "with nearly every past year on the same date and ranks last by "
+            "construction."),
         "season": {
             "months": list(season),
             "amplitude_c": amplitude,
