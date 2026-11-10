@@ -705,3 +705,13 @@ figures in both), Portuguese 18-24 mental-health symptoms (low confidence). Each
 item's numbers were checked against the EOS answer text by script; the only
 mismatches are roundings (59.9% shown as 60%, EUR 35.3k as 35,300, and so on).
 Mock-up version 9.
+
+**Sign-off gate, 2026-11-10 (Platform, D-200).** Youth's templates are in
+`SIGNOFF_INPUTS` on origin/main (`templates/youth_page.py`,
+`design/make_youth_pages.py`, `copy/youth.md`), and a youth failure rolls back only
+`docs/youth/`. Order from here: the youth/ PR merges; TLS Youth sends Platform the
+youth/data paths the build reads and the build command; Platform adds them and the
+publish step and tests a real refusal; only then TLS Youth runs
+`approve_channel.py youth` after looking at a preview. Approving earlier is wasted:
+the hash covers the data paths, so a marker made before they are listed goes stale
+at once. Until then every publish prints "youth: no sign-off", which is expected.
