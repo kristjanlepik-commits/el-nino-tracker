@@ -2119,8 +2119,25 @@ def build_stress(catalogue: dict, allow_mixed: bool = False) -> dict:
                     and empirical["this_year"] >= 3)
         empirical["selected_for_display"] = _sel
         empirical["notable"] = _sel   # deprecated, remove after 2026-08-14
+        # LEAD KEY, 2026-11-10. excess_share put Luxembourg's 3 of 3 (1.0)
+        # at the head of the global page ahead of Burundi's 16 of 18,
+        # because a share rewards small denominators, which this file
+        # already warned about. The h1 now reads "N of M are at a record
+        # low. The most at once before this year was X", so the key that
+        # matches the sentence it heads is the margin past that X.
+        # Measured in regions, so it carries the many-units bias instead;
+        # excess_share is kept as the tie-break so neither bias decides
+        # alone. Emitted as a field so a renderer sorts on it rather than
+        # re-deriving it.
+        if "prior_max" in empirical:
+            empirical["margin_past_prior_max"] = int(
+                empirical["this_year"] - empirical["prior_max"])
         empirical["_order_by"] = ("filter on selected_for_display, order by "
-                                  "excess_share. Never order on "
+                                  "margin_past_prior_max, then "
+                                  "excess_share to break ties. Until "
+                                  "2026-11-10 this said order by "
+                                  "excess_share alone, which led with a "
+                                  "3-region country. Never order on "
                                   "clears_own_recent_max alone: it is a "
                                   "boolean over a small sample and puts "
                                   "1-against-0 beside 8-against-3. And "
