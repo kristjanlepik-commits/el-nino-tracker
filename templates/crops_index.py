@@ -169,17 +169,20 @@ def crops_empty_sentence(places):
     literally true; when some country passed but none qualified for
     display, Crops' narrower sentence says what was tested."""
     key = "clears_own_prior_max" if _has_prior(places) else "clears_own_recent_max"
-    anyone = any((pl.get("chance_baseline") or {}).get(key) for pl in places)
+    n = sum(1 for pl in places if (pl.get("chance_baseline") or {}).get(key))
+    anyone = n > 0
     if not anyone:
         if key == "clears_own_prior_max":
             return "No country passed its own previous worst in the latest crop data."
         return ("No country passed its worst of the last twelve years in the "
                 "latest crop data.")
+    # Editor, 10 Nov: say how many did pass, with fewer than three regions.
+    fewer = f" {_word(n).capitalize()} passed it with fewer."
     if key == "clears_own_prior_max":
         return ("No country had three or more crop regions past its own "
-                "previous worst in the latest crop data.")
+                "previous worst in the latest crop data." + fewer)
     return ("No country had three or more crop regions past its worst of the "
-            "last twelve years in the latest crop data.")
+            "last twelve years in the latest crop data." + fewer)
 
 
 def lead_order_key(cb):
