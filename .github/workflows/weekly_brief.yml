@@ -160,7 +160,8 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          python run_brief.py
+          set -o pipefail
+          python run_brief.py 2>&1 | tee /tmp/run_brief.log
 
       - name: Commit snapshot and brief
         run: |
@@ -188,7 +189,9 @@ jobs:
       # then it rebuilds from committed state and commits nothing.
       - name: Publish the site pages from the new issue
         id: publish
-        run: python scripts/publish_all.py
+        run: |
+          set -o pipefail
+          python scripts/publish_all.py 2>&1 | tee /tmp/publish.log
 
       # always(): publish_all rolls back only the surface a failure names
       # (D-289), so whatever it did build ships, and the failure alert
@@ -225,11 +228,18 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          # Two sources: whole pages main() could not build (the failures
+          # file), and sections design's templates replaced with a fallback
+          # line, which print WARNING and let the page render (1d29a508).
+          # A degraded week is still a week someone should look at.
           f=/tmp/tls_render_failures.txt
-          [ -s "$f" ] || { echo "every section rendered"; exit 0; }
+          w=$(grep -hE "WARNING: (issue section|front page|FRONT PAGE DEGRADED|/elnino/ full issue)" \
+                /tmp/run_brief.log /tmp/publish.log 2>/dev/null | sed 's/^ *//' | sort -u | head -12)
+          if [ ! -s "$f" ] && [ -z "$w" ]; then echo "every section rendered"; exit 0; fi
+          what=$( { [ -s "$f" ] && cat "$f"; [ -n "$w" ] && echo "$w"; } | tr '\n' ';')
           bash scripts/open_alert_issue.sh \
             "Weekly brief section failed to render: $(date -u +%F)" \
-            "The issue shipped without: $(tr '\n' ';' < "$f"). The previous version of that page stays live. Log: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            "The issue shipped, but these did not render: ${what} A failed page keeps its previous version; a failed section shows a fallback line. Log: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
       # Usually too early to see the deploy; qa.yml's daily run is the
       # backstop. Cheap, and it closes the previous week's alerts at once.

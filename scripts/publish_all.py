@@ -1030,6 +1030,14 @@ def main() -> None:
                   f"{r.stdout}\n{r.stderr}".strip())
             continue
         print(f"  ran {name}")
+        # A step that succeeded can still have degraded: design's templates
+        # print "WARNING: ... not rendered" when a section is replaced by a
+        # fallback line (D-356, 1d29a508). This loop captures each step's
+        # output and used to print only "ran <name>" on success, so those
+        # warnings reached no log and no alert. Pass them through.
+        for _line in ((r.stdout or "") + "\n" + (r.stderr or "")).splitlines():
+            if "WARNING:" in _line or _line.startswith("::warning") or _line.startswith("::error"):
+                print(f"    {_line.strip()}")
 
     # The working payload goes back BEFORE verify, which asserts that no
     # data input moved during the run; the swap is not a move.
