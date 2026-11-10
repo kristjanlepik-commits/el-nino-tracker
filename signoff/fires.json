@@ -1,9 +1,10 @@
 {
   "channel": "fires",
-  "approved_hash": "42c5d4633ce11497ddc2238044ae74be7350dd98f3b962e8155aebc586336093",
-  "approved_at": "2026-09-05T10:46:02+00:00",
+  "approved_hash": "567e2d97778b0c2c8ef054d2ca2e677411f154b5d272a72f78e81203b53c7fc2",
+  "approved_commit": "fc895da9b8ef1e43083d9958345f6f1e4c3a7628",
+  "approved_at": "2026-11-10T10:45:25+00:00",
   "approved_by": "Fire",
-  "note": "Two commits since the 09-04 approval. 50bd229e is not fires': an ENSO analog legend label in tokens.py, which fires templates import so it gates this channel transitively. Verified none of its changed strings ('second-year event', 'began above threshold', '2015-16 (super') appears on any of the 53 fires pages. d09a6f18 is mine, a warning when a built page is untracked. Rebuilt against the current payload: window 08-29..09-04, data_as_of 2026-09-04, index reads wk Aug 29-Sep 4, verified local payload matches origin before reviewing. The untracked-page guard from d09a6f18 fired on its first real day and caught docs/fires/thailand/, a newly qualifying country linked from the index and returning 404 live; staged with this. NOTE: the shared working tree currently has 54 unmerged index entries (docs/heat/cards/*.png) from another chat's aborted operation, so every commit is refused with 'needs merge'. This approval and the rebuilt pages are on disk and cannot be committed or published until that index is resolved by its owner.",
+  "note": "Reviewed a build in a clean worktree at origin/main fc895da9. Three template files changed. build_page.py: the Method note no longer claims every year is measured by the same sensor; it states the baseline is Suomi NPP 2012-2025 and the current week NOAA-20 scaled by 1.02 with ~22% single-day spread, read on the built index. build_country_pages.py: the instrument line reads the payload's own sensor field; Botswana's reads 'NOAA-20 scaled to SNPP-equivalent; baseline years on Suomi NPP'. Header reads 'NASA FIRMS NOAA-20, SNPP-equivalent, wk Nov 3-9'. Headline 'Botswana burned at 6.4 times its own record' verified as real: 7.3x on SNPP alone in the last full SNPP week. Namibia is a new page and is added. KNOWN, NOT FIXED HERE: templates/country_page.py:378 still prints 'same sensor throughout' on every country page; that template is design's and has been sent to them.",
   "inputs": [
     "fires/build_country_pages.py",
     "fires/build_page.py",

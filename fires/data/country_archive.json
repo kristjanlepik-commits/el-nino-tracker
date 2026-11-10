@@ -8,7 +8,7 @@
   "`last_assessed` is the window the row's FIGURES come from,",
   "which for a dropped country is not this week."
  ],
- "window": "08-29..09-04",
+ "window": "11-03..11-09",
  "countries": [
   {
    "slug": "albania",
@@ -41,10 +41,10 @@
    "slug": "australia",
    "name": "Australia",
    "href": "fires/australia/",
-   "current": false,
+   "current": true,
    "tracked": true,
-   "last_assessed": "2026-08-03",
-   "claims_current": false
+   "last_assessed": "2026-11-09",
+   "claims_current": true
   },
   {
    "slug": "austria",
@@ -77,10 +77,19 @@
    "slug": "botswana",
    "name": "Botswana",
    "href": "fires/botswana/",
-   "current": false,
+   "current": true,
    "tracked": true,
-   "last_assessed": "2026-08-10",
-   "claims_current": false
+   "last_assessed": "2026-11-09",
+   "claims_current": true
+  },
+  {
+   "slug": "brazil",
+   "name": "Brazil",
+   "href": "fires/brazil/",
+   "current": true,
+   "tracked": true,
+   "last_assessed": "2026-11-09",
+   "claims_current": true
   },
   {
    "slug": "canada",
@@ -88,8 +97,26 @@
    "href": "fires/canada/",
    "current": true,
    "tracked": true,
-   "last_assessed": "2026-09-04",
+   "last_assessed": "2026-11-09",
    "claims_current": true
+  },
+  {
+   "slug": "chile",
+   "name": "Chile",
+   "href": "fires/chile/",
+   "current": false,
+   "tracked": true,
+   "last_assessed": null,
+   "claims_current": false
+  },
+  {
+   "slug": "china",
+   "name": "China",
+   "href": "fires/china/",
+   "current": false,
+   "tracked": true,
+   "last_assessed": null,
+   "claims_current": false
   },
   {
    "slug": "colombia",
@@ -113,19 +140,19 @@
    "slug": "cuba",
    "name": "Cuba",
    "href": "fires/cuba/",
-   "current": true,
+   "current": false,
    "tracked": true,
    "last_assessed": "2026-09-04",
-   "claims_current": true
+   "claims_current": false
   },
   {
    "slug": "democratic-republic-of-the-congo",
    "name": "Democratic Republic of the Congo",
    "href": "fires/democratic-republic-of-the-congo/",
-   "current": true,
+   "current": false,
    "tracked": true,
    "last_assessed": "2026-09-04",
-   "claims_current": true
+   "claims_current": false
   },
   {
    "slug": "dominican-republic",
@@ -160,7 +187,7 @@
    "href": "fires/france/",
    "current": true,
    "tracked": true,
-   "last_assessed": "2026-09-04",
+   "last_assessed": "2026-11-09",
    "claims_current": true
   },
   {
@@ -205,8 +232,26 @@
    "href": "fires/indonesia/",
    "current": true,
    "tracked": true,
-   "last_assessed": "2026-09-04",
+   "last_assessed": "2026-11-09",
    "claims_current": true
+  },
+  {
+   "slug": "italy",
+   "name": "Italy",
+   "href": "fires/italy/",
+   "current": false,
+   "tracked": true,
+   "last_assessed": null,
+   "claims_current": false
+  },
+  {
+   "slug": "kazakhstan",
+   "name": "Kazakhstan",
+   "href": "fires/kazakhstan/",
+   "current": false,
+   "tracked": true,
+   "last_assessed": null,
+   "claims_current": false
   },
   {
    "slug": "libya",
@@ -248,19 +293,19 @@
    "slug": "mexico",
    "name": "Mexico",
    "href": "fires/mexico/",
-   "current": true,
+   "current": false,
    "tracked": true,
    "last_assessed": "2026-09-04",
-   "claims_current": true
+   "claims_current": false
   },
   {
    "slug": "montenegro",
    "name": "Montenegro",
    "href": "fires/montenegro/",
-   "current": true,
+   "current": false,
    "tracked": true,
    "last_assessed": "2026-09-04",
-   "claims_current": true
+   "claims_current": false
   },
   {
    "slug": "morocco",
@@ -275,9 +320,27 @@
    "slug": "mozambique",
    "name": "Mozambique",
    "href": "fires/mozambique/",
-   "current": true,
+   "current": false,
    "tracked": true,
    "last_assessed": "2026-09-04",
+   "claims_current": false
+  },
+  {
+   "slug": "myanmar",
+   "name": "Myanmar",
+   "href": "fires/myanmar/",
+   "current": false,
+   "tracked": true,
+   "last_assessed": null,
+   "claims_current": false
+  },
+  {
+   "slug": "namibia",
+   "name": "Namibia",
+   "href": "fires/namibia/",
+   "current": true,
+   "tracked": true,
+   "last_assessed": "2026-11-09",
    "claims_current": true
   },
   {
@@ -290,22 +353,40 @@
    "claims_current": false
   },
   {
+   "slug": "new-zealand",
+   "name": "New Zealand",
+   "href": "fires/new-zealand/",
+   "current": false,
+   "tracked": true,
+   "last_assessed": null,
+   "claims_current": false
+  },
+  {
    "slug": "papua-new-guinea",
    "name": "Papua New Guinea",
    "href": "fires/papua-new-guinea/",
+   "current": true,
+   "tracked": true,
+   "last_assessed": "2026-11-09",
+   "claims_current": true
+  },
+  {
+   "slug": "peru",
+   "name": "Peru",
+   "href": "fires/peru/",
    "current": false,
    "tracked": true,
-   "last_assessed": "2026-08-31",
+   "last_assessed": null,
    "claims_current": false
   },
   {
    "slug": "philippines",
    "name": "Philippines",
    "href": "fires/philippines/",
-   "current": true,
+   "current": false,
    "tracked": true,
    "last_assessed": "2026-09-04",
-   "claims_current": true
+   "claims_current": false
   },
   {
    "slug": "poland",
@@ -320,10 +401,10 @@
    "slug": "portugal",
    "name": "Portugal",
    "href": "fires/portugal/",
-   "current": false,
+   "current": true,
    "tracked": true,
-   "last_assessed": "2026-08-05",
-   "claims_current": false
+   "last_assessed": "2026-11-09",
+   "claims_current": true
   },
   {
    "slug": "republic-of-serbia",
@@ -335,13 +416,31 @@
    "claims_current": false
   },
   {
+   "slug": "republic-of-the-congo",
+   "name": "Republic of the Congo",
+   "href": "fires/republic-of-the-congo/",
+   "current": false,
+   "tracked": true,
+   "last_assessed": null,
+   "claims_current": false
+  },
+  {
+   "slug": "romania",
+   "name": "Romania",
+   "href": "fires/romania/",
+   "current": false,
+   "tracked": true,
+   "last_assessed": null,
+   "claims_current": false
+  },
+  {
    "slug": "russia",
    "name": "Russia",
    "href": "fires/russia/",
-   "current": true,
+   "current": false,
    "tracked": true,
    "last_assessed": "2026-09-04",
-   "claims_current": true
+   "claims_current": false
   },
   {
    "slug": "saudi-arabia",
@@ -367,17 +466,17 @@
    "href": "fires/spain/",
    "current": true,
    "tracked": true,
-   "last_assessed": "2026-09-04",
+   "last_assessed": "2026-11-09",
    "claims_current": true
   },
   {
    "slug": "sri-lanka",
    "name": "Sri Lanka",
    "href": "fires/sri-lanka/",
-   "current": true,
+   "current": false,
    "tracked": true,
    "last_assessed": "2026-09-04",
-   "claims_current": true
+   "claims_current": false
   },
   {
    "slug": "syria",
@@ -392,19 +491,28 @@
    "slug": "thailand",
    "name": "Thailand",
    "href": "fires/thailand/",
-   "current": true,
+   "current": false,
    "tracked": true,
    "last_assessed": "2026-09-04",
-   "claims_current": true
+   "claims_current": false
   },
   {
    "slug": "tunisia",
    "name": "Tunisia",
    "href": "fires/tunisia/",
-   "current": true,
+   "current": false,
    "tracked": true,
    "last_assessed": "2026-09-04",
-   "claims_current": true
+   "claims_current": false
+  },
+  {
+   "slug": "turkey",
+   "name": "Turkey",
+   "href": "fires/turkey/",
+   "current": false,
+   "tracked": true,
+   "last_assessed": null,
+   "claims_current": false
   },
   {
    "slug": "turkmenistan",
@@ -419,10 +527,10 @@
    "slug": "uganda",
    "name": "Uganda",
    "href": "fires/uganda/",
-   "current": true,
+   "current": false,
    "tracked": true,
    "last_assessed": "2026-09-04",
-   "claims_current": true
+   "claims_current": false
   },
   {
    "slug": "ukraine",
@@ -439,7 +547,7 @@
    "href": "fires/united-kingdom/",
    "current": true,
    "tracked": true,
-   "last_assessed": "2026-09-04",
+   "last_assessed": "2026-11-09",
    "claims_current": true
   },
   {
@@ -457,26 +565,44 @@
    "href": "fires/united-states-of-america/",
    "current": true,
    "tracked": true,
-   "last_assessed": "2026-09-04",
+   "last_assessed": "2026-11-09",
    "claims_current": true
+  },
+  {
+   "slug": "uruguay",
+   "name": "Uruguay",
+   "href": "fires/uruguay/",
+   "current": false,
+   "tracked": true,
+   "last_assessed": null,
+   "claims_current": false
   },
   {
    "slug": "venezuela",
    "name": "Venezuela",
    "href": "fires/venezuela/",
+   "current": true,
+   "tracked": true,
+   "last_assessed": "2026-11-09",
+   "claims_current": true
+  },
+  {
+   "slug": "vietnam",
+   "name": "Vietnam",
+   "href": "fires/vietnam/",
    "current": false,
    "tracked": true,
-   "last_assessed": "2026-08-17",
+   "last_assessed": null,
    "claims_current": false
   },
   {
    "slug": "zambia",
    "name": "Zambia",
    "href": "fires/zambia/",
-   "current": true,
+   "current": false,
    "tracked": true,
    "last_assessed": "2026-09-04",
-   "claims_current": true
+   "claims_current": false
   },
   {
    "slug": "zimbabwe",

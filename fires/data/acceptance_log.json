@@ -222,5 +222,34 @@
    "Vietnam: cropland reading enriched -> depleted"
   ],
   "files_promoted": 39
+ },
+ {
+  "accepted_at": "2026-11-10T10:45:25+00:00",
+  "accepted_by": "Fire",
+  "note": "Week to 9 November, first week on NOAA-20 after Suomi NPP's end of mission, on a baseline corrected for a defect that silently dropped defective calendar days from every year (AGO mean 583.5 -> 1,350.2). 35 flags reviewed against a two-month-old published state, mostly seasonal turnover. Records checked against margin: Botswana +540% (real, 7.3x on SNPP the week before), Portugal +375%, PNG +118%, Venezuela +17%. Angola's +0.8% now withheld as inside the ~8% weekly conversion error, so it reads level with its record rather than past it. Hectares records (Tunisia, Serbia, PNG) come from CI's burnt-area close, unchanged by this work.",
+  "held_on": [
+   "events: region(s) entered the qualifying set: ['Australia', 'Botswana', 'Brazil', 'Namibia', 'Portugal', 'Venezuela']",
+   "events: region(s) LEFT the qualifying set: ['Albania', 'Bosnia and Herzegovina', 'Democratic Republic of the Congo', 'India', 'Macedonia', 'Mexico', 'Montenegro', 'Philippines', 'Republic of Serbia', 'Republic of the Congo', 'Uganda']",
+   "Papua New Guinea: area record status False -> True (656937 -> 2291754 ha against max 1783107). A revised magnitude on the same side of the record line would have passed.",
+   "Republic of Serbia: area record status False -> True (32239 -> 37219 ha against max 36508). A revised magnitude on the same side of the record line would have passed.",
+   "Tunisia: area record status False -> True (27589 -> 29154 ha against max 28493). A revised magnitude on the same side of the record line would have passed.",
+   "Angola: weekly rank 13 -> 1, crossing the 1st-place boundary",
+   "Bosnia and Herzegovina: weekly rank 1 -> 2, crossing the 1st-place boundary",
+   "Botswana: weekly rank 12 -> 1, crossing the 1st-place boundary",
+   "India: weekly rank 1 -> 13, crossing the 1st-place boundary",
+   "Jamaica: weekly rank 1 -> 10, crossing the 1st-place boundary",
+   "Lithuania: weekly rank 13 -> 1, crossing the 1st-place boundary",
+   "Morocco: weekly rank 1 -> 9, crossing the 1st-place boundary",
+   "Mexico: weekly rank 1 -> 2, crossing the 1st-place boundary",
+   "Malta: weekly rank 3 -> 1, crossing the 1st-place boundary",
+   "Montenegro: weekly rank 1 -> 4, crossing the 1st-place boundary",
+   "Philippines: weekly rank 1 -> 3, crossing the 1st-place boundary",
+   "Portugal: weekly rank 10 -> 1, crossing the 1st-place boundary",
+   "Uganda: weekly rank 1 -> 8, crossing the 1st-place boundary",
+   "Venezuela: weekly rank 7 -> 1, crossing the 1st-place boundary",
+   "PNG: season-record claim False -> True. This is the 'has already passed <year>' / 'the record still stands' sentence on the country page, computed from fires/data/area_history/PNG.json, a different file from burnt_area.json's own record check above.",
+   "TUN: season-record claim False -> True. This is the 'has already passed <year>' / 'the record still stands' sentence on the country page, computed from fires/data/area_history/TUN.json, a different file from burnt_area.json's own record check above."
+  ],
+  "files_promoted": 100
  }
 ]
