@@ -491,6 +491,23 @@ def lede(d):
     return _generated_lede(d), "generated"
 
 
+def _safe_lede(d):
+    """Editor's lede, the generated one, or none: never the page down."""
+    try:
+        return lede(d)[0]
+    except Exception as e:                       # noqa: BLE001
+        print("WARNING: front page lede not rendered: %r" % (e,), file=sys.stderr)
+        return _editor_lede() or ""
+
+
+def _safe_crops_clause(d, n):
+    try:
+        return _crops_record_clause(d, n)
+    except Exception as e:                       # noqa: BLE001
+        print("WARNING: front page crops clause not rendered: %r" % (e,), file=sys.stderr)
+        return ""
+
+
 def _editor_lede():
     """The `## lede` block from copy/frontpage.md, or None if left empty."""
     from design import copydeck
@@ -770,7 +787,18 @@ def _crops_record_clause(d, n_marks):
 
 
 def page(d, canonical, og_image_url, root_prefix, desc, brief_date_iso):
-    _mb = map_block(d, root_prefix)
+    # The map and the lede are isolated too: a failure in either leaves the
+    # readings and the issue standing. A failed map draws no counts line,
+    # since zeros there would state "0 drawn" as a finding.
+    try:
+        _mb, map_ok = map_block(d, root_prefix), True
+    except Exception as e:                       # noqa: BLE001
+        print("WARNING: front page map not rendered: %r" % (e,), file=sys.stderr)
+        map_ok = False
+        _mb = dict(svg='<p class="mapna">%s</p>' % h(NOT_SHOWN), legend="",
+                   script="", sst_date=None, n_shown=0, n_fires_rec=0,
+                   n_crops_rec=0, bar_f="", bar_c="", below_crops=0,
+                   below_fires=0)
     rs = readings(d)
     # The chip column exists only if something in the SET uses it. Two rows
     # trailing into an empty cell reads as missing data; a column that is
@@ -1116,7 +1144,7 @@ averaged</span></div>
 
 </div>{script}</body></html>""".format(
         faces=T.font_faces_css(root_prefix + "fonts/"), vars=T.css_variables(),
-        prose=T.FONT_PROSE, data=T.FONT_DATA, lede=lede(d)[0], rows=rows,
+        prose=T.FONT_PROSE, data=T.FONT_DATA, lede=_safe_lede(d), rows=rows,
         nino_col=T.NINO,
 
         n_fire=d["events_counts"].get("anomalous",
@@ -1159,9 +1187,9 @@ averaged</span></div>
         # historical baseline, not read from live data, so it does not
         # move with n_crops_rec; update it only if CRO recomputes the
         # baseline itself.
-        mb_state=("%d drawn &middot; %d fire countries past their own record "
-                  "week" % (_mb["n_shown"], _mb["n_fires_rec"]))
-                 + _crops_record_clause(d, _mb["n_crops_rec"]),
+        mb_state=(("%d drawn &middot; %d fire countries past their own record "
+                   "week" % (_mb["n_shown"], _mb["n_fires_rec"]))
+                  + _safe_crops_clause(d, _mb["n_crops_rec"])) if map_ok else "",
         mb_sst=(" &middot; ocean field observed 7 days to %s"
                 % _mb["sst_date"]) if _mb.get("sst_date") else "",
         script=_mb["script"],

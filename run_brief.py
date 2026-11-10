@@ -3964,6 +3964,26 @@ def _nino_region_rows(phys: dict) -> str:
     return out
 
 
+# ONE SECTION FAILING MUST NOT TAKE THE ISSUE WITH IT. The dated issue and
+# the front page both render inside the weekly run; 2 Nov and 9 Nov were
+# each one channel's empty state crashing the run. Platform isolates the
+# front page at main() level (ce63cf88); this is the finer version inside
+# the issue: a section builder that raises leaves a line saying so, prints a
+# WARNING, and the rest of the issue renders.
+SECTION_UNAVAILABLE = "We could not check this one this week."
+
+
+def _section(name, fn, *args, **kwargs):
+    try:
+        return fn(*args, **kwargs)
+    except Exception as e:                       # noqa: BLE001
+        import sys as _sys
+        print(f"WARNING: issue section {name!r} not rendered: {e!r}",
+              file=_sys.stderr)
+        return (f'<p class="section-sub" data-unavailable="{h(name)}">'
+                f'{h(SECTION_UNAVAILABLE)}</p>')
+
+
 ISSUE_BODY_START = "<!--issue-body-->"
 ISSUE_BODY_END = "<!--/issue-body-->"
 ISSUE_PROV_START = "<!--issue-prov-->"
@@ -4397,7 +4417,8 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     # Rung order is BUCKET_ORDER; the archive trend derives its column
     # order from the same constant. Reorder there, not here.
     # Built from docs/briefs/*/meta.json, the frozen published output.
-    _prob_hist = chart_prob_history(Path(__file__).resolve().parent / 'docs/briefs')
+    _prob_hist = _section("probability history", chart_prob_history,
+                          Path(__file__).resolve().parent / 'docs/briefs')
     ladder_html = (
         '<section><h2>Probability ladder</h2>'
         '<p class="section-sub">Peak three-month ONI, DJF 2026-27. Each rung '
@@ -4625,11 +4646,11 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
     # 2026 draws in INK, not the accent. It is below both super analogs, and
     # under D-043 colour carries the finding rather than the recency: drawing
     # it in hue would claim a record this series does not hold.
-    physical_html += _nino_map_html(
+    physical_html += _section("nino map", _nino_map_html,
         phys, str((freshness.get("oisst_weekly") or {}).get("issued")
                   or phys.get("issued") or "")[:10], root_prefix)
 
-    _wind = chart_wind(phys)
+    _wind = _section("wind chart", chart_wind, phys)
     if _wind:
         physical_html += (
             '<p class="section-sub" style="margin-top:22px">Cumulative westerly '
@@ -4796,7 +4817,8 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         '</div></div></footer>'
     )
 
-    impacts_html = build_impacts_html_block(load_impacts(), world_map_href=world_map_href)
+    impacts_html = _section("impact outlook", lambda: build_impacts_html_block(
+        load_impacts(), world_map_href=world_map_href))
 
     # ----------- Analyst section -----------
     # "What's interesting this week": six observers, each fires only when
@@ -4975,7 +4997,7 @@ def build_public_html(fetched: dict, freshness: dict, headline: dict,
         # of the same stored state (D-338, templates/elnino_page.py), so the
         # landing page carries the full issue and cannot disagree with it.
         # Comments, so the dated page renders identically with or without.
-        body_sections = (_finding_line(headline, phys)
+        body_sections = (_section("finding", _finding_line, headline, phys)
                          + ISSUE_BODY_START
                          + physical_html + analyst_html + ladder_html
                          + chart_html + impacts_html + sources_html
