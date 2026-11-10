@@ -231,6 +231,14 @@ jobs:
             "Weekly brief section failed to render: $(date -u +%F)" \
             "The issue shipped without: $(tr '\n' ';' < "$f"). The previous version of that page stays live. Log: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
+      # Usually too early to see the deploy; qa.yml's daily run is the
+      # backstop. Cheap, and it closes the previous week's alerts at once.
+      - name: Close brief alerts whose issue is now live
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/close_brief_alerts.py
+
       # STATE ONLY WHAT IS KNOWN. The first version of this body said "the
       # site is still serving the previous issue" on 2026-09-28, when the
       # issue had been live since 14:12 and the failing run was a later

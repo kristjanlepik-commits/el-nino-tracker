@@ -100,6 +100,15 @@ jobs:
       # published (the job crashed, or never started). A red run alone
       # told nobody for five days in September; this puts it in
       # Kristjan's inbox. Scheduled runs only, so a push never files one.
+      # D-356: an open alert always means a live problem. Closes brief
+      # alerts once the issue is live on the site, judged on the pages a
+      # reader sees. Daily, because Pages can lag the run that published.
+      - name: Close brief alerts whose issue is now live
+        if: always() && github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/close_brief_alerts.py
+
       - name: Tell Kristjan when the weekly brief is missing
         if: always() && github.event_name == 'schedule'
         env:
