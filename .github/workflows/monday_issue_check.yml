@@ -1,0 +1,158 @@
+name: Monday issue live check
+
+# Science's, by D-357 (Kristjan, 2026-11-10): Science owns the Monday El
+# Nino issue end to end, and the issue is done when the landing page shows
+# it, not when a run is green (D-356). This is how Science notices when it
+# does not. On 9 Nov both brief runs crashed and the only alert sat on an
+# issue list nobody read for 25 hours (D-355); a chat that is not running
+# notices nothing, so the noticing has to run on its own.
+#
+# It reads the live landing page and, if this Monday's issue is not on it,
+# emails Kristjan through the brief's own SMTP secrets, the inbox he reads,
+# and fails red. It changes nothing and publishes nothing. The file sits in
+# Platform's directory under Science's mandate; Platform was told first.
+#
+# Two runs, because GitHub starts scheduled Monday runs hours late
+# (weekly_brief.yml measured 5.0 to 6.3 h), and off :00 for the same reason.
+# The Tuesday run also catches a Monday the 13:17 backstop failed to rescue.
+# Manual runs test the script, not the schedule: check `gh run list` for a
+# run with event "schedule" before calling the schedule proven.
+on:
+  schedule:
+    - cron: "47 10 * * 1"
+    - cron: "23 5 * * 2"
+  workflow_dispatch:
+    inputs:
+      expect_date:
+        description: "Issue date to require, YYYY-MM-DD (blank: this Monday)"
+        required: false
+        default: ""
+      test_label:
+        description: "Subject prefix for a test alert, e.g. TEST (safe to ignore):"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: The landing page shows this Monday's issue
+        env:
+          EXPECT_DATE: ${{ inputs.expect_date }}
+          TEST_LABEL: ${{ inputs.test_label }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          BRIEF_RECIPIENT: ${{ secrets.BRIEF_RECIPIENT }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python3 - <<'PY'
+          import datetime as dt
+          import html
+          import os
+          import re
+          import smtplib
+          import ssl
+          import sys
+          import time
+          import urllib.request
+          from email.message import EmailMessage
+
+          SITE = "https://thelongswell.com"
+          now = dt.datetime.now(dt.timezone.utc)
+          monday = (now.date() - dt.timedelta(days=now.weekday())).isoformat()
+          want = os.environ.get("EXPECT_DATE") or monday
+
+
+          def fetch(path):
+              req = urllib.request.Request(SITE + path,
+                                           headers={"User-Agent": "tls-monday-issue-check"})
+              try:
+                  with urllib.request.urlopen(req, timeout=60) as r:
+                      return (r.status, int(r.headers.get("age") or 0),
+                              r.headers.get("x-cache", ""), r.read().decode("utf-8", "replace"))
+              except urllib.error.HTTPError as e:
+                  return e.code, int(e.headers.get("age") or 0), e.headers.get("x-cache", ""), ""
+
+
+          def look():
+              """The newest issue date the landing page names, read from the page
+              text with tags stripped (a phrase is often split across tags)."""
+              try:
+                  status, age, xc, raw = fetch("/")
+              except Exception as e:
+                  return None, 0, "landing page fetch failed: %s: %s" % (type(e).__name__, e)
+              raw = re.sub(r"<(script|style)[^>]*>.*?</\1>", "", raw, flags=re.S)
+              text = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", raw)))
+              dates = sorted(set(re.findall(r"issue (\d{4}-\d{2}-\d{2})", text)))
+              shown = dates[-1] if dates else None
+              return shown, age, ("HTTP %s, age %ss, x-cache %s, issue dates on the page: %s"
+                                  % (status, age, xc, ", ".join(dates) or "none"))
+
+
+          shown, age, detail = look()
+          print("want %s; %s" % (want, detail))
+          # A GOOD answer from the cache is real: a cached page cannot name an issue
+          # that was never deployed. A BAD one may only be the previous page (the site
+          # caches for up to 600 s), so wait out the cached copy and look again before
+          # telling anyone.
+          if shown != want and age > 0:
+              wait = int(os.environ.get("CACHE_WAIT", str(max(0, 620 - age))))
+              print("not found on a cached copy; checking again in %ss" % wait)
+              time.sleep(wait)
+              shown, age, detail = look()
+              print("want %s; %s" % (want, detail))
+
+          if shown == want:
+              print("OK: the landing page shows issue %s" % want)
+              sys.exit(0)
+
+          code = fetch("/briefs/%s/" % want)[0]
+          subject = ("%sThe Long Swell: the %s El Nino issue is NOT live (checked %s UTC)"
+                     % (os.environ.get("TEST_LABEL", ""), want, now.strftime("%a %d %b %H:%M")))
+          body = "\n".join([
+              "The landing page does not show this Monday's El Nino issue.",
+              "",
+              "Expected: issue %s" % want,
+              "Found: %s" % (("issue " + shown) if shown else "no issue date on the page"),
+              "Landing page: %s" % detail,
+              "Archive page /briefs/%s/: HTTP %s" % (want, code),
+              "",
+              "Weekly brief runs: https://github.com/kristjanlepik-commits/el-nino-tracker/actions/workflows/weekly_brief.yml",
+              "This check: %s" % os.environ.get("RUN_URL", "(local run)"),
+              "",
+              "What to do: open the Science chat (El Nino model buildout) and ask it",
+              "to get the %s issue live." % want,
+              "",
+              "Sent by .github/workflows/monday_issue_check.yml (D-357).",
+          ])
+          print("NOT LIVE. %s" % subject)
+          if os.environ.get("DRY_RUN"):
+              print(body)
+              sys.exit(1)
+          try:
+              host, user = os.environ["SMTP_HOST"], os.environ["SMTP_USER"]
+              pw, to = os.environ["SMTP_PASS"], os.environ["BRIEF_RECIPIENT"]
+          except KeyError as e:
+              print("ALERT NOT SENT: missing secret %s" % e)
+              sys.exit(1)
+          msg = EmailMessage()
+          msg["Subject"], msg["From"], msg["To"] = subject, user, to
+          msg.set_content(body)
+          port = int(os.environ.get("SMTP_PORT") or "465")
+          if port == 465:
+              with smtplib.SMTP_SSL(host, port, context=ssl.create_default_context()) as s:
+                  s.login(user, pw)
+                  s.send_message(msg)
+          else:
+              with smtplib.SMTP(host, port) as s:
+                  s.starttls(context=ssl.create_default_context())
+                  s.login(user, pw)
+                  s.send_message(msg)
+          print("alert emailed")
+          sys.exit(1)
+          PY
