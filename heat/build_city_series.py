@@ -1219,7 +1219,16 @@ def build(city, meta):
     if season_started and eff != season_end(season):
         _first = sum(1 for k, v in tx_s.get(CURRENT_YEAR, {}).items()
                      if _counts(k, CURRENT_YEAR) and v >= th["95"])
-        if _first == 0:
+        # AND IT MUST BE USABLE, the same 90% bar every year meets. Trelew on
+        # 9 November had its first hot day and 8 of 9 window days with both
+        # extremes, the newest still missing its minimum. Reported anyway,
+        # the season carried a rank but no peak, and design's renderer fell
+        # over on the missing peak: caught in a preview render, not live.
+        # An unusable season in progress is not yet reportable either.
+        _win = sum(1 for k in tn_s.get(CURRENT_YEAR, {})
+                   if _counts(k, CURRENT_YEAR))
+        _usable = W > 0 and _win >= W * WINDOW_BAR
+        if _first == 0 or not _usable:
             opened_empty = True
             eff, season_started, W = None, False, 0
             # The shortfall test reads _counts, so it is rerun on the path
@@ -1399,7 +1408,8 @@ def build(city, meta):
         "season_opened_empty": opened_empty,
         "season_opened_empty_note": (
             "True while this city's counting window is open but the season "
-            "in progress has no day yet at its 95th percentile. It is then "
+            "in progress has no day yet at its 95th percentile, or is not yet "
+            "complete enough to rank (the 90% bar). It is then "
             "handled as not begun: nothing ranked for it, and the last "
             "complete season reported instead, because a count of zero ties "
             "with nearly every past year on the same date and ranks last by "
