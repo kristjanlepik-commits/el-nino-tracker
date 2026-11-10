@@ -239,13 +239,60 @@ def map_svg(d, nino34):
 # --------------------------------------------------------------------------
 # The readings. One row per channel, each in its own units, fixed order.
 # --------------------------------------------------------------------------
+# EVERY CHANNEL'S ROW IS BUILT ON ITS OWN, and a failure in one cannot take
+# down the others or the page. The front page renders inside the weekly El
+# Nino run, so an exception here is the weekly issue not publishing: on
+# 2 Nov our own withdrawn record claim did it, on 9 Nov a week in which no
+# fire country cleared its bar (max() of nothing, then ev[0]). Science put
+# guards on those two sites (5c096f3); this is the general version. An
+# EMPTY week is a finding and reads as one (the constants below, editor's
+# to word); an ERROR reads "not shown this week" and is printed loudly.
+FIRES_EMPTY = ("No country's fires are far above its own same-week average "
+               "this week.")
+CROPS_EMPTY = ("No country has more cropland at a record low than its own "
+               "recent history explains.")
+NOT_SHOWN = "Not shown this week."
+
+
+def _empty(ch, claim):
+    return dict(ch=ch, place="", claim=claim, fig="", ev="", src="", tag="")
+
+
+def _fires_week_words(d):
+    """The fires week from the payload: "week to 9 Nov". It was typed as
+    "week to 10 Aug" and stayed that on every front page after August."""
+    w = (d.get("fires_week") or {}).get("window") or ""
+    end = w.split("..")[-1] if ".." in w else ""
+    try:
+        mm, dd = (int(x) for x in end.split("-"))
+        return "week to %d %s" % (dd, ("Jan Feb Mar Apr May Jun Jul Aug Sep "
+                                        "Oct Nov Dec").split()[mm - 1])
+    except ValueError:
+        return "this week"
+
+
 def readings(d):
     rows = []
+    for ch, fn in (("Fires", _fires_rows), ("Heat", _heat_rows),
+                   ("Crops", _crops_rows)):
+        try:
+            rows.extend(fn(d))
+        except Exception as e:                   # noqa: BLE001
+            import sys
+            print("WARNING: front page %s row not rendered: %r" % (ch, e),
+                  file=sys.stderr)
+            rows.append(_empty(ch, NOT_SHOWN))
+    return rows
 
+
+def _fires_rows(d):
+    rows = []
     ev = sorted([e for e in d["events"] if e.get("anomalous")],
                 key=lambda e: -float(str(e.get("stat", "0")).rstrip("x") or 0))
     # No fire country cleared its anomaly gate this week: no fires row,
     # rather than an IndexError that takes the weekly issue down.
+    if not ev:
+        return [_empty("Fires", FIRES_EMPTY)]
     if ev:
         top = ev[0]
         geo = None
@@ -295,10 +342,15 @@ def readings(d):
             # the finding, and its correct render is no chip, exactly as heat
             # and crops get no column. I turned the null back into the word the
             # decision removed, on the most-read surface we have.
-            src="NASA FIRMS SNPP &middot; week to 10 Aug",
+            src="NASA FIRMS SNPP &middot; " + _fires_week_words(d),
             tag={"enso": "ENSO-loaded window",
                  "non_enso": "not ENSO-linked"}.get(top.get("attribution"), "")))
 
+    return rows
+
+
+def _heat_rows(d):
+    rows = []
     dh = d["heat"]["day_headline"]
     floors = (d["heat"].get("coverage") or {}).get("counts_are_floors")
     # THE SUBJECT IS THE SUBSET, NOT THE SET. VD: this read "41 cities /
@@ -317,13 +369,24 @@ def readings(d):
            + "<br>station records, counted to the same date each year",
         src="", tag=""))
 
-    lit = ["Angola", "Chad", "Philippines", "Sudan", "Yemen"]
-    best, best_rank = None, 99
-    for p in d["crops"]["places"]:
-        if p["place"] in lit:
-            r = (p.get("severity") or {}).get("rank")
-            if r and r < best_rank:
-                best, best_rank = p, r
+    return rows
+
+
+def _crops_rows(d):
+    rows = []
+    # THE CROPS PAGE'S OWN LEAD, not a typed list. This picked among five
+    # countries typed in August ("Angola", "Chad", "Philippines", "Sudan",
+    # "Yemen"); by November the crops page led on Rwanda and none of the
+    # five need qualify, which is a crash waiting. Same selection as
+    # templates/crops_index.py: selected_for_display, by excess_share.
+    sel = [p for p in d["crops"]["places"]
+           if (p.get("chance_baseline") or {}).get(
+               "selected_for_display",
+               (p.get("chance_baseline") or {}).get("notable"))]
+    sel.sort(key=lambda p: -((p.get("chance_baseline") or {}).get("excess_share") or 0))
+    if not sel:
+        return [_empty("Crops", CROPS_EMPTY)]
+    best = sel[0]
     regs = best.get("regions") or []
     n1 = [r for r in regs if r.get("rank") == 1]
     sev = best.get("severity") or {}
@@ -1121,5 +1184,46 @@ def render(meta, brief_date_iso, canonical_url, og_image_url,
     desc = ("Where the climate is abnormal this week, measured against each "
             "place's own record. %s%% chance of a 1997/2015-magnitude El "
             "Niño peak." % magn)
-    return page(d, canonical_url, og_image_url, root_prefix, desc,
-                brief_date_iso)
+    # THE LAST NET. If the page still fails, the run publishes a plain front
+    # page that links to the issue, rather than no issue at all. Loud on
+    # stderr, so a degraded week is seen rather than discovered.
+    try:
+        return page(d, canonical_url, og_image_url, root_prefix, desc,
+                    brief_date_iso)
+    except Exception as e:                       # noqa: BLE001
+        import sys
+        print("WARNING: FRONT PAGE DEGRADED to the fallback: %r" % (e,),
+              file=sys.stderr)
+        return _fallback_page(canonical_url, root_prefix, desc, brief_date_iso)
+
+
+def _fallback_page(canonical, root_prefix, desc, brief_date_iso):
+    from run_brief import (ANALYTICS_SNIPPET, SITE_MASTHEAD_CSS, SITE_NAME,
+                           site_masthead)
+    from templates.page_head import head_meta
+    title = "%s: where the climate is abnormal this week" % SITE_NAME
+    issue = "%sbriefs/%s/" % (root_prefix, brief_date_iso)
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{head_meta(title=title, description=desc, path="/")}
+<title>{h(title)}</title>
+<style>{T.font_faces_css(root_prefix + "fonts/")}
+:root {{ color-scheme: light dark; {T.css_variables()} }}
+@media (prefers-color-scheme: dark) {{ :root {{ {T.css_variables(dark=True)} }} }}
+body{{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.6}}
+main{{max-width:760px;margin:0 auto;padding:40px 24px 80px}}
+{SITE_MASTHEAD_CSS}</style>
+{ANALYTICS_SNIPPET}
+</head>
+<body>
+{site_masthead(root_prefix)}
+<main>
+<p>{h(desc)}</p>
+<p><a href="{h(issue)}">This week&rsquo;s El Ni&ntilde;o issue, {h(brief_date_iso)}</a></p>
+</main>
+</body>
+</html>
+"""
