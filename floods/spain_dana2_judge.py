@@ -92,6 +92,11 @@ def main():
         rain = J.load(sid)
         twice += [(sid, d.isoformat(), v) for d, v in rain.items() if J.WIN0 <= d <= J.WIN1 and v is not None and v >= 100]
     n_st = sum(1 for s in out["stations"] if "1day" in s)
+    full = [s["id"] for s in out["stations"] if len(s.get("window_days_reported", [])) == 6]
+    none = [s["id"] for s in out["stations"] if not s.get("window_days_reported")]
+    out["status"] = ("final" if len(full) + len(none) == len(STATIONS) else "provisional")
+    out["status_detail"] = (f"{len(full)} stations with all 6 window days; {len(none)} with none "
+                            f"({', '.join(none) or 'none'}); AEMET answered 'no data' for those")
     out["summary"] = {"stations_declared": len(STATIONS), "stations_with_window_data": n_st,
                       "tests_declared": 2 * len(STATIONS), "tests_run": 2 * n_st,
                       "headline_records_30y_unbroken": records, "headline_records": headline,
