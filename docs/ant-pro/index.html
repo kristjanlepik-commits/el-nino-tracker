@@ -196,6 +196,10 @@ table.grid td.off.st5, table.grid td.off.st3, table.grid td.off.st2 { opacity: .
 table.grid td.off.st5 small, table.grid td.off.st3 small, table.grid td.off.st2 small, table.grid td.off.st5, table.grid td.off.st3, table.grid td.off.st2 { color: #1A1A18; }
 /* The cells the reader's four answers chose. */
 table.grid td.mine { box-shadow: inset 0 0 0 2px var(--ink); }
+
+/* A pressed card or head says so, since the headline jumps (AI - Compute review). */
+.one { margin: 0; font-size: .9rem; color: var(--ink); }
+.one button { margin-left: 6px; font: inherit; color: var(--ink); background: none; border: 0; padding: 0; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 </style>
 <!-- Privacy-friendly analytics by Plausible -->
 <script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
@@ -261,9 +265,10 @@ plausible.init({transformRequest:function(p){try{var c=document.querySelector('l
             <option value="cover">Do owners get paid?</option>
           </select>
         </div>
+        <p class="one" id="one" hidden><span></span> <button type="button" id="one-base">Back to the base case</button></p>
         <div class="key" id="key"></div>
         <div class="tw"><table class="grid" id="grid"></table></div>
-        <p class="hint">The small line under each value is how much that scenario counts in the headline. Click a scenario to see its path.</p>
+        <p class="hint">The small line under each value is how much that scenario counts in the headline. Click a scenario to see its path. Jobs under "AGI, plus a funding crash" are an estimate, from the crash effect on the improving path.</p>
       </div>
 
       <div class="card">
@@ -278,7 +283,7 @@ plausible.init({transformRequest:function(p){try{var c=document.querySelector('l
         <summary>How this works and sources</summary>
         <div class="grp">
           <p><b>The model.</b> This page runs ai/compute-demand-2030's scenario model v4.1 (model/scenarios_v41.py) in your browser and reproduces it cell by cell. It combines five ways the AI market could split its money with five paths for how fast AI develops, plus how fast US data centres can be connected to the grid. That makes 125 combinations, weighted by your sliders. The defaults are Kristjan's adopted weights (statement 20261112-0105) and his view of a crash (ask 05: AI training is cut for everyone and stops where the cash cushion is thin; statement 20261112-1010).</p>
-          <p><b>Anthropic's value</b> comes from mkt/anthropic-valuation's v4.1 grid (R-20261112-v41-grid-valuation). It assumes Anthropic takes a 35%, 45% or 55% share of frontier-lab revenue, interpolated in between. It discounts at 9.74%, counts a wiped-out equity at zero, and values takeoff on the usage the grid can serve at late-plateau prices, an interim method until the AGI module (F-20261112-takeoff-upside-weighted-63-today). Its per-scenario values assume grid-bound supply, so this page's weighted figure can differ by about $1 from mkt's own ($63.2 at 45%), which revalues each power setting. <b>US jobs</b> come from ai/jobs' v4.1 grid (F-20261112-jobs-grid-compute-v4-1-2030). Neither responds to the model-assumption sliders.</p>
+          <p><b>Anthropic's value</b> is the average of two revenue paths for the frontier labs, equally weighted, each counted at zero where the equity is wiped out, and discounted at 9.74%. The low path ties AI's work revenue to the jobs it replaces and adds consumer subscriptions: about $340bn of lab revenue in 2030. The high path follows the labs' own plans: about $850bn. The older usage-times-price method, which gave about $1.2tn, is retired. A funding crash keeps Anthropic's compute commitments in full: they are take-or-pay, so a crash cannot make the shares worth more (F-20261112-no-free-haircut-equal-weight-23-today). Reaching the $74 IPO price needs the labs' own plans and about a 76% market share (F-20261112-price-74-needs-plans-and-76pct-share). The page assumes Anthropic takes a 35%, 45% or 55% share of frontier-lab revenue, interpolated in between. The per-scenario values come from ai/compute-demand-2030 (values_equal_weight). <b>US jobs</b> come from ai/jobs' v4.1 grid (F-20261112-jobs-grid-compute-v4-1-2030); for "AGI, plus a funding crash" they are an estimate, the AGI path scaled by the crash effect on the improving path. Neither responds to the model-assumption sliders.</p>
           <div><b>Data-centre verdict.</b> This compares US AI demand in 2030 with energised US AI capacity:
             <ul>
               <li>shortage: 1.00 or more;</li>

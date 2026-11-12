@@ -159,7 +159,7 @@ function strip() {
   }
   ANTSCALE($('strip'), { price: price(A), animate: first });
   first = false;
-  $('cap').textContent = `${zero} of ${total} ways to answer leave shareholders with nothing; ${above} beat the IPO price.`;
+  $('cap').textContent = `${zero} of ${total} ways to answer leave shareholders with nothing; ${above} ${above === 1 ? 'beats' : 'beat'} the IPO price.`;
 }
 
 // ?a=late,mid,C1,45 opens on the reveal; ?step=2 opens on question 3 (screenshots)

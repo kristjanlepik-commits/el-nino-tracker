@@ -6,9 +6,13 @@
 // weight is 0, so the base case is unchanged.
 STATES.push(['takeoff', true]); STATE_KEYS.push('takeoffBreak');
 WEIGHTS.states.takeoffBreak = 0; WEIGHTS.mix.takeoffBreak = WEIGHTS.mix.takeoff.slice();
-const JOBS = { // millions, [late, early, takeoff, lateBreak, earlyBreak]; ai/jobs has no takeoff + crash path, so that cell is null
-  C1: [2.73, 1.63, 4.68, 2.66, 1.71, null], C2: [2.66, 1.53, 4.34, 2.58, 1.60, null], C3: [3.31, 1.86, 5.47, 3.11, 1.81, null], C4: [3.31, 1.86, 5.47, 3.11, 1.81, null], C5: [2.62, 1.63, 4.68, 2.55, 1.71, null],
+const JOBS = { // millions, [late, early, takeoff, lateBreak, earlyBreak, takeoffBreak], from explorer v14; takeoffBreak = takeoff x (lateBreak / late), an estimate
+  C1: [2.73, 1.63, 4.68, 2.66, 1.71, 4.56], C2: [2.66, 1.53, 4.34, 2.58, 1.60, 4.21], C3: [3.31, 1.86, 5.47, 3.11, 1.81, 5.14], C4: [3.31, 1.86, 5.47, 3.11, 1.81, 5.14], C5: [2.62, 1.63, 4.68, 2.55, 1.71, 4.55],
 };
+// Frontier-lab revenue, $bn a year 2026-30, on the two paths the price rests
+// on (explorer v14): low ties AI's work revenue to the jobs it replaces, high
+// follows the labs' own plans. The usage-times-price revenue is retired.
+const POOL = {"low": {"C1": {"late": [150, 189, 234, 284, 340], "lateBreak": [150, 176, 179, 208, 267], "early": [150, 168, 184, 198, 212], "earlyBreak": [150, 157, 141, 146, 168], "takeoff": [150, 193, 237, 286, 338], "takeoffBreak": [150, 185, 205, 230, 306]}, "C2": {"late": [150, 164, 174, 174, 162], "lateBreak": [150, 154, 135, 132, 132], "early": [150, 146, 136, 120, 98], "earlyBreak": [150, 137, 106, 91, 81], "takeoff": [150, 177, 198, 199, 184], "takeoffBreak": [150, 166, 156, 155, 156]}, "C3": {"late": [150, 180, 214, 248, 280], "lateBreak": [150, 169, 166, 185, 224], "early": [150, 160, 167, 171, 172], "earlyBreak": [150, 150, 130, 128, 139], "takeoff": [150, 189, 224, 255, 289], "takeoffBreak": [150, 179, 190, 206, 261]}, "C4": {"late": [150, 195, 249, 312, 384], "lateBreak": [150, 182, 190, 228, 301], "early": [150, 173, 195, 218, 240], "earlyBreak": [150, 162, 150, 160, 189], "takeoff": [150, 195, 247, 322, 404], "takeoffBreak": [150, 187, 217, 255, 358]}, "C5": {"late": [150, 167, 179, 184, 177], "lateBreak": [150, 156, 138, 135, 140], "early": [150, 148, 140, 128, 110], "earlyBreak": [150, 138, 108, 94, 88], "takeoff": [150, 173, 183, 178, 160], "takeoffBreak": [150, 165, 156, 140, 145]}}, "high": {"C1": {"late": [150, 237, 370, 566, 850], "lateBreak": [150, 222, 283, 414, 667], "early": [150, 211, 290, 395, 531], "earlyBreak": [150, 197, 223, 290, 419], "takeoff": [150, 243, 376, 568, 846], "takeoffBreak": [150, 233, 324, 457, 765]}, "C2": {"late": [150, 207, 275, 347, 406], "lateBreak": [150, 194, 214, 262, 329], "early": [150, 184, 214, 238, 246], "earlyBreak": [150, 172, 168, 181, 202], "takeoff": [150, 222, 314, 396, 459], "takeoffBreak": [150, 209, 247, 309, 390]}, "C3": {"late": [150, 227, 338, 493, 702], "lateBreak": [150, 212, 262, 368, 560], "early": [150, 201, 264, 340, 431], "earlyBreak": [150, 189, 205, 256, 348], "takeoff": [150, 237, 354, 508, 723], "takeoffBreak": [150, 225, 301, 409, 653]}, "C4": {"late": [150, 245, 393, 620, 961], "lateBreak": [150, 229, 301, 453, 753], "early": [150, 218, 309, 434, 601], "earlyBreak": [150, 203, 237, 318, 474], "takeoff": [150, 246, 390, 640, 1010], "takeoffBreak": [150, 235, 343, 508, 895]}, "C5": {"late": [150, 210, 283, 365, 443], "lateBreak": [150, 196, 218, 269, 350], "early": [150, 186, 222, 254, 276], "earlyBreak": [150, 174, 171, 188, 219], "takeoff": [150, 218, 290, 353, 401], "takeoffBreak": [150, 207, 247, 279, 362]}}};
 const WNAMES = {
   C1: ['Labs sell AI by the use', 'Firms buy Claude, ChatGPT or Gemini as a service and keep their own clients'],
   C2: ['AI becomes a cheap commodity', 'Open models catch up; prices collapse and buyers keep the savings'],
@@ -16,8 +20,8 @@ const WNAMES = {
   C4: ['Labs sell finished products', 'The labs own the model, the agents and the customer'],
   C5: ['Big tech bundles AI in', 'Google, Microsoft and Meta give AI away inside products people already pay for'],
 };
-const SNAMES = { late: 'AI keeps improving to about 2030', early: 'AI stalls in 2027-28', takeoff: 'No plateau: rapid takeoff', lateBreak: 'Keeps improving, funding crash 2027-29', earlyBreak: 'Stalls, plus a funding crash', takeoffBreak: 'Rapid takeoff, plus a funding crash' };
-const SSHORT = { late: 'Keeps improving', early: 'Stalls early', takeoff: 'Rapid takeoff', lateBreak: 'Improving + crash', earlyBreak: 'Stalls + crash', takeoffBreak: 'Takeoff + crash' };
+const SNAMES = { late: 'AI keeps improving to about 2030', early: 'AI stalls in 2027-28', takeoff: 'AGI by about 2029', lateBreak: 'Keeps improving, funding crash 2027-29', earlyBreak: 'Stalls, plus a funding crash', takeoffBreak: 'AGI, plus a funding crash' };
+const SSHORT = { late: 'Keeps improving', early: 'Stalls early', takeoff: 'AGI', lateBreak: 'Improving + crash', earlyBreak: 'Stalls + crash', takeoffBreak: 'AGI + crash' };
 const clone = o => JSON.parse(JSON.stringify(o));
 let P = clone(DEFAULTS), W = clone(WEIGHTS), share = 45, sel = { world: 'C1', key: 'late' };
 
@@ -130,14 +134,14 @@ function render() {
   // band (D-370, Kristjan: "one number for each"); the range stays in words.
   ANTSCALE(document.getElementById('h-strip'), { price: S.val });
   document.querySelectorAll('#presets button').forEach(b => b.setAttribute('aria-pressed', b.dataset.p === preset));
-  document.getElementById('h-facts').innerHTML = `<span>Range <b>$${lo.toFixed(0)}-${hi.toFixed(0)}</b> as Anthropic's market share runs 35-55%</span><span><b>${Math.round(S.above * 100)}%</b> of outcomes above $74</span><span><b>${Math.round(S.fails * 100)}%</b> where the equity is wiped out</span>`;
+  document.getElementById('h-facts').innerHTML = `<span>$74 needs the labs' own plans <b>and</b> about a 76% market share (45% today)</span><span>Range <b>$${lo.toFixed(0)}-${hi.toFixed(0)}</b> as Anthropic's market share runs 35-55%</span><span><b>${Math.round(S.above * 100)}%</b> of outcomes above $74</span><span><b>${Math.round(S.fails * 100)}%</b> where the equity is wiped out</span>`;
   const gg = S.v.glut + S.v.grey;
   document.getElementById('t-verdict').textContent = `${Math.round(gg * 100)}% weak or oversupplied`;
   document.getElementById('t-stack').innerHTML = ['shortage', 'balance', 'grey', 'glut'].map(k => `<span style="width:${S.v[k] * 100}%;background:${col[k]}"></span>`).join('');
   document.getElementById('t-legend').textContent = ['shortage', 'balance', 'grey', 'glut'].map(k => `${vname[k]} ${Math.round(S.v[k] * 100)}%`).join(' · ');
   document.getElementById('t-owners').textContent = `In ${Math.round(S.owners * 100)}% of outcomes`;
   document.getElementById('t-jobs').textContent = S.jobs == null ? 'Not modelled for takeoff with a crash' : `${S.jobs.toFixed(1)}M (${(S.jobs / 157 * 100).toFixed(1)}%)`;
-  const st = norm(W.states); document.getElementById('w-sum').textContent = `Rescaled to 100%. A funding crash in ${Math.round((st.lateBreak + st.earlyBreak) * 100)}% of outcomes.`;
+  const st = norm(W.states); document.getElementById('w-sum').textContent = `Rescaled to 100%. A funding crash in ${Math.round((st.lateBreak + st.earlyBreak + st.takeoffBreak) * 100)}% of outcomes.`;
   renderGrid(); renderDetail();
 }
 function cellRows(world, key) { const [speed, brk] = STATES[STATE_KEYS.indexOf(key)]; return run(P, world, speed, brk, 'deferred', 'grid'); }
@@ -152,12 +156,17 @@ const KEYS = {
 };
 function renderGrid() {
   const m = document.getElementById('metric').value;
-  document.getElementById('key').innerHTML = KEYS[m].map(([c, n]) => `<span><i class="${c}"></i>${n}</span>`).join('') + (m === 'ratio' || m === 'cover' || m === 'labrev' ? '<span>Grid-limited power, crash delays the chip upgrade.</span>' : '');
+  document.getElementById('key').innerHTML = KEYS[m].map(([c, n]) => `<span><i class="${c}"></i>${n}</span>`).join('') + (m === 'ratio' || m === 'cover' ? '<span>Grid-limited power, crash delays the chip upgrade.</span>' : m === 'labrev' ? '<span>Low if AI revenue grows with the work it replaces, high if it grows as the labs plan.</span>' : '');
   // A column head puts all path weight on that path and keeps the
   // who-gets-paid split; a row head puts all of the split on that world and
   // keeps the path weights. Both write the sliders (VD).
   const st = norm(W.states), colOn = STATE_KEYS.find(k => st[k] > 0.999);
   const rowOn = WORLD_KEYS.find((w, wi) => STATE_KEYS.every(k => W.mix[k].every((v, j) => (j === wi) === (v > 0))));
+  const one = document.getElementById('one');
+  if (one) {
+    one.hidden = !(colOn || rowOn);
+    one.querySelector('span').textContent = colOn && rowOn ? 'Showing one scenario only.' : colOn ? 'Showing one path only.' : 'Showing one world only.';
+  }
   let h = '<tr><th></th>' + STATE_KEYS.map(k => `<th><button type="button" class="hd" data-col="${k}" aria-pressed="${k === colOn}">${SNAMES[k]}</button></th>`).join('') + '</tr>';
   for (const w of WORLD_KEYS) {
     h += `<tr><th class="w"><button type="button" class="hd" data-row="${w}" aria-pressed="${w === rowOn}">${WNAMES[w][0]}</button><small>${WNAMES[w][1]}</small></th>`;
@@ -165,8 +174,8 @@ function renderGrid() {
       const r = cellRows(w, k)[4]; let txt, cls = 'st4';
       if (m === 'ratio') { txt = r.ratio.US.toFixed(2); cls = { shortage: 'st5', balance: 'st4', grey: 'st3', glut: 'st2' }[verdict(r.ratio.US)]; }
       else if (m === 'val') { const v = valOf(w, si); txt = v <= 0 ? '$0' : '$' + v.toFixed(0); cls = v <= 0 ? 'rul' : v >= ANT.IPO ? 'px-hi' : 'px-lo'; }
-      else if (m === 'jobs') txt = JOBS[w][si] == null ? 'n/a' : JOBS[w][si].toFixed(1) + 'M';
-      else if (m === 'labrev') txt = '$' + Math.round(r.labRevServed).toLocaleString() + 'bn';
+      else if (m === 'jobs') txt = JOBS[w][si].toFixed(1) + 'M' + (k === 'takeoffBreak' ? ' est.' : '');
+      else if (m === 'labrev') txt = '$' + POOL.low[w][k][4].toLocaleString() + '-' + POOL.high[w][k][4].toLocaleString() + 'bn';
       else { txt = Math.round(r.ownerCover * 100) + '%'; cls = r.ownerCover >= 1 ? 'st4' : r.ownerCover >= 0.75 ? 'st3' : 'st2'; }
       const selc = sel.world === w && sel.key === k ? ' sel' : '', cw = cellWeight(w, k);
       const off = cw < 0.0005 ? ' off' : '', me = mine.some(([mw, mk]) => mw === w && mk === k) ? ' mine' : '';
@@ -215,10 +224,10 @@ function renderDetail() {
     ['AI usage, trillion tokens a day (West)', x => Math.round(x.tokens).toLocaleString()],
     ['US AI demand, GW', x => f0(x.dem.US)], ['US AI capacity, GW', x => f0(x.cap.US)],
     ['Demand ÷ capacity', x => f2(x.ratio.US)],
-    ['AI lab revenue, $bn', x => Math.round(x.labRevServed).toLocaleString()], ['AI lab compute spend, $bn', x => f0(x.labSpend)],
+    ['AI lab revenue, $bn (low-high)', (x, i) => POOL.low[sel.world][sel.key][i].toLocaleString() + '-' + POOL.high[sel.world][sel.key][i].toLocaleString()], ['AI lab compute spend, $bn', x => f0(x.labSpend)],
     ['Owners paid (rent ÷ cost)', x => Math.round(x.ownerCover * 100) + '%'],
   ];
-  document.getElementById('d-table').innerHTML = '<tr><th></th>' + rows.map(x => `<th>${x.year}</th>`).join('') + '</tr>' + lines.map(([n, f]) => `<tr><td>${n}</td>${rows.map(x => `<td>${f(x)}</td>`).join('')}</tr>`).join('');
+  document.getElementById('d-table').innerHTML = '<tr><th></th>' + rows.map(x => `<th>${x.year}</th>`).join('') + '</tr>' + lines.map(([n, f]) => `<tr><td>${n}</td>${rows.map((x, yi) => `<td>${f(x, yi)}</td>`).join('')}</tr>`).join('');
 }
 // ?a=late,mid,C1,45, from /ant's "Fine-tune it in the full model": every
 // weight on the reader's path and world at their share, so the headline here
@@ -239,6 +248,7 @@ function applyAnswers(list) {
   document.getElementById('base').addEventListener('click', () => { P = clone(DEFAULTS); W = clone(WEIGHTS); share = 45; preset = 'Base case'; mine = []; syncAll(); update(); f.hidden = true; try { history.replaceState(null, '', location.pathname); } catch (e) {} });
   return true;
 }
+document.getElementById('one-base').addEventListener('click', () => { P = clone(DEFAULTS); W = clone(WEIGHTS); share = 45; preset = 'Base case'; mine = []; syncAll(); update(); });
 window.ANT_PRO = { apply: list => { if (applyAnswers(list)) update(); } };
 // Fill every control from the model once: the split table's inputs had no
 // initial values, so the rail showed empty boxes until a preset was pressed.
