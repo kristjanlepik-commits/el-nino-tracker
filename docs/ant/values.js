@@ -5,8 +5,9 @@
 // Values since 12 Nov evening: AI - Compute's values_equal_weight
 // (compute-demand-2030/outputs/ant-stories-facts.json), sent by the Mycelium
 // UX desk with Kristjan's "send". Each cell is the equal weight of MKT's low
-// and high revenue paths, each floored at $0, at 9.74%: the method behind
-// Kristjan's $27 headline. They replace the token x price grid (concept v3),
+// and high revenue paths, each floored at $0, at 9.74%, with every crash
+// cell capped at its no-crash twin (Kristjan, statement 20261112-1900):
+// $25 at his weights and a 45% share. They replace the token x price grid (concept v3),
 // which MKT withdrew as the valuation basis.
 //
 // $ a share today, by Anthropic's share of frontier-lab revenue (35, 45,
@@ -21,9 +22,9 @@ window.ANT = (function () {
   const SCALE = 150;
   const STATES = ["late", "early", "takeoff", "lateBreak", "earlyBreak", "takeoffBreak"];
   const VAL = {
-    35: { C1: [28.0, 7.3, 46.1, 31.1, 10.2, 48.5], C2: [0.0, 0.0, 2.2, 3.0, 0.0, 6.3], C3: [19.2, 3.6, 34.0, 23.7, 7.4, 38.0], C4: [34.1, 9.9, 55.2, 36.3, 12.8, 56.4], C5: [4.0, 0.0, 7.9, 7.4, 0.5, 12.0] },
-    45: { C1: [42.5, 13.6, 65.8, 43.2, 16.8, 65.8], C2: [2.8, 0.0, 7.3, 6.1, 0.5, 9.3], C3: [31.4, 9.0, 50.8, 34.0, 12.2, 52.2], C4: [50.2, 16.2, 77.5, 50.0, 20.1, 75.4], C5: [9.4, 0.0, 14.8, 12.0, 3.1, 19.9] },
-    55: { C1: [56.3, 19.1, 85.1, 55.2, 23.1, 82.0], C2: [6.8, 0.0, 11.6, 8.2, 2.5, 14.1], C3: [43.2, 14.2, 66.7, 44.0, 17.6, 66.2], C4: [65.7, 23.8, 99.1, 62.8, 27.1, 93.5], C5: [14.6, 2.1, 22.0, 17.4, 5.8, 27.1] },
+    35: { C1: [28.0, 7.3, 46.1, 27.3, 7.3, 44.4], C2: [0.0, 0.0, 2.2, 0.0, 0.0, 2.2], C3: [19.2, 3.6, 34.0, 19.2, 3.6, 33.4], C4: [34.1, 9.9, 55.2, 32.9, 9.9, 52.8], C5: [4.0, 0.0, 7.9, 4.0, 0.0, 7.9] },
+    45: { C1: [42.5, 13.6, 65.8, 40.2, 13.6, 62.5], C2: [2.8, 0.0, 7.3, 2.8, 0.0, 7.3], C3: [31.4, 9.0, 50.8, 30.2, 9.0, 48.3], C4: [50.2, 16.2, 77.5, 47.5, 16.2, 73.2], C5: [9.4, 0.0, 14.8, 9.4, 0.0, 14.8] },
+    55: { C1: [56.3, 19.1, 85.1, 53.2, 19.1, 80.5], C2: [6.8, 0.0, 11.6, 6.8, 0.0, 11.6], C3: [43.2, 14.2, 66.7, 41.0, 14.2, 63.2], C4: [65.7, 23.8, 99.1, 61.9, 23.4, 93.5], C5: [14.6, 2.1, 22.0, 14.6, 2.1, 22.0] },
   };
 
   // Raw cell, interpolated between the 35/45/55 grid points.
