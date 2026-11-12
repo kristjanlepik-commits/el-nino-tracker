@@ -109,7 +109,9 @@ h1 { font: 500 clamp(25px, 3.4vw, 32px)/1.18 var(--serif); margin: 0 0 18px; tex
   .me.in { animation: dropin 120ms ease-out both; }
 }
 @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
-@keyframes dropin { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+/* Slide only, never fade: the dot must be there in a still frame even where
+   the animation does not run (a background tab, a thumbnail). */
+@keyframes dropin { from { transform: translateY(-8px); } to { transform: none; } }
 </style>
 <!-- Privacy-friendly analytics by Plausible -->
 <script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
