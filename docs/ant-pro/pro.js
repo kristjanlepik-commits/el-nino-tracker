@@ -125,9 +125,9 @@ function render() {
   document.getElementById('h-num').textContent = '$' + S.val.toFixed(0);
   const gap = S.val - 74;
   document.getElementById('h-vs').innerHTML = `a share, <b>$${Math.abs(gap).toFixed(0)} ${gap >= 0 ? 'above' : 'below'}</b> the $74 IPO price`;
-  // /ant's scale (VD, second pass): the price as the one ink dot, on the band
-  // it moves across as Anthropic's share runs from 35 to 55%.
-  ANTSCALE(document.getElementById('h-strip'), { price: S.val, lo, hi });
+  // /ant's scale: the price as the one ink dot and the IPO tick. No share
+  // band (D-370, Kristjan: "one number for each"); the range stays in words.
+  ANTSCALE(document.getElementById('h-strip'), { price: S.val });
   document.querySelectorAll('#presets button').forEach(b => b.setAttribute('aria-pressed', b.dataset.p === preset));
   document.getElementById('h-facts').innerHTML = `<span>Range <b>$${lo.toFixed(0)}-${hi.toFixed(0)}</b> as Anthropic's market share runs 35-55%</span><span><b>${Math.round(S.above * 100)}%</b> of outcomes above $74</span><span><b>${Math.round(S.fails * 100)}%</b> where the equity is wiped out</span>`;
   const gg = S.v.glut + S.v.grey;
