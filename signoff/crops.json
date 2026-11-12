@@ -1,10 +1,10 @@
 {
   "channel": "crops",
-  "approved_hash": "1a60a6fcd8ea1832f83ca2e4e73f74878001f4d77f180138a3f17d07c1211af4",
-  "approved_commit": "338bb33d1b7d15ae5688d8b287708483287ef84d",
-  "approved_at": "2026-11-10T09:57:59+00:00",
+  "approved_hash": "927be0a102a66cc12396c099f42ce6ae24986608d19e65fff3dd5c69bd30a85f",
+  "approved_commit": "ab64dc3ec027de89cd6772221ff8977937978f5d",
+  "approved_at": "2026-11-12T02:04:26+00:00",
   "approved_by": "TLS Crops",
-  "note": "Supersedes 338bb33d, whose note described 5e6771f4 and said state B omitted editor's completion: design pushed a8d308cd while that review ran, and 338bb33d approved current origin without my having looked at it. This approval covers a8d308cd, reviewed in all four states, three on throwaway payload copies discarded first: (0) real payload byte-identical to live; (A) nobody passed: 'No country passed its own previous worst in the latest crop data'; (B) Uganda past its all-time worst on 2 regions, none selected: 'No country had three or more crop regions past its own previous worst in the latest crop data. One passed it with fewer.', editor's ruling in full; (C) real data plus margin_past_prior_max: Burundi leads, 'The most at once before this year was two, in 2006'. All true as written. One non-condition to design: C opens '16 of Burundi's 18' because _word stops at twelve; editor's version was 'Sixteen'.",
+  "note": "Reviewed ab64dc3e on unchanged templates (crops_index a8d308cd, crops_country c414d55b): dekad 2026-10-21 rebuilt on ASAP's revised values, payload and history from one pull. Index lead now Sudan 'Twelve of Sudan's 18... Seven in all. A typical year has three.'; Burundi page and timeline agree at 10 of 18 through October. Approved as it stands. Separately reported to design, not a condition: crops_country.py:360 says the dekads were 'picked rather than derived', which the history file has declared false since the window became the calendar year.",
   "inputs": [
     "crops/build_country_pages.py",
     "crops/build_page.py",
