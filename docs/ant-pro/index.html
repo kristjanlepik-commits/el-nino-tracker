@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Compute 2030 Explorer</title>
+<meta name="description" content="What Anthropic is worth depends on how AI develops to 2030. Set how likely each path is.">
+<style>
+
+@font-face { font-family: "Spectral"; font-weight: 400; font-style: normal; font-display: swap; src: url("../fonts/spectral-400.woff2") format("woff2"); }
+@font-face { font-family: "Spectral"; font-weight: 400; font-style: italic; font-display: swap; src: url("../fonts/spectral-400-italic.woff2") format("woff2"); }
+@font-face { font-family: "Spectral"; font-weight: 500; font-style: normal; font-display: swap; src: url("../fonts/spectral-500.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-weight: 400; font-display: swap; src: url("../fonts/plexmono-400.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-weight: 500; font-display: swap; src: url("../fonts/plexmono-500.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-weight: 600; font-display: swap; src: url("../fonts/plexmono-600.woff2") format("woff2"); }
+
+:root { --paper: #F1F0EC; --sunk: #E7E6DF; --ink: #1A1A18; --soft: #3A3A36; --faint: #6E6E67; --rule: #CFCEC7; --line: #A9A89F; --serif: "Spectral", Georgia, serif; --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace; color-scheme: light; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper: #1A1A18; --sunk: #252521; --ink: #EDECE6; --soft: #B4B3AB; --faint: #86857D; --rule: #3A3A36; --line: #66665F; color-scheme: dark; } }
+:root[data-theme="dark"] { --paper: #1A1A18; --sunk: #252521; --ink: #EDECE6; --soft: #B4B3AB; --faint: #86857D; --rule: #3A3A36; --line: #66665F; color-scheme: dark; }
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.5 var(--serif); }
+.bar { border-bottom: 1px solid var(--rule); }
+.bar .in { display: flex; align-items: center; gap: 10px; max-width: var(--page, 900px); margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.bar .home { display: flex; align-items: center; gap: 10px; padding: 12px 0; color: var(--ink); text-decoration: none; }
+.bar svg { display: block; flex: none; width: 21px; height: 20px; color: var(--ink); }
+.bar .home span { font: 500 16px var(--serif); white-space: nowrap; }
+/* The version switch (VD, "two versions"): the same on both pages, so each
+   says the other exists. Current page INK 600 with a 2px rule. */
+.sw { margin-left: auto; display: flex; gap: 14px; font: 12px var(--mono); white-space: nowrap; }
+.sw a { color: var(--soft); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; }
+.sw .on { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--ink); padding-bottom: 2px; }
+.bar a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+/* /ant-pro: the Compute 2030 Explorer (AI - Compute, 9abe326) in house type
+   and inks. Its own palette is replaced by the tokens in build.py. The
+   data-centre verdict keeps four classes, now on the house anomaly scale:
+   demand over capacity diverges around 1, so a shortage reads warm and an
+   oversupply cool. One ink elsewhere: the accent is INK. */
+:root { --page: 1280px;
+  --bg: var(--paper); --panel: var(--paper); --ink-2: var(--soft); --muted: var(--faint);
+  --accent: var(--ink); --accent-soft: var(--sunk);
+  --short: #C05B3D; --bal: #A9A89F; --grey: #85A7B0; --glut: #417785;
+  --short-soft: #EFC9BD; --bal-soft: #E7E6DF; --grey-soft: #DCE4E5; --glut-soft: #C3D2D5;
+  --f-display: var(--serif); --f-body: var(--serif); --f-mono: var(--mono); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --short: #DC957E; --bal: #86857D; --grey: #85A7B0; --glut: #6FA3B3;
+  --short-soft: #4A2C22; --bal-soft: #252521; --grey-soft: #22302F; --glut-soft: #173A42; } }
+:root[data-theme="dark"] {
+  --short: #DC957E; --bal: #86857D; --grey: #85A7B0; --glut: #6FA3B3;
+  --short-soft: #4A2C22; --bal-soft: #252521; --grey-soft: #22302F; --glut-soft: #173A42; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 16px; line-height: 1.45; }
+.wrap { padding-block: 22px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.wrap { max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+header.top { display: flex; flex-direction: column; gap: 4px; }
+h1 { font-family: var(--f-display); font-weight: 700; font-size: 1.6rem; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+.sub { color: var(--ink-2); max-width: 70ch; margin: 0; }
+.shell { display: grid; grid-template-columns: 1fr; gap: 18px; grid-template-areas: "main" "rail" "rest"; }
+.main { grid-area: main; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.rail { grid-area: rail; min-width: 0; }
+.rest { grid-area: rest; display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+@media (min-width: 1000px) {
+  .shell { grid-template-columns: 330px minmax(0, 1fr); grid-template-areas: "rail main" "rail rest"; align-items: start; }
+  .rail { position: sticky; top: 12px; max-height: calc(100vh - 24px); overflow-y: auto; }
+}
+.panel { background: var(--panel); border: 1px solid var(--rule); border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+details.fold > summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; font-family: var(--f-display); font-weight: 600; font-size: 1rem; }
+details.fold > summary::after { content: "+"; color: var(--muted); font-family: var(--f-mono); }
+details.fold[open] > summary::after { content: "−"; }
+details.sub-fold { border-top: 1px solid var(--rule); padding-top: 8px; }
+details.sub-fold > summary { cursor: pointer; font-weight: 600; font-size: 0.9rem; color: var(--ink-2); list-style: none; display: flex; justify-content: space-between; }
+details.sub-fold > summary::after { content: "+"; color: var(--muted); font-family: var(--f-mono); }
+details.sub-fold[open] > summary::after { content: "−"; }
+.grp { display: flex; flex-direction: column; gap: 10px; padding-top: 8px; }
+.grp h4 { margin: 6px 0 0; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); font-weight: 600; }
+.ctl { display: grid; grid-template-columns: minmax(0, 1fr) 56px; gap: 2px 8px; align-items: center; }
+.ctl label { font-size: 0.86rem; color: var(--ink); }
+.ctl output { font-family: var(--f-mono); font-size: 0.82rem; text-align: right; font-variant-numeric: tabular-nums; }
+.ctl input[type=range] { grid-column: 1 / -1; width: 100%; accent-color: var(--accent); }
+.hint { font-size: 0.78rem; color: var(--muted); margin: 0; }
+.btns { display: flex; flex-wrap: wrap; gap: 6px; }
+button { font: inherit; font-size: 0.82rem; background: var(--bg); color: var(--ink); border: 1px solid var(--rule); border-radius: 6px; padding: 6px 10px; cursor: pointer; text-align: left; }
+button:hover { border-color: var(--accent); }
+button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible, td:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.mix { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+.mix th { color: var(--muted); font-weight: 500; text-align: center; padding: 2px; }
+.mix th:first-child { text-align: left; }
+.mix input { width: 100%; font: inherit; font-family: var(--f-mono); font-size: 0.78rem; text-align: center; background: var(--bg); color: var(--ink); border: 1px solid var(--rule); border-radius: 4px; padding: 3px 0; }
+.hero { background: var(--panel); border: 1px solid var(--rule); border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+.hero h2 { margin: 0; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+.hero .price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
+.hero .num { font-family: var(--f-display); font-weight: 700; font-size: clamp(2.4rem, 6vw, 3.4rem); line-height: 1; font-variant-numeric: tabular-nums; }
+.hero .vs { font-size: 1.05rem; color: var(--ink-2); }
+.hero .vs b { color: var(--ink); }
+.scale { position: relative; height: 34px; }
+.scale .bar { position: absolute; left: 0; right: 0; top: 14px; height: 6px; border-radius: 3px; background: var(--rule); }
+.scale .range { position: absolute; top: 14px; height: 6px; border-radius: 3px; background: var(--accent-soft); border: 1px solid var(--accent); }
+.scale .dot { position: absolute; top: 9px; width: 16px; height: 16px; margin-left: -8px; border-radius: 50%; background: var(--accent); }
+.scale .ipo { position: absolute; top: 4px; width: 2px; height: 26px; margin-left: -1px; background: var(--ink); }
+.scale .lab { position: absolute; top: -2px; font-size: 0.72rem; color: var(--ink-2); font-family: var(--f-mono); transform: translateX(4px); }
+.facts { display: flex; flex-wrap: wrap; gap: 6px 22px; font-size: 0.9rem; color: var(--ink-2); }
+.facts b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+.tile { background: var(--panel); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.tile h3 { margin: 0; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); font-weight: 600; }
+.tile .v { font-family: var(--f-display); font-size: 1.3rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.tile .d { font-size: 0.78rem; color: var(--muted); }
+.stack { display: flex; height: 8px; border-radius: 3px; overflow: hidden; background: var(--rule); }
+.stack span { display: block; height: 100%; }
+.card { background: var(--panel); border: 1px solid var(--rule); border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.card h2 { margin: 0; font-family: var(--f-display); font-size: 1.1rem; font-weight: 600; }
+.row { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+select { font: inherit; font-size: 0.85rem; background: var(--bg); color: var(--ink); border: 1px solid var(--rule); border-radius: 6px; padding: 5px 8px; }
+.key { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.8rem; color: var(--ink-2); }
+.key i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; border: 1px solid var(--rule); }
+.tw { overflow-x: auto; }
+table.grid { border-collapse: separate; border-spacing: 4px; width: 100%; min-width: 640px; font-variant-numeric: tabular-nums; }
+table.grid th { font-size: 0.78rem; color: var(--ink-2); font-weight: 500; text-align: center; padding: 2px 4px; vertical-align: bottom; }
+table.grid th.w { text-align: left; color: var(--ink); font-weight: 600; font-size: 0.84rem; width: 26%; }
+table.grid th.w small { display: block; font-weight: 400; color: var(--muted); font-size: 0.74rem; }
+table.grid td { text-align: center; border-radius: 5px; padding: 8px 4px; cursor: pointer; font-family: var(--f-mono); font-size: 0.9rem; border: 1px solid transparent; }
+table.grid td small { display: block; font-family: var(--f-body); font-size: 0.68rem; color: var(--ink-2); }
+table.grid td.sel { border-color: var(--ink); }
+/* Grid grounds by step on the house anomaly scale (VD design pass). Demand
+   over capacity and rents over cost have a real baseline at 1.00, so colour
+   is earned by departure; step 4 is that baseline and takes no fill. The
+   fills are the light theme's steps in both themes, so they always carry
+   the light theme's INK, never the dark theme's paper-coloured ink. */
+.st5 { background: #EFC9BD; } .st3 { background: #C3D2D5; } .st2 { background: #85A7B0; }
+table.grid td.st5, table.grid td.st3, table.grid td.st2, table.grid td.st5 small, table.grid td.st3 small, table.grid td.st2 small { color: #1A1A18; }
+/* A price is not a departure the scale exists to carry: cool on "below $74"
+   would read as a sell signal. Value mode takes no hue; weight carries the
+   threshold, and $0 is a state drawn as a ruled ground. */
+table.grid td.px-hi { font-weight: 600; color: var(--ink); }
+table.grid td.px-lo { font-weight: 400; color: var(--soft); }
+.rul { background: repeating-linear-gradient(135deg, var(--rule) 0 1px, transparent 1px 6px); }
+.key i.px-hi { background: var(--ink); } .key i.px-lo { background: var(--soft); }
+.detail { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 760px) { .detail { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); } }
+svg text { fill: var(--muted); font-family: var(--f-mono); font-size: 10px; }
+svg text.end { font-family: var(--f-body); font-size: 11px; font-weight: 600; }
+table.yrs { border-collapse: collapse; width: 100%; font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+table.yrs th, table.yrs td { padding: 4px 6px; border-bottom: 1px solid var(--rule); text-align: right; }
+table.yrs th:first-child, table.yrs td:first-child { text-align: left; color: var(--ink-2); }
+table.yrs th { color: var(--muted); font-weight: 500; }
+.notes { font-size: 0.82rem; color: var(--ink-2); }
+.notes p, .notes > .grp > div { margin: 0; max-width: 95ch; }
+.notes ul { margin: 4px 0; padding-left: 20px; }
+@media (prefers-reduced-motion: no-preference) { table.grid td, .scale .dot { transition: background-color .15s, left .2s; } }
+
+.panel, .hero, .tile, .card { border-radius: 0; }
+.hero { background: var(--sunk); border: 0; }
+.hero h2, .tile h3, .grp h4 { font-family: var(--f-mono); font-weight: 500; letter-spacing: .14em; }
+h1 { font-weight: 500; }
+.hero .num { font-weight: 500; }
+.card h2, details.fold > summary { font-weight: 500; }
+button, select, .mix input { border-radius: 0; }
+.scale .bar, .scale .range { border-radius: 0; }
+.from { font-size: .9rem; color: var(--soft); margin: 4px 0 0; }
+.from a, .from button { color: var(--ink); font: inherit; background: none; border: 0; padding: 0; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.disc { font-size: 13px; line-height: 1.5; color: var(--faint); margin: 8px 0 0; max-width: 90ch; }
+/* The valuation basis is open (UX, 12 Nov): the headline says so beside the number until the desk confirms it. */
+
+/* Same house as /ant (VD design pass): no four-sided boxes. Sections open on
+   /ant's 2px INK rule, tiles on 1px INK; the hero keeps PAPER_SUNK, the one
+   fill the house allows. Controls keep their borders: they are controls. */
+.panel, .card { border: 0; border-top: 2px solid var(--ink); padding-left: 0; padding-right: 0; }
+.tile { border: 0; border-top: 1px solid var(--ink); padding-left: 0; padding-right: 0; }
+.hero h2, .hero .facts, .hero .cap { color: var(--soft); }
+#h-strip { display: block; width: 100%; max-width: 560px; height: auto; overflow: visible; }
+#h-strip text { font: 11px var(--f-mono); fill: var(--soft); }
+.hero .cap { font-size: 14px; margin: 0; }
+.chip { display: inline-block; margin-left: 6px; padding: 1px 6px; background: var(--ink); color: var(--paper); letter-spacing: .14em; vertical-align: 1px; }
+/* On a phone the grid scrolls sideways; the world names stay put. */
+table.grid th.w { position: sticky; left: 0; z-index: 1; background: var(--paper); }
+
+/* Hero, second pass (VD): no dots. Two columns on a desk, bottom-aligned, so
+   the panel has no empty half; stacked on a phone. The facts carry what the
+   dots tried to show. */
+.hero { display: grid; gap: 14px 48px; }
+@media (min-width: 1000px) { .hero { grid-template-columns: minmax(0, 340px) minmax(0, 560px); align-items: end; } }
+.hero .hl { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.hero .hr { min-width: 0; }
+.hero .facts { display: grid; gap: 3px; font-size: 15px; margin-top: 10px; }
+/* Presets as chips: the pressed one is ink. */
+#presets button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+/* The table's heads are buttons (VD, "two versions and the table"). */
+table.grid .hd { background: none; border: 0; border-radius: 0; padding: 0 0 2px; font: inherit; color: var(--soft); text-align: inherit; cursor: pointer;
+  text-decoration: underline dotted; text-decoration-color: var(--line); text-underline-offset: 4px; }
+table.grid th.w .hd { font-weight: 600; }
+table.grid .hd[aria-pressed="true"] { color: var(--ink); font-weight: 600; text-decoration: none; border-bottom: 2px solid var(--ink); }
+/* What does not count stays readable but drops back: seeing what you
+   excluded is the point. Filled grounds fade instead of losing their ink. */
+table.grid td.off, table.grid td.off small { color: var(--faint); font-weight: 400; }
+table.grid td.off.st5, table.grid td.off.st3, table.grid td.off.st2 { opacity: .5; }
+table.grid td.off.st5 small, table.grid td.off.st3 small, table.grid td.off.st2 small, table.grid td.off.st5, table.grid td.off.st3, table.grid td.off.st2 { color: #1A1A18; }
+/* The cells the reader's four answers chose. */
+table.grid td.mine { box-shadow: inset 0 0 0 2px var(--ink); }
+</style>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
+<script>
+window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+plausible.init({transformRequest:function(p){try{var c=document.querySelector('link[rel=canonical]');var u=c&&c.href?c.href:p.u;if(u)u=u.replace(/\/index\.html(\?|#|$)/,'/$1');if(u)p.u=u;}catch(e){}return p}})
+</script></head>
+<body>
+<header class="bar"><div class="in"><a class="home" href="../" aria-label="The Long Swell, home"><svg width="21" height="20" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span>The Long Swell</span></a><nav class="sw" aria-label="Versions"><a href="../ant/" data-to="ant">Questions</a><span class="on" aria-current="page">Full model</span></nav></div></header>
+<div class="wrap">
+  <header class="top">
+    <h1>Compute 2030 Explorer</h1>
+    <p class="sub">What Anthropic is worth today depends on how AI develops to 2030. Set how likely you think each path is, and see the price change.</p>
+    <p class="from" id="from" hidden></p>
+  </header>
+
+  <div class="shell">
+    <section class="main">
+      <div class="hero">
+        <div class="hl">
+          <h2>Anthropic, value per share today</h2>
+          <div class="price"><span class="num" id="h-num">–</span><span class="vs" id="h-vs">against the <b>$74</b> IPO price</span></div>
+        </div>
+        <div class="hr">
+          <svg id="h-strip" viewBox="0 0 400 74" role="img"></svg>
+          <div class="facts" id="h-facts"></div>
+        </div>
+      </div>
+      <div class="tiles">
+        <div class="tile"><h3>US jobs lost to AI by 2030</h3><div class="v" id="t-jobs">–</div><div class="d">Gross, June 2025 to 2030</div></div>
+        <div class="tile"><h3>US data centres in 2030</h3><div class="v" id="t-verdict">–</div><div class="stack" id="t-stack"></div><div class="d" id="t-legend"></div></div>
+        <div class="tile"><h3>Do data-centre owners get paid?</h3><div class="v" id="t-owners">–</div><div class="d">Share of outcomes where rents cover the cost of capacity</div></div>
+      </div>
+    </section>
+
+    <aside class="rail">
+      <details class="fold panel" id="controls" open>
+        <summary>Change the assumptions</summary>
+        <div class="grp">
+          <div class="btns" id="presets"></div>
+          <p class="hint">Or press a path or a world in the table below.</p>
+          <h4>How likely is each path?</h4>
+          <div id="g-weights" class="grp" style="padding-top:0"></div>
+          <p class="hint" id="w-sum"></p>
+          <h4>Anthropic</h4>
+          <div id="g-val" class="grp" style="padding-top:0"></div>
+          <details class="sub-fold"><summary>Who captures the money, by path</summary><div class="grp" id="g-mix"></div></details>
+          <details class="sub-fold"><summary>Model assumptions</summary><div class="grp" id="g-model"></div></details>
+        </div>
+      </details>
+    </aside>
+
+    <section class="rest">
+      <div class="card">
+        <div class="row">
+          <h2>Every scenario</h2>
+          <label for="metric" class="hint">Show</label>
+          <select id="metric">
+            <option value="val" selected>Anthropic value per share</option>
+            <option value="jobs">US jobs lost</option>
+            <option value="ratio">US data-centre demand vs capacity</option>
+            <option value="labrev">AI lab revenue in 2030</option>
+            <option value="cover">Do owners get paid?</option>
+          </select>
+        </div>
+        <div class="key" id="key"></div>
+        <div class="tw"><table class="grid" id="grid"></table></div>
+        <p class="hint">The small line under each value is how much that scenario counts in the headline. Click a scenario to see its path.</p>
+      </div>
+
+      <div class="card">
+        <h2 id="d-title">Scenario detail</h2>
+        <div class="detail">
+          <div><svg id="chart" viewBox="0 0 540 250" width="100%" role="img" aria-label="US AI demand against US AI data-centre capacity, 2026 to 2030"></svg></div>
+          <div class="tw"><table class="yrs" id="d-table"></table></div>
+        </div>
+      </div>
+
+      <details class="fold card notes" id="sources">
+        <summary>How this works and sources</summary>
+        <div class="grp">
+          <p><b>The model.</b> This page runs ai/compute-demand-2030's scenario model v4.1 (model/scenarios_v41.py) in your browser and reproduces it cell by cell. It combines five ways the AI market could split its money with five paths for how fast AI develops, plus how fast US data centres can be connected to the grid. That makes 125 combinations, weighted by your sliders. The defaults are Kristjan's adopted weights (statement 20261112-0105) and his view of a crash (ask 05: AI training is cut for everyone and stops where the cash cushion is thin; statement 20261112-1010).</p>
+          <p><b>Anthropic's value</b> comes from mkt/anthropic-valuation's v4.1 grid (R-20261112-v41-grid-valuation). It assumes Anthropic takes a 35%, 45% or 55% share of frontier-lab revenue, interpolated in between. It discounts at 9.74%, counts a wiped-out equity at zero, and values takeoff on the usage the grid can serve at late-plateau prices, an interim method until the AGI module (F-20261112-takeoff-upside-weighted-63-today). Its per-scenario values assume grid-bound supply, so this page's weighted figure can differ by about $1 from mkt's own ($63.2 at 45%), which revalues each power setting. <b>US jobs</b> come from ai/jobs' v4.1 grid (F-20261112-jobs-grid-compute-v4-1-2030). Neither responds to the model-assumption sliders.</p>
+          <div><b>Data-centre verdict.</b> This compares US AI demand in 2030 with energised US AI capacity:
+            <ul>
+              <li>shortage: 1.00 or more;</li>
+              <li>balanced: 0.85-1.00;</li>
+              <li>weak: 0.75-0.85, where owners earn but not enough to repay their debt;</li>
+              <li>oversupply: below 0.75.</li>
+            </ul>
+            The headline figure is weak and oversupply together (finding F-20261112-v41a-us-balanced-lean-on-kristjan-break).</div>
+          <div><b>Key anchors.</b>
+            <ul>
+              <li>End-2026 AI capacity is about 30 GW of IT, 20 GW of it in the US (F-20261112-base-v41-30gw-ai-us-20).</li>
+              <li>The US grid has never connected more than about 10 GW of data-centre demand in a year (F-20261112-bnef-us-grid-record-10gw).</li>
+              <li>OpenAI plans $856bn of compute against $840bn of revenue over 2026-30 (F-20261112-openai-plan-856bn-compute-840bn-revenue).</li>
+              <li>Telecom traffic kept growing through the 2001-03 capex bust (F-20261112-telecom-traffic-grew-capex-fell-42pct).</li>
+            </ul>
+            Every other input is judgement.</div>
+        </div>
+      </details>
+    </section>
+  </div>
+  <p class="disc">Research, not a recommendation to buy, sell or subscribe. Values rest on scenario-model figures that are not yet verified. The best AGI cases are upside cases, not forecasts. The model was built in a Claude session, and Anthropic makes Claude.</p>
+</div>
+
+<script src="../ant/values.js"></script>
+<script src="../ant/strip.js"></script>
+<script src="model.js"></script>
+<script src="pro.js"></script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>What is Anthropic worth?</title>
+<meta name="description" content="Four questions about AI to 2030, and what your answers make an Anthropic share worth.">
+<style>
+
+@font-face { font-family: "Spectral"; font-weight: 400; font-style: normal; font-display: swap; src: url("../fonts/spectral-400.woff2") format("woff2"); }
+@font-face { font-family: "Spectral"; font-weight: 400; font-style: italic; font-display: swap; src: url("../fonts/spectral-400-italic.woff2") format("woff2"); }
+@font-face { font-family: "Spectral"; font-weight: 500; font-style: normal; font-display: swap; src: url("../fonts/spectral-500.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-weight: 400; font-display: swap; src: url("../fonts/plexmono-400.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-weight: 500; font-display: swap; src: url("../fonts/plexmono-500.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-weight: 600; font-display: swap; src: url("../fonts/plexmono-600.woff2") format("woff2"); }
+
+:root { --paper: #F1F0EC; --sunk: #E7E6DF; --ink: #1A1A18; --soft: #3A3A36; --faint: #6E6E67; --rule: #CFCEC7; --line: #A9A89F; --serif: "Spectral", Georgia, serif; --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace; color-scheme: light; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper: #1A1A18; --sunk: #252521; --ink: #EDECE6; --soft: #B4B3AB; --faint: #86857D; --rule: #3A3A36; --line: #66665F; color-scheme: dark; } }
+:root[data-theme="dark"] { --paper: #1A1A18; --sunk: #252521; --ink: #EDECE6; --soft: #B4B3AB; --faint: #86857D; --rule: #3A3A36; --line: #66665F; color-scheme: dark; }
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.5 var(--serif); }
+.bar { border-bottom: 1px solid var(--rule); }
+.bar .in { display: flex; align-items: center; gap: 10px; max-width: var(--page, 900px); margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.bar .home { display: flex; align-items: center; gap: 10px; padding: 12px 0; color: var(--ink); text-decoration: none; }
+.bar svg { display: block; flex: none; width: 21px; height: 20px; color: var(--ink); }
+.bar .home span { font: 500 16px var(--serif); white-space: nowrap; }
+/* The version switch (VD, "two versions"): the same on both pages, so each
+   says the other exists. Current page INK 600 with a 2px rule. */
+.sw { margin-left: auto; display: flex; gap: 14px; font: 12px var(--mono); white-space: nowrap; }
+.sw a { color: var(--soft); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; }
+.sw .on { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--ink); padding-bottom: 2px; }
+.bar a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+/* /ant: concept v3's structure in house type and inks. The valuation panel
+   sits on top from the start, "$ ?" until four answers are in; one question
+   at a time, each with a chart of what its answers mean; the price lands in
+   the same place. One ink: the reader's own pick and own dot are INK, every
+   other mark is grey, so no hue has to mean "you". */
+:root { --page: 900px; }
+.wrap { max-width: var(--page); margin: 0 auto; padding: 22px 16px 48px; }
+button { font: inherit; color: inherit; cursor: pointer; }
+.kick { font: 500 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--faint); margin: 0 0 8px; }
+.wrap svg { display: block; width: 100%; height: auto; overflow: visible; }
+.wrap svg text { font: 11px var(--mono); fill: var(--faint); }
+
+/* Two columns on a desk, bottom-aligned, so the panel has no empty half (VD). */
+#panel { background: var(--sunk); padding: 18px 20px 16px; margin-bottom: 30px; display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 560px); gap: 14px 48px; align-items: end; }
+#panel .v { font: 500 64px/1 var(--serif); font-variant-numeric: tabular-nums lining-nums; }
+#panel .v small { font-size: 20px; font-weight: 400; }
+#panel .vs { font-size: 17px; margin: 6px 0 0; color: var(--soft); }
+#panel .vs b { color: var(--ink); font-weight: 500; }
+.wait { margin-top: 8px; font: 15px/1.4 var(--serif); color: var(--soft); }
+.wait .prog { display: flex; gap: 5px; margin-top: 10px; }
+.wait .prog i { flex: 1; height: 3px; background: var(--rule); }
+.wait .prog i.on { background: var(--ink); }
+#strip { max-width: 560px; }
+#panel .note { font-size: 15px; margin-top: 10px; }
+
+.qgrid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 340px); grid-template-areas: "q c" "o c"; column-gap: 32px; align-items: start; }
+.qgrid h1 { grid-area: q; } .qgrid .chart { grid-area: c; } .qgrid .ob { grid-area: o; }
+h1 { font: 500 clamp(25px, 3.4vw, 32px)/1.18 var(--serif); margin: 0 0 18px; text-wrap: balance; }
+.opts { display: grid; gap: 8px; }
+.opts button { text-align: left; background: transparent; border: 1px solid var(--rule); padding: 11px 14px; }
+.opts button .t { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.opts button b { font-weight: 500; }
+/* The figure the option's chart would light, so a phone reader sees it too (VD). */
+.opts button .fig { font: 13px var(--mono); font-style: normal; color: var(--soft); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.opts button:hover .fig, .opts button:focus-visible .fig, .opts button.hl .fig { color: var(--ink); font-weight: 600; }
+.opts button .d { display: block; color: var(--soft); font-size: 15px; }
+.opts button:hover, .opts button:focus-visible, .opts button.hl { border-color: var(--ink); }
+.opts button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.opts button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.opts button[aria-pressed="true"] .d, .opts button[aria-pressed="true"] .fig { color: inherit; opacity: .85; }
+.chart h3 { font: 500 11px/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--soft); margin: 4px 0 12px; }
+.chart .src { font: 13px/1.4 var(--serif); color: var(--faint); margin: 8px 0 0; }
+.s path, .s line, .s rect { transition: opacity .15s; }
+.chart.focus .s path, .chart.focus .s line, .chart.focus .s rect { opacity: .3; }
+.chart.focus .s.on path, .chart.focus .s.on line, .chart.focus .s.on rect { opacity: 1; }
+.s.on line, .s.on path { stroke: var(--ink); }
+.s.on rect { fill: var(--ink); }
+.s.on text { fill: var(--ink); font-weight: 600; }
+.nav { margin-top: 16px; font: 12px var(--mono); }
+.nav button { background: none; border: 0; padding: 4px 0; color: var(--faint); text-decoration: underline; text-underline-offset: 3px; }
+
+.note { font-size: 14px; color: var(--faint); margin: 6px 0 0; }
+.mine { border-top: 2px solid var(--ink); padding-top: 14px; display: grid; gap: 14px; max-width: 640px; }
+.mine h2 { font: 500 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--faint); margin: 0; }
+.row label { display: block; font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--soft); margin-bottom: 6px; }
+.row select { width: 100%; font: 16px var(--serif); color: var(--ink); background: var(--paper); border: 1px solid var(--rule); padding: 9px 10px; }
+.more { display: inline-block; margin-top: 24px; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); text-underline-offset: 4px; }
+.disc { font-size: 13px; line-height: 1.5; color: var(--faint); margin: 28px 0 0; max-width: 640px; }
+
+@media (max-width: 720px) {
+  #panel { grid-template-columns: minmax(0, 1fr); padding: 14px 14px 10px; }
+  #panel .v { font-size: 52px; }
+  .qgrid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "q" "o" "c"; }
+  .qgrid .chart { margin-top: 26px; }
+}
+
+/* Inside the panel every label is INK_SOFT: INK_FAINT clears 4.50:1 on PAPER
+   but only 4.10:1 on PAPER_SUNK (VD design pass). */
+#panel .kick, #panel .note { color: var(--soft); }
+#panel svg text { fill: var(--soft); }
+/* Provisional: a filled chip, ink ground and paper text, as the house badges.
+   The basis is still open, so the number says so where it lands. */
+.chip { display: inline-block; margin-left: 6px; padding: 1px 6px; background: var(--ink); color: var(--paper); letter-spacing: .14em; vertical-align: 1px; }
+/* The number lands still (no count-up); the reader's dot drops onto the scale. */
+@media (prefers-reduced-motion: no-preference) {
+  .me.in { animation: dropin 120ms ease-out both; }
+}
+@keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+@keyframes dropin { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+</style>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
+<script>
+window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+plausible.init({transformRequest:function(p){try{var c=document.querySelector('link[rel=canonical]');var u=c&&c.href?c.href:p.u;if(u)u=u.replace(/\/index\.html(\?|#|$)/,'/$1');if(u)p.u=u;}catch(e){}return p}})
+</script></head>
+<body>
+<header class="bar"><div class="in"><a class="home" href="../" aria-label="The Long Swell, home"><svg width="21" height="20" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span>The Long Swell</span></a><nav class="sw" aria-label="Versions"><span class="on" aria-current="page">Questions</span><a href="../ant-pro/" data-to="pro">Full model</a></nav></div></header>
+<main class="wrap">
+  <p class="kick">The Anthropic IPO</p>
+  <section id="panel" aria-live="polite">
+    <div id="head"></div>
+    <div><svg id="strip" viewBox="0 0 400 74" role="img"></svg><p class="note" id="cap"></p></div>
+  </section>
+
+  <section id="ask">
+    <div class="qgrid">
+      <h1 id="qt"></h1>
+      <div class="chart" id="qchart"></div>
+      <div class="ob"><div class="opts" id="opts"></div><div class="nav"><button id="back" type="button">Back</button></div></div>
+    </div>
+  </section>
+
+  <section id="after" hidden>
+    <div class="mine"><h2>Your answers. Change any to see the price move.</h2><div id="mine" style="display:grid;gap:14px"></div></div>
+    <a class="more" id="more" href="../ant-pro/">Fine-tune it in the full model &rarr;</a>
+  </section>
+
+  <p class="disc">Research, not a recommendation to buy, sell or subscribe. Values rest on scenario-model figures that are not yet verified. The best AGI cases are upside cases, not forecasts. The model was built in a Claude session, and Anthropic makes Claude.</p>
+</main>
+
+<script src="values.js"></script>
+<script src="strip.js"></script>
+<script src="ant.js"></script>
+</body>
+</html>
