@@ -459,32 +459,37 @@ Two habits worth copying, both learned the hard way:
   every automated check and were all found by Kristjan opening the
   page. For anything visual, a human look is load-bearing.
 
-### VD is the exception: it cannot read this repo (D-125)
+### VD is a Code chat now; its drawing board is the canvas (D-366)
 
-**Visual design is a Claude Design chat, not a session on the bus above.**
-It does not appear in `list_sessions`, and it **cannot read the
-repository**. A file path is useless to it. So is a GitHub URL, including
-a raw one to a public repo.
+**Since 2026-11-12 VD is a Claude Code chat ("VD for TLS") on the bus
+above, and it reads this repo.** Until then it was a Claude Design chat
+that could not (D-125), so briefs were pasted in full with measurements
+inline. That is over: point VD at files and payloads like any other chat,
+and do not paste.
 
-So a brief for VD is **pasted in full**, or written into the shared project
-with DesignSync `write_files`. Include the measurements inline, because VD
-cannot go and check them. Live `thelongswell.com` URLs DO work, so point at
-published pages rather than at source.
+VD's proposals are pages on the **migrated canvas**, the old Claude Design
+project moved into claude.ai on 2026-11-10:
+https://claude.ai/code/artifact/44f2887b-9ffe-4cb3-b3fe-d4afc202beda
+Standalone Claude Design closes by 14 December 2026, so DesignSync and the
+old project are on their way out.
 
-Feedback comes back in the shared Claude Design doc rather than a repo
-file, and that is deliberate: D-125 rejected moving it into the repo for
-exactly this reason.
-
-**This is written here because it is the thing a compacted context loses
-first.** On 2026-08-23 design sent VD a kickoff whose first line was "READ
-FIRST: design/briefs/visual_reset_2026-08.md", and when VD replied that it
-was not fetchable, answered with a raw githubusercontent URL rather than
-recognising a constraint that had been ratified thirteen days earlier. Two
-rounds, on a week where the whole point was speed.
+- **Read it with the Artifact tool, never WebFetch or curl:** `read` with
+  `path` = `project/compat.json` for the page list, then
+  `project/<page>` for the page.
+- **A link to the canvas is the whole project, 66 pages and counting, not
+  one design.** Its entry page is an October SST study. A message that
+  sends the link names the page. The canvas's own "Implement this design
+  in this codebase" handoff does not, which cost a round on the day VD
+  moved.
+- **Feedback stays on the canvas**, as canvas comments, not in a repo
+  file. D-125's ruling survives its premise: the canvas is the design
+  surface, and now every chat can read it.
 
 Ownership is unchanged and worth restating beside this, since the two get
 confused: **VD sets the visual bar and sends proposals; design owns the
-front end and merges** (D-030). VD does not touch `templates/`.
+front end and merges** (D-030); FE executes (D-175). VD does not touch
+`templates/` or `docs/`. That handoff is addressed to whoever builds,
+which is design, not VD.
 
 ## Bugs
 
