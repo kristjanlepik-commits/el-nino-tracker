@@ -113,7 +113,8 @@ function summarise(cells, sh) {
     const si = STATE_KEYS.indexOf(c.key), x = valAt(c.world, si, sh);
     val += c.weight * ANT.value(c.world, si, sh);
     if (JOBS[c.world][si] == null) nojobs += c.weight; else jobs += c.weight * JOBS[c.world][si];
-    if (x >= ANT.IPO) above += c.weight; if (x < 0) fails += c.weight;
+    // <= 0: the values arrive floored, so a wiped-out scenario is exactly $0.
+    if (x >= ANT.IPO) above += c.weight; if (x <= 0) fails += c.weight;
   }
   return { v, owners, val, jobs: nojobs > 0 ? null : jobs, above, fails };
 }
@@ -163,7 +164,7 @@ function renderGrid() {
     STATE_KEYS.forEach((k, si) => {
       const r = cellRows(w, k)[4]; let txt, cls = 'st4';
       if (m === 'ratio') { txt = r.ratio.US.toFixed(2); cls = { shortage: 'st5', balance: 'st4', grey: 'st3', glut: 'st2' }[verdict(r.ratio.US)]; }
-      else if (m === 'val') { const v = valOf(w, si); txt = v < 0 ? '$0' : '$' + v.toFixed(0); cls = v < 0 ? 'rul' : v >= ANT.IPO ? 'px-hi' : 'px-lo'; }
+      else if (m === 'val') { const v = valOf(w, si); txt = v <= 0 ? '$0' : '$' + v.toFixed(0); cls = v <= 0 ? 'rul' : v >= ANT.IPO ? 'px-hi' : 'px-lo'; }
       else if (m === 'jobs') txt = JOBS[w][si] == null ? 'n/a' : JOBS[w][si].toFixed(1) + 'M';
       else if (m === 'labrev') txt = '$' + Math.round(r.labRevServed).toLocaleString() + 'bn';
       else { txt = Math.round(r.ownerCover * 100) + '%'; cls = r.ownerCover >= 1 ? 'st4' : r.ownerCover >= 0.75 ? 'st3' : 'st2'; }
@@ -183,7 +184,7 @@ function renderGrid() {
 }
 function renderDetail() {
   const rows = cellRows(sel.world, sel.key), si = STATE_KEYS.indexOf(sel.key), v = valOf(sel.world, si);
-  document.getElementById('d-title').textContent = `${WNAMES[sel.world][0]} · ${SNAMES[sel.key]} · Anthropic ${v < 0 ? '$0, wiped out' : '$' + v.toFixed(0) + ' a share'}`;
+  document.getElementById('d-title').textContent = `${WNAMES[sel.world][0]} · ${SNAMES[sel.key]} · Anthropic ${v <= 0 ? '$0, wiped out' : '$' + v.toFixed(0) + ' a share'}`;
   const W0 = 540, H0 = 250, l = 42, r = 118, t = 22, b = 26;
   const maxV = Math.max(...rows.map(x => Math.max(x.dem.US, x.cap.US))) * 1.1;
   const nice = maxV <= 60 ? 10 : maxV <= 150 ? 25 : maxV <= 400 ? 50 : 100, top = Math.ceil(maxV / nice) * nice;
