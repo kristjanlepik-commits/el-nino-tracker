@@ -239,5 +239,8 @@ function applyAnswers(list) {
   return true;
 }
 window.ANT_PRO = { apply: list => { if (applyAnswers(list)) update(); } };
+// Fill every control from the model once: the split table's inputs had no
+// initial values, so the rail showed empty boxes until a preset was pressed.
+syncAll();
 applyAnswers(new URLSearchParams(location.search).get('a'));
 update();
