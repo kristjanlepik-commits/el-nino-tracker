@@ -24,8 +24,11 @@ const SNAMES = { late: 'AI keeps improving to about 2030', early: 'AI stalls in 
 const SSHORT = { late: 'Keeps improving', early: 'Stalls early', takeoff: 'AGI', lateBreak: 'Improving + crash', earlyBreak: 'Stalls + crash', takeoffBreak: 'AGI + crash' };
 const clone = o => JSON.parse(JSON.stringify(o));
 let P = clone(DEFAULTS), W = clone(WEIGHTS), share = 45, sel = { world: 'C1', key: 'late' };
+// Weight on the labs' own plans against revenue tied to jobs replaced: the
+// model's equal weight by default (Kristjan: \"Model's $23\"); a reader may move it.
+let pathHigh = ANT.HIGH_WEIGHT * 100;
 
-const valAt = (world, si, sh) => ANT.cell(world, si, sh);
+const valAt = (world, si, sh) => ANT.cell(world, si, sh, pathHigh / 100);
 const valOf = (w, si) => valAt(w, si, share);
 
 // ---- controls ----
@@ -58,6 +61,8 @@ STATE_KEYS.forEach(k => WORLD_KEYS.forEach((w, i) => {
 }));
 
 const gX = document.getElementById('g-model');
+slider(gX, { id: 'path', label: "Weight on the labs' own plans (vs revenue tied to jobs replaced)", min: 0, max: 100, step: 1, read: () => pathHigh, write: v => pathHigh = v, fmt: v => Math.round(v) + '%' });
+gX.insertAdjacentHTML('beforeend', '<p class="hint">50% is the model\'s equal weight. At equal weight $74 is out of reach even at a 100% share; if the labs\' own plans come true in full, it needs about a 76% share.</p>');
 // These change the model's data-centre run, which the price does not respond
 // to, so they sit beside the sliders they set rather than at the top (VD).
 const MODEL_PRESETS = [
@@ -91,7 +96,7 @@ slider(gX, { id: 'base', label: 'Size of today\'s data-centre base', min: 0.6, m
 // table"). Pressing one writes the path sliders, so the two never disagree.
 const CRASH = [['late', 'lateBreak'], ['early', 'earlyBreak'], ['takeoff', 'takeoffBreak']];
 const PRESETS = [
-  ['Base case', 'Kristjan\'s weights over every scenario', () => { P = clone(DEFAULTS); W = clone(WEIGHTS); share = 45; mine = []; }],
+  ['Base case', 'Kristjan\'s weights over every scenario', () => { P = clone(DEFAULTS); W = clone(WEIGHTS); share = 45; pathHigh = ANT.HIGH_WEIGHT * 100; mine = []; }],
   ['No funding crash', 'Moves the crash paths\' weight to the paths without one', () => CRASH.forEach(([a, b]) => { W.states[a] += W.states[b]; W.states[b] = 0; })],
   ['Funding crash', 'Moves every path\'s weight to its crash version', () => CRASH.forEach(([a, b]) => { W.states[b] += W.states[a]; W.states[a] = 0; })],
 ];
@@ -115,7 +120,7 @@ function summarise(cells, sh) {
   for (const c of cells) {
     const r = c.rows[4]; v[verdict(r.ratio.US)] += c.weight; if (r.ownerCover >= 1) owners += c.weight;
     const si = STATE_KEYS.indexOf(c.key), x = valAt(c.world, si, sh);
-    val += c.weight * ANT.value(c.world, si, sh);
+    val += c.weight * ANT.value(c.world, si, sh, pathHigh / 100);
     if (JOBS[c.world][si] == null) nojobs += c.weight; else jobs += c.weight * JOBS[c.world][si];
     // <= 0: the values arrive floored, so a wiped-out scenario is exactly $0.
     if (x >= ANT.IPO) above += c.weight; if (x <= 0) fails += c.weight;
@@ -134,7 +139,7 @@ function render() {
   // band (D-370, Kristjan: "one number for each"); the range stays in words.
   ANTSCALE(document.getElementById('h-strip'), { price: S.val });
   document.querySelectorAll('#presets button').forEach(b => b.setAttribute('aria-pressed', b.dataset.p === preset));
-  document.getElementById('h-facts').innerHTML = `<span>$74 needs the labs' own plans <b>and</b> about a 76% market share (45% today)</span><span>Range <b>$${lo.toFixed(0)}-${hi.toFixed(0)}</b> as Anthropic's market share runs 35-55%</span><span><b>${Math.round(S.above * 100)}%</b> of outcomes above $74</span><span><b>${Math.round(S.fails * 100)}%</b> where the equity is wiped out</span>`;
+  document.getElementById('h-facts').innerHTML = `<span>At equal weight, $74 is out of reach even at a 100% market share ($67.9); if the labs' own plans come true in full, it needs about a 76% share (45% today)</span><span>Range <b>$${lo.toFixed(0)}-${hi.toFixed(0)}</b> as Anthropic's market share runs 35-55%</span><span><b>${Math.round(S.above * 100)}%</b> of outcomes above $74</span><span><b>${Math.round(S.fails * 100)}%</b> where the equity is wiped out</span>`;
   const gg = S.v.glut + S.v.grey;
   document.getElementById('t-verdict').textContent = `${Math.round(gg * 100)}% weak or oversupplied`;
   document.getElementById('t-stack').innerHTML = ['shortage', 'balance', 'grey', 'glut'].map(k => `<span style="width:${S.v[k] * 100}%;background:${col[k]}"></span>`).join('');
@@ -245,10 +250,10 @@ function applyAnswers(list) {
   f.innerHTML = 'Set from your four answers. <a id="back-q" href="../ant/?a=' + a.join(',') + '">Back to the questions</a> &middot; <button type="button" id="base">Start from the base case</button>';
   f.hidden = false;
   if (window.ANT_PROTO) document.getElementById('back-q').onclick = e => { e.preventDefault(); ANT_PROTO.toAnt(); };
-  document.getElementById('base').addEventListener('click', () => { P = clone(DEFAULTS); W = clone(WEIGHTS); share = 45; preset = 'Base case'; mine = []; syncAll(); update(); f.hidden = true; try { history.replaceState(null, '', location.pathname); } catch (e) {} });
+  document.getElementById('base').addEventListener('click', () => { P = clone(DEFAULTS); W = clone(WEIGHTS); share = 45; pathHigh = ANT.HIGH_WEIGHT * 100; preset = 'Base case'; mine = []; syncAll(); update(); f.hidden = true; try { history.replaceState(null, '', location.pathname); } catch (e) {} });
   return true;
 }
-document.getElementById('one-base').addEventListener('click', () => { P = clone(DEFAULTS); W = clone(WEIGHTS); share = 45; preset = 'Base case'; mine = []; syncAll(); update(); });
+document.getElementById('one-base').addEventListener('click', () => { P = clone(DEFAULTS); W = clone(WEIGHTS); share = 45; pathHigh = ANT.HIGH_WEIGHT * 100; preset = 'Base case'; mine = []; syncAll(); update(); });
 window.ANT_PRO = { apply: list => { if (applyAnswers(list)) update(); } };
 // Fill every control from the model once: the split table's inputs had no
 // initial values, so the rail showed empty boxes until a preset was pressed.
