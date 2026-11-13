@@ -7,10 +7,9 @@
 // history.js (window.ANT_HISTORY, AI - Compute, verified points only).
 (function () {
 const IPO = ANT.IPO, H = window.ANT_HISTORY;
-// The model's paths, from AI - Compute model v4.1 (scenarios_v41.py):
-// all Western AI tokens a day from about 400 trillion at end-2026, and the
-// labs' compute spend, $bn, where a crash cuts it 40% from 2028.
-const USE = { late: [400, 1000, 2000, 3200, 5120], early: [400, 640, 832, 998, 1148], takeoff: [400, 1120, 2912, 6698, 14065] };
+// The labs' compute spend, $bn, from AI - Compute model v4.1
+// (scenarios_v41.py), where a crash cuts it 40% from 2028. Screen 1's money
+// paid to the labs comes from history.js, history and paths in one file.
 const SPEND = { yes: [156, 220, 275, 335, 395], no: [156, 220, 165, 201, 237] };
 SPEND.mid = SPEND.yes.map((v, i) => (v + SPEND.no[i]) / 2);
 const TODAY_SHARE = 45;
@@ -35,14 +34,14 @@ const Q = [
     ['45', 'Anthropic holds its own', 'It keeps the 45% it has today'],
     ['35', 'The others catch up', 'OpenAI, Google and others win back customers']] },
 ];
-const times = v => Math.round(USE[v][4] / USE[v][0]);
+const PAID = H.spend.paths, bn = v => '$' + Math.round(v).toLocaleString('en-US') + 'bn';
 // The figure an option carries, and the longer one the reveal lists.
 const FIG = {
-  speed: v => times(v) + '× today', money: v => '$' + Math.round(SPEND[v][4]) + 'bn',
+  speed: v => bn(PAID[v][4]), money: v => '$' + Math.round(SPEND[v][4]) + 'bn',
   world: v => '$' + Math.round(H.ai[v].labs) + ' to labs', share: v => v + '%',
 };
 const LONG = {
-  speed: v => times(v) + " times today's AI use", money: v => '$' + Math.round(SPEND[v][4]) + 'bn a year on computing',
+  speed: v => bn(PAID[v][4]) + ' a year paid to AI labs', money: v => '$' + Math.round(SPEND[v][4]) + 'bn a year on computing',
   world: v => '$' + Math.round(H.ai[v].labs) + ' of every AI $100 to labs', share: v => v + '% of lab revenue',
 };
 
@@ -50,7 +49,8 @@ const A = {}; let step = 0, done = false, editing = false, first = true;
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
 const phone = () => window.matchMedia && matchMedia('(max-width: 720px)').matches;
-const t2x = s => { const [y, m] = String(s).split('-').map(Number); return y + ((m || 12) - 0.5) / 12; };
+// '2024' is a calendar year, drawn mid-year; '2026-Q1' a quarter; '2026-09' a month.
+const t2x = s => { const [y, m] = String(s).split('-'); return +y + (!m ? 0.5 : m[0] === 'Q' ? (m[1] * 3 - 1.5) / 12 : (m - 0.5) / 12); };
 const line = pts => pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
 // A ratio in words where it lands on a plain fraction, else a percentage.
 function frac(r) {
@@ -60,33 +60,37 @@ function frac(r) {
 }
 function sig2(v) { const p = Math.pow(10, Math.floor(Math.log10(v)) - 1); return Math.round(v / p) * p; }
 
-// ---------- 1. AI by 2030: every line against its own 2026 ----------
+// ---------- 1. AI by 2030: money paid to the AI labs, so far and to 2030 ----------
+// Kristjan: "why are we using google only? why cannot we use token spend?"
+// Tokens are priced, so the money paid to the labs is the paid-for token
+// volume; it has a sourced history. Plain dollar axis, so the paths read as
+// amounts. History is the two sourced labs; the paths start from all labs.
 function chart1(sel, ph) {
-  const W = ph ? 328 : 860, Ht = ph ? 300 : 340, L = ph ? 84 : 110, R = ph ? 44 : 190, T = 16, B = 28, x0 = 2024, x1 = 2031;
-  const X = x => L + (x - x0) / (x1 - x0) * (W - L - R), Y = v => T + (Ht - T - B) * (1 - (Math.log10(v) + 3) / 5);
-  const G = [['1/1000', 0.001], ['1/100', 0.01], ['1/10', 0.1], ['2026 level', 1], ['10 times', 10], ['100 times', 100]];
+  const W = ph ? 328 : 860, Ht = ph ? 300 : 340, L = ph ? 64 : 70, R = ph ? 70 : 210, T = 16, B = 28, x0 = 2024, x1 = 2030.6;
+  const X = x => L + (x - x0) / (x1 - x0) * (W - L - R), Y = v => T + (Ht - T - B) * (1 - v / 1100);
   let s = '';
-  G.forEach(([n, v]) => { const on = v === 1; s += `<line x1="${L}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}" stroke="${on ? 'var(--soft)' : 'var(--rule)'}"/><text x="${L - 8}" y="${Y(v) + 4}" text-anchor="end" class="${on ? 'ink' : ''}">${n}</text>`; });
+  [0, 250, 500, 750, 1000].forEach(v => s += `<line x1="${L}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--rule)"/><text x="${L - 8}" y="${Y(v) + 4}" text-anchor="end">${v ? bn(v) : '$0'}</text>`);
   [2024, 2026, 2028, 2030].forEach(y => s += `<text x="${X(y + 0.5)}" y="${Ht - 6}" text-anchor="middle">${y}</text>`);
-  const last = H.google[H.google.length - 1][1], growth = sig2(last / H.google[0][1]);
-  const g = H.google.map(([d, v]) => [X(t2x(d)), Y(v / last)]);
-  s += `<path d="${line(g)}" fill="none" stroke="var(--soft)" stroke-width="3"/>`;
-  g.forEach(p => s += `<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="var(--soft)"/>`);
-  s += `<text x="${g[1][0] + 10}" y="${g[1][1] + 18}" class="big" style="fill:var(--ink)">Google: ${growth} times</text><text x="${g[1][0] + 10}" y="${g[1][1] + 34}" class="big">in two years</text>`;
-  const N = ph ? { late: times('late') + '×', early: times('early') + '×', takeoff: times('takeoff') + '×' }
-    : { late: 'Keeps improving, ' + times('late') + '×', early: 'Stalls, ' + times('early') + '×', takeoff: 'AGI, ' + times('takeoff') + '×' };
+  const h = H.spend.history.map(([d, v]) => [X(t2x(d)), Y(v)]), sx = X(t2x(H.spend.seam[0])), sy = Y(H.spend.seam[1]);
+  s += `<path d="${line(h)}" fill="none" stroke="var(--soft)" stroke-width="3"/>`;
+  h.forEach(p => s += `<circle cx="${p[0]}" cy="${p[1]}" r="3.5" fill="var(--soft)"/>`);
+  if (!ph) s += `<text x="${h[0][0]}" y="${h[0][1] - 12}" class="small">Anthropic and OpenAI</text><text x="${sx - 10}" y="${sy - 12}" text-anchor="end" class="big" style="fill:var(--ink)">All labs today, ${bn(H.spend.seam[1])} a year</text>`;
+  const N = ph ? { late: bn(PAID.late[4]), early: bn(PAID.early[4]), takeoff: bn(PAID.takeoff[4]) }
+    : { late: 'Keeps improving, ' + bn(PAID.late[4]), early: 'Stalls, ' + bn(PAID.early[4]), takeoff: 'AGI, ' + bn(PAID.takeoff[4]) };
   const ends = [];
   ['early', 'late', 'takeoff'].forEach(k => {
-    const on = sel === k, pts = USE[k].map((v, i) => [X(2026.9 + i), Y(v / USE[k][0])]);
+    const on = sel === k, pts = [[sx, sy]].concat(PAID[k].slice(1).map((v, i) => [X(H.spend.years[i + 1] + 0.5), Y(v)]));
     s += `<path d="${line(pts)}" fill="none" stroke="${on ? 'var(--ink)' : 'var(--line)'}" stroke-width="${on ? 4 : 2.5}"/>`;
     s += `<circle cx="${pts[4][0]}" cy="${pts[4][1]}" r="${on ? 5 : 3.5}" fill="${on ? 'var(--ink)' : 'var(--line)'}"/>`;
     ends.push([k, pts[4][1], on]);
   });
+  s += `<circle cx="${sx}" cy="${sy}" r="5" fill="var(--ink)" stroke="var(--paper)" stroke-width="2"/>`;
   ends.sort((a, b) => a[1] - b[1]); for (let i = 1; i < ends.length; i++) if (ends[i][1] - ends[i - 1][1] < 18) ends[i][1] = ends[i - 1][1] + 18;
   ends.forEach(([k, y, on]) => s += `<text x="${W - R + (ph ? 8 : 12)}" y="${y + 4}" class="big ${on ? 'ink' : ''}">${N[k]}</text>`);
-  return `<h4>How much AI gets used, against 2026</h4><svg viewBox="0 0 ${W} ${Ht}" role="img" aria-label="AI use against its 2026 level: Google grew ${growth} times in two years; the paths to 2030 reach ${times('early')}, ${times('late')} or ${times('takeoff')} times">${s}</svg>
-    <p class="say">Today Google alone handles about ${H.pages_per_person} pages of text a day for every person online.</p>
-    <p class="src">Google, all surfaces (I/O 2026), against its May 2026 level. Paths: AI - Compute model, all Western AI, against 2026.</p>`;
+  const h0 = H.spend.history[0][1];
+  return `<h4>Money paid to AI labs, a year</h4><svg viewBox="0 0 ${W} ${Ht}" role="img" aria-label="Money paid to AI labs: Anthropic and OpenAI ${bn(h0)} in 2024, all labs ${bn(H.spend.seam[1])} a year today; by 2030 ${bn(PAID.early[4])}, ${bn(PAID.late[4])} or ${bn(PAID.takeoff[4])}">${s}</svg>
+    <p class="say">In 2024 people and companies paid Anthropic and OpenAI about ${bn(h0)}. Today they pay all AI labs at a rate of ${bn(H.spend.seam[1])} a year.</p>
+    <p class="src">Anthropic's audited revenue and OpenAI's reported revenue; today's all-labs figure adds an estimated $30bn for Google, xAI and others. Paths to 2030: AI - Compute model, before any funding crash.</p>`;
 }
 
 // ---------- 2. Data centres: one quantity, a year's spending, ranked ----------
@@ -130,22 +134,31 @@ function after3() {
 }
 
 // ---------- 4. Anthropic vs rivals: one basis, the answers' own ----------
+// Kristjan: "Where is history?" Same basis as the answers, Anthropic over all
+// lab revenue. Only today is on the full market; earlier points hold the
+// other labs at today's size against the two leaders, so they are drawn
+// hollow on a dashed line and the source line says so.
 function chart4(sel, ph) {
-  const W = ph ? 328 : 860, Ht = ph ? 240 : 280, L = 44, R = ph ? 104 : 220, T = 14, B = 28;
-  const X = x => L + (x - 2026) / 4 * (W - L - R), Y = v => T + (Ht - T - B) * (1 - (v - 25) / 40);
+  const W = ph ? 328 : 860, Ht = ph ? 240 : 280, L = 44, R = ph ? 56 : 220, T = 14, B = 28, x0 = 2024, x1 = 2030.6;
+  const X = x => L + (x - x0) / (x1 - x0) * (W - L - R), Y = v => T + (Ht - T - B) * (1 - v / 60);
   let s = '';
-  [30, 40, 50, 60].forEach(v => s += `<line x1="${L}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--rule)"/><text x="${L - 8}" y="${Y(v) + 4}" text-anchor="end">${v}%</text>`);
-  [2026, 2028, 2030].forEach(y => s += `<text x="${X(y)}" y="${Ht - 6}" text-anchor="middle">${y}</text>`);
-  s += `<circle cx="${X(2026)}" cy="${Y(TODAY_SHARE)}" r="5" fill="var(--soft)"/>${ph ? '' : `<text x="${X(2026)}" y="${Y(TODAY_SHARE) + 24}" class="big" style="fill:var(--ink)">${TODAY_SHARE}% today</text>`}`;
+  [0, 20, 40, 60].forEach(v => s += `<line x1="${L}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--rule)"/><text x="${L - 8}" y="${Y(v) + 4}" text-anchor="end">${v}%</text>`);
+  [2024, 2026, 2028, 2030].forEach(y => s += `<text x="${X(y + 0.5)}" y="${Ht - 6}" text-anchor="middle">${y}</text>`);
+  const h = H.share.map(([d, v, ok]) => [X(t2x(d)), Y(v), ok]), [sx, sy] = h[h.length - 1];
+  s += `<path d="${line(h)}" fill="none" stroke="var(--soft)" stroke-width="2.5" stroke-dasharray="5 4"/>`;
   const N = { 55: 'Pulls ahead, 55%', 45: 'Holds its own, 45%', 35: 'Others catch up, 35%' };
   ['35', '45', '55'].forEach(k => {
-    const on = sel === k;
-    s += `<line x1="${X(2026)}" x2="${X(2030)}" y1="${Y(TODAY_SHARE)}" y2="${Y(+k)}" stroke="${on ? 'var(--ink)' : 'var(--line)'}" stroke-width="${on ? 4 : 2.5}"/><circle cx="${X(2030)}" cy="${Y(+k)}" r="${on ? 5 : 3.5}" fill="${on ? 'var(--ink)' : 'var(--line)'}"/>`;
-    s += `<text x="${X(2030) + 10}" y="${Y(+k) + 4}" class="big ${on ? 'ink' : ''}">${ph ? k + '%' : N[k]}</text>`;
+    const on = sel === k, ex = X(2030.5);
+    s += `<line x1="${sx}" x2="${ex}" y1="${sy}" y2="${Y(+k)}" stroke="${on ? 'var(--ink)' : 'var(--line)'}" stroke-width="${on ? 4 : 2.5}"/><circle cx="${ex}" cy="${Y(+k)}" r="${on ? 5 : 3.5}" fill="${on ? 'var(--ink)' : 'var(--line)'}"/>`;
+    s += `<text x="${ex + 10}" y="${Y(+k) + 4}" class="big ${on ? 'ink' : ''}">${ph ? k + '%' : N[k]}</text>`;
   });
-  return `<h4>Anthropic's share of what companies pay the AI labs</h4><svg viewBox="0 0 ${W} ${Ht}" role="img" aria-label="Anthropic's share of AI lab revenue, ${TODAY_SHARE}% today, to 35, 45 or 55% in 2030">${s}</svg>
-    <p class="say">${ph ? `Anthropic has about ${TODAY_SHARE}% today. ` : ''}OpenAI, Google and the rest share whatever Anthropic does not win.</p>
-    <p class="src">AI - Compute model: Anthropic's Q3 2026 revenue against the lab market's run-rate.</p>`;
+  h.forEach(([x, y, ok]) => s += ok ? `<circle cx="${x}" cy="${y}" r="5" fill="var(--ink)" stroke="var(--paper)" stroke-width="2"/>`
+    : `<circle cx="${x}" cy="${y}" r="3.5" fill="var(--paper)" stroke="var(--soft)" stroke-width="2"/>`);
+  const first = H.share[0];
+  if (!ph) s += `<text x="${h[0][0] - 6}" y="${h[0][1] + 22}" class="small">${first[1]}% in ${first[0]}</text><text x="${sx}" y="${sy + 30}" text-anchor="middle" class="big" style="fill:var(--ink)">${TODAY_SHARE}% today</text>`;
+  return `<h4>Anthropic's share of what is paid to the AI labs</h4><svg viewBox="0 0 ${W} ${Ht}" role="img" aria-label="Anthropic's share of AI lab revenue: about ${first[1]}% in ${first[0]}, ${TODAY_SHARE}% today, to 35, 45 or 55% in 2030">${s}</svg>
+    <p class="say">Anthropic went from about ${first[1]}% of what was paid to the AI labs in ${first[0]} to ${TODAY_SHARE}% today. OpenAI, Google and the rest share whatever it does not win.</p>
+    <p class="src">Only today's ${TODAY_SHARE}% is measured against the whole market. Earlier points (hollow) hold Google, xAI and others at today's size against the two leaders, an estimate. Anthropic's audited revenue; OpenAI's reported.</p>`;
 }
 const CHARTS = [chart1, chart2, chart3, chart4];
 
