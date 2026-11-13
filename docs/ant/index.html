@@ -32,110 +32,79 @@ body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.5 va
 .sw a { color: var(--soft); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; }
 .sw .on { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--ink); padding-bottom: 2px; }
 .bar a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
-/* /ant: concept v3's structure in house type and inks. The valuation panel
-   sits on top from the start, "$ ?" until four answers are in; one question
-   at a time, each with a chart of what its answers mean; the price lands in
-   the same place. One ink: the reader's own pick and own dot are INK, every
-   other mark is grey, so no hue has to mean "you". */
-:root { --page: 900px; }
-.wrap { max-width: var(--page); margin: 0 auto; padding: 22px 16px 48px; }
+/* /ant, redrawn (VD, "The Long Swell Ant Questions, redrawn", 13 Nov). One
+   question, one chart, one quantity per screen, the chart full width and
+   readable; the price panel only at the reveal. One ink: the reader's pick
+   is INK, every other mark is grey. */
+:root { --page: 920px; }
+.wrap { max-width: var(--page); margin: 0 auto; padding-block: 22px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 button { font: inherit; color: inherit; cursor: pointer; }
-.kick { font: 500 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--faint); margin: 0 0 8px; }
-.wrap svg { display: block; width: 100%; height: auto; overflow: visible; }
-.wrap svg text { font: 11px var(--mono); fill: var(--faint); }
+.prog { display: flex; align-items: center; gap: 12px; font: 500 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--soft); margin: 0 0 18px; }
+.prog i { display: flex; gap: 4px; flex: 1; max-width: 160px; }
+.prog i b { flex: 1; height: 3px; background: var(--rule); }
+.prog i b.on { background: var(--ink); }
+h1 { font: 500 clamp(25px, 3.6vw, 32px)/1.15 var(--serif); margin: 0 0 18px; text-wrap: balance; max-width: 22em; }
 
-/* Two columns on a desk, bottom-aligned, so the panel has no empty half (VD). */
-#panel { background: var(--sunk); padding: 18px 20px 16px; margin-bottom: 30px; display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 560px); gap: 14px 48px; align-items: end; }
-#panel .v { font: 500 64px/1 var(--serif); font-variant-numeric: tabular-nums lining-nums; }
-#panel .v small { font-size: 20px; font-weight: 400; }
-#panel .vs { font-size: 17px; margin: 6px 0 0; color: var(--soft); }
-#panel .vs b { color: var(--ink); font-weight: 500; }
-.wait { margin-top: 8px; font: 15px/1.4 var(--serif); color: var(--soft); }
-.wait .prog { display: flex; gap: 5px; margin-top: 10px; }
-.wait .prog i { flex: 1; height: 3px; background: var(--rule); }
-.wait .prog i.on { background: var(--ink); }
-#strip { max-width: 560px; }
-#panel .note { font-size: 15px; margin-top: 10px; }
+.ch h4 { font: 500 12px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--soft); margin: 0 0 8px; }
+.ch svg { display: block; width: 100%; height: auto; overflow: visible; }
+.ch svg text { font: 12px var(--mono); fill: var(--soft); }
+.ch svg text.ink { fill: var(--ink); font-weight: 600; }
+.ch svg text.big { font-size: 13px; }
+.ch svg text.small { font-size: 11px; }
+.say { font-size: 18px; line-height: 1.45; color: var(--ink); margin: 14px 0 0; max-width: 40em; }
+.src { font-size: 13px; line-height: 1.45; color: var(--soft); margin: 8px 0 0; max-width: 60em; }
+.key { display: flex; flex-wrap: wrap; gap: 4px 16px; font: 12.5px var(--mono); color: var(--soft); margin: 4px 0 0; }
+.key em { font-style: normal; display: inline-block; width: 12px; height: 12px; margin-right: 6px; vertical-align: -1px; border: 1px solid var(--rule); }
+.today { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3px 12px; padding: 0 2px; margin-top: 14px; font-size: 16px; color: var(--soft); }
+.today i { font: normal 13px var(--mono); }
+.today .split { grid-column: 1 / -1; display: flex; }
+.split s { display: block; height: 100%; text-decoration: none; }
 
-.qgrid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 340px); grid-template-areas: "q c" "o c"; column-gap: 32px; align-items: start; }
-.qgrid h1 { grid-area: q; } .qgrid .chart { grid-area: c; } .qgrid .ob { grid-area: o; }
-h1 { font: 500 clamp(25px, 3.4vw, 32px)/1.18 var(--serif); margin: 0 0 18px; text-wrap: balance; }
-.opts { display: grid; gap: 8px; }
-.opts button { text-align: left; background: transparent; border: 1px solid var(--rule); padding: 11px 14px; }
-.opts button .t { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.opts { display: grid; gap: 10px; margin-top: 22px; }
+@media (min-width: 721px) { .opts.three { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.opts button { text-align: left; background: transparent; border: 1px solid var(--rule); padding: 12px 14px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3px 12px; align-items: baseline; font-size: 17px; }
 .opts button b { font-weight: 500; }
-/* The figure the option's chart would light, so a phone reader sees it too (VD). */
-.opts button .fig { font: 13px var(--mono); font-style: normal; color: var(--soft); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.opts button:hover .fig, .opts button:focus-visible .fig, .opts button.hl .fig { color: var(--ink); font-weight: 600; }
-.opts button .d { display: block; color: var(--soft); font-size: 15px; }
-.opts button:hover, .opts button:focus-visible, .opts button.hl { border-color: var(--ink); }
+.opts button span { grid-column: 1 / -1; color: var(--soft); font-size: 15px; line-height: 1.4; }
+.opts button i { grid-column: 2; grid-row: 1; font: normal 13px var(--mono); color: var(--soft); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.opts button .split { grid-column: 1 / -1; display: flex; margin-top: 8px; }
+.opts button:hover, .opts button:focus-visible { border-color: var(--ink); }
 .opts button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-.opts button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-.opts button[aria-pressed="true"] .d, .opts button[aria-pressed="true"] .fig { color: inherit; opacity: .85; }
-.chart h3 { font: 500 11px/1.4 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--soft); margin: 4px 0 12px; }
-.chart .src { font: 13px/1.4 var(--serif); color: var(--faint); margin: 8px 0 0; }
-.s path, .s line, .s rect { transition: opacity .15s; }
-.chart.focus .s path, .chart.focus .s line, .chart.focus .s rect { opacity: .3; }
-.chart.focus .s.on path, .chart.focus .s.on line, .chart.focus .s.on rect { opacity: 1; }
-.s.on line, .s.on path { stroke: var(--ink); }
-.s.on rect { fill: var(--ink); }
-.s.on text { fill: var(--ink); font-weight: 600; }
-.nav { margin-top: 16px; font: 12px var(--mono); }
-.nav button { background: none; border: 0; padding: 4px 0; color: var(--faint); text-decoration: underline; text-underline-offset: 3px; }
+.opts button[aria-pressed="true"] { border: 2px solid var(--ink); padding: 11px 13px; }
+.opts button[aria-pressed="true"] i { color: var(--ink); font-weight: 600; }
+.nav { display: flex; align-items: center; justify-content: space-between; margin-top: 18px; min-height: 44px; gap: 12px; }
+.nav .back { background: none; border: 0; padding: 4px 0; font: 14px var(--mono); color: var(--soft); text-decoration: underline; text-underline-offset: 3px; }
+.nav .go { margin-left: auto; font: 500 17px var(--serif); background: var(--ink); color: var(--paper); border: 0; padding: 11px 18px; }
+.nav .hint { margin-left: auto; font-size: 15px; color: var(--soft); }
 
-.note { font-size: 14px; color: var(--faint); margin: 6px 0 0; }
-.mine { border-top: 2px solid var(--ink); padding-top: 14px; display: grid; gap: 14px; max-width: 640px; }
-.mine h2 { font: 500 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--faint); margin: 0; }
-.row label { display: block; font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--soft); margin-bottom: 6px; }
-.row select { width: 100%; font: 16px var(--serif); color: var(--ink); background: var(--paper); border: 1px solid var(--rule); padding: 9px 10px; }
-.more { display: inline-block; margin-top: 24px; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); text-underline-offset: 4px; }
-.disc { font-size: 13px; line-height: 1.5; color: var(--faint); margin: 28px 0 0; max-width: 640px; }
-
+/* The reveal: the price panel appears here and only here. */
+.kick { font: 500 11px/1.45 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--soft); margin: 0 0 6px; }
+#panel { background: var(--sunk); padding: 18px 20px 16px; display: grid; gap: 8px 40px; }
+@media (min-width: 721px) { #panel { grid-template-columns: minmax(0, 330px) minmax(0, 1fr); align-items: end; } }
+#panel .v { font: 500 60px/1 var(--serif); font-variant-numeric: tabular-nums lining-nums; }
+#panel .v small { font-size: 20px; font-weight: 400; }
+#panel .vs { font-size: 17px; color: var(--soft); margin: 8px 0 0; }
+#panel .vs b { color: var(--ink); font-weight: 500; }
+#strip { display: block; width: 100%; max-width: 560px; height: auto; overflow: visible; }
+#strip text { font: 12px var(--mono); fill: var(--soft); }
+#panel .note { font-size: 15px; line-height: 1.45; color: var(--soft); margin: 6px 0 0; }
+.how { margin-top: 26px; border-top: 2px solid var(--ink); padding-top: 12px; }
+.how h2 { font: 500 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--soft); margin: 0 0 4px; }
+.hrow { display: grid; grid-template-columns: minmax(0, 150px) minmax(0, 1fr) auto auto; gap: 4px 18px; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--rule); }
+.hrow .q { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--soft); }
+.hrow .a { font-size: 17px; }
+.hrow .f { font: 14px var(--mono); color: var(--ink); white-space: nowrap; }
+.hrow .c { background: none; border: 0; padding: 0; font: 13px var(--mono); color: var(--soft); text-decoration: underline; text-underline-offset: 3px; }
 @media (max-width: 720px) {
-  #panel { grid-template-columns: minmax(0, 1fr); padding: 14px 14px 10px; }
+  .hrow { grid-template-columns: minmax(0, 1fr) auto; }
+  .hrow .q, .hrow .a { grid-column: 1 / -1; }
+  .say { font-size: 16.5px; }
   #panel .v { font-size: 52px; }
-  .qgrid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "q" "o" "c"; }
-  .qgrid .chart { margin-top: 26px; }
 }
-
-/* Inside the panel every label is INK_SOFT: INK_FAINT clears 4.50:1 on PAPER
-   but only 4.10:1 on PAPER_SUNK (VD design pass). */
-#panel .kick, #panel .note { color: var(--soft); }
-#panel svg text { fill: var(--soft); }
-/* Provisional: a filled chip, ink ground and paper text, as the house badges.
-   The basis is still open, so the number says so where it lands. */
-.chip { display: inline-block; margin-left: 6px; padding: 1px 6px; background: var(--ink); color: var(--paper); letter-spacing: .14em; vertical-align: 1px; }
-/* The number lands still (no count-up); the reader's dot drops onto the scale. */
-@media (prefers-reduced-motion: no-preference) {
-  .me.in { animation: dropin 120ms ease-out both; }
-}
-@keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
-/* Slide only, never fade: the dot must be there in a still frame even where
-   the animation does not run (a background tab, a thumbnail). */
+.more { display: inline-block; margin-top: 20px; font: 500 13px var(--mono); color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
+.disc { font-size: 13px; line-height: 1.5; color: var(--faint); margin: 28px 0 0; max-width: 640px; }
+/* The number lands still; the reader's dot slides onto the scale, never fades. */
+@media (prefers-reduced-motion: no-preference) { .me.in { animation: dropin 120ms ease-out both; } }
 @keyframes dropin { from { transform: translateY(-8px); } to { transform: none; } }
-
-/* The questions' charts (VD, "Ant Questions, charts with history", D-375):
-   the chart is central, so on a desk it takes the wide column and the
-   question and answers sit beside it; on a phone it comes before the
-   answers. */
-.qgrid { grid-template-columns: minmax(0, 360px) minmax(0, 1fr); column-gap: 36px; }
-.chart { min-width: 0; }
-.chart .readout { font: 13px/1.5 var(--mono); color: var(--ink); min-height: 20px; margin: 8px 0 0; }
-.chart .human { font-size: 17px; line-height: 1.4; color: var(--ink); margin: 14px 0 0; border-top: 1px solid var(--rule); padding-top: 10px; }
-.chart .human b { font-weight: 500; }
-.chart .tag { display: inline-block; font: 500 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; background: var(--ink); color: var(--paper); padding: 1px 6px; margin-left: 6px; vertical-align: 1px; }
-.chart .two { display: grid; gap: 18px; }
-.chart svg text.ink { fill: var(--ink); font-weight: 600; }
-.chart svg [data-r] { cursor: pointer; }
-.chart svg.power { margin-top: 16px; }
-.nav { display: flex; justify-content: space-between; align-items: center; }
-.nav .next { font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--paper); background: var(--ink); border: 0; padding: 10px 14px; text-decoration: none; }
-.nav .next:disabled { background: var(--rule); color: var(--faint); cursor: default; }
-@media (min-width: 721px) { .chart .two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
-@media (max-width: 720px) {
-  .qgrid { grid-template-areas: "q" "c" "o"; }
-  .qgrid .chart { margin: 0 0 22px; }
-}
 </style>
 <!-- Privacy-friendly analytics by Plausible -->
 <script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
@@ -146,22 +115,22 @@ plausible.init({transformRequest:function(p){try{var c=document.querySelector('l
 <body>
 <header class="bar"><div class="in"><a class="home" href="../" aria-label="The Long Swell, home"><svg width="21" height="20" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span>The Long Swell</span></a><nav class="sw" aria-label="Versions"><span class="on" aria-current="page">Questions</span><a href="../ant-pro/" data-to="pro">Full model</a></nav></div></header>
 <main class="wrap">
-  <p class="kick">The Anthropic IPO</p>
-  <section id="panel" aria-live="polite">
+  <section id="panel" aria-live="polite" hidden>
     <div id="head"></div>
     <div><svg id="strip" viewBox="0 0 400 74" role="img"></svg><p class="note" id="cap"></p></div>
   </section>
 
   <section id="ask">
-    <div class="qgrid">
-      <h1 id="qt"></h1>
-      <div class="chart" id="qchart"></div>
-      <div class="ob"><div class="opts" id="opts"></div><div class="nav"><button id="back" type="button">Back</button><button id="next" class="next" type="button" disabled>Next question &rarr;</button></div></div>
-    </div>
+    <div class="prog" id="prog"></div>
+    <h1 id="qt"></h1>
+    <div class="ch" id="qchart"></div>
+    <div class="opts" id="opts"></div>
+    <div id="after3"></div>
+    <div class="nav"><button id="back" class="back" type="button">Back</button><span class="hint" id="hint">Pick an answer</span><button id="next" class="go" type="button" hidden>Next question &rarr;</button></div>
   </section>
 
   <section id="after" hidden>
-    <div class="mine"><h2>Your answers. Change any to see the price move.</h2><div id="mine" style="display:grid;gap:14px"></div></div>
+    <div class="how"><h2>How your answers got there</h2><div id="mine"></div></div>
     <a class="more" id="more" href="../ant-pro/">Fine-tune it in the full model &rarr;</a>
   </section>
 

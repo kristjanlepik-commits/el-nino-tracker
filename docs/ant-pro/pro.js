@@ -111,7 +111,8 @@ document.getElementById('metric').addEventListener('change', render);
 // inside open too; on a phone they stay shut so the grid is not pushed a
 // screen-length down, and the open panel still shows they are there.
 document.getElementById('controls').open = true;
-try { if (window.matchMedia('(min-width: 1000px)').matches) document.querySelectorAll('#controls details.sub-fold').forEach(d => d.open = true); } catch (e) {}
+// The model sliders stay shut: some thirty of them open read as "very
+// technical" (VD review, 13 Nov). The presets and share slider stay visible.
 
 // ---- compute ----
 let C = [];

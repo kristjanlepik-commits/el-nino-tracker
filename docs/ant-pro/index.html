@@ -202,6 +202,14 @@ table.grid td.mine { box-shadow: inset 0 0 0 2px var(--ink); }
 .one button { margin-left: 6px; font: inherit; color: var(--ink); background: none; border: 0; padding: 0; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 
 .hero .facts .fn { font-size: 13px; color: var(--faint); }
+
+/* VD review, 13 Nov. The value legend's two swatches were black squares
+   differing only in weight; they now show the type they stand for. And the
+   tall rail no longer stretches the first row into an empty gap. */
+.key i.px-hi, .key i.px-lo { background: none; border: 0; width: auto; height: auto; margin-right: 6px; font: 0.8rem var(--f-mono); font-style: normal; vertical-align: 0; }
+.key i.px-hi::before { content: "$80"; font-weight: 600; color: var(--ink); }
+.key i.px-lo::before { content: "$40"; color: var(--soft); }
+@media (min-width: 1000px) { .shell { grid-template-rows: auto 1fr; } }
 </style>
 <!-- Privacy-friendly analytics by Plausible -->
 <script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>

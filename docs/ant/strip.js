@@ -9,10 +9,10 @@
 // the panel does not jump when the price lands). o.lo, o.hi: the band.
 window.ANTSCALE = function (svg, o) {
   const IPO = ANT.IPO, MAX = ANT.SCALE || 400, X0 = 10, X1 = 390, X = v => X0 + Math.min(Math.max(v, 0), MAX) / MAX * (X1 - X0), AX = 44;
-  // Ticks every $50 on a scale up to $200, every $100 above that, dropping
-  // any that would sit under the IPO label.
+  // Ticks every $50 on a scale up to $200, every $100 above that, none within
+  // a quarter of the scale of the IPO, whose label would collide (VD redraw).
   const step = MAX <= 200 ? 50 : 100, ticks = [];
-  for (let t = step; t <= MAX; t += step) if (Math.abs(X(t) - X(IPO)) > 40) ticks.push(t);
+  for (let t = step; t <= MAX; t += step) if (Math.abs(t - IPO) >= MAX / 4) ticks.push(t);
   let s = `<line x1="${X0}" x2="${X1}" y1="${AX}" y2="${AX}" stroke="var(--rule)"/>`;
   // short enough to clear the price label when the two are close
   s += `<line x1="${X(IPO)}" x2="${X(IPO)}" y1="${AX}" y2="${AX - 11}" stroke="var(--soft)" stroke-width="1"/>`;
