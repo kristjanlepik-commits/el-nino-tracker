@@ -96,7 +96,7 @@ slider(gX, { id: 'base', label: 'Size of today\'s data-centre base', min: 0.6, m
 // table"). Pressing one writes the path sliders, so the two never disagree.
 const CRASH = [['late', 'lateBreak'], ['early', 'earlyBreak'], ['takeoff', 'takeoffBreak']];
 const PRESETS = [
-  ['Base case', 'Kristjan\'s weights over every scenario', () => { P = clone(DEFAULTS); W = clone(WEIGHTS); share = 45; pathHigh = ANT.HIGH_WEIGHT * 100; mine = []; }],
+  ['Base case', 'The default weights over every scenario', () => { P = clone(DEFAULTS); W = clone(WEIGHTS); share = 45; pathHigh = ANT.HIGH_WEIGHT * 100; mine = []; }],
   ['No funding crash', 'Moves the crash paths\' weight to the paths without one', () => CRASH.forEach(([a, b]) => { W.states[a] += W.states[b]; W.states[b] = 0; })],
   ['Funding crash', 'Moves every path\'s weight to its crash version', () => CRASH.forEach(([a, b]) => { W.states[b] += W.states[a]; W.states[a] = 0; })],
 ];
@@ -139,7 +139,7 @@ function render() {
   // band (D-370, Kristjan: "one number for each"); the range stays in words.
   ANTSCALE(document.getElementById('h-strip'), { price: S.val });
   document.querySelectorAll('#presets button').forEach(b => b.setAttribute('aria-pressed', b.dataset.p === preset));
-  document.getElementById('h-facts').innerHTML = `<span>$74 is out of reach within a 35-55% share; at equal weight it needs about a 90% share, and if the labs' plans come true in full, about 68% (45% today)</span><span>Range <b>$${lo.toFixed(0)}-${hi.toFixed(0)}</b> as Anthropic's market share runs 35-55%</span><span><b>${Math.round(S.above * 100)}%</b> of outcomes above $74</span><span><b>${Math.round(S.fails * 100)}%</b> where the equity is wiped out</span>` + (Math.abs(pathHigh - ANT.HIGH_WEIGHT * 100) < 0.5 ? '<span class="fn">About $4.70 of this comes from Kristjan\'s assumption that labs selling finished products charge 1.6 times as much per unit of work. The valuation analysis contests it and holds about $31-32 as the most defensible figure ($31 without the premium).</span>' : '');
+  document.getElementById('h-facts').innerHTML = `<span>$74 is out of reach within a 35-55% share; at equal weight it needs about a 90% share, and if the labs' plans come true in full, about 68% (45% today)</span><span>Range <b>$${lo.toFixed(0)}-${hi.toFixed(0)}</b> as Anthropic's market share runs 35-55%</span><span><b>${Math.round(S.above * 100)}%</b> of outcomes above $74</span><span><b>${Math.round(S.fails * 100)}%</b> where the equity is wiped out</span>` + (Math.abs(pathHigh - ANT.HIGH_WEIGHT * 100) < 0.5 ? '<span class="fn">About $4.70 of this comes from an assumption that labs selling finished products charge 1.6 times as much per unit of work. The valuation analysis contests it and holds about $31-32 as the most defensible figure ($31 without the premium).</span>' : '');
   const gg = S.v.glut + S.v.grey;
   document.getElementById('t-verdict').textContent = `${Math.round(gg * 100)}% weak or oversupplied`;
   document.getElementById('t-stack').innerHTML = ['shortage', 'balance', 'grey', 'glut'].map(k => `<span style="width:${S.v[k] * 100}%;background:${col[k]}"></span>`).join('');

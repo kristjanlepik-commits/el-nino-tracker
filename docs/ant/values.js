@@ -4,14 +4,14 @@
 //
 // Two revenue paths from mkt/anthropic-valuation, engine v7 (AI - Compute
 // compute-demand-2030 344e806, explorer v24): engine v6 (cost of capital
-// 10.75% fading to 9.13%, share-based pay expensed) plus Kristjan's outcome
-// premium where labs sell finished products (C4), and a dilution rule for
+// 10.75% fading to 9.13%, share-based pay expensed) plus an outcome premium
+// where labs sell finished products (C4), and a dilution rule for
 // crash cash shortfalls. LOW ties AI's work revenue to the jobs it replaces,
 // HIGH follows the labs' own plans. A scenario's value is the two blended,
 // each floored at $0 first, except the AGI scenarios, which use the
 // labs'-plans path only (statement 20261113-0900). At equal weight: $36 at
-// the default weights and a 45% share, the model's value and Kristjan's
-// reading (MKT statement 20261113-1144). /ant-pro lets a reader move the
+// the default weights and a 45% share, the model's value (MKT
+// statement 20261113-1144). /ant-pro lets a reader move the
 // weight; /ant does not.
 //
 // By Anthropic's share of frontier-lab revenue (35, 45, 55%), by world
