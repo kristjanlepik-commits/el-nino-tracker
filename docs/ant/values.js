@@ -2,34 +2,36 @@
 // the same price on both pages. Swap this file to change the valuation
 // basis; neither page carries a number of its own.
 //
-// Two revenue paths from mkt/anthropic-valuation, $ a share today at 9.74%,
-// with a crash keeping compute commitments in full
-// (F-20261112-no-free-haircut-equal-weight-23-today), as carried in
-// AI - Compute's explorer v15: LOW ties AI's work revenue to the jobs it
+// Two revenue paths from mkt/anthropic-valuation, engine v6 (AI - Compute
+// compute-demand-2030 de24b9b, explorer v23): $ a share today, cost of
+// capital 10.75% fading to 9.13%, share-based pay expensed, a crash keeping
+// compute commitments in full. LOW ties AI's work revenue to the jobs it
 // replaces, HIGH follows the labs' own plans. A scenario's value is the two
-// blended, each floored at $0 first. The pages show the model's equal
-// weight (Kristjan: "Model's $23", D-373): $23 at the default weights and a
-// 45% share. /ant-pro lets a reader move the weight; /ant does not.
+// blended, each floored at $0 first, except the AGI scenarios, which use the
+// labs'-plans path only (statement 20261113-0900). At equal weight this is
+// the model's value and Kristjan's reading: $31 at the default weights and a
+// 45% share (MKT statement 20261113-1126). /ant-pro lets a reader move the
+// weight; /ant does not.
 //
 // By Anthropic's share of frontier-lab revenue (35, 45, 55%), by world
 // C1-C5. Columns, in STATES order:
 //   [late, early, takeoff, late + crash, early + crash, takeoff + crash]
 window.ANT = (function () {
   const IPO = 74;
-  // The price scale's top: the highest value at equal weight is $99.1.
-  const SCALE = 100;
+  // The price scale's top: the highest value at equal weight is $110.6.
+  const SCALE = 150;
   // Weight on the labs' own plans (HIGH): the model's equal weight.
   const HIGH_WEIGHT = 0.5;
   const STATES = ["late", "early", "takeoff", "lateBreak", "earlyBreak", "takeoffBreak"];
   const LOW = {
-    35: { C1: [5.6, -10.4, 15.6, -0.3, -13.9, 10.4], C2: [-17.9, -22.4, -15.3, -20.4, -24.0, -17.9], C3: [-0.5, -13.6, 7.9, -5.3, -16.4, 3.4], C4: [9.9, -8.1, 22.0, 3.5, -11.9, 16.0], C5: [-13.7, -20.3, -11.3, -16.9, -22.4, -13.8] },
-    45: { C1: [16.0, -4.6, 29.2, 8.8, -8.8, 22.6], C2: [-14.1, -20.0, -10.5, -17.1, -22.0, -13.7], C3: [8.3, -8.7, 19.4, 2.3, -12.2, 13.7], C4: [21.6, -1.6, 37.4, 13.5, -6.3, 29.7], C5: [-8.6, -17.3, -5.2, -12.6, -19.8, -8.3] },
-    55: { C1: [26.4, 1.3, 42.7, 17.7, -3.8, 34.7], C2: [-10.2, -17.5, -5.6, -13.8, -19.9, -9.6], C3: [17.1, -3.8, 30.8, 9.9, -7.9, 23.8], C4: [33.0, 4.8, 52.5, 23.5, -0.8, 43.2], C5: [-3.5, -14.2, 1.0, -8.3, -17.2, -2.9] },
+    35: { C1: [26.4, 9.5, 37.3, 20.5, 6.1, 31.9], C2: [0.5, -3.9, 2.8, -1.8, -5.8, 0.4], C3: [20.1, 6.2, 29.2, 15.3, 3.4, 24.6], C4: [30.9, 12.0, 44.0, 24.4, 8.2, 37.7], C5: [4.1, -2.2, 5.8, 1.1, -4.6, 3.6] },
+    45: { C1: [37.2, 15.6, 51.4, 29.9, 11.3, 44.6], C2: [4.2, -1.2, 7.3, 1.3, -3.1, 4.2], C3: [29.2, 11.3, 41.1, 23.1, 7.8, 35.2], C4: [42.9, 18.6, 59.7, 34.9, 14.0, 51.9], C5: [8.7, 1.1, 11.3, 5.0, -1.3, 8.4] },
+    55: { C1: [47.2, 21.6, 64.7, 39.1, 16.5, 57.0], C2: [7.8, 1.1, 11.7, 4.3, -1.2, 8.1], C3: [38.1, 16.4, 52.7, 31.0, 12.2, 45.7], C4: [52.3, 25.3, 72.3, 45.0, 19.7, 65.0], C5: [13.4, 3.9, 16.7, 9.0, 1.1, 13.3] },
   };
   const HIGH = {
-    35: { C1: [50.4, 14.7, 76.6, 41.0, 8.0, 66.1], C2: [-2.6, -13.6, 4.5, -7.4, -16.6, -0.8], C3: [38.5, 7.3, 60.1, 29.2, 1.8, 50.9], C4: [58.4, 19.9, 88.4, 48.4, 12.6, 77.1], C5: [7.9, -8.5, 15.8, 1.5, -12.3, 10.4] },
-    45: { C1: [68.9, 27.1, 102.5, 58.4, 19.0, 90.4], C2: [5.6, -8.7, 14.7, -0.4, -12.4, 8.2], C3: [54.5, 18.0, 82.1, 45.3, 11.2, 71.3], C4: [78.9, 32.5, 117.6, 67.7, 24.7, 103.9], C5: [18.8, -2.1, 29.5, 11.0, -6.9, 22.6] },
-    55: { C1: [86.3, 37.0, 127.4, 75.0, 29.8, 113.2], C2: [13.5, -3.8, 23.1, 6.5, -8.2, 16.9], C3: [69.3, 28.4, 102.6, 59.6, 20.4, 90.8], C4: [98.4, 42.9, 145.7, 85.9, 35.6, 129.5], C5: [29.1, 4.2, 43.0, 20.3, -1.4, 34.6] },
+    35: { C1: [68.3, 9.5, 72.8, 49.2, 6.1, 55.4], C2: [0.5, -3.9, 2.1, -1.8, -5.8, 0.3], C3: [47.5, 6.2, 51.1, 33.1, 3.4, 38.2], C4: [76.6, 12.0, 82.4, 56.6, 8.2, 62.8], C5: [7.8, -2.2, 7.9, 3.5, -4.6, 5.1] },
+    45: { C1: [87.2, 15.6, 93.1, 65.2, 11.3, 71.7], C2: [4.2, -1.2, 5.5, 1.3, -3.1, 3.2], C3: [62.5, 11.3, 66.4, 45.9, 7.8, 51.5], C4: [97.6, 18.6, 105.4, 73.5, 14.0, 81.1], C5: [13.5, 1.1, 13.0, 8.1, -1.3, 9.4] },
+    55: { C1: [105.2, 21.6, 97.7, 80.0, 16.5, 75.6], C2: [7.8, 1.1, 7.7, 4.3, -1.2, 5.3], C3: [75.6, 16.4, 69.6, 58.1, 12.2, 54.9], C4: [117.8, 25.3, 110.6, 89.6, 19.7, 85.3], C5: [19.2, 3.9, 15.6, 12.7, 1.1, 11.8] },
   };
 
   // One path, interpolated between the 35/45/55 grid points, not floored.
@@ -39,9 +41,13 @@ window.ANT = (function () {
   }
   // A scenario's value: each path floored at $0 (equity cannot be worth less
   // than nothing), then blended by w, the weight on the labs' own plans.
+  // The AGI scenarios take the labs'-plans path whatever the weight.
+  const AGI = [2, 5];
   function cell(world, state, share, w) {
     const si = typeof state === "number" ? state : STATES.indexOf(state), h = w == null ? HIGH_WEIGHT : w;
-    return Math.max(raw(LOW, world, si, share), 0) * (1 - h) + Math.max(raw(HIGH, world, si, share), 0) * h;
+    const hi = Math.max(raw(HIGH, world, si, share), 0);
+    if (AGI.includes(si)) return hi;
+    return Math.max(raw(LOW, world, si, share), 0) * (1 - h) + hi * h;
   }
   const value = cell;
 
