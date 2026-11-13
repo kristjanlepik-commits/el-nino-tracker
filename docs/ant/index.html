@@ -19,6 +19,7 @@
 :root[data-theme="dark"] { --paper: #1A1A18; --sunk: #252521; --ink: #EDECE6; --soft: #B4B3AB; --faint: #86857D; --rule: #3A3A36; --line: #66665F; color-scheme: dark; }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
+[hidden] { display: none !important; }
 body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.5 var(--serif); }
 .bar { border-bottom: 1px solid var(--rule); }
 .bar .in { display: flex; align-items: center; gap: 10px; max-width: var(--page, 900px); margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
@@ -112,6 +113,29 @@ h1 { font: 500 clamp(25px, 3.4vw, 32px)/1.18 var(--serif); margin: 0 0 18px; tex
 /* Slide only, never fade: the dot must be there in a still frame even where
    the animation does not run (a background tab, a thumbnail). */
 @keyframes dropin { from { transform: translateY(-8px); } to { transform: none; } }
+
+/* The questions' charts (VD, "Ant Questions, charts with history", D-375):
+   the chart is central, so on a desk it takes the wide column and the
+   question and answers sit beside it; on a phone it comes before the
+   answers. */
+.qgrid { grid-template-columns: minmax(0, 360px) minmax(0, 1fr); column-gap: 36px; }
+.chart { min-width: 0; }
+.chart .readout { font: 13px/1.5 var(--mono); color: var(--ink); min-height: 20px; margin: 8px 0 0; }
+.chart .human { font-size: 17px; line-height: 1.4; color: var(--ink); margin: 14px 0 0; border-top: 1px solid var(--rule); padding-top: 10px; }
+.chart .human b { font-weight: 500; }
+.chart .tag { display: inline-block; font: 500 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; background: var(--ink); color: var(--paper); padding: 1px 6px; margin-left: 6px; vertical-align: 1px; }
+.chart .two { display: grid; gap: 18px; }
+.chart svg text.ink { fill: var(--ink); font-weight: 600; }
+.chart svg [data-r] { cursor: pointer; }
+.chart svg.power { margin-top: 16px; }
+.nav { display: flex; justify-content: space-between; align-items: center; }
+.nav .next { font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--paper); background: var(--ink); border: 0; padding: 10px 14px; text-decoration: none; }
+.nav .next:disabled { background: var(--rule); color: var(--faint); cursor: default; }
+@media (min-width: 721px) { .chart .two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+@media (max-width: 720px) {
+  .qgrid { grid-template-areas: "q" "c" "o"; }
+  .qgrid .chart { margin: 0 0 22px; }
+}
 </style>
 <!-- Privacy-friendly analytics by Plausible -->
 <script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
@@ -132,7 +156,7 @@ plausible.init({transformRequest:function(p){try{var c=document.querySelector('l
     <div class="qgrid">
       <h1 id="qt"></h1>
       <div class="chart" id="qchart"></div>
-      <div class="ob"><div class="opts" id="opts"></div><div class="nav"><button id="back" type="button">Back</button></div></div>
+      <div class="ob"><div class="opts" id="opts"></div><div class="nav"><button id="back" type="button">Back</button><button id="next" class="next" type="button" disabled>Next question &rarr;</button></div></div>
     </div>
   </section>
 
@@ -146,6 +170,7 @@ plausible.init({transformRequest:function(p){try{var c=document.querySelector('l
 
 <script src="values.js"></script>
 <script src="strip.js"></script>
+<script src="history.js"></script>
 <script src="ant.js"></script>
 </body>
 </html>
