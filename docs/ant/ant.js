@@ -159,19 +159,21 @@ function ask() {
   $('opts').innerHTML = q.o.map(([v, l, d]) => `<button type="button" aria-pressed="${sel === v}" data-v="${v}"><b>${esc(l)}</b><i>${FIG[q.k](v)}</i><span>${esc(d)}</span>${q.k === 'world' ? split(H.ai[v]) : ''}</button>`).join('');
   $('after3').innerHTML = q.k === 'world' ? after3() : '';
   $('back').hidden = !step || editing;
-  $('next').hidden = !sel; $('hint').hidden = !!sel;
-  $('next').innerHTML = editing ? 'Back to your price &rarr;' : step < Q.length - 1 ? 'Next question &rarr;' : 'See the price &rarr;';
 }
 function show(onReveal) {
   $('ask').hidden = onReveal; $('panel').hidden = !onReveal; $('after').hidden = !onReveal;
 }
+// A tap answers and moves on (Kristjan: "'Next question' button is bad UX,
+// once you click and answer you are done"). The pick shows in ink for a
+// moment so the tap reads, then the next question, or the price, loads.
+let moving = false;
 $('opts').addEventListener('click', e => {
-  const b = e.target.closest('button'); if (!b) return;
-  A[Q[step].k] = b.dataset.v; ask();
-});
-$('next').addEventListener('click', () => {
-  if (!A[Q[step].k]) return;
-  if (editing || step === Q.length - 1) { editing = false; reveal(); } else { step++; ask(); window.scrollTo(0, 0); }
+  const b = e.target.closest('button'); if (!b || moving) return;
+  A[Q[step].k] = b.dataset.v; ask(); moving = true;
+  setTimeout(() => {
+    moving = false;
+    if (editing || step === Q.length - 1) { editing = false; reveal(); } else { step++; ask(); window.scrollTo(0, 0); }
+  }, 350);
 });
 $('back').addEventListener('click', () => { step = Math.max(0, step - 1); ask(); });
 // Charts are drawn for the width they sit at; redraw when that changes.
