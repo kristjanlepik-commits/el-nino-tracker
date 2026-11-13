@@ -71,10 +71,14 @@ function chart1(sel, ph) {
   let s = '';
   [0, 250, 500, 750, 1000].forEach(v => s += `<line x1="${L}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--rule)"/><text x="${L - 8}" y="${Y(v) + 4}" text-anchor="end">${v ? bn(v) : '$0'}</text>`);
   [2024, 2026, 2028, 2030].forEach(y => s += `<text x="${X(y + 0.5)}" y="${Ht - 6}" text-anchor="middle">${y}</text>`);
-  const h = H.spend.history.map(([d, v]) => [X(t2x(d)), Y(v)]), sx = X(t2x(H.spend.seam[0])), sy = Y(H.spend.seam[1]);
-  s += `<path d="${line(h)}" fill="none" stroke="var(--soft)" stroke-width="3"/>`;
-  h.forEach(p => s += `<circle cx="${p[0]}" cy="${p[1]}" r="3.5" fill="var(--soft)"/>`);
-  if (!ph) s += `<text x="${h[0][0]}" y="${h[0][1] - 12}" class="small">Anthropic and OpenAI</text><text x="${sx - 10}" y="${sy - 12}" text-anchor="end" class="big" style="fill:var(--ink)">All labs today, ${bn(H.spend.seam[1])} a year</text>`;
+  // Before today the all-labs line is an estimate (make_history.py): dashed,
+  // hollow points, the way screen 4 draws its estimate.
+  // On a phone the quarters crowd into a few pixels, so draw the years and today.
+  const h = H.spend.history.filter(([d, , ok]) => !ph || ok || !d.includes('-')).map(([d, v, ok]) => [X(t2x(d)), Y(v), ok]), sx = X(t2x(H.spend.seam[0])), sy = Y(H.spend.seam[1]);
+  s += `<path d="${line(h)}" fill="none" stroke="var(--soft)" stroke-width="2.5" stroke-dasharray="5 4"/>`;
+  h.forEach(([x, y, ok]) => { if (!ok) s += `<circle cx="${x}" cy="${y}" r="3.5" fill="var(--paper)" stroke="var(--soft)" stroke-width="2"/>`; });
+  s += ph ? `<text x="${sx - 8}" y="${sy - 12}" text-anchor="end" class="big" style="fill:var(--ink)">Today ${bn(H.spend.seam[1])}</text>`
+    : `<text x="${sx - 10}" y="${sy - 12}" text-anchor="end" class="big" style="fill:var(--ink)">All labs today, ${bn(H.spend.seam[1])} a year</text>`;
   const N = ph ? { late: bn(PAID.late[4]), early: bn(PAID.early[4]), takeoff: bn(PAID.takeoff[4]) }
     : { late: 'Keeps improving, ' + bn(PAID.late[4]), early: 'Stalls, ' + bn(PAID.early[4]), takeoff: 'AGI, ' + bn(PAID.takeoff[4]) };
   const ends = [];
@@ -87,10 +91,10 @@ function chart1(sel, ph) {
   s += `<circle cx="${sx}" cy="${sy}" r="5" fill="var(--ink)" stroke="var(--paper)" stroke-width="2"/>`;
   ends.sort((a, b) => a[1] - b[1]); for (let i = 1; i < ends.length; i++) if (ends[i][1] - ends[i - 1][1] < 18) ends[i][1] = ends[i - 1][1] + 18;
   ends.forEach(([k, y, on]) => s += `<text x="${W - R + (ph ? 8 : 12)}" y="${y + 4}" class="big ${on ? 'ink' : ''}">${N[k]}</text>`);
-  const h0 = H.spend.history[0][1];
+  const h0 = H.spend.two_labs_first[1];
   return `<h4>Money paid to AI labs, a year</h4><svg viewBox="0 0 ${W} ${Ht}" role="img" aria-label="Money paid to AI labs: Anthropic and OpenAI ${bn(h0)} in 2024, all labs ${bn(H.spend.seam[1])} a year today; by 2030 ${bn(PAID.early[4])}, ${bn(PAID.late[4])} or ${bn(PAID.takeoff[4])}">${s}</svg>
     <p class="say">In 2024 people and companies paid Anthropic and OpenAI about ${bn(h0)}. Today they pay all AI labs at a rate of ${bn(H.spend.seam[1])} a year.</p>
-    <p class="src">Anthropic's audited revenue and OpenAI's reported revenue; today's all-labs figure adds an estimated $30bn for Google, xAI and others. Paths to 2030: AI - Compute model, before any funding crash.</p>`;
+    <p class="src">Anthropic's audited revenue and OpenAI's reported revenue, with Google, xAI and others added at an estimated $30bn today. Before today (hollow) the others are held at today's size against the two leaders, an estimate. Paths to 2030: AI - Compute model, before any funding crash.</p>`;
 }
 
 // ---------- 2 and 3: the answers are the bars ----------
@@ -147,10 +151,10 @@ function chart4(sel, ph) {
   h.forEach(([x, y, ok]) => s += ok ? `<circle cx="${x}" cy="${y}" r="5" fill="var(--ink)" stroke="var(--paper)" stroke-width="2"/>`
     : `<circle cx="${x}" cy="${y}" r="3.5" fill="var(--paper)" stroke="var(--soft)" stroke-width="2"/>`);
   const first = H.share[0];
-  if (!ph) s += `<text x="${h[0][0] - 6}" y="${h[0][1] + 22}" class="small">${first[1]}% in ${first[0]}</text><text x="${sx}" y="${sy + 30}" text-anchor="middle" class="big" style="fill:var(--ink)">${TODAY_SHARE}% today</text>`;
+  if (!ph) s += `<text x="${h[0][0] - 6}" y="${h[0][1] + 22}" class="small">${first[1]}% in ${first[0]}</text><text x="${sx + 8}" y="${sy + 26}" class="big" style="fill:var(--ink)">${TODAY_SHARE}% today</text>`;
   return `<h4>Anthropic's share of what is paid to the AI labs</h4><svg viewBox="0 0 ${W} ${Ht}" role="img" aria-label="Anthropic's share of AI lab revenue: about ${first[1]}% in ${first[0]}, ${TODAY_SHARE}% today, to 35, 45 or 55% in 2030">${s}</svg>
     <p class="say">Anthropic went from about ${first[1]}% of what was paid to the AI labs in ${first[0]} to ${TODAY_SHARE}% today. OpenAI, Google and the rest share whatever it does not win.</p>
-    <p class="src">Only today's ${TODAY_SHARE}% is measured against the whole market. Earlier points (hollow) hold Google, xAI and others at today's size against the two leaders, an estimate. Anthropic's audited revenue; OpenAI's reported.</p>`;
+    <p class="src">Only today's ${TODAY_SHARE}% is measured against the whole market. The 2024 and 2025 points (hollow) hold Google, xAI and others at today's size against the two leaders, an estimate. Anthropic's audited revenue; OpenAI's reported.</p>`;
 }
 const CHARTS = [chart1, chart2, chart3, chart4];
 
