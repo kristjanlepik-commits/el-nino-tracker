@@ -93,45 +93,37 @@ function chart1(sel, ph) {
     <p class="src">Anthropic's audited revenue and OpenAI's reported revenue; today's all-labs figure adds an estimated $30bn for Google, xAI and others. Paths to 2030: AI - Compute model, before any funding crash.</p>`;
 }
 
-// ---------- 2. Data centres: one quantity, a year's spending, ranked ----------
-function chart2(sel, ph) {
-  const NAME = { 'US military spending': 'US military', 'Global grid investment': 'World grid investment', 'Global telecom operator capex': 'World telecom' };
-  const cap = H.capex[H.capex.length - 1], earlier = H.capex.slice(0, -1).map(([y, v]) => `${y} $${v}bn`).join(' · ');
-  const rows = H.comps.map(([n, v, y]) => [`${NAME[n] || n}, ${y}`, v, 'c'])
-    .concat([[`Big Four building data centres, ${cap[0]}`, cap[1], 'h', earlier],
-      ["AI labs' computing in 2030: piling in", Math.round(SPEND.yes[4]), 'a', '', 'yes'],
-      ["AI labs' computing in 2030: in between", Math.round(SPEND.mid[4]), 'a', '', 'mid'],
-      ["AI labs' computing in 2030: money stops", Math.round(SPEND.no[4]), 'a', '', 'no'],
-      [`AI labs' computing today, ${cap[0]}`, SPEND.yes[0], 'h']]).sort((a, b) => b[1] - a[1]);
-  const W = ph ? 328 : 860, LW = ph ? 0 : 330, BW = W - LW - 70, RH = ph ? 46 : 32, top = 1000;
-  let s = '', y = 0;
-  rows.forEach(([n, v, kind, sub, k]) => {
-    const on = kind === 'a' && k === sel, fill = kind === 'a' ? (on ? 'var(--ink)' : 'var(--line)') : 'var(--rule)';
-    const ty = ph ? y + 13 : y + 15, by = ph ? y + 19 : y + 4, bh = ph ? 14 : 18;
-    s += `<text x="${ph ? 0 : LW - 12}" y="${ty}" text-anchor="${ph ? 'start' : 'end'}" class="${on ? 'ink' : ''}" style="${kind === 'a' && !on ? 'fill:var(--ink)' : ''}">${n}</text>`;
-    s += `<rect x="${LW}" y="${by}" width="${v / top * BW}" height="${bh}" fill="${fill}"/><text x="${LW + v / top * BW + 8}" y="${by + bh - 3}" class="${on ? 'ink' : ''}">$${v}bn</text>`;
-    if (sub && !ph) s += `<text x="${LW + v / top * BW + 80}" y="${by + bh - 3}" class="small">${sub}</text>`;
-    y += RH;
-  });
-  const mil = H.comps.find(c => /military/.test(c[0])), P = H.power;
-  return `<h4>A year's spending, $bn</h4><svg viewBox="0 0 ${W} ${y}" role="img" aria-label="A year's spending, ranked: ${rows.map(r => r[0] + ' $' + r[1] + 'bn').join(', ')}">${s}</svg>
-    <p class="say">The Big Four are already spending ${frac(cap[1] / mil[1])} of the US military budget on data centres this year, and US AI data centres draw about ${frac(P.us_ai_gw / P.comp_gw)} of Germany's average electricity.</p>
-    <p class="src">SIPRI, IEA, Omdia; Big Four from company filings (${cap[0]} is guidance); labs from the AI - Compute model. Power: ${P.us_ai_gw} GW at the plug against Germany's ${Math.round(P.comp_gw)} GW (SMARD).</p>`;
+// ---------- 2 and 3: the answers are the bars ----------
+// VD, canvas page "The Long Swell Ant Questions 2 and 3, simple", after
+// Kristjan: screen 2 "Such a messy screen! ... It needs to be simple!",
+// screen 3 "Too confusing". Each answer button holds one bar, every bar on
+// one scale, one dashed line for today, labelled once on the first bar. No
+// chart above the answers, no legend, no ranked list.
+const BARS = {
+  money: { max: 400, today: SPEND.yes[0], val: v => Math.round(SPEND[v][4]), fmt: v => '$' + v + 'bn', track: false },
+  world: { max: 100, today: Math.round(H.ai.today.labs), val: v => Math.round(H.ai[v].labs), fmt: v => '$' + v, track: true },
+};
+function bar(k, v, on, first, ph) {
+  const q = BARS[k], W = ph ? 296 : 480, VW = ph ? 64 : 80, BW = W - VW, Ht = first ? 40 : 26, y = first ? 16 : 2, h = 20, X = x => x / q.max * BW, tx = X(q.today), n = q.val(v);
+  let s = '';
+  if (q.track) s += `<rect x="0" y="${y}" width="${BW}" height="${h}" fill="var(--sunk)"/>`;
+  s += `<rect x="0" y="${y}" width="${X(n)}" height="${h}" fill="${on ? 'var(--ink)' : 'var(--line)'}"/>`;
+  s += `<line x1="${tx}" x2="${tx}" y1="${y - (first ? 4 : 3)}" y2="${y + h + 3}" stroke="var(--soft)" stroke-width="1.5" stroke-dasharray="3 3"/>`;
+  if (first) s += `<text x="${tx}" y="10" text-anchor="${tx > BW - 60 ? 'end' : 'middle'}">today ${q.fmt(q.today)}</text>`;
+  s += `<text x="${Math.max(X(n), q.track ? BW : 0) + 10}" y="${y + 16}" class="v">${q.fmt(n)}</text>`;
+  return `<svg viewBox="0 0 ${W} ${Ht}" role="img" aria-label="${q.fmt(n)}, against today's ${q.fmt(q.today)}">${s}</svg>`;
 }
-
-// ---------- 3. Who gets paid: one $100, the answers are the chart ----------
-const LAY = [['labs', 'AI labs', 'var(--soft)'], ['cloud_chip', 'Cloud and chips', 'var(--line)'], ['specialists', 'Specialist firms', 'var(--rule)'], ['bundles', 'Microsoft and Google bundles', 'hatch']];
-const fillOf = (c, n) => c === 'hatch' ? `repeating-linear-gradient(135deg, var(--soft) 0 1px, var(--paper) 1px ${n}px)` : c;
-const split = (sh, h) => `<span class="split" style="height:${h || 16}px">${LAY.map(([k, , c]) => sh[k] > 0 ? `<s style="width:${sh[k]}%;background:${fillOf(c, 5)}"></s>` : '').join('')}</span>`;
+function chart2() {
+  const mil = H.comps.find(c => /military/.test(c[0]));
+  return `<p class="lead">What AI labs would spend on computing in 2030, a year. <b>For scale, the US military spends $${Math.round(mil[1])}bn.</b></p>`;
+}
 function chart3() {
-  const key = `<div class="key">${LAY.map(([, n, c]) => `<span><em style="background:${fillOf(c, 4)}"></em>${n}</span>`).join('')}</div>`;
-  return `<h4>Every $100 a company spends on AI goes to</h4>${key}<div class="today"><span>Today</span><i>$${Math.round(H.ai.today.labs)} to labs</i>${split(H.ai.today, 12)}</div>`;
+  return `<p class="lead">Of every <b>$100</b> a company spends on AI, how much goes to labs like Anthropic.</p>`;
 }
-function after3() {
-  const keep = Object.entries(H.work).filter(([k]) => k !== 'today').map(([, w]) => w.buyers_keep);
-  return `<p class="say">Whichever answer you pick, the company keeps $${Math.round(Math.min(...keep))} to $${Math.round(Math.max(...keep))} of every $100 of the lawyer's time. AI is cheap next to the work it does.</p>
-    <p class="src">AI - Compute model estimate; the split among sellers has no history.</p>`;
-}
+const SRC = {
+  money: 'Labs from the AI - Compute model; US military from SIPRI.',
+  world: 'AI - Compute model estimate; how the rest of the $100 splits is in the full model.',
+};
 
 // ---------- 4. Anthropic vs rivals: one basis, the answers' own ----------
 // Kristjan: "Where is history?" Same basis as the answers, Anthropic over all
@@ -168,9 +160,12 @@ function ask() {
   $('prog').innerHTML = `The Anthropic IPO &nbsp;·&nbsp; ${step + 1} of 4 <i>${Q.map((_, j) => `<b class="${j <= step ? 'on' : ''}"></b>`).join('')}</i>`;
   $('qt').textContent = q.t;
   $('qchart').innerHTML = CHARTS[step](sel, ph);
-  $('opts').className = 'opts' + (q.o.length === 3 ? ' three' : '');
-  $('opts').innerHTML = q.o.map(([v, l, d]) => `<button type="button" aria-pressed="${sel === v}" data-v="${v}"><b>${esc(l)}</b><i>${FIG[q.k](v)}</i><span>${esc(d)}</span>${q.k === 'world' ? split(H.ai[v]) : ''}</button>`).join('');
-  $('after3').innerHTML = q.k === 'world' ? after3() : '';
+  const bars = !!BARS[q.k];
+  $('opts').className = 'opts' + (bars ? ' bars' : q.o.length === 3 ? ' three' : '');
+  $('opts').innerHTML = q.o.map(([v, l, d], i) => bars
+    ? `<button type="button" aria-pressed="${sel === v}" data-v="${v}"><span class="t"><b>${esc(l)}</b><span>${esc(d)}</span></span>${bar(q.k, v, sel === v, i === 0, ph)}</button>`
+    : `<button type="button" aria-pressed="${sel === v}" data-v="${v}"><b>${esc(l)}</b><i>${FIG[q.k](v)}</i><span>${esc(d)}</span></button>`).join('');
+  $('after3').innerHTML = bars ? `<p class="src">${SRC[q.k]}</p>` : '';
   $('back').hidden = !step || editing;
 }
 function show(onReveal) {
@@ -186,7 +181,7 @@ $('opts').addEventListener('click', e => {
   setTimeout(() => {
     moving = false;
     if (editing || step === Q.length - 1) { editing = false; reveal(); } else { step++; ask(); window.scrollTo(0, 0); }
-  }, 350);
+  }, 250);
 });
 $('back').addEventListener('click', () => { step = Math.max(0, step - 1); ask(); });
 // Charts are drawn for the width they sit at; redraw when that changes.

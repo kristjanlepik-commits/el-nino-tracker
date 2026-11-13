@@ -71,6 +71,18 @@ h1 { font: 500 clamp(25px, 3.6vw, 32px)/1.15 var(--serif); margin: 0 0 18px; tex
 .opts button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 .opts button[aria-pressed="true"] { border: 2px solid var(--ink); padding: 11px 13px; }
 .opts button[aria-pressed="true"] i { color: var(--ink); font-weight: 600; }
+/* Screens 2 and 3: each answer holds its bar (VD, "Ant Questions 2 and 3, simple"). */
+.lead { font-size: 18px; line-height: 1.4; color: var(--soft); margin: 0; max-width: 34em; }
+.lead b { color: var(--ink); font-weight: 500; }
+.opts.bars button { grid-template-columns: minmax(0, 330px) minmax(0, 1fr); align-items: center; gap: 6px 28px; padding: 14px 16px 12px; }
+.opts.bars button[aria-pressed="true"] { padding: 13px 15px 11px; }
+.opts.bars button > .t { grid-column: auto; color: inherit; font-size: inherit; }
+.opts.bars .t b { display: block; font: 500 18px/1.3 var(--serif); }
+.opts.bars .t span { display: block; font-size: 15px; line-height: 1.4; color: var(--soft); margin-top: 2px; }
+.opts.bars svg { display: block; width: 100%; height: auto; overflow: visible; }
+.opts.bars svg text { font: 13px var(--mono); fill: var(--soft); }
+.opts.bars svg text.v { font-size: 17px; font-weight: 600; fill: var(--ink); }
+@media (max-width: 720px) { .opts.bars button { grid-template-columns: minmax(0, 1fr); } .lead { font-size: 16.5px; } }
 .nav { display: flex; align-items: center; justify-content: space-between; margin-top: 18px; min-height: 44px; gap: 12px; }
 .nav .back { background: none; border: 0; padding: 4px 0; font: 14px var(--mono); color: var(--soft); text-decoration: underline; text-underline-offset: 3px; }
 .nav .go { margin-left: auto; font: 500 17px var(--serif); background: var(--ink); color: var(--paper); border: 0; padding: 11px 18px; }
