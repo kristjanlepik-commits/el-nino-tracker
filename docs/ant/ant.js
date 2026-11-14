@@ -77,7 +77,8 @@ function chart1(sel, ph) {
   const h = H.spend.history.filter(([d, , ok]) => !ph || ok || !d.includes('-')).map(([d, v, ok]) => [X(t2x(d)), Y(v), ok]), sx = X(t2x(H.spend.seam[0])), sy = Y(H.spend.seam[1]);
   s += `<path d="${line(h)}" fill="none" stroke="var(--soft)" stroke-width="2.5" stroke-dasharray="5 4"/>`;
   h.forEach(([x, y, ok]) => { if (!ok) s += `<circle cx="${x}" cy="${y}" r="3.5" fill="var(--paper)" stroke="var(--soft)" stroke-width="2"/>`; });
-  s += ph ? `<text x="${sx - 8}" y="${sy - 12}" text-anchor="end" class="big" style="fill:var(--ink)">Today ${bn(H.spend.seam[1])}</text>`
+  // On a phone the label sits below and right of the dot, clear of the $250bn axis label.
+  s += ph ? `<text x="${sx + 8}" y="${sy + 22}" class="big" style="fill:var(--ink)">Today ${bn(H.spend.seam[1])}</text>`
     : `<text x="${sx - 10}" y="${sy - 12}" text-anchor="end" class="big" style="fill:var(--ink)">All labs today, ${bn(H.spend.seam[1])} a year</text>`;
   const N = ph ? { late: bn(PAID.late[4]), early: bn(PAID.early[4]), takeoff: bn(PAID.takeoff[4]) }
     : { late: 'Keeps improving, ' + bn(PAID.late[4]), early: 'Stalls, ' + bn(PAID.early[4]), takeoff: 'AGI, ' + bn(PAID.takeoff[4]) };
