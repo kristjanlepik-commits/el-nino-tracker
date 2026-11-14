@@ -99,6 +99,15 @@ h1 { font: 500 clamp(25px, 3.6vw, 32px)/1.15 var(--serif); margin: 0 0 18px; tex
 #strip { display: block; width: 100%; max-width: 560px; height: auto; overflow: visible; }
 #strip text { font: 12px var(--mono); fill: var(--soft); }
 #panel .note { font-size: 15px; line-height: 1.45; color: var(--soft); margin: 6px 0 0; }
+/* What would make it $74? (UX spec-reverse, 14 Nov): rows like the ones below. */
+.rev { margin-top: 22px; }
+.rev h3 { font: 500 22px/1.25 var(--serif); margin: 0 0 2px; }
+.rev p { margin: 0 0 10px; color: var(--soft); font-size: 15.5px; }
+.rev .row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: baseline; width: 100%; text-align: left; background: none; border: 1px solid var(--rule); padding: 10px 12px; margin-bottom: 8px; font-size: 16px; }
+.rev .row:hover, .rev .row:focus-visible { border: 2px solid var(--ink); padding: 9px 11px; outline: 0; }
+.rev .row s { text-decoration: none; color: var(--faint); }
+.rev .row b { font: 600 16px var(--mono); }
+#head:focus { outline: none; }
 .how { margin-top: 26px; border-top: 2px solid var(--ink); padding-top: 12px; }
 .how h2 { font: 500 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--soft); margin: 0 0 4px; }
 .hrow { display: grid; grid-template-columns: minmax(0, 150px) minmax(0, 1fr) auto auto; gap: 4px 18px; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--rule); }
@@ -129,7 +138,7 @@ plausible.init({transformRequest:function(p){try{var c=document.querySelector('l
 <header class="bar"><div class="in"><a class="home" href="../" aria-label="The Long Swell, home"><svg width="21" height="20" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span>The Long Swell</span></a><nav class="sw" aria-label="Versions"><span class="on" aria-current="page">Questions</span><a href="../ant-pro/" data-to="pro">Full model</a></nav></div></header>
 <main class="wrap">
   <section id="panel" aria-live="polite" hidden>
-    <div id="head"></div>
+    <div id="head" tabindex="-1"></div>
     <div><svg id="strip" viewBox="0 0 400 74" role="img"></svg><p class="note" id="cap"></p></div>
   </section>
 
@@ -143,6 +152,7 @@ plausible.init({transformRequest:function(p){try{var c=document.querySelector('l
   </section>
 
   <section id="after" hidden>
+    <div class="rev" id="rev"></div>
     <div class="how"><h2>How your answers got there</h2><div id="mine"></div></div>
     <a class="more" id="more" href="../ant-pro/">Fine-tune it in the full model &rarr;</a>
   </section>
