@@ -212,7 +212,6 @@ function panel() {
     const x = ANT.price({ speed: sp, money: m, world: w, share: A.share }); total++;
     if (x <= 0) zero++; else if (x >= IPO) above++;
   }
-  rev();
   $('cap').textContent = `${zero} of ${total} ways to answer leave shareholders with nothing; ${above} ${above === 1 ? 'beats' : 'beat'} the IPO price.`;
   // How the answers got there: one figure each; Change reopens that question
   // with its chart and comes back here.
@@ -228,51 +227,6 @@ function panel() {
   // In the one-file prototype both pages share a document: hand the answers across in place.
   if (window.ANT_PROTO) [$('more'), sw].forEach(a => a && (a.onclick = e => { e.preventDefault(); ANT_PROTO.toPro(answers()); }));
 }
-// ---------- What would make it $74? ----------
-// UX spec "What would make it $74?" (mycelium-ux pairs/2026-11-14-ant-
-// questions-live/spec-reverse.md), from AI - Eval's prototype. The smallest
-// changes to the reader's answers that cross the IPO price, at most three.
-// A row names only what changes; a tap loads it the way Change does.
-// Each option as [what the row says when it is the change, what it replaces].
-const SAY = {
-  speed: { late: ['AI keeps improving', 'keeps improving'], early: ['AI stalls', 'stalls'], takeoff: ['AGI arrives', 'AGI'] },
-  money: { yes: ['Money keeps flowing', 'money keeps flowing'], mid: ['A crash as likely as not', 'in between'], no: ['The money stops', 'the money stops'] },
-  world: { C4: ['The labs, end to end', 'end to end'], C1: ['The labs, as a tool', 'as a tool'], C3: ['A specialist AI firm', 'a specialist firm'], C5: ['Microsoft or Google', 'Microsoft or Google'], C2: ['Nobody much', 'nobody much'] },
-  share: { 55: ['Anthropic pulls ahead to 55%', '55%'], 45: ['Anthropic holds 45%', '45%'], 35: ['Anthropic slips to 35%', '35%'] },
-};
-const lower = t => /^(AI|AGI|Anthropic|Microsoft)/.test(t) ? t : t[0].toLowerCase() + t.slice(1);
-function rev() {
-  const now = ANT.price(A), up = now < IPO, keys = Q.map(q => q.k), sets = [];
-  const go = (i, cur) => {
-    if (i === keys.length) {
-      const v = ANT.price(cur), ch = keys.filter(k => cur[k] !== A[k]);
-      if (ch.length && (up ? v >= IPO : v < IPO)) sets.push({ a: { ...cur }, v, ch: ch.map(k => k + '=' + cur[k]) });
-      return;
-    }
-    Q[i].o.forEach(o => go(i + 1, { ...cur, [keys[i]]: o[0] }));
-  };
-  go(0, {});
-  const min = sets.filter(s => !sets.some(t => t !== s && t.ch.length < s.ch.length && t.ch.every(c => s.ch.includes(c))))
-    .sort((a, b) => a.ch.length - b.ch.length || Math.abs(a.v - IPO) - Math.abs(b.v - IPO)).slice(0, 3);
-  const row = s => {
-    const ks = keys.filter(k => s.a[k] !== A[k]);
-    // Option labels carry commas ("The labs, end to end"), so three changes are split by semicolons.
-    const parts = ks.map((k, i) => i ? lower(SAY[k][s.a[k]][0]) : SAY[k][s.a[k]][0]);
-    const words = parts.length < 3 ? parts.join(', and ') : parts.slice(0, -1).join('; ') + '; and ' + parts[parts.length - 1];
-    const instead = ks.length === 1 ? ` <s>instead of ${SAY[ks[0]][A[ks[0]]][1]}</s>` : '';
-    return `<button type="button" class="row" data-a="${keys.map(k => s.a[k]).join(',')}"><span>${esc(words)}${instead}</span><b>${s.v <= 0 ? '$0' : '$' + Math.round(s.v)}</b></button>`;
-  };
-  $('rev').innerHTML = `<h3>${up ? `What would make it $${IPO}?` : `What would take it below $${IPO}?`}</h3>` +
-    (min.length ? `<p>From your answers, the smallest changes that ${up ? 'get there' : 'do it'}. Tap one to try it.</p>${min.map(row).join('')}`
-      : `<p>No change to your answers ${up ? 'reaches' : 'takes it below'} $${IPO}.</p>`);
-}
-$('rev').addEventListener('click', e => {
-  const b = e.target.closest('button.row'); if (!b) return;
-  b.dataset.a.split(',').forEach((v, i) => A[Q[i].k] = v);
-  panel(); $('head').focus({ preventScroll: true });
-  if ($('panel').getBoundingClientRect().top < 0) $('panel').scrollIntoView({ block: 'start' });
-});
-
 $('mine').addEventListener('click', e => {
   const b = e.target.closest('button.c'); if (!b) return;
   step = +b.dataset.i; editing = true; show(false); ask(); window.scrollTo(0, 0);
