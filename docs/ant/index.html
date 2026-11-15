@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>What is Anthropic worth?</title>
-<meta name="description" content="Four questions about AI to 2030, and what your answers make an Anthropic share worth.">
+<meta name="description" content="Pick the next four years of AI, and see what your answers make an Anthropic share worth.">
 <style>
 
 @font-face { font-family: "Spectral"; font-weight: 400; font-style: normal; font-display: swap; src: url("../fonts/spectral-400.woff2") format("woff2"); }
@@ -32,92 +32,172 @@ body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.5 va
 .sw a { color: var(--soft); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; }
 .sw .on { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--ink); padding-bottom: 2px; }
 .bar a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
-/* /ant, redrawn (VD, "The Long Swell Ant Questions, redrawn", 13 Nov). One
-   question, one chart, one quantity per screen, the chart full width and
-   readable; the price panel only at the reveal. One ink: the reader's pick
-   is INK, every other mark is grey. */
-:root { --page: 920px; }
-.wrap { max-width: var(--page); margin: 0 auto; padding-block: 22px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+@font-face { font-family: "Instrument Sans"; font-weight: 400 700; font-display: swap; src: url("../fonts/instrument-sans-latin-ext.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Instrument Sans"; font-weight: 400 700; font-display: swap; src: url("../fonts/instrument-sans-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+/* Layout: each question is a chart with the past printed on it and the model's futures drawn beside it;
+   tapping a future on the chart answers the question and opens the next (questions 1 and 2 also let the
+   reader draw a line of their own). The Long Swell's paper, ink, Spectral and Plex Mono. Ink is the reader's choice; print is grey. */
+:root { --paper: #F1F0EC; --sunk: #E7E6DF; --ink: #1A1A18; --soft: #3A3A36; --faint: #6E6E67; --rule: #CFCEC7; --line: #A9A89F; --blank: #F7F6F2;
+  --serif: "Spectral", Georgia, serif; --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace; --page: 940px; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper: #1A1A18; --sunk: #252521; --ink: #EDECE6; --soft: #B4B3AB; --faint: #86857D; --rule: #3A3A36; --line: #66665F; --blank: #20201D; color-scheme: dark; } }
+:root[data-theme="dark"] { --paper: #1A1A18; --sunk: #252521; --ink: #EDECE6; --soft: #B4B3AB; --faint: #86857D; --rule: #3A3A36; --line: #66665F; --blank: #20201D; color-scheme: dark; }
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--paper); color: var(--ink); font: 17px/1.45 var(--serif); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper); }
 button { font: inherit; color: inherit; cursor: pointer; }
-.prog { display: flex; align-items: center; gap: 12px; font: 500 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--soft); margin: 0 0 18px; }
-.prog i { display: flex; gap: 4px; flex: 1; max-width: 160px; }
-.prog i b { flex: 1; height: 3px; background: var(--rule); }
-.prog i b.on { background: var(--ink); }
-h1 { font: 500 clamp(25px, 3.6vw, 32px)/1.15 var(--serif); margin: 0 0 18px; text-wrap: balance; max-width: 22em; }
+.wrap { max-width: var(--page); margin: 0 auto; padding-block: 24px 120px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 56px; }
+.kick { font: 500 11px/1.45 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--soft); margin: 0; }
+.top { display: grid; gap: 10px; }
+.top h1 { font: 500 clamp(30px, 5vw, 46px)/1.06 var(--serif); margin: 0; text-wrap: balance; max-width: 16em; letter-spacing: -.01em; }
+.top p { margin: 0; color: var(--soft); max-width: 36em; font-size: 18px; }
 
-.ch h4 { font: 500 12px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--soft); margin: 0 0 8px; }
-.ch svg { display: block; width: 100%; height: auto; overflow: visible; }
-.ch svg text { font: 12px var(--mono); fill: var(--soft); }
-.ch svg text.ink { fill: var(--ink); font-weight: 600; }
-.ch svg text.big { font-size: 13px; }
-.ch svg text.small { font-size: 11px; }
-.say { font-size: 18px; line-height: 1.45; color: var(--ink); margin: 14px 0 0; max-width: 40em; }
-.src { font-size: 13px; line-height: 1.45; color: var(--soft); margin: 8px 0 0; max-width: 60em; }
-.key { display: flex; flex-wrap: wrap; gap: 4px 16px; font: 12.5px var(--mono); color: var(--soft); margin: 4px 0 0; }
-.key em { font-style: normal; display: inline-block; width: 12px; height: 12px; margin-right: 6px; vertical-align: -1px; border: 1px solid var(--rule); }
-.today { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3px 12px; padding: 0 2px; margin-top: 14px; font-size: 16px; color: var(--soft); }
-.today i { font: normal 13px var(--mono); }
-.today .split { grid-column: 1 / -1; display: flex; }
-.split s { display: block; height: 100%; text-decoration: none; }
+.q { display: grid; gap: 12px; scroll-margin-top: 16px; }
+.q .n { display: flex; align-items: center; gap: 12px; }
+.q .n i { flex: 0 0 120px; display: flex; gap: 4px; }
+.q .n i b { flex: 1; height: 3px; background: var(--rule); }
+.q .n i b.on { background: var(--ink); }
+.q h2 { font: 500 clamp(23px, 3.2vw, 30px)/1.15 var(--serif); margin: 0; text-wrap: balance; max-width: 22em; }
+.q .ask { margin: 0; color: var(--soft); max-width: 36em; }
+.q .ask b { color: var(--ink); font-weight: 500; }
+.q .say { margin: 0; font-size: 18px; max-width: 38em; min-height: 2.9em; }
+.q .say b { font-weight: 600; }
+.q .say .hint { color: var(--faint); font-style: italic; }
+.q .src { font-size: 13px; line-height: 1.45; color: var(--faint); margin: 0; max-width: 48em; }
+.lnk { background: none; border: 0; padding: 0; font: 13px var(--mono); color: var(--soft); text-decoration: underline; text-underline-offset: 3px; }
+.lnk:focus-visible, .who:focus-visible, .fix:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
-.opts { display: grid; gap: 10px; margin-top: 22px; }
-@media (min-width: 721px) { .opts.three { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.opts button { text-align: left; background: transparent; border: 1px solid var(--rule); padding: 12px 14px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3px 12px; align-items: baseline; font-size: 17px; }
-.opts button b { font-weight: 500; }
-.opts button span { grid-column: 1 / -1; color: var(--soft); font-size: 15px; line-height: 1.4; }
-.opts button i { grid-column: 2; grid-row: 1; font: normal 13px var(--mono); color: var(--soft); white-space: nowrap; font-variant-numeric: tabular-nums; }
-.opts button .split { grid-column: 1 / -1; display: flex; margin-top: 8px; }
-.opts button:hover, .opts button:focus-visible { border-color: var(--ink); }
-.opts button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-.opts button[aria-pressed="true"] { border: 2px solid var(--ink); padding: 11px 13px; }
-.opts button[aria-pressed="true"] i { color: var(--ink); font-weight: 600; }
-/* Screens 2 and 3: each answer holds its bar (VD, "Ant Questions 2 and 3, simple"). */
-.lead { font-size: 18px; line-height: 1.4; color: var(--soft); margin: 0; max-width: 34em; }
-.lead b { color: var(--ink); font-weight: 500; }
-.opts.bars button { grid-template-columns: minmax(0, 330px) minmax(0, 1fr); align-items: center; gap: 6px 28px; padding: 14px 16px 12px; }
-.opts.bars button[aria-pressed="true"] { padding: 13px 15px 11px; }
-.opts.bars button > .t { grid-column: auto; color: inherit; font-size: inherit; }
-.opts.bars .t b { display: block; font: 500 18px/1.3 var(--serif); }
-.opts.bars .t span { display: block; font-size: 15px; line-height: 1.4; color: var(--soft); margin-top: 2px; }
-.opts.bars svg { display: block; width: 100%; height: auto; overflow: visible; }
-.opts.bars svg text { font: 13px var(--mono); fill: var(--soft); }
-.opts.bars svg text.v { font-size: 17px; font-weight: 600; fill: var(--ink); }
-@media (max-width: 720px) { .opts.bars button { grid-template-columns: minmax(0, 1fr); } .lead { font-size: 16.5px; } }
-.nav { display: flex; align-items: center; justify-content: space-between; margin-top: 18px; min-height: 44px; gap: 12px; }
-.nav .back { background: none; border: 0; padding: 4px 0; font: 14px var(--mono); color: var(--soft); text-decoration: underline; text-underline-offset: 3px; }
-.nav .go { margin-left: auto; font: 500 17px var(--serif); background: var(--ink); color: var(--paper); border: 0; padding: 11px 18px; }
-.nav .hint { margin-left: auto; font-size: 15px; color: var(--soft); }
+/* the chart: the model's futures are the answers */
+.pad { user-select: none; -webkit-user-select: none; display: grid; gap: 6px; }
+.pad .stage { position: relative; }
+.pad svg { display: block; width: 100%; height: auto; overflow: visible; }
+.pad svg text { font: 12px var(--mono); fill: var(--soft); }
+.pad svg text.ink { fill: var(--ink); font-weight: 600; }
+.pad svg text.call { font: italic 400 17px var(--serif); fill: var(--ink); }
+.pad .zone { position: absolute; top: 0; bottom: 0; touch-action: none; cursor: crosshair; }
+.pad .mine { fill: none; stroke: var(--ink); stroke-width: 4.5; stroke-linecap: round; stroke-linejoin: round; }
+.pad .model { fill: none; stroke: var(--line); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
+.pad .hit { fill: none; stroke: transparent; stroke-width: 30; pointer-events: stroke; }
+.pad rect.hit { stroke: none; fill: transparent; pointer-events: all; }
+.pad .opt { cursor: pointer; outline: none; }
+.pad .opt .dot { fill: var(--line); }
+.pad .opt text { text-decoration: underline; }
+.pad .opt:hover .model, .pad .opt:focus-visible .model { stroke: var(--ink); }
+.pad .opt:hover .dot, .pad .opt:focus-visible .dot, .pad .opt.on .dot { fill: var(--ink); }
+.pad .opt:hover text, .pad .opt:focus-visible text { fill: var(--ink); }
+.pad .opt.on .model { stroke: var(--ink); stroke-width: 4.5; }
+.pad .opt.on text { fill: var(--ink); font-weight: 600; text-decoration: none; }
+.pad .alt { margin: 0; }
+.pad .pulse { transform-box: fill-box; transform-origin: center; pointer-events: none; }
+@media (max-width: 720px) { .pad svg text { font-size: 11px; } }
+@media (prefers-reduced-motion: no-preference) { .pad .pulse { animation: pulse 1.6s ease-out infinite; } }
+@keyframes pulse { from { transform: scale(1); opacity: .5; } to { transform: scale(3.2); opacity: 0; } }
 
-/* The reveal: the price panel appears here and only here. */
-.kick { font: 500 11px/1.45 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--soft); margin: 0 0 6px; }
-#panel { background: var(--sunk); padding: 18px 20px 16px; display: grid; gap: 8px 40px; }
-@media (min-width: 721px) { #panel { grid-template-columns: minmax(0, 330px) minmax(0, 1fr); align-items: end; } }
-#panel .v { font: 500 60px/1 var(--serif); font-variant-numeric: tabular-nums lining-nums; }
-#panel .v small { font-size: 20px; font-weight: 400; }
-#panel .vs { font-size: 17px; color: var(--soft); margin: 8px 0 0; }
-#panel .vs b { color: var(--ink); font-weight: 500; }
-#strip { display: block; width: 100%; max-width: 560px; height: auto; overflow: visible; }
-#strip text { font: 12px var(--mono); fill: var(--soft); }
-#panel .note { font-size: 15px; line-height: 1.45; color: var(--soft); margin: 6px 0 0; }
-.how { margin-top: 26px; border-top: 2px solid var(--ink); padding-top: 12px; }
-.how h2 { font: 500 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--soft); margin: 0 0 4px; }
-.hrow { display: grid; grid-template-columns: minmax(0, 150px) minmax(0, 1fr) auto auto; gap: 4px 18px; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--rule); }
-.hrow .q { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--soft); }
-.hrow .a { font-size: 17px; }
-.hrow .f { font: 14px var(--mono); color: var(--ink); white-space: nowrap; }
-.hrow .c { background: none; border: 0; padding: 0; font: 13px var(--mono); color: var(--soft); text-decoration: underline; text-underline-offset: 3px; }
-@media (max-width: 720px) {
-  .hrow { grid-template-columns: minmax(0, 1fr) auto; }
-  .hrow .q, .hrow .a { grid-column: 1 / -1; }
-  .say { font-size: 16.5px; }
-  #panel .v { font-size: 52px; }
-  #strip text { font-size: 16px; }
-}
-.more { display: inline-block; margin-top: 20px; font: 500 13px var(--mono); color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
-.disc { font-size: 13px; line-height: 1.5; color: var(--faint); margin: 28px 0 0; max-width: 640px; }
-/* The number lands still; the reader's dot slides onto the scale, never fades. */
-@media (prefers-reduced-motion: no-preference) { .me.in { animation: dropin 120ms ease-out both; } }
-@keyframes dropin { from { transform: translateY(-8px); } to { transform: none; } }
+/* question 3: the same $100 note cut five ways; each cut note is a button */
+.q .cap { font: 500 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--soft); margin: 4px 0 -4px; }
+.whos { display: grid; gap: 8px; }
+.who { display: grid; gap: 6px 18px; text-align: left; background: transparent; border: 1px solid var(--rule); padding: 10px 12px; }
+@media (min-width: 721px) { .who { grid-template-columns: 220px minmax(0, 1fr); align-items: center; } }
+.who .t { font: 500 17px/1.25 var(--serif); }
+.who .t i { font: 500 11px var(--mono); font-style: normal; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); margin-left: 10px; }
+.who .note { display: flex; gap: 4px; height: 36px; font: 500 12px/34px var(--mono); min-width: 0; }
+.who .lab { flex: 0 0 29%; background: var(--faint); color: var(--paper); text-align: center; overflow: hidden; }
+.who .rest { flex: 1 1 0; min-width: 0; background: var(--blank); border: 1px solid var(--rule); padding: 0 10px; color: var(--soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.who:hover { border-color: var(--ink); }
+.who:hover .lab, .who[aria-pressed="true"] .lab { background: var(--ink); }
+.who[aria-pressed="true"] { border: 2px solid var(--ink); padding: 9px 11px; }
+
+/* the price */
+#final { display: grid; gap: 22px; scroll-margin-top: 16px; }
+#panel { background: var(--sunk); padding: 22px 22px 16px; display: grid; gap: 8px 44px; }
+@media (min-width: 721px) { #panel { grid-template-columns: minmax(0, 360px) minmax(0, 1fr); align-items: end; } }
+#pv { font: 500 clamp(64px, 12vw, 104px)/.95 var(--serif); font-variant-numeric: tabular-nums lining-nums; letter-spacing: -.02em; }
+#pv small { font-size: 22px; font-weight: 400; letter-spacing: 0; color: var(--soft); }
+#vs { font-size: 18px; color: var(--soft); margin: 8px 0 0; }
+#vs b { color: var(--ink); font-weight: 500; }
+#scale { display: block; width: 100%; max-width: 560px; height: auto; overflow: visible; }
+#scale text { font: 12px var(--mono); fill: var(--soft); }
+#scale .me { transition: transform .5s cubic-bezier(.2,.7,.2,1); }
+.how h3 { font: 500 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--soft); margin: 0 0 4px; border-top: 2px solid var(--ink); padding-top: 12px; }
+.hrow { display: grid; grid-template-columns: minmax(0, 170px) minmax(0, 1fr) auto; gap: 4px 18px; align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--rule); }
+.hrow .t { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--soft); }
+@media (max-width: 720px) { .hrow { grid-template-columns: minmax(0, 1fr) auto; } .hrow .t { grid-column: 1 / -1; } }
+.fixes { display: grid; gap: 8px; }
+.fixes p { margin: 0; color: var(--soft); }
+.fix { text-align: left; background: transparent; border: 1px solid var(--rule); padding: 10px 12px; font-size: 16.5px; }
+.fix:hover { border-color: var(--ink); }
+.fix b { font-weight: 600; }
+#bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 8; background: var(--ink); color: var(--paper); padding-block: 10px calc(10px + env(safe-area-inset-bottom, 0px)); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; justify-content: center; }
+#bar button { background: none; border: 0; color: inherit; display: flex; gap: 14px; align-items: baseline; font: 500 22px var(--serif); font-variant-numeric: tabular-nums; }
+#bar button span { font: 12px var(--mono); opacity: .8; }
+.disc { font-size: 13px; line-height: 1.5; color: var(--faint); margin: 0; max-width: 640px; }
+
+/* Path D, "Clean slate" (VD, 15 Nov; research/vd/ant_path_D_spec.md, D-380, D-381).
+   Layered over AI - Eval's interaction unchanged: white ground, Instrument Sans,
+   ink rules without boxes, periwinkle only for the reader's own choice. */
+:root { --paper: #FFFFFF; --sunk: #ECEEF4; --ink: #131A2A; --soft: #4B5368; --faint: #4B5368; --rule: #E3E6EE; --line: #B9BECC; --blank: #F6F7FB; --bar: #5B6478; --you: #4F5BEA; --youpale: #E4E6FD;
+  --sans: "Instrument Sans", system-ui, sans-serif; --serif: var(--sans); --mono: var(--sans); color-scheme: light; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper: #0F1420; --sunk: #1E2536; --ink: #E8EAF2; --soft: #A9B0C2; --faint: #A9B0C2; --rule: #252D40; --line: #46506A; --blank: #141A28; --bar: #8C93A6; --you: #8C95FF; --youpale: #232B57; color-scheme: dark; } }
+:root[data-theme="dark"] { --paper: #0F1420; --sunk: #1E2536; --ink: #E8EAF2; --soft: #A9B0C2; --faint: #A9B0C2; --rule: #252D40; --line: #46506A; --blank: #141A28; --bar: #8C93A6; --you: #8C95FF; --youpale: #232B57; color-scheme: dark; }
+body { font: 17px/1.5 var(--sans); font-variant-numeric: tabular-nums; }
+.kick, .q .cap, .how h3, .hrow .t, .who .t i { letter-spacing: normal; text-transform: none; }
+.kick { font: 600 14px/1.4 var(--sans); color: var(--soft); }
+.top { border-top: 3px solid var(--ink); padding-top: 14px; }
+.top h1 { font: 700 clamp(34px, 5.4vw, 52px)/1.02 var(--sans); letter-spacing: -.03em; }
+.q h2 { font: 700 clamp(26px, 3.8vw, 36px)/1.06 var(--sans); letter-spacing: -.025em; }
+.q .ask b, .q .say b, #vs b { font-weight: 700; }
+.q .say .hint { font-style: normal; color: var(--soft); }
+.q .src { font-size: 13.5px; color: var(--soft); }
+.q .n i b.on { background: var(--ink); }
+.lnk { font: 600 14px var(--sans); color: var(--you); text-decoration: none; }
+.lnk:focus-visible, .who:focus-visible, .fix:focus-visible { outline-color: var(--you); }
+.pad svg text { font: 500 13px var(--sans); }
+.pad svg text.ink { font-weight: 700; }
+.pad svg text.call { font: 600 15px var(--sans); fill: var(--you); }
+.pad .mine { stroke: var(--you); }
+.pad .opt text { text-decoration: none; font-weight: 600; fill: var(--ink); }
+.pad .opt:hover .model, .pad .opt:focus-visible .model, .pad .opt.on .model { stroke: var(--you); }
+.pad .opt:hover .dot, .pad .opt:focus-visible .dot, .pad .opt.on .dot { fill: var(--you); }
+.pad .opt:hover text, .pad .opt:focus-visible text, .pad .opt.on text { fill: var(--you); }
+.pad .opt.on text { font-weight: 700; }
+.q .cap { font: 600 14px var(--sans); color: var(--soft); }
+.whos { gap: 0; border-bottom: 1.5px solid var(--ink); }
+.who { border: 0; border-top: 1.5px solid var(--ink); padding: 12px 0; }
+.who .t { font: 600 18px/1.25 var(--sans); }
+.who .t i { font: 600 13px var(--sans); color: var(--soft); }
+.who .note { height: 30px; font: 700 13px/30px var(--sans); }
+.who .lab { background: var(--bar); color: #fff; }
+.who .rest { background: var(--sunk); border: 0; color: var(--soft); font-weight: 500; }
+.who:hover { border-color: var(--ink); }
+.who:hover .lab, .who[aria-pressed="true"] .lab { background: var(--you); }
+.who[aria-pressed="true"] { border: 0; border-top: 1.5px solid var(--ink); padding: 12px 0 12px 14px; box-shadow: inset 6px 0 0 var(--youpale); }
+.who[aria-pressed="true"] .t { color: var(--you); }
+#panel { background: none; padding: 4px 0; }
+#pv { font: 700 clamp(96px, 17vw, 150px)/.92 var(--sans); letter-spacing: -.05em; margin-top: 14px; }
+@media (max-width: 720px) { #scale text { font-size: 16px; } }
+#pv small { font-size: 22px; font-weight: 600; letter-spacing: normal; color: var(--ink); margin-left: 6px; }
+#vs { font-size: 21px; font-weight: 600; color: var(--ink); }
+#scale text { font: 500 13px var(--sans); }
+.how h3 { font: 700 15px var(--sans); color: var(--ink); border-top: 3px solid var(--ink); }
+.hrow { border-bottom: 1.5px solid var(--ink); }
+.hrow .t { font: 600 14px var(--sans); color: var(--soft); }
+.fix { border: 0; border-top: 1.5px solid var(--ink); padding: 12px 0; }
+.fix:hover b { color: var(--you); }
+#bar button { font: 700 22px var(--sans); }
+#bar button span { font: 600 13px var(--sans); }
+.disc { color: var(--soft); }
+
+.bar { margin-top: 6px; border-bottom: 0; }
+.bar .in { max-width: var(--page); border-bottom: 3px solid var(--ink); }
+.bar .home { padding: 12px 0 10px; }
+.bar .home span { font: 700 16px var(--sans); }
+.sw { gap: 16px; font: 500 14px var(--sans); }
+.sw a { color: var(--soft); text-decoration: none; }
+.sw a:hover { color: var(--ink); }
+.sw .on { color: var(--ink); font-weight: 700; border-bottom: 0; padding-bottom: 0; }
+.bar a:focus-visible { outline: 2px solid var(--you); outline-offset: 3px; }
 </style>
 <!-- Privacy-friendly analytics by Plausible -->
 <script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
@@ -128,31 +208,279 @@ plausible.init({transformRequest:function(p){try{var c=document.querySelector('l
 <body>
 <header class="bar"><div class="in"><a class="home" href="../" aria-label="The Long Swell, home"><svg width="21" height="20" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span>The Long Swell</span></a><nav class="sw" aria-label="Versions"><span class="on" aria-current="page">Questions</span><a href="../ant-pro/" data-to="pro">Full model</a></nav></div></header>
 <main class="wrap">
-  <section id="panel" aria-live="polite" hidden>
-    <div id="head"></div>
-    <div><svg id="strip" viewBox="0 0 400 74" role="img"></svg><p class="note" id="cap"></p></div>
+  <div class="top">
+    <p class="kick">The Anthropic IPO</p>
+    <h1>Pick the next four years of AI. See what Anthropic is worth.</h1>
+    <p>The past is printed on each chart, with the futures the model sees beside it. Tap the one you believe, four times, and the model prices the company on your answers.</p>
+  </div>
+
+  <section class="q" id="s0">
+    <div class="n"><p class="kick">1 of 4 &nbsp;·&nbsp; AI by 2030</p><i><b class="on"></b><b></b><b></b><b></b></i></div>
+    <h2>How much will the world spend on AI?</h2>
+    <p class="ask">People and companies spent about $7bn on AI in 2024. Today they spend at a rate of about <b>$193bn a year</b>: subscriptions to ChatGPT and Claude, AI built into software, and AI doing work.</p>
+    <div class="pad" id="pad0"></div>
+    <p class="say" id="say0"></p>
+    <p class="src">Everything paid for AI models and AI work a year, to anyone, whoever ends up with the money. An estimate: Anthropic's audited and OpenAI's reported revenue, scaled up for the other labs and for spending that never reaches a lab. The three futures are from the AI - Compute model, before any funding crash.</p>
   </section>
 
-  <section id="ask">
-    <div class="prog" id="prog"></div>
-    <h1 id="qt"></h1>
-    <div class="ch" id="qchart"></div>
-    <div class="opts" id="opts"></div>
-    <div id="after3"></div>
-    <div class="nav"><button id="back" class="back" type="button">Back</button></div>
+  <section class="q" id="s1" hidden>
+    <div class="n"><p class="kick">2 of 4 &nbsp;·&nbsp; Data centres</p><i><b class="on"></b><b class="on"></b><b></b><b></b></i></div>
+    <h2>Will the money for data centres keep coming?</h2>
+    <p class="ask">Investors' money buys computing power. The West's AI data centres had about 5 gigawatts of it at the end of 2024 and about 12 a year later. By the end of this year they will have about <b>25 gigawatts</b>. One gigawatt is roughly what a large nuclear reactor produces.</p>
+    <div class="pad" id="pad1"></div>
+    <p class="say" id="say1"></p>
+    <p class="src">AI data-centre capacity in the US and the rest of the West, without China: gigawatts of computing power at the end of each year. Every point is an estimate: 2024 and 2025 from Epoch's chip counts, 2026 from Epoch's database of sites. The two futures are from the AI - Compute model. In a funding crash, building slows in 2028 and 2029 and partly catches up in 2030.</p>
   </section>
 
-  <section id="after" hidden>
-    <div class="how"><h2>How your answers got there</h2><div id="mine"></div></div>
-    <a class="more" id="more" href="../ant-pro/">Fine-tune it in the full model &rarr;</a>
+  <section class="q" id="s2" hidden>
+    <div class="n"><p class="kick">3 of 4 &nbsp;·&nbsp; Who gets paid</p><i><b class="on"></b><b class="on"></b><b class="on"></b><b></b></i></div>
+    <h2>In 2030 a lawyer at your company uses AI to check a contract. Who ends up with the money?</h2>
+    <p class="ask">Your company pays <b>$100</b> for the AI. Today about <b>$29</b> of it stays with labs like Anthropic. Here is the same $100 note cut five ways.</p>
+    <p class="cap">The dark part stays with AI labs</p>
+    <div class="whos" id="whos"></div>
+    <p class="say" id="say2"></p>
+    <p class="src">Of every $100 a company spends on AI, what the labs keep after paying for their computing. AI - Compute model estimate.</p>
   </section>
 
-  <p class="disc">Research, not a recommendation to buy, sell or subscribe. Values rest on scenario-model figures that are not yet verified. The best AGI cases are upside cases, not forecasts. The model was built in a Claude session, and Anthropic makes Claude.</p>
+  <section class="q" id="s3" hidden>
+    <div class="n"><p class="kick">4 of 4 &nbsp;·&nbsp; Anthropic vs rivals</p><i><b class="on"></b><b class="on"></b><b class="on"></b><b class="on"></b></i></div>
+    <h2>How much of the labs' money will be Anthropic's?</h2>
+    <p class="ask">Anthropic took about 8% of what was paid to the AI labs in 2024. Today it takes <b>45%</b>. OpenAI, Google and the rest share what it does not win.</p>
+    <div class="pad" id="pad3"></div>
+    <p class="say" id="say3"></p>
+    <p class="src">Only today's 45% is measured against the whole market; the 2024 and 2025 points (hollow) are an estimate. The model covers a share of 35 to 55%.</p>
+  </section>
+
+  <section id="final" hidden>
+    <div id="panel" aria-live="polite">
+      <div><p class="kick">On the future you chose, Anthropic is worth</p><div id="pv"></div><p id="vs"></p></div>
+      <svg id="scale" viewBox="0 0 400 74" role="img"></svg>
+    </div>
+    <div class="how"><h3>Your four answers</h3><div id="mine"></div></div>
+    <div class="fixes" id="fixes"></div>
+  </section>
+
+  <p class="disc">Research, not a recommendation to buy, sell or subscribe. Values rest on scenario-model figures that are not yet verified, and a line you draw yourself is read as a blend of the model's nearest scenarios. The best AGI cases are upside cases, not forecasts. The model was built in a Claude session, and Anthropic makes Claude.</p>
 </main>
+<div id="bar" hidden><button type="button" id="barb"></button></div>
+<script>
+(function () {
+// ---- The Long Swell's values.js (mkt/anthropic-valuation engine v7): $ a share by share (35, 45, 55%), world, state ----
+const IPO = 74, MAX = 200;
+const LOW = {
+  35: { C1: [26.4, 9.5, 37.3, 20.5, 3.6, 31.9], C2: [0.5, -3.9, 2.8, -1.8, -5.8, 0.1], C3: [20.1, 6.2, 29.2, 13.2, 1.6, 24.2], C4: [45.4, 19.8, 63.4, 37.0, 14.7, 55.5], C5: [4.1, -2.2, 5.8, 0.4, -4.6, 1.7] },
+  45: { C1: [37.2, 15.6, 51.4, 29.9, 10.1, 44.6], C2: [4.2, -1.2, 7.3, 0.5, -3.1, 2.6], C3: [29.2, 11.3, 41.1, 23.1, 5.5, 35.2], C4: [58.2, 28.6, 81.3, 50.7, 22.2, 73.0], C5: [8.7, 1.1, 11.3, 3.1, -1.3, 5.7] },
+  55: { C1: [47.2, 21.6, 64.7, 39.1, 16.5, 57.0], C2: [7.8, 1.1, 11.7, 3.2, -1.2, 8.1], C3: [38.1, 16.4, 52.7, 31.0, 12.2, 45.7], C4: [69.4, 36.8, 97.6, 62.1, 29.7, 88.4], C5: [13.4, 3.9, 16.7, 8.5, 0.5, 12.7] } };
+const HIGH = {
+  35: { C1: [68.3, 9.5, 72.8, 49.2, 3.6, 55.4], C2: [0.5, -3.9, 2.1, -1.8, -5.8, 0.1], C3: [47.5, 6.2, 51.1, 33.1, 1.6, 38.2], C4: [104.5, 19.8, 113.2, 77.9, 14.7, 87.1], C5: [7.8, -2.2, 7.9, 1.7, -4.6, 2.9] },
+  45: { C1: [87.2, 15.6, 93.1, 65.2, 10.1, 71.7], C2: [4.2, -1.2, 5.5, 0.5, -3.1, 2.0], C3: [62.5, 11.3, 66.4, 45.9, 5.5, 51.5], C4: [132.8, 28.6, 144.5, 100.1, 22.2, 111.4], C5: [13.5, 1.1, 12.9, 6.2, -1.3, 7.7] },
+  55: { C1: [105.2, 21.6, 97.7, 80.0, 16.5, 75.6], C2: [7.8, 1.1, 7.7, 3.2, -1.2, 5.3], C3: [75.6, 16.4, 69.6, 58.1, 12.2, 54.9], C4: [160.5, 36.8, 151.9, 121.2, 29.7, 116.9], C5: [19.2, 3.9, 15.6, 12.7, 0.5, 11.8] } };
+// One path at any share: the grid between 35 and 55%, a straight-line extension outside it.
+function raw(T, w, si, s) {
+  const a = T[35][w][si], b = T[45][w][si], c = T[55][w][si];
+  return s < 45 ? a + (b - a) * (s - 35) / 10 : b + (c - b) * (s - 45) / 10;
+}
+// states: 0 late, 1 early, 2 takeoff, +3 with a funding crash. AGI takes the labs'-plans path only.
+function cell(w, si, s) { const hi = Math.max(raw(HIGH, w, si, s), 0); return si % 3 === 2 ? hi : (Math.max(raw(LOW, w, si, s), 0) + hi) / 2; }
+// The answers as model inputs: rev = world AI spending in 2030 ($bn), crash = 0-1, world, share (%).
+const ANCH = [[367, 1], [856, 0], [1104, 2]];   // stalls, keeps improving, AGI
+function speedW(rev) {
+  if (rev <= ANCH[0][0]) return [[1, 1]]; if (rev >= ANCH[2][0]) return [[2, 1]];
+  const i = rev < ANCH[1][0] ? 0 : 1, t = (rev - ANCH[i][0]) / (ANCH[i + 1][0] - ANCH[i][0]);
+  return [[ANCH[i][1], 1 - t], [ANCH[i + 1][1], t]];
+}
+function price(a) { return speedW(a.rev).reduce((s, [si, w]) => s + w * ((1 - a.crash) * cell(a.world, si, a.share) + a.crash * cell(a.world, si + 3, a.share)), 0); }
 
-<script src="values.js"></script>
-<script src="strip.js"></script>
-<script src="history.js"></script>
-<script src="ant.js"></script>
+// ---- history and the model's futures (The Long Swell's history.js, AI - Compute) ----
+const NOW = 2026.71;
+const H0 = [[2024.5, 7, 0], [2025.5, 29, 0], [2026.21, 68, 0], [2026.46, 120, 0], [NOW, 193, 1]];
+const lin = e => [0, 1, 2, 3].map(j => 45 + (e - 45) * (2027.5 + j - NOW) / (2030.5 - NOW));
+// each future: label, values for 2027 to 2030, name, what it means, short label for a phone
+const M0 = [['Stalls', [274, 311, 340, 367], 'AI stalls soon', 'Putting AI into every business turns out to be hard.', 'Stalls'],
+  ['Keeps improving', [307, 437, 612, 856], 'AI keeps improving, but more slowly', 'Like phones after the first iPhones: better every year, less of a leap.', 'Improves'],
+  ['AGI', [313, 485, 736, 1104], 'Something like AGI arrives', 'Progress speeds up, and AI does more of the work itself.', 'AGI']];
+const H1 = [[2024.5, 5, 0], [2025.5, 12, 0], [NOW, 25, 1]];   // GW at year end, estimates
+const YES = [38, 51, 64, 73], NO = [38, 45, 50, 62];
+const M1 = [['Funding crash', NO, 'A funding crash', 'The money dries up for a few years. Building slows in 2028 and 2029, then picks up again: about 62 gigawatts by 2030.', 'Crash'],
+  ['Keeps flowing', YES, 'The money keeps flowing', 'Investors and lenders keep paying for new data centres, and capacity grows to about 73 gigawatts by 2030.', 'Flows']];
+const H3 = [[2024.5, 8, 0], [2025.5, 21, 0], [NOW, 45, 1]];
+const M3 = [['Rivals catch up', lin(35), 'The others catch up', 'OpenAI, Google and the rest win back ground.', 'Catch up'],
+  ['Holds its own', lin(45), 'Anthropic holds its own', 'It keeps today\'s share as the market grows.', 'Holds'],
+  ['Pulls ahead', lin(55), 'Anthropic pulls ahead', 'It wins more than its share of the new spending.', 'Ahead']];
+const WHO = [['C2', 'Nobody much', 'Free models are just as good, so AI is cheap like spellcheck. Nearly all the money goes to whoever runs the computers.', 11, 'chips and cloud'],
+  ['C5', 'Microsoft or Google', 'It is a button in Word or Gmail, already in the bill. They keep about two-thirds and pass little on.', 15, 'mostly Microsoft or Google'],
+  ['C3', 'A specialist AI firm', 'A legal AI company owns the client, often on its own models. It keeps half; the labs only supply some of the thinking.', 21, 'the specialist, chips, cloud'],
+  ['C1', 'The labs, as a tool', 'Your company buys Claude or ChatGPT by the use and the lawyer does the work. This is how it works today.', 29, 'chips, cloud, tool makers'],
+  ['C4', 'The labs, end to end', 'Anthropic or OpenAI sell a finished legal AI that does the review, and they own the customer.', 34, 'chips, cloud and others']];
+
+const $ = id => document.getElementById(id);
+const bn = v => '$' + (v < 200 ? Math.round(v) : Math.round(v / 5) * 5).toLocaleString('en-US') + 'bn';
+const usd = v => '$' + Math.round(Math.max(v, 0));
+const phone = () => window.matchMedia && matchMedia('(max-width: 720px)').matches;
+const still = () => window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+const path = pts => pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
+const A = { rev: null, crash: null, world: null, share: null };
+let revealed = false, shown = 0, raf = 0;
+
+// ---- a chart whose futures are the answers ----
+// The model's futures are printed on the chart from the start: tapping a line, its end dot or its label
+// answers the question. Where o.draw is set the reader may instead draw a line by hand: the future runs
+// from today to 2030 in N steps, the pointer sets the step under it and fills any steps it skipped.
+const N = 16, XS = Array.from({ length: N }, (_, i) => NOW + (2030.5 - NOW) * i / (N - 1));
+function Pad(id, o) {
+  const el = $(id), v = new Array(N).fill(null); v[0] = o.hist[o.hist.length - 1][1];
+  let reach = 0, done = false, last = null, pick = null, mode = 'pick', G = {};
+  function geo() {
+    const ph = phone(), W = ph ? 350 : 900, H = ph ? 380 : 430, L = ph ? 50 : 66, R = ph ? 116 : 200, T = 28, B = 30, x0 = 2024, x1 = 2030.6;
+    G = { ph, W, H, L, R, T, B, X: x => L + (x - x0) / (x1 - x0) * (W - L - R), Y: y => T + (H - T - B) * (1 - y / o.max) };
+  }
+  function at(year) { const t = (year + 0.5 - NOW) / (2030.5 - NOW) * (N - 1), i = Math.min(N - 2, Math.max(0, Math.floor(t))); return v[i] + (v[i + 1] - v[i]) * (t - i); }
+  // lay the reader's line along one of the model's paths (values for 2027 to 2030)
+  function lay(pts) { const xs = [NOW, 2027.5, 2028.5, 2029.5, 2030.5], ys = [v[0]].concat(pts); for (let i = 1; i < N; i++) { let j = 1; while (j < 4 && XS[i] > xs[j]) j++; v[i] = ys[j - 1] + (ys[j] - ys[j - 1]) * (XS[i] - xs[j - 1]) / (xs[j] - xs[j - 1]); } }
+  function draw() {
+    const { ph, W, H, L, R, X, Y } = G; let s = '';
+    s += `<rect x="${X(NOW)}" y="${G.T}" width="${X(2030.5) - X(NOW) + 12}" height="${H - G.T - G.B}" fill="var(--blank)"/>`;
+    o.ticks.forEach(t => s += `<line x1="${L}" x2="${W - R + 12}" y1="${Y(t)}" y2="${Y(t)}" stroke="var(--rule)"/><text x="${L - 8}" y="${Y(t) + 4}" text-anchor="end">${o.fmt(t)}</text>`);
+    [2024, 2026, 2028, 2030].forEach(y => s += `<text x="${X(y + 0.5)}" y="${H - 8}" text-anchor="middle">${y}</text>`);
+    const h = o.hist.map(([x, y, ok]) => [X(x), Y(y), ok]), [sx, sy] = h[h.length - 1];
+    const firm = o.hist.every(p => p[2]);
+    if (h.length > 1) s += `<path d="${path(h)}" fill="none" stroke="var(--soft)" stroke-width="2.5" ${firm ? '' : 'stroke-dasharray="5 4"'}/>`;
+    h.forEach(([x, y, ok], i) => { if (!ok) s += `<circle cx="${x}" cy="${y}" r="3.5" fill="var(--paper)" stroke="var(--soft)" stroke-width="2"/>`; else if (i < h.length - 1) s += `<circle cx="${x}" cy="${y}" r="4" fill="var(--soft)"/>`; });
+    const mp = o.models.map(m => [[sx, sy]].concat(m[1].map((y, j) => [X(2027.5 + j), Y(y)])));
+    const own = pick == null && reach > 0, idle = pick == null && !reach, ex = X(2030.5);
+    const labs = o.models.map((m, i) => ({ i, y: mp[i][4][1] }));
+    if (own && done) labs.push({ i: -1, y: Y(v[N - 1]) });
+    labs.sort((a, b) => a.y - b.y); for (let i = 1; i < labs.length; i++) if (labs[i].y - labs[i - 1].y < 18) labs[i].y = labs[i - 1].y + 18;
+    const ly = i => labs.find(l => l.i === i).y;
+    o.models.forEach((m, i) => { const ey = mp[i][4][1];
+      s += `<g class="opt${pick === i ? ' on' : ''}" data-i="${i}" tabindex="0" role="button" aria-label="${m[2]}: ${o.fmt(m[1][3])} in 2030"><path class="hit" d="${path(mp[i])}"/><path class="model" d="${path(mp[i])}"/>` +
+        (idle && mode === 'pick' ? `<circle class="pulse" cx="${ex}" cy="${ey}" r="5" fill="var(--you)"/>` : '') +
+        `<circle class="dot" cx="${ex}" cy="${ey}" r="5"/><rect class="hit" x="${ex + 8}" y="${ly(i) - 12}" width="${R - 10}" height="22"/><text x="${ex + 14}" y="${ly(i) + 4}">${ph ? m[4] : m[0]} ${o.fmt(m[1][3])}</text></g>`; });
+    if (own) { s += `<path class="mine" d="${path(v.slice(0, reach + 1).map((y, i) => [X(XS[i]), Y(y)]))}"/><circle cx="${X(XS[reach])}" cy="${Y(v[reach])}" r="6" fill="var(--you)"/>`;
+      if (done) s += `<text x="${ex + 14}" y="${ly(-1) + 4}" class="ink">You ${o.fmt(v[N - 1])}</text>`; }
+    s += `<circle cx="${sx}" cy="${sy}" r="6" fill="var(--ink)" stroke="var(--paper)" stroke-width="2"/>`;
+    s += `<text x="${sx - 10}" y="${sy - 12}" text-anchor="end" class="ink">${o.todayLabel || 'Today'} ${o.fmt(o.hist[o.hist.length - 1][1])}</text>`;
+    const cx = ph ? L + 6 : X(NOW) + 16, cy = G.T + 26;
+    if (idle && mode === 'pick') s += `<text class="call" x="${cx}" y="${cy}">Tap the line you believe</text>`;
+    else if (idle) s += `<circle class="pulse" cx="${sx}" cy="${sy}" r="6" fill="var(--you)"/><text class="call" x="${cx}" y="${cy}">Start at the dot and draw to 2030</text>`;
+    else if (own && !done) s += `<text class="call" x="${cx}" y="${cy}">Keep going to 2030</text>`;
+    el.innerHTML = `<div class="stage"><svg viewBox="0 0 ${W} ${H}" role="group" aria-label="${o.aria}">${s}</svg>` +
+      (mode === 'draw' ? `<div class="zone" style="left:${(X(NOW) / W * 100).toFixed(2)}%;right:${((R - 22) / W * 100).toFixed(2)}%"></div>` : '') + '</div>' +
+      (o.draw ? `<p class="alt"><button type="button" class="lnk" data-draw>${mode === 'pick' ? 'None of these? Draw your own line' : 'Pick one of the lines instead'}</button></p>` : '');
+  }
+  function put(e) {
+    const r = el.querySelector('svg').getBoundingClientRect(), k = G.W / r.width, x = (e.clientX - r.left) * k, y = (e.clientY - r.top) * k;
+    const year = 2024 + (x - G.L) / (G.W - G.L - G.R) * 6.6, i = Math.max(1, Math.min(N - 1, Math.round((year - NOW) / (2030.5 - NOW) * (N - 1))));
+    const val = Math.max(0, Math.min(o.max, o.max * (1 - (y - G.T) / (G.H - G.T - G.B))));
+    const from = last == null ? Math.min(reach, i - 1) : last, a = Math.min(from, i), b = Math.max(from, i);
+    if (last == null && i > reach + 1) { for (let j = reach + 1; j < i; j++) v[j] = v[reach] + (val - v[reach]) * (j - reach) / (i - reach); }
+    else if (last != null) for (let j = a + 1; j < b; j++) v[j] = v[from] + (val - v[from]) * (j - from) / (i - from);
+    v[i] = val; last = i; reach = Math.max(reach, i);
+    if (reach === N - 1) done = true;
+    draw();
+  }
+  function choose(i) { pick = i; mode = 'pick'; reach = 0; done = true; lay(o.models[i][1]); draw(); o.done(api); }
+  let down = false;
+  el.addEventListener('pointerdown', e => { if (!e.target.closest('.zone')) return; down = true; last = null; try { el.setPointerCapture(e.pointerId); } catch (x) {} put(e); e.preventDefault(); });
+  el.addEventListener('pointermove', e => { if (down) put(e); });
+  ['pointerup', 'pointercancel'].forEach(t => el.addEventListener(t, () => { if (!down) return; down = false; last = null; if (done) o.done(api); }));
+  el.addEventListener('click', e => {
+    const g = e.target.closest('.opt'); if (g) { choose(+g.dataset.i); return; }
+    if (e.target.closest('[data-draw]')) { mode = mode === 'pick' ? 'draw' : 'pick'; pick = null; reach = 0; done = false; draw(); o.peek(null); }
+  });
+  el.addEventListener('keydown', e => { const g = e.target.closest('.opt'); if (g && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); choose(+g.dataset.i); } });
+  el.addEventListener('mouseover', e => { const g = e.target.closest('.opt'); o.peek(g ? +g.dataset.i : null); });
+  el.addEventListener('mouseleave', () => o.peek(null));
+  const api = { end: () => v[N - 1], at, pick: () => pick, choose, redraw() { geo(); draw(); },
+    // move the reader's line so it ends at a new value (used by the suggestions); it becomes their own line
+    endAt(t) { if (v[N - 1] == null) return; const e0 = v[N - 1], k = (t - v[0]) / ((e0 - v[0]) || 1); for (let i = 1; i < N; i++) v[i] = e0 === v[0] ? v[0] + (t - v[0]) * i / (N - 1) : v[0] + (v[i] - v[0]) * k; pick = null; reach = N - 1; done = true; draw(); o.done(api); } };
+  geo(); draw();
+  return api;
+}
+
+// ---- the four questions ----
+const SAY = {};
+const say = (id, h) => { SAY[id] = h; $(id).innerHTML = h; };
+const peek = (id, M) => i => { $(id).innerHTML = i == null ? SAY[id] : `<b>${M[i][2]}.</b> ${M[i][3]}`; };
+const P0 = Pad('pad0', { max: 1400, ticks: [0, 350, 700, 1050, 1400], fmt: v => v ? bn(v) : '$0', hist: H0, models: M0, draw: true, peek: peek('say0', M0),
+  aria: 'World spending on AI a year: about $7bn in 2024 and $193bn today. Three futures for 2030 to choose from.',
+  done(p) { A.rev = p.end(); const r = A.rev, k = p.pick(), w = r < 367 ? 'at or below the model\'s <b>AI stalls</b> case, so it is priced as a stall' : r < 611 ? 'closest to <b>AI stalls</b>' : r < 980 ? 'closest to <b>AI keeps improving</b>' : r <= 1104 ? 'closest to <b>AGI</b>' : 'above the model\'s AGI case, so it is priced as AGI';
+    say('say0', k != null ? `<b>${M0[k][2]}.</b> ${M0[k][3]} The world spends <b>${bn(r)} a year</b> on AI by 2030, ${(r / 193).toFixed(1)} times today.` : `Your line reaches <b>${bn(r)} a year</b> by 2030, ${(r / 193).toFixed(1)} times today. That is ${w}.`); next(0); } });
+const P1 = Pad('pad1', { max: 80, ticks: [0, 20, 40, 60, 80], fmt: v => Math.round(v) + ' GW', hist: H1, models: M1, draw: true, peek: peek('say1', M1), todayLabel: 'End of 2026,',
+  aria: 'Western AI data-centre capacity at year end: about 5 gigawatts in 2024, 12 in 2025 and 25 in 2026. Two futures to choose from.',
+  done(p) { const c = [2, 3].map(j => Math.max(0, Math.min(1, (YES[j] - p.at(2027 + j)) / (YES[j] - NO[j])))); A.crash = (c[0] + c[1]) / 2;
+    const k = A.crash, i = p.pick(), mid = p.end();
+    say('say1', i != null ? `<b>${M1[i][2]}.</b> ${M1[i][3]}` : `Your line reaches about <b>${Math.round(mid)} gigawatts</b> by 2030. ` + (k < 0.15 ? 'That is the money <b>keeping on flowing</b>.' : k > 0.85 ? 'That is a <b>funding crash</b>: building slows for a few years.' : `That sits between the two: the model reads it as a <b>${Math.round(k * 20) * 5}% chance of a funding crash</b>.`)); next(1); } });
+const P3 = Pad('pad3', { max: 100, ticks: [0, 25, 50, 75, 100], fmt: v => Math.round(v) + '%', hist: H3, models: M3, peek: peek('say3', M3),
+  aria: 'Anthropic\'s share of what is paid to the AI labs: 8% in 2024, 45% today. Three futures for 2030 to choose from.',
+  done(p) { const s = Math.max(35, Math.min(55, p.end())), k = p.pick(); A.share = s;
+    say('say3', (k != null ? `<b>${M3[k][2]}.</b> ${M3[k][3]} ` : '') + `Anthropic takes <b>${Math.round(s)}%</b> of the labs' money in 2030, against 45% today.`); next(3); } });
+say('say0', '<span class="hint">Tap a line on the chart, or draw your own.</span>');
+say('say1', '<span class="hint">Tap a line on the chart, or draw your own.</span>');
+say('say3', '<span class="hint">Tap a line on the chart.</span>');
+
+// question 3: five ways to cut one $100 note; each cut note is the answer
+$('whos').innerHTML = WHO.map(([k, t, , n, rest]) => `<button type="button" class="who" data-k="${k}" aria-pressed="false" aria-label="${t}: labs keep $${n}, $${100 - n} goes to ${rest}"><span class="t">${t}${n === 29 ? '<i>today</i>' : ''}</span><span class="note"><span class="lab" style="flex-basis:${n}%">$${n}</span><span class="rest">$${100 - n} ${rest}</span></span></button>`).join('');
+const told = w => `<b>${w[1]}.</b> ${w[2]} Labs like Anthropic keep <b>$${w[3]}</b> of your $100` + (w[3] === 29 ? ', the same as today.' : ', against $29 today.');
+function pay(k) {
+  A.world = k; const w = WHO.find(x => x[0] === k);
+  document.querySelectorAll('.who').forEach(b => b.setAttribute('aria-pressed', b.dataset.k === k));
+  say('say2', told(w)); next(2);
+}
+$('whos').addEventListener('click', e => { const b = e.target.closest('.who'); if (b) pay(b.dataset.k); });
+$('whos').addEventListener('mouseover', e => { const b = e.target.closest('.who'); $('say2').innerHTML = b ? told(WHO.find(x => x[0] === b.dataset.k)) : SAY.say2; });
+$('whos').addEventListener('mouseleave', () => { $('say2').innerHTML = SAY.say2; });
+say('say2', '<span class="hint">Tap the note cut the way you expect.</span>');
+
+// ---- moving on: each answer opens the next question; the fourth opens the price ----
+function go(el) { el.scrollIntoView({ behavior: still() ? 'auto' : 'smooth', block: 'start' }); }
+function next(i) {
+  if (revealed) { reveal(false); return; }
+  const order = ['s0', 's1', 's2', 's3'], nx = i < 3 ? $(order[i + 1]) : null;
+  if (nx) { if (nx.hidden) { nx.hidden = false; [P1, null, P3][i] && [P1, null, P3][i].redraw(); setTimeout(() => go(nx), still() ? 0 : 1300); } }
+  else if (A.rev != null && A.crash != null && A.world && A.share != null) reveal(true);
+}
+
+// ---- the price ----
+const SX = v => 10 + Math.min(Math.max(v, 0), MAX) / MAX * 380;
+function reveal(first) {
+  const p = price(A), d = p / IPO - 1, f = $('final');
+  if (first) { revealed = true; f.hidden = false; setTimeout(() => go(f), still() ? 0 : 1300); }
+  cancelAnimationFrame(raf);
+  const from = first ? 0 : shown, t0 = performance.now() + (first && !still() ? 1500 : 0), dur = first ? 1400 : 350;
+  const paint = v => { shown = v; $('pv').innerHTML = usd(v) + '<small> a share</small>'; $('barb').innerHTML = usd(v) + ' a share <span>your price, tap to see it</span>'; };
+  if (still()) paint(p); else { paint(from); (function tick(now) { const k = Math.max(0, Math.min(1, (now - t0) / dur)); paint(from + (p - from) * (1 - Math.pow(1 - k, 3))); if (k < 1) raf = requestAnimationFrame(tick); })(performance.now()); }
+  $('vs').innerHTML = p < 0.5 ? 'Its debts and compute contracts outweigh the business. <b>Shareholders get nothing.</b>' : `That is <b>${Math.abs(Math.round(d * 100))}% ${d >= 0 ? 'above' : 'below'}</b> the $${IPO} IPO price.`;
+  let s = `<line x1="10" x2="390" y1="44" y2="44" stroke="var(--rule)"/><line x1="${SX(IPO)}" x2="${SX(IPO)}" y1="44" y2="33" stroke="var(--soft)"/><text x="10" y="66">$0</text><text x="${SX(IPO)}" y="66" text-anchor="middle" style="font-weight:500">$${IPO} IPO</text><text x="${SX(150)}" y="66" text-anchor="middle">$150</text><text x="390" y="66" text-anchor="end">$200</text>`;
+  s += `<g class="me" style="transform:translateX(${(SX(first && !still() ? 0 : p) - 10).toFixed(1)}px)"><circle cx="10" cy="44" r="8" fill="var(--you)" stroke="var(--paper)" stroke-width="2"/></g>`;
+  $('scale').innerHTML = s; $('scale').setAttribute('aria-label', `Price scale from $0 to $200: the IPO at $${IPO}, your price at ${usd(p)}`);
+  if (first && !still()) setTimeout(() => { const g = $('scale').querySelector('.me'); if (g) { g.style.transitionDuration = '1.4s'; g.style.transform = `translateX(${(SX(p) - 10).toFixed(1)}px)`; } }, 1550);
+  const w = WHO.find(x => x[0] === A.world);
+  $('mine').innerHTML = [['AI by 2030', `${bn(A.rev)} a year spent on AI`, 's0'], ['Data centres', A.crash < 0.15 ? 'The money keeps flowing' : A.crash > 0.85 ? 'A funding crash' : `A ${Math.round(A.crash * 20) * 5}% chance of a funding crash`, 's1'],
+    ['Who gets paid', w[1] + ': labs keep $' + w[3] + ' of every $100', 's2'], ['Anthropic vs rivals', Math.round(A.share) + '% of the labs\' money', 's3']]
+    .map(([t, a, id]) => `<div class="hrow"><span class="t">${t}</span><span>${a}</span><button type="button" class="lnk" data-go="${id}">Change</button></div>`).join('');
+  fixes(p);
+}
+// The smallest single change to the reader's answers that crosses the IPO price, either way.
+function fixes(p) {
+  const up = p < IPO, hit = v => up ? v >= IPO : v < IPO, out = [], w = (o) => price(Object.assign({}, A, o));
+  let r = null; for (let x = A.rev; up ? x <= 1400 : x >= 200; x += up ? 10 : -10) if (hit(w({ rev: x }))) { r = x; break; }
+  if (r != null) out.push([`Move world AI spending ${up ? 'up' : 'down'} to <b>${bn(r)}</b> a year (you have ${bn(A.rev)})`, () => P0.endAt(r)]);
+  let s = null; for (let x = Math.round(A.share); up ? x <= 55 : x >= 35; x += up ? 1 : -1) if (hit(w({ share: x }))) { s = x; break; }
+  if (s != null) out.push([`Move Anthropic's share ${up ? 'up' : 'down'} to <b>${s}%</b> (you have ${Math.round(A.share)}%)`, () => P3.endAt(s)]);
+  WHO.filter(x => x[0] !== A.world && hit(w({ world: x[0] }))).sort((a, b) => (up ? 1 : -1) * (w({ world: a[0] }) - w({ world: b[0] }))).slice(0, 1).forEach(x => out.push([`Change who gets paid to <b>${x[1].toLowerCase()}</b>`, () => pay(x[0])]));
+  if (up ? A.crash > 0.15 && hit(w({ crash: 0 })) : A.crash < 0.85 && hit(w({ crash: 1 }))) out.push([up ? 'Let data-centre money <b>keep flowing</b>: no funding crash' : 'Add a <b>funding crash</b>: building slows in 2028 and 2029', () => P1.choose(up ? 1 : 0)]);
+  const f = $('fixes'); f._do = out.map(x => x[1]);
+  f.innerHTML = `<p class="kick">${up ? 'What would make it worth $74' : 'What would take it below $74'}</p>` + (out.length ? `<p>One change is enough. Tap one and watch your answer move.</p>` + out.map((x, i) => `<button type="button" class="fix" data-i="${i}">${x[0]}</button>`).join('')
+    : `<p>No single change to your answers ${up ? 'reaches' : 'gets below'} $74. It takes two or more.</p>`);
+}
+$('fixes').addEventListener('click', e => { const b = e.target.closest('.fix'); if (b) $('fixes')._do[+b.dataset.i](); });
+$('mine').addEventListener('click', e => { const b = e.target.closest('[data-go]'); if (b) go($(b.dataset.go)); });
+$('barb').addEventListener('click', () => go($('final')));
+if ('IntersectionObserver' in window) new IntersectionObserver(es => { $('bar').hidden = !revealed || es[0].isIntersecting; }, { threshold: 0.15 }).observe($('panel'));
+let wasPhone = phone();
+window.addEventListener('resize', () => { const p = phone(); if (p !== wasPhone) { wasPhone = p; [P0, P1, P3].forEach(x => x.redraw()); } });
+})();
+</script>
 </body>
 </html>
