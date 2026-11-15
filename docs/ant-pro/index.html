@@ -210,6 +210,70 @@ table.grid td.mine { box-shadow: inset 0 0 0 2px var(--ink); }
 .key i.px-hi::before { content: "$80"; font-weight: 600; color: var(--ink); }
 .key i.px-lo::before { content: "$40"; color: var(--soft); }
 @media (min-width: 1000px) { .shell { grid-template-rows: auto 1fr; } }
+
+@font-face { font-family: "Instrument Sans"; font-weight: 400 700; font-display: swap; src: url("../fonts/instrument-sans-latin-ext.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Instrument Sans"; font-weight: 400 700; font-display: swap; src: url("../fonts/instrument-sans-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+/* Path D, "Clean slate" (VD, 15 Nov; research/vd/ant_path_D_spec.md, D-380, D-381).
+   Layered over the live /ant-pro unchanged: white ground, Instrument Sans,
+   ink rules, periwinkle only for the reader's own choices. */
+:root { --paper: #FFFFFF; --sunk: #ECEEF4; --ink: #131A2A; --soft: #4B5368; --faint: #4B5368; --rule: #E3E6EE; --line: #B9BECC; --you: #4F5BEA; --youpale: #E4E6FD;
+  --sans: "Instrument Sans", system-ui, sans-serif; --serif: var(--sans); --mono: var(--sans); --f-display: var(--sans); --f-body: var(--sans); --f-mono: var(--sans);
+  --accent: var(--you); --accent-soft: var(--youpale); --muted: var(--soft); color-scheme: light; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper: #0F1420; --sunk: #1E2536; --ink: #E8EAF2; --soft: #A9B0C2; --faint: #A9B0C2; --rule: #252D40; --line: #46506A; --you: #8C95FF; --youpale: #232B57; color-scheme: dark; } }
+body { font: 16px/1.5 var(--sans); font-variant-numeric: tabular-nums; }
+.bar { border-bottom: 3px solid var(--ink); }
+.bar .home span { font: 700 16px var(--sans); }
+.sw { font: 500 14px var(--sans); gap: 16px; }
+.sw a { text-decoration: none; color: var(--soft); }
+.sw .on { font-weight: 700; border-bottom: 0; padding-bottom: 0; }
+h1 { font: 700 clamp(30px, 4vw, 42px)/1.05 var(--sans); letter-spacing: -.025em; }
+.sub { font-size: 17px; color: var(--soft); }
+.hero h2, .tile h3, .grp h4 { font: 600 14px/1.4 var(--sans); letter-spacing: normal; text-transform: none; color: var(--soft); }
+.hero { background: none; border-top: 3px solid var(--ink); padding: 14px 0 6px; }
+.hero .num { font: 700 clamp(72px, 9vw, 110px)/.9 var(--sans); letter-spacing: -.05em; }
+.hero .vs { font-size: 19px; font-weight: 600; color: var(--ink); }
+.hero .vs b { font-weight: 700; }
+.hero .facts { color: var(--soft); }
+.hero .facts b { font-weight: 700; color: var(--ink); }
+#h-strip text { font: 500 13px var(--sans); fill: var(--soft); }
+.tile { border-top: 1.5px solid var(--ink); }
+.tile .v { font: 700 22px/1.2 var(--sans); letter-spacing: -.01em; }
+.tile .d { color: var(--soft); font-size: 13.5px; }
+.panel, .card { border-top: 3px solid var(--ink); }
+.card h2, details.fold > summary { font: 700 19px var(--sans); }
+details.sub-fold > summary { font: 600 15px var(--sans); color: var(--ink); }
+details.fold > summary::after, details.sub-fold > summary::after { font-family: var(--sans); color: var(--soft); }
+.ctl label { font-size: 14.5px; }
+.ctl output { font: 700 14px var(--sans); }
+.ctl input[type=range] { accent-color: var(--you); }
+.hint { font-size: 13px; color: var(--soft); }
+button { font-size: 14px; border: 1.5px solid #D5D9E3; background: var(--paper); }
+button:hover { border-color: var(--you); }
+button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible, td:focus-visible { outline-color: var(--you); }
+#presets button[aria-pressed="true"] { background: var(--you); border-color: var(--you); color: #fff; }
+select { font: 500 14px var(--sans); border: 1.5px solid #D5D9E3; }
+.key { font-size: 13px; color: var(--soft); }
+.key i.px-hi, .key i.px-lo { font-family: var(--sans); }
+table.grid th { font: 500 13px/1.3 var(--sans); color: var(--soft); }
+table.grid th.w { font: 600 14px/1.3 var(--sans); color: var(--ink); }
+table.grid th.w small { font-size: 12.5px; color: var(--soft); }
+table.grid td { font: 500 15px var(--sans); }
+table.grid td small { font-size: 11.5px; color: var(--soft); }
+table.grid td.px-hi { font-weight: 700; }
+table.grid td.sel { border: 2px solid var(--you); }
+table.grid td.mine { box-shadow: inset 0 0 0 2px var(--you); }
+table.grid .hd { color: var(--soft); text-decoration-color: var(--line); }
+table.grid .hd[aria-pressed="true"] { color: var(--you); border-bottom-color: var(--you); }
+.rul { background: repeating-linear-gradient(135deg, var(--line) 0 1px, transparent 1px 6px); }
+svg text { font-family: var(--sans); font-size: 11px; fill: var(--soft); }
+svg text.end { font-size: 12px; font-weight: 700; }
+table.yrs { font-size: 13.5px; }
+table.yrs th, table.yrs td { border-bottom: 1px solid var(--rule); }
+.notes { font-size: 14px; }
+.from { font-size: 15px; }
+.from a, .from button, .one button { color: var(--you); text-decoration: none; font-weight: 600; }
+.disc { color: var(--soft); }
+@media (max-width: 720px) { #h-strip text { font-size: 16px; } #chart text { font-size: 15px; } #chart text.end { font-size: 16px; } }
 </style>
 <!-- Privacy-friendly analytics by Plausible -->
 <script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>

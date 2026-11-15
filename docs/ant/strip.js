@@ -20,8 +20,8 @@ window.ANTSCALE = function (svg, o) {
   s += `<text x="${X(0)}" y="${AX + 22}" text-anchor="start">$0</text>`;
   s += `<text x="${X(IPO)}" y="${AX + 22}" text-anchor="middle" style="font-weight:500">$${IPO} IPO</text>`;
   ticks.forEach(t => s += `<text x="${X(t)}" y="${AX + 22}" text-anchor="${t === MAX ? 'end' : 'middle'}">$${t}</text>`);
-  if (o.price != null) s += `<g class="${o.animate ? 'me in' : 'me'}"><circle cx="${X(o.price)}" cy="${AX}" r="7" fill="var(--ink)" stroke="var(--sunk)" stroke-width="2"/>` +
-    `<text x="${X(o.price)}" y="${AX - 14}" text-anchor="middle" style="fill:var(--ink);font-weight:600">$${Math.round(o.price)}</text></g>`;
+  if (o.price != null) s += `<g class="${o.animate ? 'me in' : 'me'}"><circle cx="${X(o.price)}" cy="${AX}" r="7" fill="var(--you)" stroke="var(--paper)" stroke-width="2"/>` +
+    `<text x="${X(o.price)}" y="${AX - 14}" text-anchor="middle" style="fill:var(--you);font-weight:700">$${Math.round(o.price)}</text></g>`;
   svg.setAttribute('viewBox', '0 0 400 74');
   svg.setAttribute('aria-label', o.price == null ? `Price scale from $0 to $${MAX}, with the IPO at $${IPO}` :
     `Price scale from $0 to $${MAX}: the IPO at $${IPO}, the price at $${Math.round(o.price)}` + (o.lo != null ? `, and a band from $${Math.round(o.lo)} to $${Math.round(o.hi)} as Anthropic's share runs from 35 to 55%` : ''));
