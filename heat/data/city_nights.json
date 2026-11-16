@@ -18,14 +18,14 @@
   "lead": {
    "claim": "24 of these 54 cities are having their hottest summer on record for days above their own extreme threshold.",
    "at_day_record": 24,
-   "in_top_10pct": 41,
+   "in_top_10pct": 40,
    "in_top_5pct": 35,
    "of_cities": 54,
    "not_elevated": [
     "Parana",
+    "Salta",
     "Laboulaye",
-    "Helsinki",
-    "Tallinn"
+    "Helsinki"
    ],
    "framing_rule": "NEVER phrase this as a universal. No 'none', 'not one', 'every' or 'all'. Two such claims have already gone false here as the set grew, and both read as verified while being wrong. State the count and let the reader see the table.",
    "why_counts": "A count is checkable against the cities listed beside it and survives the set changing. A universal claim is a slogan that has to be re-proved every time a city is added, and nothing in the pipeline re-proves it."
@@ -99,7 +99,7 @@
   "baseline": {
    "recomputed": {
     "median_year": 1,
-    "mean_year": 3.42,
+    "mean_year": 3.44,
     "worst_year_on_record": {
      "year": 2003,
      "cities": 28
@@ -156,7 +156,7 @@
   "headline_requires_baseline": true,
   "baseline": {
    "median_year": 1,
-   "mean_year": 2.81,
+   "mean_year": 2.72,
    "worst_year_on_record": {
     "year": 2003,
     "cities": 19
@@ -188,16 +188,16 @@
     "day_percentile": 1.4
    },
    {
+    "city": "Salta",
+    "day_percentile": 7.0
+   },
+   {
     "city": "Laboulaye",
     "day_percentile": 44.7
    },
    {
     "city": "Helsinki",
     "day_percentile": 48.2
-   },
-   {
-    "city": "Tallinn",
-    "day_percentile": 51.1
    }
   ],
   "mechanism": null,
@@ -219,7 +219,7 @@
      "lat": 57.2051,
      "lon": -2.2037,
      "coord_source": "MIDAS/OSCAR",
-     "day_percentile": 78.6,
+     "day_percentile": 82.9,
      "night_percentile": 1.4,
      "night_metric_holds": false
     },
@@ -570,8 +570,8 @@
      "lat": -24.85,
      "lon": -65.483,
      "coord_source": "GHCN",
-     "day_percentile": 51.4,
-     "night_percentile": 68.6,
+     "day_percentile": 7.0,
+     "night_percentile": 1.4,
      "night_metric_holds": false
     },
     {
@@ -579,8 +579,8 @@
      "lat": -27.767,
      "lon": -64.3,
      "coord_source": "GHCN",
-     "day_percentile": 51.4,
-     "night_percentile": 90.0,
+     "day_percentile": 54.9,
+     "night_percentile": 36.6,
      "night_metric_holds": true
     },
     {
@@ -6825,8 +6825,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 6,
-   "counted_to": "2026-11-09",
-   "last_observation": "2026-11-09",
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 1,
@@ -6846,7 +6846,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-09",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1949": 0,
@@ -7024,7 +7024,7 @@
      "days_so_far": 35
     },
     "series_to_same_date": {
-     "cut_at": "11-09",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
       "1949": 4,
@@ -7396,8 +7396,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 1,
-   "counted_to": "2026-11-09",
-   "last_observation": "2026-11-09",
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 2,
@@ -7419,7 +7419,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-09",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1957": 0,
@@ -7595,7 +7595,7 @@
      "days_so_far": 20
     },
     "series_to_same_date": {
-     "cut_at": "11-09",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
       "1957": 2,
@@ -7733,7 +7733,7 @@
    "joined": {
     "date": "2026-08-11",
     "why": "A second English city outside London.",
-    "days_in_set": 90,
+    "days_in_set": 96,
     "is_recent": false,
     "caveat_required": false,
     "caveat": "Added to the set on 2026-08-11. A second English city outside London.",
@@ -7940,8 +7940,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 0,
-   "counted_to": "2026-11-09",
-   "last_observation": "2026-11-09",
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 96,
@@ -8057,7 +8057,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-09",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1931": 0,
@@ -8259,7 +8259,7 @@
      "days_so_far": 11
     },
     "series_to_same_date": {
-     "cut_at": "11-09",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
       "1931": 0,
@@ -8424,7 +8424,7 @@
    "joined": {
     "date": "2026-08-11",
     "why": "Northern Ireland, uncovered.",
-    "days_in_set": 90,
+    "days_in_set": 96,
     "is_recent": false,
     "caveat_required": false,
     "caveat": "Added to the set on 2026-08-11. Northern Ireland, uncovered.",
@@ -8685,8 +8685,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 0,
-   "counted_to": "2026-08-10",
-   "last_observation": "2026-08-10",
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 70,
@@ -8776,7 +8776,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "08-10",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1957": 0,
@@ -8915,7 +8915,7 @@
     "instruments_agree": true,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [],
-    "banned_words_reason": "NO BAN. This city is at the 78.6th percentile of its own record, below the 85th on both instruments, so by its own history this summer is unremarkable and may be described that way. Say it plainly rather than reaching for a softer word: a set in which every city is extreme invites the question of how the set was chosen.",
+    "banned_words_reason": "NO BAN. This city is at the 82.9th percentile of its own record, below the 85th on both instruments, so by its own history this summer is unremarkable and may be described that way. Say it plainly rather than reaching for a softer word: a set in which every city is extreme invites the question of how the set was chosen.",
     "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
    },
    "station_relocations": [],
@@ -8928,35 +8928,32 @@
    "featured": false,
    "days": {
     "rank": {
-     "value": 16,
+     "value": 13,
      "of_years": 70,
-     "percentile": 78.6,
+     "percentile": 82.9,
      "season_open": true,
      "season_not_started_note": null,
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [
-      1982,
+      1969,
       1984,
-      1989,
-      1996,
-      2019,
-      2025
+      1996
      ],
      "beaten_by_excluded_years": [],
      "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
-     "days_so_far": 5
+     "days_so_far": 7
     },
     "series_to_same_date": {
-     "cut_at": "08-10",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
       "1957": 1,
       "1958": 1,
-      "1959": 4,
+      "1959": 8,
       "1960": 1,
       "1961": 0,
       "1962": 1,
@@ -8972,39 +8969,39 @@
       "1972": 0,
       "1973": 0,
       "1974": 0,
-      "1975": 12,
-      "1976": 11,
+      "1975": 16,
+      "1976": 15,
       "1977": 4,
       "1978": 2,
       "1979": 0,
       "1980": 1,
-      "1981": 1,
+      "1981": 2,
       "1982": 5,
-      "1983": 6,
-      "1984": 5,
+      "1983": 10,
+      "1984": 7,
       "1985": 1,
       "1986": 3,
-      "1987": 1,
+      "1987": 2,
       "1988": 0,
       "1989": 5,
-      "1990": 3,
-      "1991": 2,
+      "1990": 4,
+      "1991": 3,
       "1992": 2,
       "1993": 0,
       "1994": 3,
-      "1995": 8,
-      "1996": 5,
-      "1997": 2,
+      "1995": 15,
+      "1996": 7,
+      "1997": 5,
       "1998": 1,
       "1999": 2,
       "2000": 0,
       "2001": 3,
       "2002": 0,
       "2003": 3,
-      "2004": 2,
+      "2004": 3,
       "2005": 4,
       "2006": 10,
-      "2007": 0,
+      "2007": 1,
       "2008": 4,
       "2009": 3,
       "2010": 0,
@@ -9016,13 +9013,13 @@
       "2016": 1,
       "2017": 3,
       "2018": 10,
-      "2019": 5,
+      "2019": 6,
       "2020": 2,
       "2021": 3,
-      "2022": 11,
-      "2023": 3,
+      "2022": 12,
+      "2023": 4,
       "2024": 2,
-      "2025": 5
+      "2025": 10
      },
      "note": "Days at or above this city's own 95th percentile threshold, counted to the same cut as every other year. The 90 and 99 thresholds are emitted above but only the 95 series is ranked."
     },
@@ -9035,18 +9032,18 @@
     "reported_season_key": 2026,
     "reported_season_key_note": "The key into every per-year series on this city, including series_to_same_date.values and warmest_day_to_cut_c. It is NOT always the current calendar year: a wrapping season is keyed by the year it began, and a city whose season has not opened reports its last complete one.",
     "days_current_season": {
-     "90": 10,
-     "95": 5,
-     "99": 1
+     "90": 13,
+     "95": 7,
+     "99": 2
     },
     "days_2026": {
-     "90": 10,
-     "95": 5,
-     "99": 1
+     "90": 13,
+     "95": 7,
+     "99": 2
     },
     "days_2026_deprecated": "Use days_current_season. This name says 2026 and holds the reported season, which for a wrapping season is the one that BEGAN in reported_season_key. Kept only so existing consumers do not break.",
     "season_label": "2026",
-    "season_status": "in progress",
+    "season_status": "complete",
     "season_label_note": "PRINT season_label, never the bare key. A wrapping season spans two calendar years and 2025 alone reads as wrong to anyone who knows the hemisphere. season_status says whether this is a season still running or one that has finished: a southern page today reports a summer that ENDED in January, where a European page reports one still going.",
     "counts_per_year": {
      "90": {
@@ -9066,31 +9063,31 @@
      "recent": "2011-2025",
      "early": "1961-1990"
     },
-    "mean_1961_1990_to_cut": 2.6,
+    "mean_1961_1990_to_cut": 3.17,
     "mean_1961_1990_full_year": 3.3,
     "mean_note": "to_cut is comparable to days_2026 and to the ranked series. full_year is what a reader hears in 'a summer'. A headline using one with a chart showing the other is the error this pair exists to prevent.",
     "multiple_available": true
    },
    "season_label": "2026",
-   "season_status": "in progress",
+   "season_status": "complete",
    "reported_season_key": 2026,
    "days_current_season": {
-    "90": 10,
-    "95": 5,
-    "99": 1
+    "90": 13,
+    "95": 7,
+    "99": 2
    },
    "counting_basis": {
     "window_label": "May to August",
-    "window_days": 102,
-    "cut_clips_the_window": true,
-    "cut_date": "2026-08-10",
-    "basis": "every year truncated at the same date, so a part-finished season is never set against complete ones",
+    "window_days": 123,
+    "cut_clips_the_window": false,
+    "cut_date": null,
+    "basis": "every year counted over the whole window; this season is complete, so no year is cut short",
     "note": "PRINT FROM cut_clips_the_window. When it is false the cut date is not part of the method and naming it asserts a truncation that did not run: the cut falls outside a wrapping season's window entirely and clips nothing. The like-with-like guarantee still holds, but because every season compared is complete rather than because each was trimmed to a common date."
    },
    "joined": {
     "date": "2026-08-11",
     "why": "Scotland, uncovered.",
-    "days_in_set": 90,
+    "days_in_set": 96,
     "is_recent": false,
     "caveat_required": false,
     "caveat": "Added to the set on 2026-08-11. Scotland, uncovered.",
@@ -9181,51 +9178,51 @@
     "1965": 23.6,
     "1966": 22.9,
     "1967": 23.4,
-    "1968": 21.6,
+    "1968": 22.5,
     "1969": 27.4,
     "1970": 24.6,
     "1971": 25.4,
     "1972": 23.7,
-    "1973": 22.6,
+    "1973": 23.5,
     "1974": 22.7,
     "1975": 27.6,
-    "1976": 27.6,
+    "1976": 28.4,
     "1977": 24.9,
     "1978": 25.4,
     "1979": 23.7,
     "1980": 24.6,
-    "1981": 25.2,
+    "1981": 26.5,
     "1982": 26.1,
-    "1983": 25.8,
+    "1983": 26.8,
     "1984": 25.9,
     "1985": 24.4,
     "1986": 28.0,
-    "1987": 24.8,
+    "1987": 26.1,
     "1988": 22.6,
     "1989": 26.6,
     "1990": 27.7,
-    "1991": 24.0,
+    "1991": 26.0,
     "1992": 24.7,
     "1993": 23.4,
     "1994": 26.1,
-    "1995": 26.7,
+    "1995": 29.7,
     "1996": 26.1,
-    "1997": 25.0,
+    "1997": 27.4,
     "1998": 23.9,
     "1999": 25.7,
-    "2000": 22.5,
+    "2000": 23.0,
     "2001": 27.1,
-    "2002": 22.6,
+    "2002": 23.3,
     "2003": 23.9,
     "2004": 26.1,
     "2005": 24.6,
     "2006": 29.8,
-    "2007": 22.5,
+    "2007": 25.8,
     "2008": 25.3,
     "2009": 26.3,
     "2010": 23.5,
     "2011": 25.4,
-    "2012": 22.6,
+    "2012": 23.5,
     "2013": 25.4,
     "2014": 24.6,
     "2015": 26.7,
@@ -9235,7 +9232,7 @@
     "2019": 26.1,
     "2020": 24.5,
     "2021": 27.5,
-    "2022": 27.8,
+    "2022": 29.7,
     "2023": 26.1,
     "2024": 26.6,
     "2025": 27.4,
@@ -9622,7 +9619,7 @@
    "joined": {
     "date": "2026-08-11",
     "why": "Baltic coverage, chosen for the gap.",
-    "days_in_set": 90,
+    "days_in_set": 96,
     "is_recent": false,
     "caveat_required": false,
     "caveat": "Added to the set on 2026-08-11. Baltic coverage, chosen for the gap.",
@@ -10079,7 +10076,7 @@
    "joined": {
     "date": "2026-08-12",
     "why": "Cyprus was the only Mediterranean island in range with a long record and no coverage.",
-    "days_in_set": 89,
+    "days_in_set": 95,
     "is_recent": false,
     "caveat_required": false,
     "caveat": "Added to the set on 2026-08-12. Cyprus was the only Mediterranean island in range with a long record and no coverage.",
@@ -10600,7 +10597,7 @@
    "joined": {
     "date": "2026-08-30",
     "why": "Italy was zero cities.",
-    "days_in_set": 71,
+    "days_in_set": 77,
     "is_recent": false,
     "caveat_required": false,
     "caveat": "Added to the set on 2026-08-30. Italy was zero cities.",
@@ -11267,7 +11264,7 @@
    "joined": {
     "date": "2026-08-17",
     "why": "As Budapest: the Baltic and eastern gap.",
-    "days_in_set": 84,
+    "days_in_set": 90,
     "is_recent": false,
     "caveat_required": false,
     "caveat": "Added to the set on 2026-08-17. As Budapest: the Baltic and eastern gap.",
@@ -12044,7 +12041,7 @@
    "joined": {
     "date": "2026-08-17",
     "why": "The Balkans were zero cities. Selected for the gap, before its 2026 figures were looked at.",
-    "days_in_set": 84,
+    "days_in_set": 90,
     "is_recent": false,
     "caveat_required": false,
     "caveat": "Added to the set on 2026-08-17. The Balkans were zero cities. Selected for the gap, before its 2026 figures were looked at.",
@@ -12402,8 +12399,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 27,
-   "counted_to": "2026-11-03",
-   "last_observation": "2026-11-03",
+   "counted_to": "2026-11-09",
+   "last_observation": "2026-11-09",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 2,
@@ -12428,7 +12425,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-03",
+    "cut_at": "11-09",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1973": 2,
@@ -12585,7 +12582,7 @@
      "days_so_far": 15
     },
     "series_to_same_date": {
-     "cut_at": "11-03",
+     "cut_at": "11-09",
      "measured_on": "95",
      "values": {
       "1973": 0,
@@ -12693,7 +12690,7 @@
    "joined": {
     "date": "2026-08-17",
     "why": "Central and eastern Europe was three cities of forty-two. Selected for the gap, before its 2026 figures were looked at.",
-    "days_in_set": 84,
+    "days_in_set": 90,
     "is_recent": false,
     "caveat_required": false,
     "caveat": "Added to the set on 2026-08-17. Central and eastern Europe was three cities of forty-two. Selected for the gap, before its 2026 figures were looked at.",
@@ -12804,21 +12801,21 @@
    "pctl_baseline_is_default": true,
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
-   "nights_2026": 60,
-   "counted_to": "2026-11-09",
-   "last_observation": "2026-11-08",
+   "nights_2026": 7,
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
-    "value": 8,
-    "of_years": 70,
-    "percentile": 90.0,
+    "value": 46,
+    "of_years": 71,
+    "percentile": 36.6,
     "season_open": true,
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [
-     1988,
-     2009,
-     2013
+     1962,
+     1968,
+     1971
     ],
     "beaten_by_excluded_years": [],
     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
@@ -12830,87 +12827,88 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-09",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
-     "1956": 28,
-     "1957": 51,
-     "1958": 31,
-     "1959": 46,
-     "1960": 45,
-     "1961": 45,
-     "1962": 50,
-     "1963": 39,
-     "1964": 44,
-     "1965": 48,
-     "1966": 48,
-     "1967": 56,
-     "1968": 47,
-     "1969": 42,
-     "1970": 44,
-     "1971": 47,
-     "1972": 47,
-     "1973": 32,
-     "1974": 39,
-     "1975": 33,
-     "1976": 41,
-     "1977": 41,
-     "1978": 54,
-     "1979": 25,
-     "1980": 46,
-     "1981": 45,
-     "1982": 38,
-     "1983": 41,
-     "1984": 25,
-     "1985": 51,
-     "1986": 67,
-     "1987": 52,
-     "1988": 60,
-     "1989": 55,
-     "1990": 58,
-     "1991": 48,
-     "1992": 50,
-     "1993": 56,
-     "1994": 59,
-     "1995": 51,
-     "1996": 56,
-     "1997": 59,
-     "1998": 35,
-     "1999": 36,
-     "2000": 45,
-     "2001": 32,
-     "2002": 58,
-     "2003": 51,
-     "2004": 49,
-     "2005": 52,
-     "2006": 57,
-     "2007": 53,
-     "2008": 46,
-     "2009": 60,
-     "2010": 37,
-     "2011": 45,
-     "2012": 77,
-     "2013": 60,
-     "2014": 55,
-     "2015": 54,
-     "2016": 45,
-     "2017": 54,
-     "2018": 52,
-     "2019": 64,
-     "2020": 48,
-     "2021": 52,
-     "2022": 51,
-     "2023": 62,
-     "2024": 51
+     "1956": 2,
+     "1957": 8,
+     "1958": 3,
+     "1959": 5,
+     "1960": 9,
+     "1961": 6,
+     "1962": 7,
+     "1963": 5,
+     "1964": 3,
+     "1965": 8,
+     "1966": 11,
+     "1967": 16,
+     "1968": 7,
+     "1969": 10,
+     "1970": 5,
+     "1971": 7,
+     "1972": 8,
+     "1973": 5,
+     "1974": 2,
+     "1975": 3,
+     "1976": 6,
+     "1977": 6,
+     "1978": 10,
+     "1979": 6,
+     "1980": 8,
+     "1981": 13,
+     "1982": 2,
+     "1983": 4,
+     "1984": 3,
+     "1985": 8,
+     "1986": 9,
+     "1987": 10,
+     "1988": 10,
+     "1989": 6,
+     "1990": 11,
+     "1991": 4,
+     "1992": 8,
+     "1993": 9,
+     "1994": 11,
+     "1995": 13,
+     "1996": 8,
+     "1997": 12,
+     "1998": 8,
+     "1999": 4,
+     "2000": 11,
+     "2001": 6,
+     "2002": 12,
+     "2003": 13,
+     "2004": 9,
+     "2005": 9,
+     "2006": 13,
+     "2007": 14,
+     "2008": 8,
+     "2009": 13,
+     "2010": 2,
+     "2011": 10,
+     "2012": 17,
+     "2013": 8,
+     "2014": 20,
+     "2015": 4,
+     "2016": 5,
+     "2017": 11,
+     "2018": 12,
+     "2019": 12,
+     "2020": 8,
+     "2021": 5,
+     "2022": 3,
+     "2023": 11,
+     "2024": 12,
+     "2025": 13
     },
-    "expected_slots": 70,
-    "due_slots": 70,
+    "expected_slots": 71,
+    "due_slots": 71,
     "due_note": "Equal to expected_slots: an annual series, every prior year already due.",
     "first_slot": 1955,
-    "last_slot": 2024,
+    "last_slot": 2025,
     "unit": "year",
     "slot_basis": "Span of the station record as held by the published source. Taken BEFORE any completeness filter and never from the emitted series.",
-    "values_present": 69,
+    "values_present": 70,
     "unusable_slots": [
      1955
     ],
@@ -12920,12 +12918,12 @@
     "present_runs": [
      [
       1955,
-      2024
+      2025
      ]
     ]
    },
    "nights_metric_gated": false,
-   "nights_baseline_per_year": 51.47,
+   "nights_baseline_per_year": 9.8,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
@@ -12970,10 +12968,8 @@
     },
     "instruments_agree": true,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
-    "banned_words": [
-     "ordinary"
-    ],
-    "banned_words_reason": "This city is at the 90th percentile of its own record, at or above the 85th, so 'ordinary' is false of it. That is the error that turned a 91st-percentile Marseille into 'an ordinary summer'.",
+    "banned_words": [],
+    "banned_words_reason": "NO BAN. This city is at the 54.9th percentile of its own record, below the 85th on both instruments, so by its own history this summer is unremarkable and may be described that way. Say it plainly rather than reaching for a softer word: a set in which every city is extreme invites the question of how the set was chosen.",
     "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
    },
    "station_relocations": [],
@@ -12986,99 +12982,112 @@
    "featured": false,
    "days": {
     "rank": {
-     "value": 35,
-     "of_years": 70,
-     "percentile": 51.4,
+     "value": 33,
+     "of_years": 71,
+     "percentile": 54.9,
      "season_open": true,
      "season_not_started_note": null,
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [
-      1985,
-      2006,
+      1957,
+      1962,
+      1966,
+      1968,
+      1981,
+      1983,
+      1987,
+      1988,
+      2004,
+      2005,
+      2008,
       2010,
-      2014
+      2014,
+      2016,
+      2017,
+      2021
      ],
      "beaten_by_excluded_years": [],
      "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
-     "days_so_far": 6
+     "days_so_far": 2
     },
     "series_to_same_date": {
-     "cut_at": "11-09",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
       "1956": 0,
-      "1957": 3,
-      "1958": 1,
+      "1957": 2,
+      "1958": 0,
       "1959": 0,
-      "1960": 5,
-      "1961": 2,
-      "1962": 11,
-      "1963": 4,
-      "1964": 4,
-      "1965": 8,
-      "1966": 7,
-      "1967": 15,
-      "1968": 11,
-      "1969": 3,
-      "1970": 3,
-      "1971": 16,
-      "1972": 3,
-      "1973": 2,
-      "1974": 1,
-      "1975": 5,
-      "1976": 5,
-      "1977": 8,
-      "1978": 2,
-      "1979": 1,
+      "1960": 0,
+      "1961": 0,
+      "1962": 2,
+      "1963": 3,
+      "1964": 0,
+      "1965": 0,
+      "1966": 2,
+      "1967": 5,
+      "1968": 2,
+      "1969": 1,
+      "1970": 0,
+      "1971": 0,
+      "1972": 0,
+      "1973": 1,
+      "1974": 0,
+      "1975": 3,
+      "1976": 0,
+      "1977": 4,
+      "1978": 0,
+      "1979": 0,
       "1980": 0,
-      "1981": 5,
-      "1982": 1,
-      "1983": 5,
-      "1984": 1,
-      "1985": 6,
-      "1986": 2,
-      "1987": 7,
-      "1988": 13,
-      "1989": 4,
-      "1990": 5,
+      "1981": 2,
+      "1982": 0,
+      "1983": 2,
+      "1984": 0,
+      "1985": 3,
+      "1986": 0,
+      "1987": 2,
+      "1988": 2,
+      "1989": 1,
+      "1990": 0,
       "1991": 1,
       "1992": 0,
-      "1993": 9,
-      "1994": 10,
-      "1995": 11,
-      "1996": 4,
-      "1997": 3,
-      "1998": 4,
-      "1999": 4,
-      "2000": 3,
-      "2001": 2,
-      "2002": 7,
-      "2003": 10,
-      "2004": 13,
-      "2005": 8,
-      "2006": 6,
-      "2007": 11,
-      "2008": 12,
-      "2009": 12,
-      "2010": 6,
-      "2011": 13,
-      "2012": 10,
-      "2013": 19,
-      "2014": 6,
-      "2015": 4,
-      "2016": 18,
-      "2017": 8,
-      "2018": 5,
-      "2019": 17,
-      "2020": 11,
-      "2021": 21,
-      "2022": 29,
-      "2023": 16,
-      "2024": 9
+      "1993": 3,
+      "1994": 1,
+      "1995": 4,
+      "1996": 1,
+      "1997": 1,
+      "1998": 1,
+      "1999": 0,
+      "2000": 0,
+      "2001": 1,
+      "2002": 3,
+      "2003": 3,
+      "2004": 2,
+      "2005": 2,
+      "2006": 1,
+      "2007": 5,
+      "2008": 2,
+      "2009": 5,
+      "2010": 2,
+      "2011": 4,
+      "2012": 0,
+      "2013": 3,
+      "2014": 2,
+      "2015": 0,
+      "2016": 2,
+      "2017": 2,
+      "2018": 0,
+      "2019": 4,
+      "2020": 3,
+      "2021": 2,
+      "2022": 1,
+      "2023": 5,
+      "2024": 1,
+      "2025": 0
      },
      "note": "Days at or above this city's own 95th percentile threshold, counted to the same cut as every other year. The 90 and 99 thresholds are emitted above but only the 95 series is ranked."
     },
@@ -13088,21 +13097,21 @@
      "99": 42.7
     },
     "threshold_basis": "90th/95th/99th percentile of this station's own December-January (its two warmest consecutive months) daily maxima, 1971-2000.",
-    "reported_season_key": 2025,
+    "reported_season_key": 2026,
     "reported_season_key_note": "The key into every per-year series on this city, including series_to_same_date.values and warmest_day_to_cut_c. It is NOT always the current calendar year: a wrapping season is keyed by the year it began, and a city whose season has not opened reports its last complete one.",
     "days_current_season": {
-     "90": 15,
-     "95": 6,
-     "99": 2
+     "90": 2,
+     "95": 2,
+     "99": 1
     },
     "days_2026": {
-     "90": 15,
-     "95": 6,
-     "99": 2
+     "90": 2,
+     "95": 2,
+     "99": 1
     },
     "days_2026_deprecated": "Use days_current_season. This name says 2026 and holds the reported season, which for a wrapping season is the one that BEGAN in reported_season_key. Kept only so existing consumers do not break.",
-    "season_label": "2025\u201326",
-    "season_status": "complete",
+    "season_label": "2026\u201327",
+    "season_status": "in progress",
     "season_label_note": "PRINT season_label, never the bare key. A wrapping season spans two calendar years and 2025 alone reads as wrong to anyone who knows the hemisphere. season_status says whether this is a season still running or one that has finished: a southern page today reports a summer that ENDED in January, where a European page reports one still going.",
     "counts_per_year": {
      "90": {
@@ -13122,31 +13131,31 @@
      "recent": "2011-2025",
      "early": "1961-1990"
     },
-    "mean_1961_1990_to_cut": 5.33,
+    "mean_1961_1990_to_cut": 1.17,
     "mean_1961_1990_full_year": 6.53,
     "mean_note": "to_cut is comparable to days_2026 and to the ranked series. full_year is what a reader hears in 'a summer'. A headline using one with a chart showing the other is the error this pair exists to prevent.",
     "multiple_available": true
    },
-   "season_label": "2025\u201326",
-   "season_status": "complete",
-   "reported_season_key": 2025,
+   "season_label": "2026\u201327",
+   "season_status": "in progress",
+   "reported_season_key": 2026,
    "days_current_season": {
-    "90": 15,
-    "95": 6,
-    "99": 2
+    "90": 2,
+    "95": 2,
+    "99": 1
    },
    "counting_basis": {
     "window_label": "October to January",
-    "window_days": 123,
-    "cut_clips_the_window": false,
-    "cut_date": null,
-    "basis": "every year counted over the whole window; this season is complete, so no year is cut short",
+    "window_days": 46,
+    "cut_clips_the_window": true,
+    "cut_date": "2026-11-15",
+    "basis": "every year truncated at the same date, so a part-finished season is never set against complete ones",
     "note": "PRINT FROM cut_clips_the_window. When it is false the cut date is not part of the method and naming it asserts a truncation that did not run: the cut falls outside a wrapping season's window entirely and clips nothing. The like-with-like guarantee still holds, but because every season compared is complete rather than because each was trimmed to a common date."
    },
    "joined": {
     "date": "2026-08-30",
     "why": "The southern hemisphere was zero cities. Selected for the gap, months before the summer it will measure.",
-    "days_in_set": 71,
+    "days_in_set": 77,
     "is_recent": false,
     "caveat_required": false,
     "caveat": "Added to the set on 2026-08-30. The southern hemisphere was zero cities. Selected for the gap, months before the summer it will measure.",
@@ -13227,76 +13236,77 @@
     "2025": 44.2
    },
    "warmest_day_to_cut_c": {
-    "1956": 40.3,
+    "1956": 40.0,
     "1957": 41.8,
-    "1958": 41.6,
-    "1959": 39.7,
-    "1960": 42.7,
-    "1961": 43.6,
-    "1962": 46.4,
-    "1963": 43.4,
-    "1964": 41.2,
-    "1965": 44.2,
-    "1966": 43.4,
+    "1958": 40.4,
+    "1959": 39.4,
+    "1960": 37.7,
+    "1961": 40.3,
+    "1962": 41.5,
+    "1963": 42.6,
+    "1964": 37.5,
+    "1965": 40.4,
+    "1966": 42.8,
     "1967": 43.6,
-    "1968": 43.6,
-    "1969": 43.2,
-    "1970": 43.6,
-    "1971": 43.9,
-    "1972": 43.0,
+    "1968": 43.0,
+    "1969": 41.6,
+    "1970": 39.8,
+    "1971": 37.9,
+    "1972": 39.5,
     "1973": 42.0,
-    "1974": 40.9,
+    "1974": 38.6,
     "1975": 42.0,
-    "1976": 43.6,
-    "1977": 44.8,
-    "1978": 42.1,
-    "1979": 41.3,
+    "1976": 39.9,
+    "1977": 43.1,
+    "1978": 40.0,
+    "1979": 39.3,
     "1980": 39.0,
     "1981": 41.8,
-    "1982": 41.0,
-    "1983": 42.2,
-    "1984": 41.8,
+    "1982": 39.0,
+    "1983": 40.7,
+    "1984": 40.0,
     "1985": 41.7,
-    "1986": 42.2,
+    "1986": 40.2,
     "1987": 43.0,
-    "1988": 45.2,
-    "1989": 42.2,
-    "1990": 44.5,
+    "1988": 44.2,
+    "1989": 40.5,
+    "1990": 40.0,
     "1991": 41.7,
     "1992": 39.9,
     "1993": 43.3,
-    "1994": 44.5,
+    "1994": 41.0,
     "1995": 43.5,
-    "1996": 41.3,
+    "1996": 41.0,
     "1997": 42.5,
-    "1998": 43.8,
-    "1999": 43.0,
-    "2000": 40.8,
-    "2001": 40.7,
-    "2002": 43.2,
-    "2003": 44.6,
-    "2004": 44.5,
-    "2005": 42.6,
+    "1998": 41.0,
+    "1999": 38.8,
+    "2000": 40.0,
+    "2001": 40.5,
+    "2002": 41.7,
+    "2003": 43.0,
+    "2004": 41.5,
+    "2005": 41.6,
     "2006": 42.0,
-    "2007": 42.8,
-    "2008": 43.0,
+    "2007": 42.7,
+    "2008": 40.9,
     "2009": 46.5,
-    "2010": 41.5,
-    "2011": 44.2,
-    "2012": 44.0,
-    "2013": 45.0,
+    "2010": 41.0,
+    "2011": 41.0,
+    "2012": 38.7,
+    "2013": 42.6,
     "2014": 44.5,
-    "2015": 41.5,
-    "2016": 43.8,
+    "2015": 36.6,
+    "2016": 40.5,
     "2017": 44.5,
-    "2018": 42.5,
+    "2018": 38.8,
     "2019": 43.0,
-    "2020": 42.5,
-    "2021": 45.6,
-    "2022": 45.3,
+    "2020": 42.4,
+    "2021": 40.8,
+    "2022": 42.7,
     "2023": 44.9,
     "2024": 43.0,
-    "2025": 43.2
+    "2025": 40.0,
+    "2026": 43.7
    },
    "warmest_note": "warmest_day_c is over whole years and carries the full-year completeness bar. warmest_day_to_cut_c is cut to this city's own date and is the one comparable to days_2026 and to the ranked series. They are different facts and must not share an axis.",
    "record_scope": {
@@ -13356,8 +13366,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 33,
-   "counted_to": "2026-11-09",
-   "last_observation": "2026-11-08",
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 9,
@@ -13377,7 +13387,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-09",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1956": 12,
@@ -13559,7 +13569,7 @@
      "days_so_far": 0
     },
     "series_to_same_date": {
-     "cut_at": "11-09",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
       "1956": 14,
@@ -13697,7 +13707,7 @@
    "joined": {
     "date": "2026-08-30",
     "why": "As Santiago del Estero.",
-    "days_in_set": 71,
+    "days_in_set": 77,
     "is_recent": false,
     "caveat_required": false,
     "caveat": "Added to the set on 2026-08-30. As Santiago del Estero.",
@@ -13903,8 +13913,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 9,
-   "counted_to": "2026-11-09",
-   "last_observation": "2026-11-08",
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 25,
@@ -13926,7 +13936,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-09",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1950": 11,
@@ -14111,7 +14121,7 @@
      "days_so_far": 3
     },
     "series_to_same_date": {
-     "cut_at": "11-09",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
       "1950": 10,
@@ -14256,7 +14266,7 @@
    "joined": {
     "date": "2026-08-30",
     "why": "As Santiago del Estero.",
-    "days_in_set": 71,
+    "days_in_set": 77,
     "is_recent": false,
     "caveat_required": false,
     "caveat": "Added to the set on 2026-08-30. As Santiago del Estero.",
@@ -14478,8 +14488,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 4,
-   "counted_to": "2026-11-09",
-   "last_observation": "2026-11-08",
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 24,
@@ -14511,7 +14521,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-09",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1956": 0,
@@ -14685,7 +14695,7 @@
      "days_so_far": 8
     },
     "series_to_same_date": {
-     "cut_at": "11-09",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
       "1956": 12,
@@ -14824,7 +14834,7 @@
    "joined": {
     "date": "2026-08-30",
     "why": "As Santiago del Estero, and the only coastal station in the Argentine set.",
-    "days_in_set": 71,
+    "days_in_set": 77,
     "is_recent": false,
     "caveat_required": false,
     "caveat": "Added to the set on 2026-08-30. As Santiago del Estero, and the only coastal station in the Argentine set.",
@@ -15030,8 +15040,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 16,
-   "counted_to": "2026-11-09",
-   "last_observation": "2026-11-08",
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 2,
@@ -15051,7 +15061,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-09",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1957": 2,
@@ -15223,7 +15233,7 @@
      "days_so_far": 18
     },
     "series_to_same_date": {
-     "cut_at": "11-09",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
       "1957": 7,
@@ -15361,7 +15371,7 @@
    "joined": {
     "date": "2026-08-30",
     "why": "As Santiago del Estero, and the northern-Patagonian end of the set.",
-    "days_in_set": 71,
+    "days_in_set": 77,
     "is_recent": false,
     "caveat_required": false,
     "caveat": "Added to the set on 2026-08-30. As Santiago del Estero, and the northern-Patagonian end of the set.",
@@ -15568,27 +15578,81 @@
    "pctl_baseline_is_default": true,
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
-   "nights_2026": 2,
-   "counted_to": "2026-11-09",
-   "last_observation": "2026-11-08",
+   "nights_2026": 0,
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
-    "value": 23,
-    "of_years": 70,
-    "percentile": 68.6,
+    "value": 71,
+    "of_years": 71,
+    "percentile": 1.4,
     "season_open": true,
     "season_not_started_note": null,
     "ties_count_against": true,
     "tied_with": [
+     1956,
      1957,
      1958,
-     1961,
-     1972,
+     1959,
+     1960,
+     1962,
+     1963,
+     1964,
+     1965,
+     1966,
+     1967,
+     1968,
+     1969,
+     1970,
+     1971,
+     1973,
+     1974,
+     1975,
+     1976,
+     1977,
+     1978,
+     1979,
+     1980,
+     1981,
+     1982,
+     1983,
+     1984,
+     1985,
+     1986,
+     1987,
+     1988,
+     1989,
+     1990,
+     1991,
+     1992,
+     1993,
+     1994,
+     1995,
+     1996,
+     1998,
+     1999,
+     2000,
+     2002,
+     2003,
+     2004,
+     2005,
      2006,
-     2012,
-     2020,
+     2007,
+     2008,
+     2010,
+     2011,
+     2013,
+     2014,
+     2015,
+     2016,
+     2017,
+     2018,
+     2019,
+     2021,
      2022,
-     2024
+     2023,
+     2024,
+     2025
     ],
     "beaten_by_excluded_years": [],
     "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one. An incomplete year undercounts, so its count is a floor and it provably was not beaten. They are counted into rank and of_years. A residual limit stands and is not fixed by this: an excluded year counting BELOW this one could still have exceeded it in the days it missed, which is unknowable, so this fires only where the evidence is provable.",
@@ -15600,28 +15664,28 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-09",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1956": 0,
-     "1957": 2,
-     "1958": 2,
+     "1957": 0,
+     "1958": 0,
      "1959": 0,
-     "1960": 6,
-     "1961": 2,
-     "1962": 1,
+     "1960": 0,
+     "1961": 1,
+     "1962": 0,
      "1963": 0,
      "1964": 0,
-     "1965": 1,
-     "1966": 1,
+     "1965": 0,
+     "1966": 0,
      "1967": 0,
      "1968": 0,
      "1969": 0,
      "1970": 0,
-     "1971": 1,
-     "1972": 2,
-     "1973": 1,
-     "1974": 1,
+     "1971": 0,
+     "1972": 1,
+     "1973": 0,
+     "1974": 0,
      "1975": 0,
      "1976": 0,
      "1977": 0,
@@ -15629,58 +15693,59 @@
      "1979": 0,
      "1980": 0,
      "1981": 0,
-     "1982": 6,
-     "1983": 1,
+     "1982": 0,
+     "1983": 0,
      "1984": 0,
      "1985": 0,
-     "1986": 1,
-     "1987": 3,
+     "1986": 0,
+     "1987": 0,
      "1988": 0,
      "1989": 0,
      "1990": 0,
      "1991": 0,
      "1992": 0,
-     "1993": 1,
-     "1994": 1,
+     "1993": 0,
+     "1994": 0,
      "1995": 0,
-     "1996": 1,
-     "1997": 13,
+     "1996": 0,
+     "1997": 2,
      "1998": 0,
-     "1999": 1,
+     "1999": 0,
      "2000": 0,
-     "2001": 4,
-     "2002": 3,
-     "2003": 1,
-     "2004": 1,
+     "2001": 1,
+     "2002": 0,
+     "2003": 0,
+     "2004": 0,
      "2005": 0,
-     "2006": 2,
+     "2006": 0,
      "2007": 0,
      "2008": 0,
-     "2009": 10,
-     "2010": 3,
+     "2009": 2,
+     "2010": 0,
      "2011": 0,
      "2012": 2,
-     "2013": 5,
-     "2014": 1,
-     "2015": 1,
-     "2016": 4,
+     "2013": 0,
+     "2014": 0,
+     "2015": 0,
+     "2016": 0,
      "2017": 0,
-     "2018": 1,
-     "2019": 3,
-     "2020": 2,
-     "2021": 4,
-     "2022": 2,
-     "2023": 11,
-     "2024": 2
+     "2018": 0,
+     "2019": 0,
+     "2020": 1,
+     "2021": 0,
+     "2022": 0,
+     "2023": 0,
+     "2024": 0,
+     "2025": 0
     },
-    "expected_slots": 70,
-    "due_slots": 70,
+    "expected_slots": 71,
+    "due_slots": 71,
     "due_note": "Equal to expected_slots: an annual series, every prior year already due.",
     "first_slot": 1955,
-    "last_slot": 2024,
+    "last_slot": 2025,
     "unit": "year",
     "slot_basis": "Span of the station record as held by the published source. Taken BEFORE any completeness filter and never from the emitted series.",
-    "values_present": 69,
+    "values_present": 70,
     "unusable_slots": [
      1955
     ],
@@ -15690,12 +15755,12 @@
     "present_runs": [
      [
       1955,
-      2024
+      2025
      ]
     ]
    },
    "nights_metric_gated": true,
-   "nights_baseline_per_year": 2.0,
+   "nights_baseline_per_year": 0.27,
    "nights_metric_gated_note": "The 20 C tropical-night count is a Mediterranean instrument. Where the 1991-2020 baseline is near zero, a ratio divides by almost nothing and a record is arithmetic rather than evidence. WHERE THIS IS TRUE THE PAGE MUST NOT QUOTE A NIGHT RATIO, MULTIPLE OR RECORD; use the percentile warm-night series instead. Applied by rule, not by list, so a city added tomorrow is covered without anyone remembering to check.",
    "page_constraints": {
     "nights": {
@@ -15741,7 +15806,7 @@
     "instruments_agree": true,
     "instruments_agree_note": "Whether the two instruments happen to give the same answer is a fact about this season, not a rule. A page must read each one rather than carrying a caveat across.",
     "banned_words": [],
-    "banned_words_reason": "NO BAN. This city is at the 68.6th percentile of its own record, below the 85th on both instruments, so by its own history this summer is unremarkable and may be described that way. Say it plainly rather than reaching for a softer word: a set in which every city is extreme invites the question of how the set was chosen.",
+    "banned_words_reason": "NO BAN. This city is at the 7th percentile of its own record, below the 85th on both instruments, so by its own history this summer is unremarkable and may be described that way. Say it plainly rather than reaching for a softer word: a set in which every city is extreme invites the question of how the set was chosen.",
     "why_here": "Repeated on every city because a page renders one city and cannot be asked to read the headline object. A constraint the renderer cannot reach is a constraint that does not exist."
    },
    "station_relocations": [],
@@ -15754,99 +15819,100 @@
    "featured": false,
    "days": {
     "rank": {
-     "value": 35,
-     "of_years": 70,
-     "percentile": 51.4,
+     "value": 67,
+     "of_years": 71,
+     "percentile": 7.0,
      "season_open": true,
      "season_not_started_note": null,
      "measured_on": "95",
      "ties_count_against": true,
      "tied_with": [
-      1957,
-      1979,
-      1988,
-      1996
+      1960,
+      1964,
+      1974,
+      1986
      ],
      "beaten_by_excluded_years": [],
      "beaten_by_excluded_years_note": "Years too incomplete to rank whose count ALREADY matches or beats this one, counted into rank and of_years. An incomplete year undercounts, so its count is a floor. Where this list is non-empty the city IS NOT AT A RECORD on this instrument, however the rank reads to a reader who only sees the usable years.",
      "requires_series": true,
      "requires_series_note": "Read this rank, never derive it. Same rule as the night rank and the same reason: a strict greater-than promotes ties and manufactures records.",
      "margin_days": null,
-     "days_so_far": 11
+     "days_so_far": 1
     },
     "series_to_same_date": {
-     "cut_at": "11-09",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
-      "1956": 3,
-      "1957": 11,
+      "1956": 0,
+      "1957": 5,
       "1958": 0,
       "1959": 0,
       "1960": 1,
-      "1961": 10,
-      "1962": 12,
-      "1963": 13,
-      "1964": 3,
-      "1965": 12,
-      "1966": 16,
-      "1967": 16,
+      "1961": 4,
+      "1962": 2,
+      "1963": 5,
+      "1964": 1,
+      "1965": 4,
+      "1966": 6,
+      "1967": 9,
       "1968": 5,
-      "1969": 8,
-      "1970": 10,
-      "1971": 9,
-      "1972": 17,
-      "1973": 10,
-      "1974": 9,
-      "1975": 8,
-      "1976": 9,
-      "1977": 13,
-      "1978": 6,
-      "1979": 11,
-      "1980": 8,
-      "1981": 4,
-      "1982": 10,
-      "1983": 7,
+      "1969": 4,
+      "1970": 2,
+      "1971": 0,
+      "1972": 9,
+      "1973": 3,
+      "1974": 1,
+      "1975": 4,
+      "1976": 4,
+      "1977": 8,
+      "1978": 4,
+      "1979": 4,
+      "1980": 5,
+      "1981": 2,
+      "1982": 6,
+      "1983": 5,
       "1984": 2,
-      "1985": 4,
-      "1986": 6,
-      "1987": 7,
-      "1988": 11,
-      "1989": 6,
-      "1990": 6,
-      "1991": 7,
-      "1992": 6,
-      "1993": 6,
-      "1994": 9,
-      "1995": 16,
-      "1996": 11,
-      "1997": 22,
-      "1998": 6,
-      "1999": 7,
-      "2000": 5,
-      "2001": 3,
-      "2002": 18,
-      "2003": 15,
-      "2004": 24,
-      "2005": 18,
-      "2006": 20,
-      "2007": 13,
-      "2008": 14,
-      "2009": 33,
-      "2010": 15,
-      "2011": 14,
-      "2012": 23,
-      "2013": 25,
-      "2014": 15,
-      "2015": 20,
-      "2016": 9,
-      "2017": 16,
-      "2018": 17,
-      "2019": 25,
-      "2020": 23,
-      "2021": 22,
-      "2022": 34,
-      "2023": 35,
-      "2024": 2
+      "1985": 3,
+      "1986": 1,
+      "1987": 6,
+      "1988": 6,
+      "1989": 4,
+      "1990": 3,
+      "1991": 3,
+      "1992": 4,
+      "1993": 3,
+      "1994": 3,
+      "1995": 8,
+      "1996": 7,
+      "1997": 9,
+      "1998": 3,
+      "1999": 3,
+      "2000": 4,
+      "2001": 2,
+      "2002": 10,
+      "2003": 9,
+      "2004": 11,
+      "2005": 13,
+      "2006": 11,
+      "2007": 6,
+      "2008": 6,
+      "2009": 14,
+      "2010": 3,
+      "2011": 7,
+      "2012": 15,
+      "2013": 10,
+      "2014": 8,
+      "2015": 8,
+      "2016": 5,
+      "2017": 10,
+      "2018": 6,
+      "2019": 9,
+      "2020": 10,
+      "2021": 5,
+      "2022": 6,
+      "2023": 13,
+      "2024": 2,
+      "2025": 5
      },
      "note": "Days at or above this city's own 95th percentile threshold, counted to the same cut as every other year. The 90 and 99 thresholds are emitted above but only the 95 series is ranked."
     },
@@ -15856,21 +15922,21 @@
      "99": 35.1
     },
     "threshold_basis": "90th/95th/99th percentile of this station's own December-January (its two warmest consecutive months) daily maxima, 1971-2000.",
-    "reported_season_key": 2025,
+    "reported_season_key": 2026,
     "reported_season_key_note": "The key into every per-year series on this city, including series_to_same_date.values and warmest_day_to_cut_c. It is NOT always the current calendar year: a wrapping season is keyed by the year it began, and a city whose season has not opened reports its last complete one.",
     "days_current_season": {
-     "90": 17,
-     "95": 11,
-     "99": 4
+     "90": 4,
+     "95": 1,
+     "99": 0
     },
     "days_2026": {
-     "90": 17,
-     "95": 11,
-     "99": 4
+     "90": 4,
+     "95": 1,
+     "99": 0
     },
     "days_2026_deprecated": "Use days_current_season. This name says 2026 and holds the reported season, which for a wrapping season is the one that BEGAN in reported_season_key. Kept only so existing consumers do not break.",
-    "season_label": "2025\u201326",
-    "season_status": "complete",
+    "season_label": "2026\u201327",
+    "season_status": "in progress",
     "season_label_note": "PRINT season_label, never the bare key. A wrapping season spans two calendar years and 2025 alone reads as wrong to anyone who knows the hemisphere. season_status says whether this is a season still running or one that has finished: a southern page today reports a summer that ENDED in January, where a European page reports one still going.",
     "counts_per_year": {
      "90": {
@@ -15890,31 +15956,31 @@
      "recent": "2011-2025",
      "early": "1961-1990"
     },
-    "mean_1961_1990_to_cut": 8.93,
+    "mean_1961_1990_to_cut": 4.07,
     "mean_1961_1990_full_year": 11.33,
     "mean_note": "to_cut is comparable to days_2026 and to the ranked series. full_year is what a reader hears in 'a summer'. A headline using one with a chart showing the other is the error this pair exists to prevent.",
     "multiple_available": true
    },
-   "season_label": "2025\u201326",
-   "season_status": "complete",
-   "reported_season_key": 2025,
+   "season_label": "2026\u201327",
+   "season_status": "in progress",
+   "reported_season_key": 2026,
    "days_current_season": {
-    "90": 17,
-    "95": 11,
-    "99": 4
+    "90": 4,
+    "95": 1,
+    "99": 0
    },
    "counting_basis": {
     "window_label": "October to January",
-    "window_days": 123,
-    "cut_clips_the_window": false,
-    "cut_date": null,
-    "basis": "every year counted over the whole window; this season is complete, so no year is cut short",
+    "window_days": 46,
+    "cut_clips_the_window": true,
+    "cut_date": "2026-11-15",
+    "basis": "every year truncated at the same date, so a part-finished season is never set against complete ones",
     "note": "PRINT FROM cut_clips_the_window. When it is false the cut date is not part of the method and naming it asserts a truncation that did not run: the cut falls outside a wrapping season's window entirely and clips nothing. The like-with-like guarantee still holds, but because every season compared is complete rather than because each was trimmed to a common date."
    },
    "joined": {
     "date": "2026-08-30",
     "why": "As Santiago del Estero.",
-    "days_in_set": 71,
+    "days_in_set": 77,
     "is_recent": false,
     "caveat_required": false,
     "caveat": "Added to the set on 2026-08-30. As Santiago del Estero.",
@@ -15995,61 +16061,61 @@
     "2025": 36.6
    },
    "warmest_day_to_cut_c": {
-    "1956": 34.2,
+    "1956": 32.3,
     "1957": 36.8,
     "1958": null,
-    "1959": 30.8,
+    "1959": null,
     "1960": 33.2,
-    "1961": 36.4,
-    "1962": 37.3,
-    "1963": 38.7,
-    "1964": 34.2,
+    "1961": 35.6,
+    "1962": 34.3,
+    "1963": 36.6,
+    "1964": 33.5,
     "1965": 37.3,
-    "1966": 38.5,
+    "1966": 35.0,
     "1967": 35.8,
     "1968": 36.6,
     "1969": 36.5,
-    "1970": 38.4,
-    "1971": 35.1,
-    "1972": 39.9,
-    "1973": 37.4,
-    "1974": 35.7,
+    "1970": 36.0,
+    "1971": 31.1,
+    "1972": 37.4,
+    "1973": 36.7,
+    "1974": 33.2,
     "1975": 38.1,
     "1976": 35.9,
-    "1977": 38.1,
-    "1978": 36.2,
-    "1979": 35.6,
+    "1977": 36.6,
+    "1978": 35.6,
+    "1979": 35.5,
     "1980": 35.4,
-    "1981": 36.0,
+    "1981": 34.3,
     "1982": 37.5,
     "1983": 36.2,
     "1984": 33.5,
     "1985": 34.3,
-    "1986": 35.2,
+    "1986": 34.0,
     "1987": 38.8,
-    "1988": 36.7,
+    "1988": 36.6,
     "1989": 36.0,
     "1990": 34.3,
     "1991": 35.5,
     "1992": 35.8,
     "1993": 35.9,
     "1994": 36.4,
-    "1995": 36.3,
+    "1995": 36.2,
     "1996": 34.6,
     "1997": 37.2,
     "1998": 36.4,
-    "1999": 35.9,
-    "2000": 35.8,
+    "1999": 33.9,
+    "2000": 34.4,
     "2001": 36.8,
     "2002": 37.0,
     "2003": 37.7,
     "2004": 39.0,
-    "2005": 36.8,
-    "2006": 36.2,
-    "2007": 35.3,
-    "2008": 35.7,
+    "2005": 36.0,
+    "2006": 36.0,
+    "2007": 34.5,
+    "2008": 34.7,
     "2009": 38.3,
-    "2010": 38.7,
+    "2010": 37.2,
     "2011": 37.5,
     "2012": 36.8,
     "2013": 37.7,
@@ -16060,11 +16126,12 @@
     "2018": 34.8,
     "2019": 39.3,
     "2020": 36.4,
-    "2021": 35.5,
-    "2022": 38.6,
-    "2023": 39.6,
+    "2021": 35.2,
+    "2022": 37.7,
+    "2023": 39.5,
     "2024": 37.5,
-    "2025": 36.4
+    "2025": 35.5,
+    "2026": 34.0
    },
    "warmest_note": "warmest_day_c is over whole years and carries the full-year completeness bar. warmest_day_to_cut_c is cut to this city's own date and is the one comparable to days_2026 and to the ranked series. They are different facts and must not share an axis.",
    "record_scope": {
@@ -16507,7 +16574,7 @@
    "joined": {
     "date": "2026-08-30",
     "why": "North Africa was zero cities.",
-    "days_in_set": 71,
+    "days_in_set": 77,
     "is_recent": false,
     "caveat_required": false,
     "caveat": "Added to the set on 2026-08-30. North Africa was zero cities.",
@@ -17082,7 +17149,7 @@
    "joined": {
     "date": "2026-08-30",
     "why": "As the other Argentine stations.",
-    "days_in_set": 71,
+    "days_in_set": 77,
     "is_recent": false,
     "caveat_required": false,
     "caveat": "Added to the set on 2026-08-30. As the other Argentine stations.",
@@ -17289,8 +17356,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 22,
-   "counted_to": "2026-11-08",
-   "last_observation": "2026-11-08",
+   "counted_to": "2026-11-13",
+   "last_observation": "2026-11-13",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 1,
@@ -17310,7 +17377,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-08",
+    "cut_at": "11-13",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1950": 0,
@@ -17487,7 +17554,7 @@
      "days_so_far": 38
     },
     "series_to_same_date": {
-     "cut_at": "11-08",
+     "cut_at": "11-13",
      "measured_on": "95",
      "values": {
       "1950": 1,
@@ -18091,8 +18158,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 52,
-   "counted_to": "2026-11-08",
-   "last_observation": "2026-11-08",
+   "counted_to": "2026-11-13",
+   "last_observation": "2026-11-13",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 4,
@@ -18114,7 +18181,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-08",
+    "cut_at": "11-13",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1950": 21,
@@ -18291,7 +18358,7 @@
      "days_so_far": 50
     },
     "series_to_same_date": {
-     "cut_at": "11-08",
+     "cut_at": "11-13",
      "measured_on": "95",
      "values": {
       "1950": 7,
@@ -18660,8 +18727,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 82,
-   "counted_to": "2026-11-08",
-   "last_observation": "2026-11-08",
+   "counted_to": "2026-11-13",
+   "last_observation": "2026-11-13",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 2,
@@ -18681,7 +18748,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-08",
+    "cut_at": "11-13",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1950": 16,
@@ -18858,7 +18925,7 @@
      "days_so_far": 55
     },
     "series_to_same_date": {
-     "cut_at": "11-08",
+     "cut_at": "11-13",
      "measured_on": "95",
      "values": {
       "1950": 4,
@@ -19227,8 +19294,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 61,
-   "counted_to": "2026-11-08",
-   "last_observation": "2026-11-08",
+   "counted_to": "2026-11-13",
+   "last_observation": "2026-11-13",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 1,
@@ -19248,7 +19315,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-08",
+    "cut_at": "11-13",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1950": 14,
@@ -19425,7 +19492,7 @@
      "days_so_far": 32
     },
     "series_to_same_date": {
-     "cut_at": "11-08",
+     "cut_at": "11-13",
      "measured_on": "95",
      "values": {
       "1950": 4,
@@ -19794,8 +19861,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 46,
-   "counted_to": "2026-11-08",
-   "last_observation": "2026-11-08",
+   "counted_to": "2026-11-13",
+   "last_observation": "2026-11-13",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 1,
@@ -19815,7 +19882,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-08",
+    "cut_at": "11-13",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1975": 0,
@@ -19967,7 +20034,7 @@
      "days_so_far": 28
     },
     "series_to_same_date": {
-     "cut_at": "11-08",
+     "cut_at": "11-13",
      "measured_on": "95",
      "values": {
       "1975": 0,
@@ -20258,8 +20325,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 23,
-   "counted_to": "2026-11-09",
-   "last_observation": "2026-11-09",
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 3,
@@ -20281,7 +20348,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-09",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1855": 1,
@@ -20553,7 +20620,7 @@
      "days_so_far": 32
     },
     "series_to_same_date": {
-     "cut_at": "11-09",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
       "1855": 7,
@@ -21723,8 +21790,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 3,
-   "counted_to": "2026-11-09",
-   "last_observation": "2026-11-09",
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 19,
@@ -21754,7 +21821,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-09",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1948": 1,
@@ -21943,7 +22010,7 @@
      "days_so_far": 12
     },
     "series_to_same_date": {
-     "cut_at": "11-09",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
       "1948": 6,
@@ -22318,8 +22385,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 1,
-   "counted_to": "2026-11-09",
-   "last_observation": "2026-11-09",
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 13,
@@ -22349,7 +22416,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-09",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1936": 0,
@@ -22543,7 +22610,7 @@
      "days_so_far": 11
     },
     "series_to_same_date": {
-     "cut_at": "11-09",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
       "1936": 2,
@@ -22954,8 +23021,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 17,
-   "counted_to": "2026-11-09",
-   "last_observation": "2026-11-09",
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 1,
@@ -22975,7 +23042,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-09",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1936": 0,
@@ -23177,7 +23244,7 @@
      "days_so_far": 33
     },
     "series_to_same_date": {
-     "cut_at": "11-09",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
       "1936": 0,
@@ -23576,8 +23643,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 8,
-   "counted_to": "2026-11-09",
-   "last_observation": "2026-11-09",
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 1,
@@ -23597,7 +23664,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-09",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1955": 0,
@@ -23778,7 +23845,7 @@
      "days_so_far": 34
     },
     "series_to_same_date": {
-     "cut_at": "11-09",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
       "1955": 1,
@@ -24132,8 +24199,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 3,
-   "counted_to": "2026-11-09",
-   "last_observation": "2026-11-09",
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 2,
@@ -24155,7 +24222,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-09",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1958": 0,
@@ -24339,7 +24406,7 @@
      "days_so_far": 23
     },
     "series_to_same_date": {
-     "cut_at": "11-09",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
       "1958": 0,
@@ -24684,8 +24751,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 3,
-   "counted_to": "2026-11-08",
-   "last_observation": "2026-11-08",
+   "counted_to": "2026-11-14",
+   "last_observation": "2026-11-14",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 2,
@@ -24705,7 +24772,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-08",
+    "cut_at": "11-14",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1951": 0,
@@ -24883,7 +24950,7 @@
      "days_so_far": 11
     },
     "series_to_same_date": {
-     "cut_at": "11-08",
+     "cut_at": "11-14",
      "measured_on": "95",
      "values": {
       "1951": 0,
@@ -25249,8 +25316,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 0,
-   "counted_to": "2026-11-09",
-   "last_observation": "2026-11-09",
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 76,
@@ -25340,7 +25407,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-09",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1951": 0,
@@ -25521,7 +25588,7 @@
      "days_so_far": 6
     },
     "series_to_same_date": {
-     "cut_at": "11-09",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
       "1951": 0,
@@ -26372,8 +26439,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 0,
-   "counted_to": "2026-11-09",
-   "last_observation": "2026-11-09",
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 56,
@@ -26434,7 +26501,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-09",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1971": 0,
@@ -26592,7 +26659,7 @@
      "days_so_far": 5
     },
     "series_to_same_date": {
-     "cut_at": "11-09",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
       "1971": 2,
@@ -26896,8 +26963,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 9,
-   "counted_to": "2026-11-09",
-   "last_observation": "2026-11-09",
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 2,
@@ -26919,7 +26986,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-09",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1882": 0,
@@ -27166,7 +27233,7 @@
      "days_so_far": 38
     },
     "series_to_same_date": {
-     "cut_at": "11-09",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
       "1882": 2,
@@ -27739,8 +27806,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 31,
-   "counted_to": "2026-11-08",
-   "last_observation": "2026-11-08",
+   "counted_to": "2026-11-13",
+   "last_observation": "2026-11-13",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 1,
@@ -27760,7 +27827,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-08",
+    "cut_at": "11-13",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1950": 1,
@@ -27937,7 +28004,7 @@
      "days_so_far": 46
     },
     "series_to_same_date": {
-     "cut_at": "11-08",
+     "cut_at": "11-13",
      "measured_on": "95",
      "values": {
       "1950": 1,
@@ -28306,8 +28373,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 46,
-   "counted_to": "2026-11-08",
-   "last_observation": "2026-11-08",
+   "counted_to": "2026-11-13",
+   "last_observation": "2026-11-13",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 1,
@@ -28327,7 +28394,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-08",
+    "cut_at": "11-13",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1950": 6,
@@ -28504,7 +28571,7 @@
      "days_so_far": 38
     },
     "series_to_same_date": {
-     "cut_at": "11-08",
+     "cut_at": "11-13",
      "measured_on": "95",
      "values": {
       "1950": 5,
@@ -28873,8 +28940,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 13,
-   "counted_to": "2026-11-08",
-   "last_observation": "2026-11-08",
+   "counted_to": "2026-11-13",
+   "last_observation": "2026-11-13",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 1,
@@ -28894,7 +28961,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-08",
+    "cut_at": "11-13",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1950": 1,
@@ -29071,7 +29138,7 @@
      "days_so_far": 44
     },
     "series_to_same_date": {
-     "cut_at": "11-08",
+     "cut_at": "11-13",
      "measured_on": "95",
      "values": {
       "1950": 5,
@@ -29440,8 +29507,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 2,
-   "counted_to": "2026-11-09",
-   "last_observation": "2026-11-09",
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 4,
@@ -29464,7 +29531,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-09",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1936": 0,
@@ -29682,7 +29749,7 @@
      "days_so_far": 12
     },
     "series_to_same_date": {
-     "cut_at": "11-09",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
       "1936": 1,
@@ -30084,8 +30151,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 17,
-   "counted_to": "2026-11-09",
-   "last_observation": "2026-11-09",
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 1,
@@ -30105,7 +30172,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-09",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1958": 0,
@@ -30274,7 +30341,7 @@
      "days_so_far": 35
     },
     "series_to_same_date": {
-     "cut_at": "11-09",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
       "1958": 1,
@@ -30619,8 +30686,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 3,
-   "counted_to": "2026-11-09",
-   "last_observation": "2026-11-09",
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 7,
@@ -30642,7 +30709,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-09",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1954": 0,
@@ -30815,7 +30882,7 @@
      "days_so_far": 37
     },
     "series_to_same_date": {
-     "cut_at": "11-09",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
       "1954": 0,
@@ -31172,8 +31239,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 3,
-   "counted_to": "2026-11-09",
-   "last_observation": "2026-11-09",
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 12,
@@ -31199,7 +31266,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-09",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1864": 0,
@@ -31453,7 +31520,7 @@
      "days_so_far": 15
     },
     "series_to_same_date": {
-     "cut_at": "11-09",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
       "1864": 0,
@@ -32014,8 +32081,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 4,
-   "counted_to": "2026-11-09",
-   "last_observation": "2026-11-09",
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 6,
@@ -32038,7 +32105,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-09",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1934": 0,
@@ -32222,7 +32289,7 @@
      "days_so_far": 16
     },
     "series_to_same_date": {
-     "cut_at": "11-09",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
       "1934": 3,
@@ -32594,8 +32661,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 12,
-   "counted_to": "2026-11-09",
-   "last_observation": "2026-11-09",
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 1,
@@ -32615,7 +32682,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-09",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1866": 0,
@@ -32874,7 +32941,7 @@
      "days_so_far": 47
     },
     "series_to_same_date": {
-     "cut_at": "11-09",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
       "1866": 0,
@@ -33431,8 +33498,8 @@
    "pctl_baseline_note": "the percentile thresholds on this page are computed over this period. Where it is not the default 1971-2000, the city's record does not cover that window and a complete later WMO normal is used instead, which yields a HIGHER threshold and so understates rather than overstates.",
    "record_from_note": "THE STATION'S RAW START, NOT OUR RANKING WINDOW. A partial first year appears here and is excluded from the ranked series, so this is one to two years earlier than record_scope.from_year in nine cities. ANY PROSE ABOUT HOW FAR BACK THE RECORD GOES MUST USE record_scope.from_year: it is the window the ranks are computed on and the one the charts are drawn on. Use this field only to say when the thermometer began reporting.",
    "nights_2026": 52,
-   "counted_to": "2026-11-09",
-   "last_observation": "2026-11-09",
+   "counted_to": "2026-11-15",
+   "last_observation": "2026-11-15",
    "date_note": "counted_to is the cut every year in the series is measured to. last_observation is how far the source now reaches. Advancing the cut is a substantive change, not a refresh.",
    "rank": {
     "value": 1,
@@ -33452,7 +33519,7 @@
     "matched_to_same_date": true
    },
    "series_to_same_date": {
-    "cut_at": "11-09",
+    "cut_at": "11-15",
     "cut_note": "Every year counted to this calendar day. NOT comparable to a figure cut at a different day, and cities from different countries have different cuts because the publication lag differs, so a cross-city ranking cannot use a single one.",
     "values": {
      "1865": 4,
@@ -33716,7 +33783,7 @@
      "days_so_far": 55
     },
     "series_to_same_date": {
-     "cut_at": "11-09",
+     "cut_at": "11-15",
      "measured_on": "95",
      "values": {
       "1865": 7,
@@ -34300,34 +34367,34 @@
  },
  "sources_note": "Every published figure comes from a national met service that permits commercial reuse. ECA&D is not read anywhere in this pipeline.",
  "coverage": {
-  "latest_cut": "2026-11-09",
+  "latest_cut": "2026-11-15",
   "cities_at_latest_cut": 26,
   "cities_short_of_it": 28,
   "short_cities": {
-   "Aberdeen": "2026-08-10",
    "Algiers": "2026-08-31",
    "Alicante": "2026-11-06",
-   "Amsterdam": "2026-11-08",
+   "Amsterdam": "2026-11-14",
    "Barcelona": "2026-11-06",
    "Bilbao": "2026-11-06",
-   "Bordeaux": "2026-11-08",
-   "Budapest": "2026-11-03",
+   "Bordeaux": "2026-11-13",
+   "Budapest": "2026-11-09",
    "Larnaca": "2026-08-31",
-   "Lyon": "2026-11-08",
+   "Lyon": "2026-11-13",
    "Madrid": "2026-11-06",
    "Malaga": "2026-11-06",
-   "Marseille": "2026-11-08",
-   "Montpellier": "2026-11-08",
+   "Marseille": "2026-11-13",
+   "Montpellier": "2026-11-13",
    "Murcia": "2026-11-06",
-   "Nice": "2026-11-08",
+   "Nice": "2026-11-13",
    "Palma": "2026-11-06",
-   "Paris": "2026-11-08",
+   "Paris": "2026-11-13",
    "Prague": "2026-10-31",
    "Rome": "2026-08-31",
    "Seville": "2026-11-06",
-   "Strasbourg": "2026-11-08",
+   "Strasbourg": "2026-11-13",
    "Tallinn": "2026-07-31",
-   "Toulouse": "2026-11-08",
+   "Toulouse": "2026-11-13",
+   "Trelew": "2026-11-09",
    "Valencia": "2026-11-06",
    "Vilnius": "2026-08-31",
    "Zagreb": "2026-08-31",
