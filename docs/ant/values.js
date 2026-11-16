@@ -19,6 +19,10 @@
 //   [late, early, takeoff, late + crash, early + crash, takeoff + crash]
 window.ANT = (function () {
   const IPO = 74;
+  // Shares the engine divides equity by, bn: the S-1/A No. 2's 15.94bn plus
+  // Amazon's note conversion and shares already owed (mkt/anthropic-valuation,
+  // engine v6, 18.08bn). Price times this is the valuation the scale prints.
+  const SHARES = 18.08;
   // The price scale's top: the highest value at equal weight is $151.9
   // (C4 AGI at a 55% share).
   const SCALE = 200;
@@ -64,5 +68,5 @@ window.ANT = (function () {
     const w = weights(a);
     return Object.keys(w).reduce((s, k) => s + w[k] * value(a.world, k, +a.share), 0);
   }
-  return { IPO, SCALE, HIGH_WEIGHT, STATES, LOW, HIGH, cell, value, weights, price };
+  return { IPO, SHARES, SCALE, HIGH_WEIGHT, STATES, LOW, HIGH, cell, value, weights, price };
 })();

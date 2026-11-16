@@ -274,6 +274,12 @@ table.yrs th, table.yrs td { border-bottom: 1px solid var(--rule); }
 .from a, .from button, .one button { color: var(--you); text-decoration: none; font-weight: 600; }
 .disc { color: var(--soft); }
 @media (max-width: 720px) { #h-strip text { font-size: 16px; } #chart text { font-size: 15px; } #chart text.end { font-size: 16px; } }
+/* Kristjan, 16 Nov: "why is there so much text here, nobody will read it. Remove all or put it to the footer." The hero is the price and its scale; the facts sit above the disclosure in its small print. */
+.facts.foot { display: grid; gap: 3px; font-size: 13px; line-height: 1.5; color: var(--soft); margin: 28px 0 0; max-width: 90ch; }
+.facts.foot b { font-weight: 600; color: var(--soft); }
+.facts.foot .fn { font-size: 13px; color: var(--soft); }
+#h-strip text.cap, #h-strip tspan.cap { font-size: 12px; font-weight: 400; }
+@media (max-width: 720px) { #h-strip text.cap, #h-strip tspan.cap { font-size: 13px; } }
 </style>
 <!-- Privacy-friendly analytics by Plausible -->
 <script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
@@ -298,8 +304,7 @@ plausible.init({transformRequest:function(p){try{var c=document.querySelector('l
           <div class="price"><span class="num" id="h-num">–</span><span class="vs" id="h-vs">against the <b>$74</b> IPO price</span></div>
         </div>
         <div class="hr">
-          <svg id="h-strip" viewBox="0 0 400 74" role="img"></svg>
-          <div class="facts" id="h-facts"></div>
+          <svg id="h-strip" viewBox="0 0 400 90" role="img"></svg>
         </div>
       </div>
       <div class="tiles">
@@ -378,6 +383,7 @@ plausible.init({transformRequest:function(p){try{var c=document.querySelector('l
       </details>
     </section>
   </div>
+  <div class="facts foot" id="h-facts"></div>
   <p class="disc">Research, not a recommendation to buy, sell or subscribe. Values rest on scenario-model figures that are not yet verified. The best AGI cases are upside cases, not forecasts. The model was built in a Claude session, and Anthropic makes Claude.</p>
 </div>
 

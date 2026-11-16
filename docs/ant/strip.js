@@ -5,6 +5,9 @@
 // short tick, and on /ant-pro how far the price moves with Anthropic's share,
 // as a band on the axis. Ink means yours, on both pages.
 //
+// Under each price, in smaller print, the company's value at that price
+// (Kristjan, 16 Nov: "some people think in valuation instead of share price").
+//
 // o.price: the price, or null before /ant's reveal (ticks and IPO only, so
 // the panel does not jump when the price lands). o.lo, o.hi: the band.
 window.ANTSCALE = function (svg, o) {
@@ -13,6 +16,8 @@ window.ANTSCALE = function (svg, o) {
   // a quarter of the scale of the IPO, whose label would collide (VD redraw).
   const step = MAX <= 200 ? 50 : 100, ticks = [];
   for (let t = step; t <= MAX; t += step) if (Math.abs(t - IPO) >= MAX / 4) ticks.push(t);
+  const cap = v => { const b = v * (ANT.SHARES || 0); return !b ? '' : b >= 1000 ? `$${(b / 1000).toFixed(1)}tn` : `$${Math.round(b / 10) * 10}bn`; };
+  const sub = (x, v, anchor) => `<text x="${x}" y="${AX + 38}" text-anchor="${anchor}" class="cap">${cap(v)}</text>`;
   let s = `<line x1="${X0}" x2="${X1}" y1="${AX}" y2="${AX}" stroke="var(--rule)"/>`;
   // short enough to clear the price label when the two are close
   s += `<line x1="${X(IPO)}" x2="${X(IPO)}" y1="${AX}" y2="${AX - 11}" stroke="var(--soft)" stroke-width="1"/>`;
@@ -20,10 +25,11 @@ window.ANTSCALE = function (svg, o) {
   s += `<text x="${X(0)}" y="${AX + 22}" text-anchor="start">$0</text>`;
   s += `<text x="${X(IPO)}" y="${AX + 22}" text-anchor="middle" style="font-weight:500">$${IPO} IPO</text>`;
   ticks.forEach(t => s += `<text x="${X(t)}" y="${AX + 22}" text-anchor="${t === MAX ? 'end' : 'middle'}">$${t}</text>`);
+  if (ANT.SHARES) { s += sub(X(IPO), IPO, 'middle'); ticks.forEach(t => s += sub(X(t), t, t === MAX ? 'end' : 'middle')); }
   if (o.price != null) s += `<g class="${o.animate ? 'me in' : 'me'}"><circle cx="${X(o.price)}" cy="${AX}" r="7" fill="var(--you)" stroke="var(--paper)" stroke-width="2"/>` +
-    `<text x="${X(o.price)}" y="${AX - 14}" text-anchor="middle" style="fill:var(--you);font-weight:700">$${Math.round(o.price)}</text></g>`;
-  svg.setAttribute('viewBox', '0 0 400 74');
+    `<text x="${X(o.price)}" y="${AX - 14}" text-anchor="middle" style="fill:var(--you);font-weight:700">$${Math.round(o.price)}${ANT.SHARES && o.price > 0 ? `<tspan class="cap" dx="5" style="fill:var(--you)">${cap(o.price)}</tspan>` : ''}</text></g>`;
+  svg.setAttribute('viewBox', `0 0 400 ${ANT.SHARES ? 90 : 74}`);
   svg.setAttribute('aria-label', o.price == null ? `Price scale from $0 to $${MAX}, with the IPO at $${IPO}` :
-    `Price scale from $0 to $${MAX}: the IPO at $${IPO}, the price at $${Math.round(o.price)}` + (o.lo != null ? `, and a band from $${Math.round(o.lo)} to $${Math.round(o.hi)} as Anthropic's share runs from 35 to 55%` : ''));
+    `Price scale from $0 to $${MAX}: the IPO at $${IPO}, the price at $${Math.round(o.price)}` + (ANT.SHARES ? `, a company value of ${cap(o.price)}` : '') + (o.lo != null ? `, and a band from $${Math.round(o.lo)} to $${Math.round(o.hi)} as Anthropic's share runs from 35 to 55%` : ''));
   svg.innerHTML = s;
 };
