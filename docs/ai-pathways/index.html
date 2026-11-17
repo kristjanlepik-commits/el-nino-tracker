@@ -99,6 +99,19 @@ svg text.lab { fill: var(--ink); font-weight: 600; }
 .more p { margin: 0; font: 17px/1.5 var(--body); color: var(--soft); }
 .more a { font: 700 16px var(--display); color: var(--ink); text-underline-offset: 4px; }
 
+/* Same answer, different payee (VD, 17 Nov). The $100 is one bar, no box: each party keeps
+   the colour of the path on which it wins, so the money visibly changes hands as you pick. */
+.same { justify-self: start; font: 600 12px/1.35 var(--mono); color: var(--soft); margin: 2px 0 0 4px; }
+.money { display: grid; gap: 10px; }
+.split { display: flex; gap: 3px; height: 38px; }
+.split .seg { display: flex; align-items: center; justify-content: center; min-width: 0; overflow: hidden; color: #fff; font: 800 15px var(--display); transition: flex-grow .45s ease; }
+.split.idle .seg { background: var(--sunk); color: var(--faint); font: 600 13px var(--mono); }
+.who { display: flex; flex-wrap: wrap; gap: 6px 18px; font: 14px var(--body); color: var(--soft); }
+.who i { display: inline-block; width: 11px; height: 11px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+.who b { color: var(--ink); font-weight: 700; }
+.who .none { opacity: .45; }
+@media (prefers-reduced-motion: reduce) { .split .seg { transition: none; } }
+
 /* VD, 17 Nov: one panel that reads downward. The telecom's choice, the chat, what sits behind it,
    then the chain's arrow carries on into Anthropic's revenue: no second box, no section break,
    and the picked option's line draws itself in the option's own colour. */
@@ -150,6 +163,11 @@ plausible.init({transformRequest:function(p){try{var c=document.querySelector('l
         </div>
       </div>
       <div class="flow" aria-live="polite">
+        <div class="down" aria-hidden="true"></div>
+        <div class="money">
+          <p class="lead">Every option answers the customer. What changes is where the telecom's money goes. Of each $100 it spends on AI:</p>
+          <div id="pays"></div>
+        </div>
         <div class="down" aria-hidden="true"></div>
         <div class="flowhead">
           <p class="lead">Anthropic, the company behind Claude, is one AI maker. If most firms picked the same option, its revenue could go like this.</p>
@@ -205,6 +223,8 @@ const PATHS = [
             ['open', 'Free AI model', 'An open model anyone can download and run.']],
     why: 'The lowest price, and customer data never leaves the building.' } ];
 
+const SPLIT = { job: { labs: 34, apps: 20, bundles: 0, cloud: 46 }, apps: { labs: 21, apps: 50, bundles: 0, cloud: 29 }, built: { labs: 15, apps: 0, bundles: 65, cloud: 20 }, cheap: { labs: 11, apps: 0, bundles: 0, cloud: 89 } };
+const RECIP = [['labs', 'AI makers', '--job'], ['apps', 'Apps', '--apps'], ['bundles', 'Microsoft, Google', '--built'], ['cloud', 'Cloud and chips', '--cheap']];
 let pick = null;
 const P = () => PATHS.find(p => p.id === pick);
 const ico = k => `<svg viewBox="0 0 24 24" aria-hidden="true">${I[k]}</svg>`;
@@ -214,10 +234,14 @@ function drawSolve() {
   const p = P();
   $('opts').innerHTML = PATHS.map(q => `<button type="button" class="o" style="--c:var(${q.c})" data-id="${q.id}" aria-pressed="${q.id === pick}"><b>${q.act}</b><span>${q.name}</span></button>`).join('');
   $('msgs').innerHTML = `<p class="bub me">Hi, why is my bill higher this month?</p>` + (p
-    ? `<p class="bub them in">You used mobile data abroad last week. Shall I add a travel pack so it does not happen again?</p><p class="tag in" style="--c:var(${p.c})">${p.tag}</p>`
+    ? `<p class="bub them in">You used mobile data abroad last week. Shall I add a travel pack so it does not happen again?</p><p class="tag in" style="--c:var(${p.c})">${p.tag}</p><p class="same in">The customer gets this same answer on all four options.</p>`
     : `<p class="bub them dots" aria-label="Typing"><b></b><b></b><b></b></p><p class="tag">Pick an option to see who answers</p>`);
   $('chain').style.setProperty('--c', p ? `var(${p.c})` : 'var(--idle)');
-  document.querySelector('.flow').style.setProperty('--c', p ? `var(${p.c})` : 'var(--idle)');
+  $('pays').innerHTML = p
+    ? `<div class="split">${RECIP.filter(r => SPLIT[p.id][r[0]] > 0).map(r => `<span class="seg" style="flex:${SPLIT[p.id][r[0]]} 1 0;background:var(${r[2]})" title="${r[1]}: $${SPLIT[p.id][r[0]]}">$${SPLIT[p.id][r[0]]}</span>`).join('')}</div>`
+      + `<div class="who">${RECIP.map(r => `<span class="${SPLIT[p.id][r[0]] ? '' : 'none'}"><i style="background:var(${r[2]})"></i>${r[1]} <b>$${SPLIT[p.id][r[0]]}</b></span>`).join('')}</div>`
+    : `<div class="split idle"><span class="seg" style="flex:1">Pick an option to see who gets the $100</span></div>`;
+  document.querySelectorAll('.down').forEach(d => d.style.setProperty('--c', p ? `var(${p.c})` : 'var(--idle)'));
   $('chain').innerHTML = p
     ? p.chain.map((n, i) => (i ? '<div class="arrow in"></div>' : '') + node(n).replace('class="node', 'class="in node')).join('')
     : node(['telecom', 'Telecom operator', 'Needs an answer for every customer.']) + '<div class="arrow"></div>' + `<div class="node ghost">${ico('model')}<b>?</b><span>Pick an option above to see what sits behind the chat.</span></div>`;
