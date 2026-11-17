@@ -280,6 +280,8 @@ table.yrs th, table.yrs td { border-bottom: 1px solid var(--rule); }
 .facts.foot .fn { font-size: 13px; color: var(--soft); }
 #h-strip text.cap, #h-strip tspan.cap { font-size: 12px; font-weight: 400; }
 @media (max-width: 720px) { #h-strip text.cap, #h-strip tspan.cap { font-size: 13px; } }
+/* Three pages in the switch do not fit beside the wordmark on a phone: the mark alone links home there. */
+@media (max-width: 420px) { .bar .home span { display: none; } .sw { gap: 14px; } }
 </style>
 <!-- Privacy-friendly analytics by Plausible -->
 <script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
@@ -288,7 +290,7 @@ window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push
 plausible.init({transformRequest:function(p){try{var c=document.querySelector('link[rel=canonical]');var u=c&&c.href?c.href:p.u;if(u)u=u.replace(/\/index\.html(\?|#|$)/,'/$1');if(u)p.u=u;}catch(e){}return p}})
 </script></head>
 <body>
-<header class="bar"><div class="in"><a class="home" href="../" aria-label="The Long Swell, home"><svg width="21" height="20" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span>The Long Swell</span></a><nav class="sw" aria-label="Versions"><a href="../ant/" data-to="ant">Questions</a><span class="on" aria-current="page">Full model</span></nav></div></header>
+<header class="bar"><div class="in"><a class="home" href="../" aria-label="The Long Swell, home"><svg width="21" height="20" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span>The Long Swell</span></a><nav class="sw" aria-label="Versions"><a href="../ant/" data-to="ant">Questions</a><a href="../ant-scenarios/" data-to="scen">Scenarios</a><span class="on" aria-current="page">Full model</span></nav></div></header>
 <div class="wrap">
   <header class="top">
     <h1>Anthropic Valuation Tool</h1>

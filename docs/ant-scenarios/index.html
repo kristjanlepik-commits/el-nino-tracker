@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Anthropic Scenarios</title>
+<meta name="description" content="What is Anthropic worth on your view of AI? Two sliders, twelve scenarios, one price.">
+<style>
+
+@font-face { font-family: "Spectral"; font-weight: 400; font-style: normal; font-display: swap; src: url("../fonts/spectral-400.woff2") format("woff2"); }
+@font-face { font-family: "Spectral"; font-weight: 400; font-style: italic; font-display: swap; src: url("../fonts/spectral-400-italic.woff2") format("woff2"); }
+@font-face { font-family: "Spectral"; font-weight: 500; font-style: normal; font-display: swap; src: url("../fonts/spectral-500.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-weight: 400; font-display: swap; src: url("../fonts/plexmono-400.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-weight: 500; font-display: swap; src: url("../fonts/plexmono-500.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-weight: 600; font-display: swap; src: url("../fonts/plexmono-600.woff2") format("woff2"); }
+
+:root { --paper: #F1F0EC; --sunk: #E7E6DF; --ink: #1A1A18; --soft: #3A3A36; --faint: #6E6E67; --rule: #CFCEC7; --line: #A9A89F; --serif: "Spectral", Georgia, serif; --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace; color-scheme: light; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper: #1A1A18; --sunk: #252521; --ink: #EDECE6; --soft: #B4B3AB; --faint: #86857D; --rule: #3A3A36; --line: #66665F; color-scheme: dark; } }
+:root[data-theme="dark"] { --paper: #1A1A18; --sunk: #252521; --ink: #EDECE6; --soft: #B4B3AB; --faint: #86857D; --rule: #3A3A36; --line: #66665F; color-scheme: dark; }
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.5 var(--serif); }
+.bar { border-bottom: 1px solid var(--rule); }
+.bar .in { display: flex; align-items: center; gap: 10px; max-width: var(--page, 900px); margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.bar .home { display: flex; align-items: center; gap: 10px; padding: 12px 0; color: var(--ink); text-decoration: none; }
+.bar svg { display: block; flex: none; width: 21px; height: 20px; color: var(--ink); }
+.bar .home span { font: 500 16px var(--serif); white-space: nowrap; }
+/* The version switch (VD, "two versions"): the same on both pages, so each
+   says the other exists. Current page INK 600 with a 2px rule. */
+.sw { margin-left: auto; display: flex; gap: 14px; font: 12px var(--mono); white-space: nowrap; }
+.sw a { color: var(--soft); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; }
+.sw .on { color: var(--ink); font-weight: 600; border-bottom: 2px solid var(--ink); padding-bottom: 2px; }
+.bar a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+@font-face { font-family: "Instrument Sans"; font-weight: 400 700; font-display: swap; src: url("../fonts/instrument-sans-latin-ext.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Instrument Sans"; font-weight: 400 700; font-display: swap; src: url("../fonts/instrument-sans-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+/* Layout: the price against the IPO price on top; two sliders under it (how fast AI progresses, who gets the money);
+   then one table of the twelve scenarios, tinted by value, with a frame that follows the sliders.
+   The Long Swell's paper, ink, Spectral and Plex Mono. Darker always means a higher value per share. */
+:root { --paper: #F1F0EC; --sunk: #E7E6DF; --ink: #1A1A18; --soft: #3A3A36; --faint: #6E6E67; --rule: #CFCEC7; --line: #A9A89F; --blank: #F7F6F2;
+  --serif: "Spectral", Georgia, serif; --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace; --page: 980px; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper: #1A1A18; --sunk: #252521; --ink: #EDECE6; --soft: #B4B3AB; --faint: #86857D; --rule: #3A3A36; --line: #66665F; --blank: #20201D; color-scheme: dark; } }
+:root[data-theme="dark"] { --paper: #1A1A18; --sunk: #252521; --ink: #EDECE6; --soft: #B4B3AB; --faint: #86857D; --rule: #3A3A36; --line: #66665F; --blank: #20201D; color-scheme: dark; }
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--paper); color: var(--ink); font: 17px/1.45 var(--serif); font-variant-numeric: tabular-nums lining-nums; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper); }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.wrap { max-width: var(--page); margin: 0 auto; padding-block: 24px 110px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 34px; }
+.kick { font: 500 11px/1.45 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--soft); margin: 0; }
+.sw { display: flex; justify-content: flex-end; gap: 22px; font: 13px var(--mono); border-bottom: 1px solid var(--rule); padding-bottom: 12px; margin-bottom: -10px; }
+.sw a { color: var(--soft); text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 5px; }
+.sw a[aria-current] { color: var(--ink); font-weight: 600; text-decoration-style: solid; text-decoration-thickness: 2px; }
+.more { margin: 10px 0 0; font-size: 18px; }
+.more a { color: var(--ink); font-weight: 500; text-underline-offset: 4px; }
+.lnk { background: none; border: 0; padding: 0; font: 13px var(--mono); color: var(--soft); text-decoration: underline; text-underline-offset: 3px; }
+.top { display: grid; gap: 8px; }
+.top h1 { font: 500 clamp(28px, 4.4vw, 40px)/1.08 var(--serif); margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+.top p { margin: 0; color: var(--soft); max-width: 40em; }
+h2 { font: 500 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--soft); margin: 0; border-top: 2px solid var(--ink); padding-top: 12px; }
+.hint { font-size: 14px; line-height: 1.45; color: var(--faint); margin: 0; max-width: 46em; }
+
+/* the price against the IPO price */
+#hero { background: var(--sunk); padding: 22px; display: grid; gap: 18px 40px; }
+@media (min-width: 821px) { #hero { grid-template-columns: minmax(0, 320px) minmax(0, 1fr); align-items: end; } }
+#pv { font: 500 clamp(64px, 11vw, 100px)/.95 var(--serif); letter-spacing: -.02em; margin-top: 6px; }
+#pv small { font-size: 22px; font-weight: 400; letter-spacing: 0; color: var(--soft); }
+#vs { font-size: 18px; color: var(--soft); margin: 8px 0 0; }
+#vs b { color: var(--ink); font-weight: 600; }
+#scale { display: block; width: 100%; height: auto; overflow: visible; }
+#scale text { font: 12px var(--mono); fill: var(--soft); }
+#scale text.ipo { font-size: 14px; font-weight: 600; fill: var(--ink); }
+
+/* the two sliders */
+.views { display: grid; gap: 30px; }
+.view { display: grid; gap: 4px; }
+.view h3 { font: 500 21px/1.2 var(--serif); margin: 0; }
+input[type=range] { width: 100%; accent-color: var(--ink); margin: 8px 0 2px; height: 30px; }
+.stops { position: relative; height: 2.9em; margin: 0 10px; }
+.stops button { position: absolute; top: 0; width: var(--w); transform: translateX(-50%); background: none; border: 0; padding: 2px 0; font: 15.5px/1.25 var(--serif); color: var(--faint); text-align: center; }
+.stops button:first-child { transform: translateX(-10px); text-align: left; }
+.stops button:last-child { transform: translateX(calc(-100% + 10px)); text-align: right; }
+.stops button.on { color: var(--ink); font-weight: 600; }
+.stops button:hover { color: var(--ink); }
+#now { margin: 0; font-size: 18px; max-width: 40em; min-height: 4.4em; }
+#now b { font-weight: 600; }
+
+/* the twelve scenarios */
+.tw { position: relative; }
+table { border-collapse: collapse; width: 100%; }
+th { font-weight: 500; text-align: left; padding: 8px 10px; }
+thead th { font: 500 17px/1.2 var(--serif); border-bottom: 1px solid var(--ink); text-align: center; vertical-align: bottom; width: 21%; }
+thead th:first-child { width: 37%; }
+tbody th { border-bottom: 1px solid var(--rule); vertical-align: middle; font-size: 17px; }
+tbody th span { display: block; font-size: 13.5px; line-height: 1.35; color: var(--faint); font-weight: 400; }
+td.c { border-bottom: 1px solid var(--rule); border-left: 3px solid var(--paper); text-align: center; padding: 18px 6px; cursor: pointer; font: 500 23px var(--serif); background: color-mix(in srgb, var(--ink) var(--a), var(--paper)); }
+td.c.hi { font-weight: 600; text-decoration: underline; text-underline-offset: 5px; }
+td.c.dk { color: var(--paper); }
+td.c:hover { box-shadow: inset 0 0 0 1px var(--ink); }
+#frame { position: absolute; pointer-events: none; border: 4px solid var(--ink); box-shadow: 0 0 0 2px var(--paper); border-radius: 2px; }
+.key { display: flex; flex-wrap: wrap; gap: 6px 22px; font: 12px var(--mono); color: var(--faint); align-items: center; }
+.key i { display: inline-block; vertical-align: middle; margin-right: 6px; }
+.key .grad { width: 90px; height: 12px; background: linear-gradient(90deg, var(--paper), color-mix(in srgb, var(--ink) 62%, var(--paper))); border: 1px solid var(--rule); }
+.key .box { width: 16px; height: 12px; border: 3px solid var(--ink); }
+
+details { border-top: 2px solid var(--ink); }
+summary { cursor: pointer; padding: 12px 0; font: 500 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--soft); }
+details p { margin: 0 0 10px; font-size: 15px; color: var(--soft); max-width: 46em; }
+#bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 8; background: var(--ink); color: var(--paper); padding-block: 10px calc(10px + env(safe-area-inset-bottom, 0px)); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; justify-content: center; }
+#bar button { background: none; border: 0; color: inherit; display: flex; gap: 14px; align-items: baseline; font: 500 22px var(--serif); }
+#bar button span { font: 12px var(--mono); opacity: .8; }
+@media (max-width: 520px) { #bar button span { display: none; } thead th { font-size: 15px; padding: 8px 4px; } tbody th { padding-left: 0; } }
+.disc { font-size: 13px; line-height: 1.5; color: var(--faint); margin: 0; max-width: 640px; }
+
+/* Path D (D-380, D-381), as on Questions and Full model. */
+:root { --paper: #FFFFFF; --sunk: #ECEEF4; --blank: #F6F7FB; --ink: #131A2A; --soft: #4B5368; --faint: #4B5368; --rule: #E3E6EE; --line: #B9BECC; --you: #4F5BEA; --youpale: #E4E6FD; --sans: "Instrument Sans", system-ui, sans-serif; --serif: var(--sans); --mono: var(--sans); color-scheme: light; --page: 980px; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper: #0F1420; --sunk: #1E2536; --blank: #141A28; --ink: #E8EAF2; --soft: #A9B0C2; --faint: #A9B0C2; --rule: #252D40; --line: #46506A; --you: #8C95FF; --youpale: #232B57; color-scheme: dark; } }
+:root[data-theme="dark"] { --paper: #0F1420; --sunk: #1E2536; --blank: #141A28; --ink: #E8EAF2; --soft: #A9B0C2; --faint: #A9B0C2; --rule: #252D40; --line: #46506A; --you: #8C95FF; --youpale: #232B57; color-scheme: dark; }
+body { font: 17px/1.5 var(--sans); font-variant-numeric: tabular-nums; }
+:focus-visible { outline-color: var(--you); }
+.kick { font: 600 14px/1.4 var(--sans); letter-spacing: normal; text-transform: none; }
+.top h1 { font: 700 clamp(30px, 4.6vw, 42px)/1.05 var(--sans); letter-spacing: -.025em; }
+h2 { font: 700 15px var(--sans); letter-spacing: normal; text-transform: none; color: var(--ink); border-top: 3px solid var(--ink); }
+#hero { background: none; padding: 6px 0 0; }
+#pv { font: 700 clamp(72px, 12vw, 130px)/.9 var(--sans); letter-spacing: -.05em; }
+#pv small { font: 600 22px var(--sans); letter-spacing: normal; }
+#vs { font-weight: 600; color: var(--ink); }
+#vs b { font-weight: 700; }
+.lnk { font: 600 14px var(--sans); color: var(--you); text-decoration: none; }
+#scale text { font: 500 13px var(--sans); }
+#scale text.ipo { font: 700 14px var(--sans); }
+.view h3 { font: 700 20px/1.2 var(--sans); }
+input[type=range] { accent-color: var(--you); }
+.stops button { font: 500 15px/1.25 var(--sans); color: var(--soft); }
+.stops button.on { color: var(--you); font-weight: 700; }
+thead th { font: 600 15px/1.2 var(--sans); border-bottom: 1.5px solid var(--ink); }
+tbody th { font: 600 16px var(--sans); }
+tbody th span { font-size: 13.5px; color: var(--soft); }
+td.c { font: 700 22px var(--sans); }
+#frame { border-color: var(--you); }
+.key { font: 500 13px var(--sans); color: var(--soft); }
+.key .box { border-color: var(--you); }
+.more a { font: 700 17px var(--sans); text-decoration: none; border-bottom: 3px solid var(--you); padding-bottom: 2px; }
+details { border-top: 3px solid var(--ink); }
+summary { font: 700 15px var(--sans); letter-spacing: normal; text-transform: none; color: var(--ink); }
+#bar button { font: 700 22px var(--sans); }
+#bar button span { font: 500 13px var(--sans); }
+.disc { color: var(--soft); }
+.key .k-dk { display: none; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .key .k-lt { display: none; } :root:not([data-theme="light"]) .key .k-dk { display: inline; } }
+:root[data-theme="dark"] .key .k-lt { display: none; } :root[data-theme="dark"] .key .k-dk { display: inline; }
+
+.bar { margin-top: 6px; border-bottom: 0; }
+.bar .in { max-width: var(--page); border-bottom: 3px solid var(--ink); }
+.bar .home { padding: 12px 0 10px; }
+.bar .home span { font: 700 16px var(--sans); }
+.sw { gap: 16px; font: 500 14px var(--sans); }
+.sw a { color: var(--soft); text-decoration: none; }
+.sw a:hover { color: var(--ink); }
+.sw .on { color: var(--ink); font-weight: 700; border-bottom: 0; padding-bottom: 0; }
+.bar a:focus-visible { outline: 2px solid var(--you); outline-offset: 3px; }
+/* Three pages in the switch do not fit beside the wordmark on a phone: the
+   mark alone links home there (it carries the aria-label). */
+@media (max-width: 420px) { .bar .home span { display: none; } .sw { gap: 14px; } }
+</style>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
+<script>
+window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+plausible.init({transformRequest:function(p){try{var c=document.querySelector('link[rel=canonical]');var u=c&&c.href?c.href:p.u;if(u)u=u.replace(/\/index\.html(\?|#|$)/,'/$1');if(u)p.u=u;}catch(e){}return p}})
+</script></head>
+<body>
+<header class="bar"><div class="in"><a class="home" href="../" aria-label="The Long Swell, home"><svg width="21" height="20" viewBox="0 0 42 40" fill="none" aria-hidden="true"><rect x="4" y="14" width="12" height="12" fill="currentColor" opacity="1"/><path d="M19,8 A15,15 0 0 1 19,32" stroke="currentColor" stroke-width="3" opacity="1"/><path d="M28.4,8 A22,22 0 0 1 28.4,32" stroke="currentColor" stroke-width="2.4" opacity="0.45"/><path d="M36.4,8 A29,29 0 0 1 36.4,32" stroke="currentColor" stroke-width="1.8" opacity="0.2"/></svg><span>The Long Swell</span></a><nav class="sw" aria-label="Versions"><a href="../ant/" data-to="ant">Questions</a><span class="on" aria-current="page">Scenarios</span><a href="../ant-pro/" data-to="pro">Full model</a></nav></div></header>
+<main class="wrap">
+  
+  <div class="top">
+    <p class="kick">The Anthropic IPO &nbsp;·&nbsp; scenarios</p>
+    <h1>What is Anthropic worth, on your view of AI?</h1>
+    <p>Two things decide most of it: how fast AI progresses, and who ends up with the money. Move the two sliders and watch the price.</p>
+  </div>
+
+  <section id="hero" aria-live="polite">
+    <div>
+      <p class="kick">On your view, a share is worth</p>
+      <div id="pv"></div>
+      <p id="vs"></p>
+      <p style="margin:8px 0 0"><button type="button" class="lnk" id="reset" hidden>Back to the model's view, $36</button></p>
+    </div>
+    <svg id="scale" viewBox="0 0 520 96" role="img"></svg>
+  </section>
+
+  <section class="views">
+    <div class="view"><h3><label for="r-a">How fast does AI progress?</label></h3><input type="range" id="r-a" min="0" max="2" step="0.01"><div class="stops" id="s-a"></div></div>
+    <div class="view"><h3><label for="r-b">Who gets the money?</label></h3><input type="range" id="r-b" min="0" max="3" step="0.01"><div class="stops" id="s-b"></div></div>
+    <p id="now" aria-live="polite"></p>
+  </section>
+
+  <section style="display:grid;gap:12px">
+    <h2>Every scenario, value per share</h2>
+    <div class="tw"><table id="grid"></table><div id="frame"></div></div>
+    <div class="key"><span><i class="box"></i>where your sliders are</span><span><i class="grad"></i><span class="k-lt">darker</span><span class="k-dk">lighter</span> is worth more</span><span><u>underlined</u>: at or above the $74 IPO price</span><span>press a square to move the sliders there</span></div>
+    <p class="more"><a href="../ant-pro/">Click here for more detailed Pro Valuation Tool &rarr;</a></p>
+  </section>
+
+  <details>
+    <summary>How this works and what is held fixed</summary>
+    <p><b>Values.</b> Each scenario's value per share comes from the valuation engine v7 (mkt/anthropic-valuation), through The Long Swell's values.js, unchanged. A slider between two stops blends the two scenarios in proportion.</p>
+    <p><b>Held fixed.</b> Anthropic takes 45% of the AI labs' revenue. The labs' own revenue plans and the more cautious path (revenue tied to the jobs AI replaces) count half each; the AGI scenarios use the labs' plans only. A funding crash in 2027-29 is counted at the model's odds: 60% if AI stalls, 64% if it keeps improving, none if AGI arrives.</p>
+    <p><b>The four rows</b> follow The Long Swell's four AI pathways. "Specialist AI firms win" merges two of the model's worlds, which use the same computing and differ only in who keeps the money: labs selling by the use (74%) and specialist firms owning the client (26%), at the model's own weights. On the model's own weights over all its scenarios, the average value is $36 a share. The page opens there: the speed slider at the model's weighted position (25% stalls, 70% keeps improving, 5% AGI) and the money slider where that gives $36.</p>
+    <p><b>Unverified.</b> None of the scenario values is verified against outside data, and they were built on an earlier version of the compute model than the current one.</p>
+  </details>
+
+  <p class="disc">Research, not a recommendation to buy, sell or subscribe. Values rest on scenario-model figures that are not yet verified. The best AGI cases are upside cases, not forecasts. The model was built in a Claude session, and Anthropic makes Claude.</p>
+</main>
+<div id="bar" hidden><button type="button" id="barb"></button></div>
+<script>
+(function () {
+// ---- data: The Long Swell's values.js (engine v7), $ a share at a 45% share, by world and state ----
+// states: 0 keeps improving, 1 stalls, 2 AGI; +3 with a funding crash
+const IPO = 74, TOP = 160;
+const LOW = { C1: [37.2, 15.6, 51.4, 29.9, 10.1, 44.6], C2: [4.2, -1.2, 7.3, 0.5, -3.1, 2.6], C3: [29.2, 11.3, 41.1, 23.1, 5.5, 35.2], C4: [58.2, 28.6, 81.3, 50.7, 22.2, 73.0], C5: [8.7, 1.1, 11.3, 3.1, -1.3, 5.7] };
+const HIGH = { C1: [87.2, 15.6, 93.1, 65.2, 10.1, 71.7], C2: [4.2, -1.2, 5.5, 0.5, -3.1, 2.0], C3: [62.5, 11.3, 66.4, 45.9, 5.5, 51.5], C4: [132.8, 28.6, 144.5, 100.1, 22.2, 111.4], C5: [13.5, 1.1, 12.9, 6.2, -1.3, 7.7] };
+// speed: name, what it means, state index, the model's chance of a funding crash on that path
+const SP = [['AI stalls', 'progress slows in 2027-28 and putting AI into every business turns out to be hard', 1, 0.6],
+  ['Keeps improving', 'AI gets better every year to 2030, with less of a leap each time', 0, 0.45 / 0.70],
+  ['AGI arrives', 'progress speeds up and something like AGI arrives by about 2029', 2, 0]];
+// four pathways, least to most for the labs: the model's worlds and their weights, name, what it means, labs' $ of every $100.
+// The third merges two worlds (the AI pathways' "AI powers the apps") at the model's own weights, 74% by the use and 26% specialists.
+const PW = [[[['C2', 1]], 'AI becomes a cheap commodity', 'Open models catch up; prices collapse and buyers keep the savings.', 11],
+  [[['C5', 1]], 'Big tech bundles AI in', 'Google, Microsoft and Meta give AI away inside products people already pay for.', 15],
+  [[['C1', 0.74], ['C3', 0.26]], 'Specialist AI firms win', 'Specialist firms in law, medicine and code own the client, often on their own models; other firms buy Claude, ChatGPT or Gemini as a service.', 27],
+  [[['C4', 1]], 'Labs sell finished products', 'The labs own the model, the agents and the customer.', 34]];
+const HIGHW = 0.5;
+const $ = id => document.getElementById(id), usd = v => '$' + Math.round(Math.max(v, 0));
+function one(w, si) { const hi = Math.max(HIGH[w][si], 0); return si % 3 === 2 ? hi : Math.max(LOW[w][si], 0) * (1 - HIGHW) + hi * HIGHW; }
+// V[pathway][speed]: the scenario's value with a funding crash counted at the model's odds
+const V = PW.map(p => SP.map(s => p[0].reduce((t, [w, k]) => t + k * ((1 - s[3]) * one(w, s[2]) + s[3] * one(w, s[2] + 3)), 0)));
+const MAXV = Math.max(...V.flat());
+let a = 0.8, b = 2;   // slider positions: speed 0-2, pathway 0-3
+function price() { const i = Math.min(Math.floor(a), 1), t = a - i, j = Math.min(Math.floor(b), 2), u = b - j;
+  return (1 - u) * ((1 - t) * V[j][i] + t * V[j][i + 1]) + u * ((1 - t) * V[j + 1][i] + t * V[j + 1][i + 1]); }
+
+// The starting view is the model's own weighted view, $36 a share: speed at the weighted position
+// (25% stalls, 70% keeps improving, 5% AGI = 0.8) and the money slider wherever that gives the model's average.
+const BASE = 36, A0 = 0.8;
+let B0 = 2; { let lo = 0, hi = 3; for (let k = 0; k < 30; k++) { b = (lo + hi) / 2; if (price() < BASE) lo = b; else hi = b; } B0 = b = Math.round((lo + hi) * 50) / 100; }
+const home = () => Math.abs(a - A0) < 0.005 && Math.abs(b - B0) < 0.005;
+
+// ---- build once ----
+const stops = (el, names) => { el.style.setProperty('--w', (100 / names.length - 2).toFixed(1) + '%'); el.innerHTML =names.map((n, i) => `<button type="button" data-i="${i}" style="left:${(i / (names.length - 1) * 100).toFixed(2)}%">${n}</button>`).join(''); };
+stops($('s-a'), SP.map(s => s[0])); stops($('s-b'), ['Cheap commodity', 'Big tech bundles it', 'Specialist firms win', 'Labs sell products']);
+$('grid').innerHTML = '<thead><tr><th></th>' + SP.map((s, i) => `<th scope="col" data-c="${i}">${s[0]}</th>`).join('') + '</tr></thead><tbody>' +
+  PW.map((p, j) => `<tr><th scope="row" data-r="${j}">${p[1]}<span>${p[2].replace(/\.$/, '')}</span></th>` +
+    SP.map((s, i) => { const v = V[j][i], k = v / MAXV * 62;
+      return `<td class="c${v >= IPO ? ' hi' : ''}${k > 42 ? ' dk' : ''}" style="--a:${k.toFixed(0)}%" data-i="${i}" data-j="${j}" tabindex="0" role="button" aria-label="${p[1]}, ${s[0]}: ${usd(v)} a share">${usd(v)}</td>`; }).join('') + '</tr>').reverse().join('') + '</tbody>';   // most for Anthropic at the top
+
+// ---- redraw from the two positions ----
+const near = (x, names) => { const r = Math.round(x); return Math.abs(x - r) < 0.13 ? `<b>${names[r]}</b>` : `between <b>${names[Math.floor(x)]}</b> and <b>${names[Math.floor(x) + 1]}</b>`; };
+function frame() {
+  const box = $('grid').parentNode.getBoundingClientRect(), sl = $('grid').parentNode.scrollLeft;
+  const rc = (i, j) => $('grid').querySelector(`td[data-i="${i}"][data-j="${j}"]`).getBoundingClientRect();
+  const i = Math.min(Math.floor(a), 1), j = Math.min(Math.floor(b), 2), p = rc(i, j), q = rc(i + 1, j + 1), f = $('frame').style;
+  f.left = (p.left + (q.left - p.left) * (a - i) - box.left + sl) + 'px'; f.top = (p.top + (q.top - p.top) * (b - j) - box.top) + 'px';
+  f.width = p.width + 'px'; f.height = p.height + 'px';
+}
+function update() {
+  const p = price(), d = p / IPO - 1;
+  $('pv').innerHTML = usd(p) + '<small> a share</small>';
+  $('vs').innerHTML = p < 0.5 ? 'Debts and compute contracts outweigh the business. <b>Shareholders get nothing.</b>' : Math.abs(p - IPO) < 0.5 ? 'That is <b>the $74 IPO price</b>.' : `That is <b>${Math.abs(Math.round(d * 100))}% ${d >= 0 ? 'above' : 'below'}</b> the $${IPO} IPO price.`;
+  const X = v => 4 + Math.min(Math.max(v, 0), TOP) / TOP * 512;
+  $('scale').innerHTML = `<rect x="4" y="46" width="512" height="22" fill="var(--blank)" stroke="var(--rule)"/><rect x="4" y="46" width="${(X(p) - 4).toFixed(1)}" height="22" fill="var(--you)"/>` +
+    `<line x1="${X(IPO)}" x2="${X(IPO)}" y1="30" y2="76" stroke="var(--ink)" stroke-width="2.5"/><line x1="${X(IPO)}" x2="${X(IPO)}" y1="46" y2="68" stroke="var(--paper)" stroke-width="1" stroke-dasharray="2 2"/>` +
+    `<text class="ipo" x="${X(IPO)}" y="22" text-anchor="middle">$${IPO} IPO price</text><text x="4" y="90">$0</text><text x="516" y="90" text-anchor="end">$${TOP}</text>`;
+  $('scale').setAttribute('aria-label', `Your price of ${usd(p)} a share as a bar on a scale from $0 to $${TOP}, with the IPO price marked at $${IPO}`);
+  $('r-a').value = a; $('r-b').value = b;
+  $('r-a').setAttribute('aria-valuetext', near(a, SP.map(s => s[0])).replace(/<[^>]+>/g, '')); $('r-b').setAttribute('aria-valuetext', near(b, PW.map(x => x[1])).replace(/<[^>]+>/g, ''));
+  [['s-a', a], ['s-b', b]].forEach(([id, x]) => $(id).querySelectorAll('button').forEach((el, i) => el.classList.toggle('on', Math.abs(x - i) < 0.13)));
+  const ra = Math.round(a), rb = Math.round(b);
+  $('reset').hidden = home();
+  $('now').innerHTML = home() ? `This is the model's own view, weighted over every scenario: mostly <b>${SP[1][0]}</b>, with the money ${near(b, PW.map(x => x[1]))}. Move a slider to set your own.` : `${near(a, SP.map(s => s[0]))}, and ${near(b, PW.map(x => x[1]))}. ` + (Math.abs(a - ra) < 0.13 && Math.abs(b - rb) < 0.13 ? `${PW[rb][2]} AI labs keep about $${PW[rb][3]} of every $100 spent on AI. On speed: ${SP[ra][1]}.` : 'The price is a blend of the squares the frame touches.');
+  frame();
+  $('barb').innerHTML = `${usd(p)} a share <span>your price against the $${IPO} IPO</span>`;
+}
+const snap = x => Math.abs(x - Math.round(x)) < 0.13 ? Math.round(x) : x;
+$('r-a').addEventListener('input', e => { a = +e.target.value; update(); });
+$('r-b').addEventListener('input', e => { b = +e.target.value; update(); });
+$('r-a').addEventListener('change', () => { a = snap(a); update(); });
+$('r-b').addEventListener('change', () => { b = snap(b); update(); });
+$('s-a').addEventListener('click', e => { const x = e.target.closest('button'); if (x) { a = +x.dataset.i; update(); } });
+$('s-b').addEventListener('click', e => { const x = e.target.closest('button'); if (x) { b = +x.dataset.i; update(); } });
+$('grid').addEventListener('click', e => { const td = e.target.closest('td.c'); if (td) { a = +td.dataset.i; b = +td.dataset.j; update(); } });
+$('grid').addEventListener('keydown', e => { const td = e.target.closest('td.c'); if (td && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); td.click(); } });
+$('reset').addEventListener('click', () => { a = A0; b = B0; update(); });
+$('barb').addEventListener('click', () => $('hero').scrollIntoView({ behavior: 'smooth', block: 'start' }));
+if ('IntersectionObserver' in window) new IntersectionObserver(es => { $('bar').hidden = es[0].isIntersecting; }, { threshold: 0.2 }).observe($('hero'));
+window.addEventListener('resize', frame);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(frame);
+update();
+})();
+</script>
+</body>
+</html>
