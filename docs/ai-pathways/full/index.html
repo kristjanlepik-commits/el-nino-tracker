@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Four paths for AI</title>
+<meta name="description" content="Four paths for AI to 2030: what each means for the companies that buy it, for Anthropic, and for jobs.">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@500;700;800&family=Overpass+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+/* Layout: v5, built from the Claude Docs draft "Four paths for AI draft" (rev 37). Five frames: the jump, the bank (cards and $100 together),
+   how good AI gets, jobs, how it was made. Each path keeps one colour, the colour of whoever wins on it. */
+:root {
+  --bg: #F3F5F2; --surface: #FFFFFF; --sunk: #E7EBE6; --ink: #14181A; --soft: #48525A; --faint: #737E85; --rule: #D3D9D3;
+  --job: #2B50D8; --apps: #0F8A6E; --built: #C9740E; --cheap: #7E62AE; --idle: #A9B3AD; --hot: #B8461F;
+  --us: #2B50D8; --eu: #C9740E; --bubble: #E3E8E2;
+  --display: "Overpass", "Helvetica Neue", Arial, sans-serif; --body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --mono: "Overpass Mono", ui-monospace, Menlo, monospace; --col: 620px; --wide: 920px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #101416; --surface: #182023; --sunk: #1F282C; --ink: #E7ECE9; --soft: #AAB4B8; --faint: #7F8A8F; --rule: #2C373B;
+  --job: #7D97FF; --apps: #3CC7A4; --built: #F0A443; --cheap: #B6A0DE; --idle: #56636A; --hot: #F07B52;
+  --us: #7D97FF; --eu: #F0A443; --bubble: #243034; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #101416; --surface: #182023; --sunk: #1F282C; --ink: #E7ECE9; --soft: #AAB4B8; --faint: #7F8A8F; --rule: #2C373B;
+  --job: #7D97FF; --apps: #3CC7A4; --built: #F0A443; --cheap: #B6A0DE; --idle: #56636A; --hot: #F07B52;
+  --us: #7D97FF; --eu: #F0A443; --bubble: #243034; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 19px/1.55 var(--body); }
+.wrap { max-width: var(--wide); margin: 0 auto; padding-block: 40px 96px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 88px; }
+.frame { display: grid; gap: 18px; scroll-margin-top: 16px; }
+.txt { max-width: var(--col); display: grid; gap: 12px; min-width: 0; }
+.txt p { margin: 0; }
+.kick { font: 700 12px/1.3 var(--display); letter-spacing: .14em; text-transform: uppercase; color: var(--faint); margin: 0; }
+h1 { font: 800 clamp(38px, 7vw, 66px)/1 var(--display); letter-spacing: -.02em; margin: 0; text-wrap: balance; }
+h2 { font: 800 clamp(25px, 3.6vw, 34px)/1.1 var(--display); letter-spacing: -.01em; margin: 0; text-wrap: balance; }
+.dek { font-size: 21px; line-height: 1.45; color: var(--soft); margin: 0; max-width: 30em; }
+.fig { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 18px; display: grid; gap: 14px; min-width: 0; }
+.fig svg { display: block; width: 100%; height: auto; overflow: visible; }
+svg text { font: 12px var(--mono); fill: var(--faint); }
+svg text.lab { fill: var(--ink); font-weight: 600; }
+svg text.big { font: 800 15px var(--display); fill: var(--ink); }
+.note { font: 14px/1.5 var(--body); color: var(--faint); margin: 0; }
+.cap { font-size: 17px; line-height: 1.45; margin: 0; min-height: 2.9em; }
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible, summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.seg { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.seg button { font: 700 15px/1 var(--display); padding: 11px 14px 9px; border: 1px solid var(--rule); background: var(--bg); border-radius: 4px; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.switch { display: inline-flex; align-items: center; gap: 10px; font: 700 15px/1.2 var(--display); }
+.switch input { width: 20px; height: 20px; accent-color: var(--hot); }
+.switch[data-off="true"] { opacity: .4; }
+
+/* the bank */
+.chat { display: grid; gap: 10px; max-width: 520px; }
+.bub { padding: 12px 16px; border-radius: 16px; font: 17px/1.4 var(--body); max-width: 85%; }
+.bub.me { justify-self: end; background: var(--ink); color: var(--bg); border-bottom-right-radius: 4px; }
+.bub.bank { justify-self: start; background: var(--bubble); border-bottom-left-radius: 4px; font-family: var(--mono); font-size: 14px; color: var(--soft); }
+.choices { display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 720px) { .choices { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.choice { text-align: left; background: var(--bg); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px 14px 18px; display: grid; gap: 4px; position: relative; overflow: hidden; }
+.choice::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--c); }
+.choice b { font: 800 19px/1.2 var(--display); }
+.choice em { font: 600 12px/1.3 var(--mono); font-style: normal; color: var(--c); letter-spacing: .04em; text-transform: uppercase; }
+.choice span { font: 15px/1.45 var(--body); color: var(--soft); }
+.choice[aria-pressed="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); background: var(--surface); }
+.note100 { position: relative; height: 92px; border-radius: 6px; overflow: hidden; display: flex; border: 1px solid var(--rule); }
+.note100 .s { height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding: 8px 10px; color: var(--surface); font: 700 13px/1.2 var(--display); min-width: 0; overflow: hidden; transition: flex-basis .5s ease; }
+.note100 .s b { font: 800 clamp(15px, 3.6vw, 22px)/1 var(--display); }
+.note100 .wm { position: absolute; right: 12px; top: 8px; font: 800 13px var(--mono); color: var(--surface); opacity: .85; pointer-events: none; }
+.watch { font: 15px/1.5 var(--body); color: var(--soft); margin: 0; }
+.watch b { font: 700 12px var(--display); letter-spacing: .12em; text-transform: uppercase; color: var(--faint); margin-right: 8px; }
+.ladder { display: grid; gap: 8px; }
+.lrow { display: grid; grid-template-columns: minmax(0, 170px) minmax(0, 1fr) 54px; gap: 12px; align-items: center; background: none; border: 0; padding: 4px 0; text-align: left; }
+.lrow .ln { font: 700 15px/1.2 var(--display); }
+.lrow .lb { height: 18px; display: flex; border-radius: 3px; overflow: hidden; background: var(--sunk); }
+.lrow .lb span { height: 100%; }
+.lrow .lv { font: 600 14px var(--mono); text-align: right; }
+.lrow[aria-pressed="true"] .ln { text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 560px) { .lrow { grid-template-columns: minmax(0, 1fr) 54px; } .lrow .lb { grid-column: 1 / -1; grid-row: 2; } }
+@media (prefers-reduced-motion: reduce) { .note100 .s { transition: none; } }
+
+/* the four path cards */
+.pcards { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 720px) { .pcards { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.pcard { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 16px 18px; display: grid; gap: 8px; align-content: start; }
+.pn { margin: 0; font: 800 19px/1.2 var(--display); display: flex; align-items: center; gap: 8px; }
+.pn i { width: 10px; height: 10px; border-radius: 50%; background: var(--c); flex: none; }
+.pl { margin: 0; font: 16px/1.45 var(--body); color: var(--soft); }
+.pw { margin: 6px 0 0; font: 800 32px/1 var(--display); color: var(--c); }
+.pw span { font: 600 13px var(--mono); color: var(--soft); margin-left: 4px; }
+.pb { display: flex; height: 12px; border-radius: 3px; overflow: hidden; background: var(--sunk); gap: 2px; }
+.pb b { height: 100%; }
+.pr { margin: 0; font: 12.5px var(--mono); color: var(--faint); }
+
+/* the bank's decision */
+.dq { margin: 0; font: 800 22px/1.25 var(--display); }
+.opts { display: grid; gap: 8px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 640px) { .opts { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.o { text-align: left; padding: 12px 14px; border-radius: 6px; border: 1px solid var(--rule); background: var(--bg); display: grid; gap: 3px; }
+.o b { font: 700 16px/1.25 var(--display); }
+.o span { font: 600 12px var(--mono); color: var(--c); letter-spacing: .04em; text-transform: uppercase; }
+.o[aria-pressed="true"] { border-color: var(--c); box-shadow: inset 0 0 0 2px var(--c); background: var(--surface); }
+.res { display: grid; gap: 12px; border-top: 1px solid var(--rule); padding-top: 14px; }
+.two { display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 640px) { .two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.box { background: var(--sunk); border-radius: 6px; padding: 12px 14px; display: grid; gap: 4px; }
+.box p { margin: 0; font: 16px/1.45 var(--body); }
+.box .kick { font: 700 12px/1.3 var(--display); letter-spacing: .14em; text-transform: uppercase; color: var(--faint); }
+.dw { margin: 4px 0 0; font: 800 34px/1 var(--display); }
+.dw small { font: 600 13px var(--mono); color: var(--soft); margin-left: 8px; }
+
+/* jobs */
+.jobs { display: grid; gap: 10px; }
+.jrow { display: grid; grid-template-columns: minmax(0, 190px) minmax(0, 1fr); gap: 6px 14px; align-items: center; background: none; border: 0; padding: 6px 0; text-align: left; opacity: .45; transition: opacity .3s; }
+.jrow[aria-pressed="true"] { opacity: 1; }
+.jrow .jn { font: 700 16px/1.2 var(--display); }
+.jrow .jb { display: grid; gap: 4px; }
+.jrow .bar { display: flex; align-items: center; gap: 8px; font: 600 13px var(--mono); }
+.jrow .bar span { height: 14px; border-radius: 2px; }
+@media (max-width: 560px) { .jrow { grid-template-columns: minmax(0, 1fr); } }
+.big2 { display: flex; flex-wrap: wrap; gap: 8px 32px; align-items: end; }
+.big2 div { display: grid; }
+.big2 b { font: 800 clamp(30px, 6vw, 44px)/1 var(--display); }
+.big2 span { font: 13px var(--mono); color: var(--soft); }
+.keys { display: flex; flex-wrap: wrap; gap: 6px 18px; font: 13px var(--mono); color: var(--soft); }
+.keys i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+
+details { border-top: 1px solid var(--rule); padding-top: 12px; }
+summary { cursor: pointer; font: 700 15px var(--display); }
+.src { font: 14px/1.55 var(--body); color: var(--soft); display: grid; gap: 6px; margin-top: 10px; }
+.src code { font: 12.5px var(--mono); color: var(--faint); }
+.small { font-size: 15px; line-height: 1.55; color: var(--soft); }
+</style>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
+<script>
+window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+plausible.init({transformRequest:function(p){try{var c=document.querySelector('link[rel=canonical]');var u=c&&c.href?c.href:p.u;if(u)u=u.replace(/\/index\.html(\?|#|$)/,'/$1');if(u)p.u=u;}catch(e){}return p}})
+</script></head>
+<body>
+<main class="wrap">
+  <header class="txt">
+    <p class="kick">AI scenarios to 2030</p>
+    <h1>Four paths for AI</h1>
+    <p class="dek">Who gets paid for AI depends on the path it takes into business, and how good it gets matters most for how much the world spends.</p>
+  </header>
+
+  <section class="frame" id="f1">
+    <div class="txt"><h2>Huge innovation</h2><p>$7bn a year in 2024. $193bn a year today.</p></div>
+    <div class="fig"><svg id="hist" viewBox="0 0 640 230" role="img" aria-label="World spending on AI a year: about $7bn in 2024, $29bn in 2025 and $193bn today"></svg>
+      <p class="note">World spending on AI models and AI work, a year, estimated.</p></div>
+  </section>
+
+  <section class="frame" id="f2">
+    <div class="txt"><h2>Who wins? Start at the bank</h2></div>
+    <div class="fig">
+      <p class="kick">The bank's decision</p>
+      <p class="dq">How should the bank answer this customer?</p>
+      <div class="chat"><div class="bub me">Hi, I was charged twice for the same card payment.</div><div class="bub bank" id="bankBub">AI is typing</div></div>
+      <div class="opts" id="opts" role="group" aria-label="What the bank buys"></div>
+      <div class="res" aria-live="polite">
+        <div class="two"><div class="box"><p class="kick">The bank gets</p><p id="gets"></p></div><div class="box"><p class="kick">The bank gives up</p><p id="gives"></p></div></div>
+        <p class="dw" id="win"></p>
+        <div class="pb" id="winBar" role="img"></div>
+        <p class="pr" id="rest"></p>
+      </div>
+    </div>
+    <p class="note">Each choice can keep customer data private; they differ in who the bank trusts. The $100 is where AI spending goes in 2030, if AI keeps improving. By AI makers I mean the labs that build the models.</p>
+  </section>
+
+  <section class="frame" id="f2b">
+    <div class="txt"><h2>What it means for one AI maker</h2><p>Take Anthropic. It earns about 45% of what the AI labs earn today. If it keeps that share, its revenue by 2030 depends on the path: about $94bn a year if AI gets cheap, and about $449bn if AI does the job.</p></div>
+    <div class="fig"><svg id="ant" viewBox="0 0 640 300" role="img" aria-label="Anthropic revenue a year to 2030 on each path, at a 45% share of what the AI labs earn"></svg>
+      <p class="note">Today's 45% share held to 2030. Revenue is the average of the model's two paths for what the AI labs earn: one tied to the jobs AI replaces, one following the labs' own plans. If AI keeps improving, with no crash. The model was built in Claude sessions, and Anthropic makes Claude.</p></div>
+  </section>
+
+  <section class="frame" id="f3">
+    <div class="txt"><h2>How good does AI get?</h2><p>How good AI gets is the second question. It matters most for how much the world spends and whether the data centres fill up.</p><p>Three roads to 2030: AI stalls, keeps improving or takes off.</p></div>
+    <div class="fig">
+      <div class="seg" id="roadSeg" role="group" aria-label="How good AI gets">
+        <button type="button" data-p="stalls" aria-pressed="false">Stalls</button>
+        <button type="button" data-p="improves" aria-pressed="true">Keeps improving</button>
+        <button type="button" data-p="takeoff" aria-pressed="false">Takes off</button>
+      </div>
+      <label class="switch" id="crashWrap"><input type="checkbox" id="crash"> Investors pull back in 2027-29</label>
+      <svg id="roads" viewBox="0 0 640 300" role="img" aria-label="World AI spending a year to 2030 on each road"></svg>
+      <p class="cap" id="roadCap" aria-live="polite"></p>
+    </div>
+    <div class="txt"><p>Investors may pull back in 2027-29, whatever AI itself does. Markets fall, and the money for data centres dries up.</p><p>Speed also tilts who wins: if AI stalls, open models catch up and &ldquo;AI gets cheap&rdquo; gains; if it takes off, &ldquo;AI does the job&rdquo; gains.</p></div>
+  </section>
+
+  <section class="frame" id="f4">
+    <div class="txt"><h2>Jobs lost by 2030</h2><p>How many jobs AI takes by 2030 depends mostly on how good it gets. If AI keeps improving, the US loses about 3.3 million jobs and the EU about 3.0 million. If it stalls, about half that. If it takes off, about 5.2 million in the US and 5.0 million in the EU.</p></div>
+    <div class="fig">
+      <div class="big2" id="big2" aria-live="polite"></div>
+      <div class="keys"><span><i style="background:var(--us)"></i>US</span><span><i style="background:var(--eu)"></i>EU</span></div>
+      <div class="jobs" id="jobs" role="group" aria-label="Jobs lost by 2030 on each road"></div>
+      <p class="note">One number per road: the average over the four paths. Gross jobs displaced: the US from June 2025, the EU across all 208 million employed.</p>
+    </div>
+  </section>
+
+  <section class="frame txt small" id="f5">
+    <h2>How this was made</h2>
+    <p>My own scenario research. The scenarios and the $100 splits are my judgement, and nobody has measured the splits. The numbers come from my model, and the data-centre history from Epoch AI. I built the model in Claude sessions, and Anthropic makes Claude. Numbers frozen on 16 November 2026.</p>
+    <p>Not in the model: a chip shock, a halt or a serious AI incident, new rules on what AI may do, and AI running on your own phone or laptop. Any of them could change every road.</p>
+    <details><summary>Where every number comes from</summary><div class="src" id="sources"></div></details>
+  </section>
+</main>
+
+<script>
+(function () {
+const $ = id => document.getElementById(id);
+// ---- frozen numbers: pairs/2026-11-16-ai-pathways/numbers.md (compute model v4.4; money side revenue_v2 + v5 paths; jobs grid v5.2 / EU v1.3) ----
+const HIST = [['2024', 7], ['2025', 29], ['Today', 193]];
+const SPEND_HIST = [[2024.5, 7], [2025.5, 29], [2026.21, 68], [2026.46, 120], [2026.71, 193]];
+const SPEND = { stalls: [274, 311, 340, 367], stallsCrash: [254, 234, 244, 287], improves: [307, 437, 612, 856], improvesCrash: [285, 320, 417, 612], takeoff: [313, 485, 736, 1104] };
+const CAPS = { stalls: 'AI stalls and the money keeps flowing: $367bn a year by 2030.', stallsCrash: 'AI stalls and investors pull back in 2027-29: $287bn a year by 2030.',
+  improves: 'AI keeps improving and the money keeps flowing: $856bn a year by 2030.', improvesCrash: 'AI keeps improving, but investors pull back in 2027-29: $612bn a year by 2030.',
+  takeoff: 'AI takes off: $1,104bn a year by 2030.' };
+const LABEL = { stalls: 'Stalls', stallsCrash: 'Stalls, crash', improves: 'Keeps improving', improvesCrash: 'Improves, crash', takeoff: 'Takes off' };
+const JOBS = { improves: [3290, 3042], improvesCrash: [3348, 2847], stalls: [1624, 1375], stallsCrash: [1745, 1389], takeoff: [5175, 5024] };   // thousands, US / EU
+const PATHS = [
+  { id: 'job', name: 'AI does the job', c: '--job', best: 'the AI makers', keep: '$34', s: { labs: 34, apps: 20, bundles: 0, cloud: 46 },
+    choice: 'An AI maker answers your customers and charges per problem solved. You\'d pick it if you trust it and it takes the blame for wrong answers.',
+    watch: 'AI makers earn more selling finished work than selling access to their models, and publish prices per result.', bub: "an AI maker's agent" },
+  { id: 'apps', name: 'AI powers the apps', c: '--apps', best: 'the apps', keep: '$21', s: { labs: 21, apps: 50, bundles: 0, cloud: 29 },
+    choice: 'A specialist support app, picked because it has already passed banks\' security checks. Or you build your own on an AI maker\'s model.',
+    watch: 'Leading paid models keep most spending, prices no more than halve yearly, and specialist apps outgrow the AI makers.', bub: 'a support app on an AI model' },
+  { id: 'built', name: 'AI is built in', c: '--built', best: 'Microsoft and Google', keep: '$15', s: { labs: 15, apps: 0, bundles: 65, cloud: 20 },
+    choice: 'Switch on Microsoft\'s or Google\'s AI. Your data already sits with them under contracts you have signed, so it is the easy yes.',
+    watch: 'Firms switch on the AI inside their Microsoft or Google software faster than they buy access from AI makers.', bub: "the AI in the bank's Microsoft or Google software" },
+  { id: 'cheap', name: 'AI gets cheap', c: '--cheap', best: 'cloud and chips', keep: '$11', s: { labs: 11, apps: 0, bundles: 0, cloud: 89 },
+    choice: 'Take an open model and run it on your own servers, so customer data never leaves the building.',
+    watch: 'Open models take more than a fifth of what companies spend on AI.', bub: "an open model on the bank's own servers" },
+];
+const RECIP = [['labs', 'AI makers', '--job'], ['apps', 'Apps', '--apps'], ['bundles', 'Microsoft, Google', '--built'], ['cloud', 'Cloud and chips', '--cheap']];
+// the bank's four options: the action, who answers, what the bank gets and gives up (the desk's reading), who wins and how to label the winner's share
+const OPT = {
+  job: { act: "Hire an AI maker's agent", ans: "Answered by an AI maker's agent", gets: 'One supplier that answers end to end and takes the blame for wrong answers.', gives: 'Control of the customer, and it pays more for each problem solved.', win: 'labs', wl: 'to AI makers' },
+  apps: { act: 'Buy a specialist support app', ans: 'Answered by a support app on an AI model', gets: 'A tool built for support and already cleared for banks.', gives: 'Another company in the chain, often a young one.', win: 'apps', wl: 'to the app' },
+  built: { act: "Switch on Microsoft's or Google's AI", ans: "Answered by the AI in the bank's office software", gets: 'No new contract: the data already sits with them.', gives: 'Generic AI, and more dependence on software it already pays for.', win: 'bundles', wl: 'to Microsoft and Google' },
+  cheap: { act: 'Run an open model ourselves', ans: "Answered by an open model on the bank's own servers", gets: 'The lowest price, and customer data never leaves the building.', gives: 'It has to run and fix the AI itself.', win: 'cloud', wl: 'to cloud and chips' } };
+const SOURCES = [
+  ['World spending on AI, 2024 to 2030, by road:', 'EOS ai/compute-demand-2030, F-20261114-world-ai-spend-193bn-and-dc-investment; outputs/ant-history/q1_world_ai_spend.json'],
+  ['Who keeps each $100 spent on AI:', 'model/ant_dollar_split.py, outputs/ant-history/screen3_dollar_split.json; the splits are judgement'],
+  ['Anthropic revenue by path:', 'EOS ai/compute-demand-2030, outputs/lab-pool-paths-v5-low.csv and -v5-high.csv (equal weight, as mkt engine v7), times a 45% share (Anthropic in the 2026 lab pool)'],
+  ['Jobs lost by 2030:','EOS ai/jobs, R-20261115-jobs-grid-v5-2-central-3m (US grid v5.2, EU grid v1.3), inputs unchanged to compute v4.4'],
+  ['Signposts:', 'the research note "The five capture worlds", 16 November 2026'],
+  ['Model version:', 'compute model v4.4 (adopted 2026-11-14); numbers frozen 16 November 2026'],
+];
+
+let prog = 'improves', crash = false, path = 'apps';
+const key = () => prog === 'takeoff' ? 'takeoff' : prog + (crash ? 'Crash' : '');
+
+// ---- the jump ----
+(function () {
+  const W = 640, H = 230, L = 20, B = 30, T = 16, bw = 120, gap = (W - L * 2 - bw * 3) / 2, Y = v => T + (H - T - B) * (1 - v / 200);
+  $('hist').innerHTML = HIST.map(([lab, v], i) => { const x = L + i * (bw + gap);
+    return `<rect x="${x}" y="${Y(v)}" width="${bw}" height="${Y(0) - Y(v)}" rx="3" fill="${i === 2 ? 'var(--ink)' : 'var(--idle)'}"/><text class="big" x="${x + bw / 2}" y="${Y(v) - 8}" text-anchor="middle">$${v}bn</text><text x="${x + bw / 2}" y="${H - 8}" text-anchor="middle">${lab}</text>`; }).join('');
+})();
+
+// ---- one AI maker: Anthropic's revenue a year, $bn, 2026-30, keeps improving, no crash; lab pool v5 low/high equal weight x 45% share ----
+const ANT = { job: [67.5, 120.3, 190.0, 293.2, 449.3], apps: [67.5, 102.2, 134.6, 173.1, 220.2], built: [67.5, 94.4, 106.9, 113.8, 115.0], cheap: [67.5, 93.1, 100.9, 101.2, 94.2] };
+(function () {
+  const W = 640, H = 300, L = 52, R = 200, T = 14, B = 26, X = y => L + (y - 2026) / 4 * (W - L - R), Y = v => T + (H - T - B) * (1 - v / 500);
+  let s = ''; [0, 100, 200, 300, 400, 500].forEach(t => s += `<line x1="${L}" x2="${W - R + 6}" y1="${Y(t)}" y2="${Y(t)}" stroke="var(--rule)"/><text x="${L - 8}" y="${Y(t) + 4}" text-anchor="end">${t ? '$' + t + 'bn' : '$0'}</text>`);
+  [2026, 2027, 2028, 2029, 2030].forEach(y => s += `<text x="${X(y)}" y="${H - 6}" text-anchor="middle">${y}</text>`);
+  PATHS.forEach(p => { s += `<path d="${ANT[p.id].map((v, i) => (i ? 'L' : 'M') + X(2026 + i).toFixed(1) + ' ' + Y(v).toFixed(1)).join(' ')}" fill="none" stroke="var(${p.c})" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`;
+    s += `<circle cx="${X(2030)}" cy="${Y(ANT[p.id][4])}" r="4.5" fill="var(${p.c})"/>`; });
+  const ends = PATHS.map(p => ({ p, v: ANT[p.id][4], y: Y(ANT[p.id][4]) })).sort((a, b) => a.y - b.y);
+  for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 16) ends[i].y = ends[i - 1].y + 16;
+  ends.forEach(e => s += `<text class="lab" x="${X(2030) + 12}" y="${e.y + 4}">$${Math.round(e.v)}bn ${e.p.name}</text>`);
+  s += `<circle cx="${X(2026)}" cy="${Y(67.5)}" r="4" fill="var(--soft)"/><text x="${X(2026) + 8}" y="${Y(67.5) + 18}">today $68bn</text>`;
+  $('ant').innerHTML = s;
+})();
+
+// ---- the bank's decision: pick an option, see who answers, what the bank gets and gives up, and where the $100 goes ----
+function drawDecision() {
+  $('opts').innerHTML = PATHS.map(p => `<button type="button" class="o" style="--c:var(${p.c})" data-id="${p.id}" aria-pressed="${p.id === path}"><b>${OPT[p.id].act}</b><span>${p.name}</span></button>`).join('');
+  const p = PATHS.find(q => q.id === path), o = OPT[p.id], segs = RECIP.filter(r => p.s[r[0]]);
+  $('bankBub').textContent = o.ans; $('gets').textContent = o.gets; $('gives').textContent = o.gives;
+  $('win').innerHTML = `<span style="color:var(${p.c})">$${p.s[o.win]}</span><small>of every $100 ${o.wl}</small>`;
+  let g = 0;
+  $('winBar').innerHTML = segs.map(r => `<b style="width:${p.s[r[0]]}%;background:${r[0] === o.win ? `var(${p.c})` : (g++ % 2 ? 'var(--rule)' : 'var(--idle)')}"></b>`).join('');
+  $('winBar').setAttribute('aria-label', 'Of $100: ' + segs.map(r => r[1] + ' $' + p.s[r[0]]).join(', '));
+  $('rest').textContent = segs.filter(r => r[0] !== o.win).map(r => `${r[1]} $${p.s[r[0]]}`).join(' · ');
+}
+$('opts').addEventListener('click', e => { const b = e.target.closest('[data-id]'); if (b) { path = b.dataset.id; drawDecision(); } });
+
+// ---- how good AI gets ----
+function drawRoads() {
+  document.querySelectorAll('#roadSeg [data-p]').forEach(b => b.setAttribute('aria-pressed', b.dataset.p === prog));
+  const off = prog === 'takeoff'; $('crash').disabled = off; if (off) $('crash').checked = false; crash = $('crash').checked; $('crashWrap').dataset.off = off;
+  const W = 640, H = 300, L = 52, R = 150, T = 14, B = 26, x0 = 2024, x1 = 2030.6, max = 1200;
+  const X = x => L + (x - x0) / (x1 - x0) * (W - L - R), Y = y => T + (H - T - B) * (1 - y / max);
+  const P = pts => pts.map((p, i) => (i ? 'L' : 'M') + X(p[0]).toFixed(1) + ' ' + Y(p[1]).toFixed(1)).join(' ');
+  const fmt = v => v >= 1000 ? '$' + (v / 1000).toFixed(1) + 'tn' : '$' + Math.round(v) + 'bn';
+  let s = ''; [0, 300, 600, 900, 1200].forEach(t => s += `<line x1="${L}" x2="${W - R + 6}" y1="${Y(t)}" y2="${Y(t)}" stroke="var(--rule)"/><text x="${L - 8}" y="${Y(t) + 4}" text-anchor="end">${t ? fmt(t) : '$0'}</text>`);
+  [2024, 2026, 2028, 2030].forEach(y => s += `<text x="${X(y + .5)}" y="${H - 6}" text-anchor="middle">${y}</text>`);
+  const last = SPEND_HIST[SPEND_HIST.length - 1], k = key(), ends = [];
+  Object.keys(SPEND).forEach(kk => { const pts = [last].concat(SPEND[kk].map((y, j) => [2027.5 + j, y])), on = kk === k;
+    s += `<path d="${P(pts)}" fill="none" stroke="${on ? 'var(--ink)' : (kk.includes('Crash') ? 'var(--hot)' : 'var(--idle)')}" stroke-width="${on ? 4 : 2}" stroke-linecap="round" stroke-linejoin="round" opacity="${on ? 1 : .55}"/>`;
+    ends.push({ kk, y: Y(pts[4][1]), v: pts[4][1], on }); });
+  s += `<path d="${P(SPEND_HIST)}" fill="none" stroke="var(--soft)" stroke-width="3"/>`;
+  ends.sort((a, b) => a.y - b.y); for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 15) ends[i].y = ends[i - 1].y + 15;
+  ends.forEach(e => s += `<text class="${e.on ? 'lab' : ''}" x="${X(2030.5) + 10}" y="${e.y + 4}">${fmt(e.v)} ${LABEL[e.kk]}</text>`);
+  s += `<circle cx="${X(last[0])}" cy="${Y(last[1])}" r="4.5" fill="var(--soft)"/><text x="${X(last[0]) - 6}" y="${Y(last[1]) - 9}" text-anchor="end">today $193bn</text>`;
+  $('roads').innerHTML = s; $('roadCap').textContent = CAPS[k];
+  drawJobs();
+}
+$('roadSeg').addEventListener('click', e => { const b = e.target.closest('[data-p]'); if (b) { prog = b.dataset.p; drawRoads(); } });
+$('crash').addEventListener('change', drawRoads);
+
+// ---- jobs ----
+function drawJobs() {
+  const k = key(), m = v => (v / 1000).toFixed(1), max = 6000;
+  $('big2').innerHTML = `<div><b style="color:var(--us)">${m(JOBS[k][0])}M</b><span>US jobs lost by 2030</span></div><div><b style="color:var(--eu)">${m(JOBS[k][1])}M</b><span>EU jobs lost by 2030</span></div><div><span>Road: ${LABEL[k]}</span></div>`;
+  $('jobs').innerHTML = Object.keys(JOBS).map(kk => `<button type="button" class="jrow" data-k="${kk}" aria-pressed="${kk === k}"><span class="jn">${LABEL[kk]}</span><span class="jb"><span class="bar"><span style="width:${(JOBS[kk][0] / max * 80).toFixed(1)}%;background:var(--us)"></span>${m(JOBS[kk][0])}M</span><span class="bar"><span style="width:${(JOBS[kk][1] / max * 80).toFixed(1)}%;background:var(--eu)"></span>${m(JOBS[kk][1])}M</span></span></button>`).join('');
+}
+$('jobs').addEventListener('click', e => { const b = e.target.closest('[data-k]'); if (!b) return; const kk = b.dataset.k;
+  prog = kk.startsWith('stalls') ? 'stalls' : kk.startsWith('improves') ? 'improves' : 'takeoff'; $('crash').checked = kk.endsWith('Crash'); drawRoads(); });
+
+$('sources').innerHTML = SOURCES.map(([w, s]) => `<div>${w} <code>${s}</code></div>`).join('');
+drawDecision(); drawRoads();
+})();
+</script>
+</body>
+</html>

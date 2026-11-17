@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>4 AI pathways</title>
+<meta name="description" content="How does AI evolve by 2030? Four pathways, and what each means for Anthropic's revenue.">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@500;700;800&family=Overpass+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+/* The simple version, from Kristjan's brief of 16 November 2026: title, the telecom's support window, four options drawn as what sits
+   behind the chat (no numbers), and Anthropic's revenue following the pick. Details live in the full version (page.html). */
+:root {
+  --bg: #F3F5F2; --surface: #FFFFFF; --sunk: #E7EBE6; --ink: #14181A; --soft: #48525A; --faint: #737E85; --rule: #D3D9D3;
+  --job: #2B50D8; --apps: #0F8A6E; --built: #C9740E; --cheap: #7E62AE; --idle: #A9B3AD; --bubble: #E3E8E2;
+  --display: "Overpass", "Helvetica Neue", Arial, sans-serif; --body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --mono: "Overpass Mono", ui-monospace, Menlo, monospace; --col: 620px; --wide: 920px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #101416; --surface: #182023; --sunk: #1F282C; --ink: #E7ECE9; --soft: #AAB4B8; --faint: #7F8A8F; --rule: #2C373B;
+  --job: #7D97FF; --apps: #3CC7A4; --built: #F0A443; --cheap: #B6A0DE; --idle: #56636A; --bubble: #243034; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #101416; --surface: #182023; --sunk: #1F282C; --ink: #E7ECE9; --soft: #AAB4B8; --faint: #7F8A8F; --rule: #2C373B;
+  --job: #7D97FF; --apps: #3CC7A4; --built: #F0A443; --cheap: #B6A0DE; --idle: #56636A; --bubble: #243034; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 19px/1.55 var(--body); margin: 0; }
+.wrap { max-width: var(--wide); margin: 0 auto; padding-block: 40px 96px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 72px; }
+.frame { display: grid; gap: 18px; }
+.txt { max-width: var(--col); display: grid; gap: 12px; min-width: 0; }
+.txt p { margin: 0; }
+.kick { font: 700 12px/1.3 var(--display); letter-spacing: .14em; text-transform: uppercase; color: var(--faint); margin: 0; }
+h1 { font: 800 clamp(44px, 9vw, 76px)/1 var(--display); letter-spacing: -.02em; margin: 0; }
+h2 { font: 800 clamp(25px, 3.6vw, 34px)/1.12 var(--display); letter-spacing: -.01em; margin: 0; text-wrap: balance; }
+.dek { font: 500 clamp(22px, 3.4vw, 28px)/1.3 var(--display); color: var(--soft); margin: 0; }
+.fig { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 18px; display: grid; gap: 18px; min-width: 0; }
+.note { font: 14px/1.5 var(--body); color: var(--faint); margin: 0; }
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible, a:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* the four options */
+.opts { display: grid; gap: 8px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 560px) { .opts { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.o { text-align: left; padding: 12px 14px 12px 18px; border-radius: 6px; border: 1px solid var(--rule); background: var(--bg); display: grid; gap: 3px; position: relative; overflow: hidden; }
+.o::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--c); }
+.o b { font: 700 17px/1.25 var(--display); }
+.o span { font: 600 12px var(--mono); color: var(--c); letter-spacing: .04em; text-transform: uppercase; }
+.o[aria-pressed="true"] { border-color: var(--c); box-shadow: inset 0 0 0 2px var(--c); background: var(--surface); }
+
+/* the stage: the support window in front, what sits behind it on the right */
+.stage { display: grid; gap: 22px; grid-template-columns: minmax(0, 1fr); align-items: start; }
+@media (min-width: 760px) { .stage { grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 28px; } }
+.win { border: 1px solid var(--rule); border-radius: 14px; overflow: hidden; background: var(--bg); }
+.win .bar { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 14px; background: var(--sunk); font: 700 14px/1.2 var(--display); }
+.win .bar span { font: 600 11.5px var(--mono); color: var(--soft); text-align: right; }
+.win .bar i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--apps); margin-right: 8px; vertical-align: 1px; }
+.msgs { padding: 16px 14px 18px; display: grid; gap: 10px; min-height: 230px; align-content: start; }
+.bub { padding: 11px 15px; border-radius: 16px; font: 16.5px/1.4 var(--body); max-width: 88%; margin: 0; }
+.bub.me { justify-self: end; background: var(--ink); color: var(--bg); border-bottom-right-radius: 4px; }
+.bub.them { justify-self: start; background: var(--bubble); border-bottom-left-radius: 4px; }
+.tag { justify-self: start; font: 600 12px/1.35 var(--mono); color: var(--c, var(--faint)); margin: -4px 0 0 4px; }
+.dots { display: inline-flex; gap: 5px; padding: 15px 16px; }
+.dots b { width: 7px; height: 7px; border-radius: 50%; background: var(--faint); animation: blink 1.2s infinite ease-in-out; }
+.dots b:nth-child(2) { animation-delay: .2s; } .dots b:nth-child(3) { animation-delay: .4s; }
+@keyframes blink { 0%, 80%, 100% { opacity: .25; } 40% { opacity: 1; } }
+
+.behind { display: grid; gap: 12px; min-width: 0; }
+.chain { display: grid; gap: 0; }
+.node { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 2px 12px; align-items: center; padding: 12px 14px; border: 1px solid var(--rule); border-radius: 8px; background: var(--surface); }
+.node svg { grid-row: span 2; width: 40px; height: 40px; padding: 8px; border-radius: 8px; background: var(--sunk); color: var(--soft); fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.node b { font: 800 17px/1.2 var(--display); }
+.node span { font: 15px/1.4 var(--body); color: var(--soft); }
+.node.main { border: 2px solid var(--c); }
+.node.main svg { background: var(--c); color: var(--surface); }
+.node.ghost { border-style: dashed; background: transparent; }
+.node.ghost b { color: var(--faint); }
+.lock { grid-column: 2; justify-self: start; display: inline-flex; align-items: center; gap: 6px; margin-top: 4px; font: 600 11.5px var(--mono); color: var(--soft); background: var(--sunk); border-radius: 999px; padding: 3px 10px 3px 7px; }
+.lock svg { width: 14px; height: 14px; padding: 0; background: none; grid-row: auto; stroke-width: 2.2; }
+.arrow { height: 26px; margin-left: 33px; position: relative; }
+.arrow::before { content: ""; position: absolute; left: 0; top: 3px; bottom: 7px; border-left: 2px solid var(--idle); }
+.arrow::after { content: ""; position: absolute; left: -5px; bottom: 3px; border: 6px solid transparent; border-top: 7px solid var(--idle); border-bottom: 0; }
+.why { background: var(--sunk); border-radius: 6px; padding: 12px 14px; display: grid; gap: 4px; }
+.why p { margin: 0; font: 16px/1.45 var(--body); }
+.why p.kick { font: 700 12px/1.3 var(--display); }
+.in { animation: rise .35s ease both; }
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .in, .dots b { animation: none; } }
+
+/* Anthropic's revenue */
+.read { display: flex; flex-wrap: wrap; gap: 6px 28px; align-items: end; }
+.read div { display: grid; }
+.read b { font: 800 clamp(34px, 6vw, 48px)/1 var(--display); }
+.read span { font: 13px/1.4 var(--mono); color: var(--soft); }
+.fig svg.chart { display: block; width: 100%; height: auto; overflow: visible; }
+svg text { font: 12px var(--mono); fill: var(--faint); }
+svg text.lab { fill: var(--ink); font-weight: 600; }
+
+.more { border-top: 1px solid var(--rule); padding-top: 22px; display: grid; gap: 10px; max-width: var(--col); }
+.more p { margin: 0; font: 17px/1.5 var(--body); color: var(--soft); }
+.more a { font: 700 16px var(--display); color: var(--ink); text-underline-offset: 4px; }
+</style>
+<!-- Privacy-friendly analytics by Plausible -->
+<script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
+<script>
+window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+plausible.init({transformRequest:function(p){try{var c=document.querySelector('link[rel=canonical]');var u=c&&c.href?c.href:p.u;if(u)u=u.replace(/\/index\.html(\?|#|$)/,'/$1');if(u)p.u=u;}catch(e){}return p}})
+</script></head>
+<body>
+<main class="wrap">
+  <header class="txt">
+    <h1>4 AI pathways</h1>
+    <p class="dek">How does AI evolve by 2030?</p>
+  </header>
+
+  <section class="frame" id="solve">
+    <div class="txt"><h2>It is 2028. A telecom operator needs to answer 1,000 customers a day. How does it solve it?</h2>
+      <p>It has four options. Each one is a path AI could take by 2030.</p></div>
+    <div class="fig">
+      <div class="opts" id="opts" role="group" aria-label="How the telecom answers its customers"></div>
+      <div class="stage" aria-live="polite">
+        <div class="win">
+          <div class="bar"><div><i></i>Telecom support</div><span>1,000 customers a day</span></div>
+          <div class="msgs" id="msgs"></div>
+        </div>
+        <div class="behind">
+          <p class="kick">Behind the chat</p>
+          <div class="chain" id="chain"></div>
+          <div class="why" id="why" hidden><p class="kick">Why it would pick this</p><p id="whyT"></p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="frame" id="ant">
+    <div class="txt"><h2>How could Anthropic's revenue evolve in each case?</h2>
+      <p>Anthropic, the company behind Claude, is one AI maker. If most firms picked the same option, its revenue could go like this.</p></div>
+    <div class="fig">
+      <div class="read" id="read" aria-live="polite"></div>
+      <svg class="chart" id="chart" viewBox="0 0 640 300" role="img" aria-label="Anthropic revenue a year to 2030 on each path"></svg>
+      <p class="note">Revenue a year if Anthropic keeps today's share, about 45% of what AI makers earn, if AI keeps improving and investors don't pull back. From my model, numbers as of 16 November 2026. I built the model in Claude sessions, and Anthropic makes Claude.</p>
+    </div>
+  </section>
+
+  <section class="more">
+    <p class="kick">The details</p>
+    <p>Who gets the money on each path, how good AI gets and how many jobs are lost are in the full version.</p>
+    <a href="full/" target="_blank" rel="noopener">Open the full version</a>
+  </section>
+</main>
+
+<script>
+(function () {
+const $ = id => document.getElementById(id);
+// ---- frozen numbers: pairs/2026-11-16-ai-pathways/numbers.md. Anthropic revenue a year, $bn, 2026-30, keeps improving, no crash;
+//      lab pool v5 low/high at equal weight (as mkt engine v7) x 45% share (Anthropic in the 2026 lab pool) ----
+const ANT = { job: [67.5, 120.3, 190.0, 293.2, 449.3], apps: [67.5, 102.2, 134.6, 173.1, 220.2], built: [67.5, 94.4, 106.9, 113.8, 115.0], cheap: [67.5, 93.1, 100.9, 101.2, 94.2] };
+const I = {
+  telecom: '<path d="M3 21h18M5 21V8l7-4 7 4v13M9 21v-5h6v5M9 11h.01M15 11h.01"/>',
+  agent: '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M18.5 16.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/>',
+  app: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 13h6M7 16h4"/>',
+  model: '<circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/>',
+  suite: '<rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/>',
+  server: '<rect x="4" y="3" width="16" height="7" rx="1.5"/><rect x="4" y="14" width="16" height="7" rx="1.5"/><path d="M8 6.5h.01M8 17.5h.01M12 10v4"/>',
+  open: '<path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7M12 11v10"/>',
+  lock: '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>' };
+// the four options: what the telecom does, who answers, what sits behind the chat (main = the firm the telecom relies on), and why
+const PATHS = [
+  { id: 'job', name: 'AI does the job', c: '--job', act: "Hire an AI maker's agent", tag: "Answered by an AI maker's agent",
+    chain: [['telecom', 'Telecom operator', 'Hands its support to one supplier.'],
+            ['agent', "AI maker's agent", 'The company behind ChatGPT or Claude answers every customer with its own agent.', 'main', 'Customer data goes here']],
+    why: 'It trusts one supplier to answer every customer and to take the blame for wrong answers.' },
+  { id: 'apps', name: 'AI powers the apps', c: '--apps', act: 'Buy a support app', tag: 'Answered by a support app',
+    chain: [['telecom', 'Telecom operator', 'Buys a ready-made tool.'],
+            ['app', 'Support app', "A specialist firm's tool for customer support.", 'main', 'Customer data goes here'],
+            ['model', 'AI model', 'The support app rents it from an AI maker.', '', 'Customer data passes through here']],
+    why: 'A tool made only for customer support, by a firm that knows the work.' },
+  { id: 'built', name: 'AI is built in', c: '--built', act: "Switch on Microsoft's or Google's AI", tag: "Answered by Microsoft's or Google's AI",
+    chain: [['telecom', 'Telecom operator', 'Turns on AI in software it uses every day.'],
+            ['suite', 'Microsoft or Google', 'AI built into their office and email software.', 'main', 'Customer data is already here']],
+    why: 'No new supplier and no new contract to sign.' },
+  { id: 'cheap', name: 'AI gets cheap', c: '--cheap', act: 'Run a free AI model itself', tag: "Answered by a free model on the telecom's servers",
+    chain: [['telecom', 'Telecom operator', 'Runs the AI itself.', '', 'Customer data stays here'],
+            ['server', 'Its own servers', 'Computers and chips it buys and runs itself.', 'main'],
+            ['open', 'Free AI model', 'An open model anyone can download and run.']],
+    why: 'The lowest price, and customer data never leaves the building.' } ];
+
+let pick = null;
+const P = () => PATHS.find(p => p.id === pick);
+const ico = k => `<svg viewBox="0 0 24 24" aria-hidden="true">${I[k]}</svg>`;
+const node = ([k, t, s, cls, lock]) => `<div class="node ${cls || ''}">${ico(k)}<b>${t}</b><span>${s}</span>${lock ? `<em class="lock" style="font-style:normal">${ico('lock')}${lock}</em>` : ''}</div>`;
+
+function drawSolve() {
+  const p = P();
+  $('opts').innerHTML = PATHS.map(q => `<button type="button" class="o" style="--c:var(${q.c})" data-id="${q.id}" aria-pressed="${q.id === pick}"><b>${q.act}</b><span>${q.name}</span></button>`).join('');
+  $('msgs').innerHTML = `<p class="bub me">Hi, why is my bill higher this month?</p>` + (p
+    ? `<p class="bub them in">You used mobile data abroad last week. Shall I add a travel pack so it does not happen again?</p><p class="tag in" style="--c:var(${p.c})">${p.tag}</p>`
+    : `<p class="bub them dots" aria-label="Typing"><b></b><b></b><b></b></p><p class="tag">Pick an option to see who answers</p>`);
+  $('chain').style.setProperty('--c', p ? `var(${p.c})` : 'var(--idle)');
+  $('chain').innerHTML = p
+    ? p.chain.map((n, i) => (i ? '<div class="arrow in"></div>' : '') + node(n).replace('class="node', 'class="in node')).join('')
+    : node(['telecom', 'Telecom operator', 'Needs an answer for every customer.']) + '<div class="arrow"></div>' + `<div class="node ghost">${ico('model')}<b>?</b><span>Pick an option above to see what sits behind the chat.</span></div>`;
+  $('why').hidden = !p; if (p) $('whyT').textContent = p.why;
+}
+
+function drawAnt() {
+  const p = P(), W = 640, H = 300, L = 52, R = 196, T = 22, B = 26;
+  const X = y => L + (y - 2026) / 4 * (W - L - R), Y = v => T + (H - T - B) * (1 - v / 500);
+  let s = '';
+  [0, 100, 200, 300, 400, 500].forEach(t => s += `<line x1="${L}" x2="${W - R + 6}" y1="${Y(t)}" y2="${Y(t)}" stroke="var(--rule)"/><text x="${L - 8}" y="${Y(t) + 4}" text-anchor="end">${t ? '$' + t + 'bn' : '$0'}</text>`);
+  [2026, 2027, 2028, 2029, 2030].forEach(y => s += `<text x="${X(y)}" y="${H - 6}" text-anchor="middle">${y}</text>`);
+  const order = PATHS.filter(q => q.id !== pick).concat(p ? [p] : []);
+  order.forEach(q => { const on = !p || q.id === pick, col = on ? `var(${q.c})` : 'var(--idle)';
+    s += `<path d="${ANT[q.id].map((v, i) => (i ? 'L' : 'M') + X(2026 + i).toFixed(1) + ' ' + Y(v).toFixed(1)).join(' ')}" fill="none" stroke="${col}" stroke-width="${p && on ? 4.5 : on ? 3 : 2}" opacity="${on ? 1 : .6}" stroke-linecap="round" stroke-linejoin="round"/>`;
+    s += `<circle cx="${X(2030)}" cy="${Y(ANT[q.id][4])}" r="${p && on ? 5.5 : 4}" fill="${col}"/>`; });
+  const ends = PATHS.map(q => ({ q, v: ANT[q.id][4], y: Y(ANT[q.id][4]) })).sort((a, b) => a.y - b.y);
+  for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 16) ends[i].y = ends[i - 1].y + 16;
+  ends.forEach(e => { const on = !p || e.q.id === pick;
+    s += `<text class="${on ? 'lab' : ''}" x="${X(2030) + 12}" y="${e.y + 4}">$${Math.round(e.v)}bn ${e.q.name}</text>`; });
+  s += `<circle cx="${X(2026)}" cy="${Y(67.5)}" r="4" fill="var(--soft)"/><text x="${X(2026) + 8}" y="${Y(67.5) + 18}">today $68bn</text>`;
+  $('chart').innerHTML = s;
+  $('read').innerHTML = p
+    ? `<div><b style="color:var(${p.c})">$${Math.round(ANT[p.id][4])}bn</b><span>a year by 2030 if ${p.name}</span></div><div><b style="color:var(--soft)">$68bn</b><span>today</span></div>`
+    : `<div><b>$94bn to $449bn</b><span>a year by 2030, from $68bn today, depending on the path</span></div>`;
+}
+
+$('opts').addEventListener('click', e => { const b = e.target.closest('[data-id]'); if (!b) return; pick = b.dataset.id; drawSolve(); drawAnt(); });
+drawSolve(); drawAnt();
+})();
+</script>
+</body>
+</html>
