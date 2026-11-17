@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>4 AI pathways</title>
 <meta name="description" content="How does AI evolve by 2030? Four pathways, and what each means for Anthropic's revenue.">
-<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@500;700;800&family=Overpass+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
@@ -99,7 +98,29 @@ svg text.lab { fill: var(--ink); font-weight: 600; }
 .more { border-top: 1px solid var(--rule); padding-top: 22px; display: grid; gap: 10px; max-width: var(--col); }
 .more p { margin: 0; font: 17px/1.5 var(--body); color: var(--soft); }
 .more a { font: 700 16px var(--display); color: var(--ink); text-underline-offset: 4px; }
+
+/* VD, 17 Nov: one panel that reads downward. The telecom's choice, the chat, what sits behind it,
+   then the chain's arrow carries on into Anthropic's revenue: no second box, no section break,
+   and the picked option's line draws itself in the option's own colour. */
+.flow { display: grid; gap: 12px; border-top: 1px solid var(--rule); padding-top: 4px; }
+.down { height: 34px; position: relative; }
+.down::before { content: ""; position: absolute; left: 0; top: -6px; bottom: 8px; border-left: 2px dashed var(--c, var(--idle)); }
+.down::after { content: ""; position: absolute; left: -6px; bottom: 0; border: 7px solid transparent; border-top: 9px solid var(--c, var(--idle)); border-bottom: 0; }
+@media (min-width: 760px) { .down { margin-left: calc(340px + 28px + 33px); } }
+@media (max-width: 759px) { .down { margin-left: 33px; } }
+.flowhead { display: grid; gap: 14px; }
+@media (min-width: 760px) { .flowhead { grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 28px; } }
+.lead { margin: 0; font: 17px/1.5 var(--body); color: var(--soft); max-width: 34em; }
+.read { gap: 4px 26px; }
+.read b { font-size: clamp(34px, 6vw, 46px); }
+.drawn { stroke-dasharray: 1; stroke-dashoffset: 0; animation: draw .9s ease-out backwards; }
+.dotin { animation: rise .3s ease .8s both; }
+@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .drawn { animation: none; stroke-dashoffset: 0; } .dotin { animation: none; } }
+@media (max-width: 559px) { .fig { padding: 14px; } svg text { font-size: 13px; } }
 </style>
+
+
 <!-- Privacy-friendly analytics by Plausible -->
 <script async src="https://plausible.io/js/pa-UzORTw8rlmViOEWGoqLYK.js"></script>
 <script>
@@ -126,21 +147,20 @@ plausible.init({transformRequest:function(p){try{var c=document.querySelector('l
         <div class="behind">
           <p class="kick">Behind the chat</p>
           <div class="chain" id="chain"></div>
-          <div class="why" id="why" hidden><p class="kick">Why it would pick this</p><p id="whyT"></p></div>
         </div>
+      </div>
+      <div class="flow" aria-live="polite">
+        <div class="down" aria-hidden="true"></div>
+        <div class="flowhead">
+          <p class="lead">Anthropic, the company behind Claude, is one AI maker. If most firms picked the same option, its revenue could go like this.</p>
+          <div class="read" id="read"></div>
+        </div>
+        <svg class="chart" id="chart" viewBox="0 0 640 300" role="img" aria-label="Anthropic revenue a year to 2030 on each path"></svg>
+        <p class="note">Revenue a year if Anthropic keeps today's share, about 45% of what AI makers earn, if AI keeps improving and investors don't pull back. From my model, numbers as of 16 November 2026. I built the model in Claude sessions, and Anthropic makes Claude.</p>
       </div>
     </div>
   </section>
 
-  <section class="frame" id="ant">
-    <div class="txt"><h2>How could Anthropic's revenue evolve in each case?</h2>
-      <p>Anthropic, the company behind Claude, is one AI maker. If most firms picked the same option, its revenue could go like this.</p></div>
-    <div class="fig">
-      <div class="read" id="read" aria-live="polite"></div>
-      <svg class="chart" id="chart" viewBox="0 0 640 300" role="img" aria-label="Anthropic revenue a year to 2030 on each path"></svg>
-      <p class="note">Revenue a year if Anthropic keeps today's share, about 45% of what AI makers earn, if AI keeps improving and investors don't pull back. From my model, numbers as of 16 November 2026. I built the model in Claude sessions, and Anthropic makes Claude.</p>
-    </div>
-  </section>
 
   <section class="more">
     <p class="kick">The details</p>
@@ -197,35 +217,39 @@ function drawSolve() {
     ? `<p class="bub them in">You used mobile data abroad last week. Shall I add a travel pack so it does not happen again?</p><p class="tag in" style="--c:var(${p.c})">${p.tag}</p>`
     : `<p class="bub them dots" aria-label="Typing"><b></b><b></b><b></b></p><p class="tag">Pick an option to see who answers</p>`);
   $('chain').style.setProperty('--c', p ? `var(${p.c})` : 'var(--idle)');
+  document.querySelector('.flow').style.setProperty('--c', p ? `var(${p.c})` : 'var(--idle)');
   $('chain').innerHTML = p
     ? p.chain.map((n, i) => (i ? '<div class="arrow in"></div>' : '') + node(n).replace('class="node', 'class="in node')).join('')
     : node(['telecom', 'Telecom operator', 'Needs an answer for every customer.']) + '<div class="arrow"></div>' + `<div class="node ghost">${ico('model')}<b>?</b><span>Pick an option above to see what sits behind the chat.</span></div>`;
-  $('why').hidden = !p; if (p) $('whyT').textContent = p.why;
 }
 
 function drawAnt() {
-  const p = P(), W = 640, H = 300, L = 52, R = 196, T = 22, B = 26;
+  const ph = window.matchMedia && matchMedia('(max-width: 559px)').matches;
+  const p = P(), W = ph ? 360 : 640, H = ph ? 260 : 300, L = ph ? 50 : 52, R = ph ? 70 : 196, T = 22, B = 26;
+  $('chart').setAttribute('viewBox', `0 0 ${W} ${H}`);
   const X = y => L + (y - 2026) / 4 * (W - L - R), Y = v => T + (H - T - B) * (1 - v / 500);
   let s = '';
   [0, 100, 200, 300, 400, 500].forEach(t => s += `<line x1="${L}" x2="${W - R + 6}" y1="${Y(t)}" y2="${Y(t)}" stroke="var(--rule)"/><text x="${L - 8}" y="${Y(t) + 4}" text-anchor="end">${t ? '$' + t + 'bn' : '$0'}</text>`);
   [2026, 2027, 2028, 2029, 2030].forEach(y => s += `<text x="${X(y)}" y="${H - 6}" text-anchor="middle">${y}</text>`);
   const order = PATHS.filter(q => q.id !== pick).concat(p ? [p] : []);
-  order.forEach(q => { const on = !p || q.id === pick, col = on ? `var(${q.c})` : 'var(--idle)';
-    s += `<path d="${ANT[q.id].map((v, i) => (i ? 'L' : 'M') + X(2026 + i).toFixed(1) + ' ' + Y(v).toFixed(1)).join(' ')}" fill="none" stroke="${col}" stroke-width="${p && on ? 4.5 : on ? 3 : 2}" opacity="${on ? 1 : .6}" stroke-linecap="round" stroke-linejoin="round"/>`;
-    s += `<circle cx="${X(2030)}" cy="${Y(ANT[q.id][4])}" r="${p && on ? 5.5 : 4}" fill="${col}"/>`; });
+  order.forEach(q => { const on = !!p && q.id === pick, col = on ? `var(${q.c})` : 'var(--idle)';
+    s += `<path d="${ANT[q.id].map((v, i) => (i ? 'L' : 'M') + X(2026 + i).toFixed(1) + ' ' + Y(v).toFixed(1)).join(' ')}" fill="none" stroke="${col}" stroke-width="${on ? 4.5 : 2.5}" opacity="${on ? 1 : .75}" stroke-linecap="round" stroke-linejoin="round"${on ? ' pathLength="1" class="drawn"' : ''}/>`;
+    s += `<circle cx="${X(2030)}" cy="${Y(ANT[q.id][4])}" r="${on ? 5.5 : 4}" fill="${col}"${on ? ' class="dotin"' : ''}/>`; });
   const ends = PATHS.map(q => ({ q, v: ANT[q.id][4], y: Y(ANT[q.id][4]) })).sort((a, b) => a.y - b.y);
   for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 16) ends[i].y = ends[i - 1].y + 16;
-  ends.forEach(e => { const on = !p || e.q.id === pick;
-    s += `<text class="${on ? 'lab' : ''}" x="${X(2030) + 12}" y="${e.y + 4}">$${Math.round(e.v)}bn ${e.q.name}</text>`; });
+  ends.forEach(e => { const on = !!p && e.q.id === pick;
+    s += `<text class="${on ? 'lab' : ''}" x="${X(2030) + 12}" y="${e.y + 4}"${on ? ` style="fill:var(${e.q.c})"` : ''}>$${Math.round(e.v)}bn${ph ? '' : ' ' + e.q.name}</text>`; });
   s += `<circle cx="${X(2026)}" cy="${Y(67.5)}" r="4" fill="var(--soft)"/><text x="${X(2026) + 8}" y="${Y(67.5) + 18}">today $68bn</text>`;
   $('chart').innerHTML = s;
   $('read').innerHTML = p
     ? `<div><b style="color:var(${p.c})">$${Math.round(ANT[p.id][4])}bn</b><span>a year by 2030 if ${p.name}</span></div><div><b style="color:var(--soft)">$68bn</b><span>today</span></div>`
-    : `<div><b>$94bn to $449bn</b><span>a year by 2030, from $68bn today, depending on the path</span></div>`;
+    : `<div><b style="color:var(--idle)">?</b><span>pick an option above to light its line</span></div><div><b style="color:var(--soft)">$68bn</b><span>today</span></div>`;
 }
 
 $('opts').addEventListener('click', e => { const b = e.target.closest('[data-id]'); if (!b) return; pick = b.dataset.id; drawSolve(); drawAnt(); });
 drawSolve(); drawAnt();
+let wasPh = window.matchMedia && matchMedia('(max-width: 559px)').matches;
+window.addEventListener('resize', () => { const n = matchMedia('(max-width: 559px)').matches; if (n !== wasPh) { wasPh = n; drawAnt(); } });
 })();
 </script>
 </body>
