@@ -165,12 +165,12 @@ plausible.init({transformRequest:function(p){try{var c=document.querySelector('l
       <div class="flow" aria-live="polite">
         <div class="down" aria-hidden="true"></div>
         <div class="money">
-          <p class="lead">Every option answers the customer. What changes is where the telecom's money goes. Of each $100 it spends on AI:</p>
+          <p class="lead">Who gets paid depends on the option. If most firms chose this one and AI keeps improving, each $100 spent on AI in 2030 splits like this:</p>
           <div id="pays"></div>
         </div>
         <div class="down" aria-hidden="true"></div>
         <div class="flowhead">
-          <p class="lead">Anthropic, the company behind Claude, is one AI maker. If most firms picked the same option, its revenue could go like this.</p>
+          <p class="lead">Anthropic, the company behind Claude, is one AI maker. On the same option, its revenue could go like this.</p>
           <div class="read" id="read"></div>
         </div>
         <svg class="chart" id="chart" viewBox="0 0 640 300" role="img" aria-label="Anthropic revenue a year to 2030 on each path"></svg>
@@ -234,7 +234,7 @@ function drawSolve() {
   const p = P();
   $('opts').innerHTML = PATHS.map(q => `<button type="button" class="o" style="--c:var(${q.c})" data-id="${q.id}" aria-pressed="${q.id === pick}"><b>${q.act}</b><span>${q.name}</span></button>`).join('');
   $('msgs').innerHTML = `<p class="bub me">Hi, why is my bill higher this month?</p>` + (p
-    ? `<p class="bub them in">You used mobile data abroad last week. Shall I add a travel pack so it does not happen again?</p><p class="tag in" style="--c:var(${p.c})">${p.tag}</p><p class="same in">The customer gets this same answer on all four options.</p>`
+    ? `<p class="bub them in">You used mobile data abroad last week. Shall I add a travel pack so it does not happen again?</p><p class="tag in" style="--c:var(${p.c})">${p.tag}</p><p class="same in">To the customer, all four look the same.</p>`
     : `<p class="bub them dots" aria-label="Typing"><b></b><b></b><b></b></p><p class="tag">Pick an option to see who answers</p>`);
   $('chain').style.setProperty('--c', p ? `var(${p.c})` : 'var(--idle)');
   $('pays').innerHTML = p
