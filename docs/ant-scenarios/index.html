@@ -281,7 +281,7 @@ function update() {
   const ra = Math.round(a), rb = Math.round(b);
   $('reset').hidden = home();
   $('now').innerHTML = home() ? `This is the model's own view, weighted over every scenario: mostly <b>${SP[1][0]}</b>, with the money ${near(b, PW.map(x => x[1]))}. Move a slider to set your own.` : `${near(a, SP.map(s => s[0]))}, and ${near(b, PW.map(x => x[1]))}. ` + (Math.abs(a - ra) < 0.13 && Math.abs(b - rb) < 0.13 ? `${PW[rb][2]} AI labs keep about $${PW[rb][3]} of every $100 spent on AI. On speed: ${SP[ra][1]}.` : 'The price is a blend of the squares the frame touches.');
-  frame();
+  $('frame').hidden = home(); frame();
   $('barb').innerHTML = `${usd(p)} a share <span>your price against the $${IPO} IPO</span>`;
 }
 const snap = x => Math.abs(x - Math.round(x)) < 0.13 ? Math.round(x) : x;
