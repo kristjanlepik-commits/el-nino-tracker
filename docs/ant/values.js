@@ -18,7 +18,7 @@
 // C1-C5. Columns, in STATES order:
 //   [late, early, takeoff, late + crash, early + crash, takeoff + crash]
 window.ANT = (function () {
-  const IPO = 74;
+  const IPO = 83;
   // Shares the engine divides equity by, bn: the S-1/A No. 2's 15.94bn plus
   // Amazon's note conversion and shares already owed (mkt/anthropic-valuation,
   // engine v6, 18.08bn). Price times this is the valuation the scale prints.

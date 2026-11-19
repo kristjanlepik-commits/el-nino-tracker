@@ -201,7 +201,7 @@ plausible.init({transformRequest:function(p){try{var c=document.querySelector('l
   <section style="display:grid;gap:12px">
     <h2>Every scenario, value per share</h2>
     <div class="tw"><table id="grid"></table><div id="frame"></div></div>
-    <div class="key"><span><i class="box"></i>where your sliders are</span><span><i class="grad"></i><span class="k-lt">darker</span><span class="k-dk">lighter</span> is worth more</span><span><u>underlined</u>: at or above the $74 IPO price</span><span>press a square to move the sliders there</span></div>
+    <div class="key"><span><i class="box"></i>where your sliders are</span><span><i class="grad"></i><span class="k-lt">darker</span><span class="k-dk">lighter</span> is worth more</span><span><u>underlined</u>: at or above the $83 IPO price</span><span>press a square to move the sliders there</span></div>
     <p class="more"><a href="../ant-pro/">Click here for more detailed Pro Valuation Tool &rarr;</a></p>
   </section>
 
@@ -220,7 +220,7 @@ plausible.init({transformRequest:function(p){try{var c=document.querySelector('l
 (function () {
 // ---- data: The Long Swell's values.js (engine v7), $ a share at a 45% share, by world and state ----
 // states: 0 keeps improving, 1 stalls, 2 AGI; +3 with a funding crash
-const IPO = 74, TOP = 160;
+const IPO = 83, TOP = 160;
 const LOW = { C1: [37.2, 15.6, 51.4, 29.9, 10.1, 44.6], C2: [4.2, -1.2, 7.3, 0.5, -3.1, 2.6], C3: [29.2, 11.3, 41.1, 23.1, 5.5, 35.2], C4: [58.2, 28.6, 81.3, 50.7, 22.2, 73.0], C5: [8.7, 1.1, 11.3, 3.1, -1.3, 5.7] };
 const HIGH = { C1: [87.2, 15.6, 93.1, 65.2, 10.1, 71.7], C2: [4.2, -1.2, 5.5, 0.5, -3.1, 2.0], C3: [62.5, 11.3, 66.4, 45.9, 5.5, 51.5], C4: [132.8, 28.6, 144.5, 100.1, 22.2, 111.4], C5: [13.5, 1.1, 12.9, 6.2, -1.3, 7.7] };
 // speed: name, what it means, state index, the model's chance of a funding crash on that path
@@ -255,7 +255,7 @@ stops($('s-a'), SP.map(s => s[0])); stops($('s-b'), ['Cheap commodity', 'Big tec
 $('grid').innerHTML = '<thead><tr><th></th>' + SP.map((s, i) => `<th scope="col" data-c="${i}">${s[0]}</th>`).join('') + '</tr></thead><tbody>' +
   PW.map((p, j) => `<tr><th scope="row" data-r="${j}">${p[1]}<span>${p[2].replace(/\.$/, '')}</span></th>` +
     SP.map((s, i) => { const v = V[j][i], k = v / MAXV * 62;
-      return `<td class="c${v >= IPO ? ' hi' : ''}${k > 42 ? ' dk' : ''}" style="--a:${k.toFixed(0)}%" data-i="${i}" data-j="${j}" tabindex="0" role="button" aria-label="${p[1]}, ${s[0]}: ${usd(v)} a share">${usd(v)}</td>`; }).join('') + '</tr>').reverse().join('') + '</tbody>';   // most for Anthropic at the top
+      return `<td class="c${Math.round(v) >= IPO ? ' hi' : ''}${k > 42 ? ' dk' : ''}" style="--a:${k.toFixed(0)}%" data-i="${i}" data-j="${j}" tabindex="0" role="button" aria-label="${p[1]}, ${s[0]}: ${usd(v)} a share">${usd(v)}</td>`; }).join('') + '</tr>').reverse().join('') + '</tbody>';   // most for Anthropic at the top
 
 // ---- redraw from the two positions ----
 const near = (x, names) => { const r = Math.round(x); return Math.abs(x - r) < 0.13 ? `<b>${names[r]}</b>` : `between <b>${names[Math.floor(x)]}</b> and <b>${names[Math.floor(x) + 1]}</b>`; };
@@ -269,7 +269,7 @@ function frame() {
 function update() {
   const p = price(), d = p / IPO - 1;
   $('pv').innerHTML = usd(p) + '<small> a share</small>';
-  $('vs').innerHTML = p < 0.5 ? 'Debts and compute contracts outweigh the business. <b>Shareholders get nothing.</b>' : Math.abs(p - IPO) < 0.5 ? 'That is <b>the $74 IPO price</b>.' : `That is <b>${Math.abs(Math.round(d * 100))}% ${d >= 0 ? 'above' : 'below'}</b> the $${IPO} IPO price.`;
+  $('vs').innerHTML = p < 0.5 ? 'Debts and compute contracts outweigh the business. <b>Shareholders get nothing.</b>' : Math.abs(p - IPO) < 0.5 ? 'That is <b>the $' + IPO + ' IPO price</b>.' : `That is <b>${Math.abs(Math.round(d * 100))}% ${d >= 0 ? 'above' : 'below'}</b> the $${IPO} IPO price.`;
   const X = v => 4 + Math.min(Math.max(v, 0), TOP) / TOP * 512;
   $('scale').innerHTML = `<rect x="4" y="46" width="512" height="22" fill="var(--blank)" stroke="var(--rule)"/><rect x="4" y="46" width="${(X(p) - 4).toFixed(1)}" height="22" fill="var(--you)"/>` +
     `<line x1="${X(IPO)}" x2="${X(IPO)}" y1="30" y2="76" stroke="var(--ink)" stroke-width="2.5"/><line x1="${X(IPO)}" x2="${X(IPO)}" y1="46" y2="68" stroke="var(--paper)" stroke-width="1" stroke-dasharray="2 2"/>` +

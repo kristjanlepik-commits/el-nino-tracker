@@ -62,7 +62,7 @@ STATE_KEYS.forEach(k => WORLD_KEYS.forEach((w, i) => {
 
 const gX = document.getElementById('g-model');
 slider(gX, { id: 'path', label: "Weight on the labs' own plans (vs revenue tied to jobs replaced)", min: 0, max: 100, step: 1, read: () => pathHigh, write: v => pathHigh = v, fmt: v => Math.round(v) + '%' });
-gX.insertAdjacentHTML('beforeend', '<p class="hint">50% is the model\'s equal weight. The AGI scenarios use the labs\' plans whatever the weight. At equal weight $74 needs about a 90% share; if the labs\' plans come true in full, about 68%.</p>');
+gX.insertAdjacentHTML('beforeend', '<p class="hint">50% is the model\'s equal weight. The AGI scenarios use the labs\' plans whatever the weight.</p>');
 // These change the model's data-centre run, which the price does not respond
 // to, so they sit beside the sliders they set rather than at the top (VD).
 const MODEL_PRESETS = [
@@ -134,13 +134,13 @@ const vname = { shortage: 'shortage', balance: 'balanced', grey: 'weak', glut: '
 function render() {
   const S = summarise(C, share), lo = summarise(C, 35).val, hi = summarise(C, 55).val;
   document.getElementById('h-num').textContent = '$' + S.val.toFixed(0);
-  const gap = S.val - 74;
-  document.getElementById('h-vs').innerHTML = `a share, <b>$${Math.abs(gap).toFixed(0)} ${gap >= 0 ? 'above' : 'below'}</b> the $74 IPO price`;
+  const gap = S.val - ANT.IPO;
+  document.getElementById('h-vs').innerHTML = `a share, <b>$${Math.abs(gap).toFixed(0)} ${gap >= 0 ? 'above' : 'below'}</b> the $${ANT.IPO} IPO price`;
   // /ant's scale: the price as the one ink dot and the IPO tick. No share
   // band (D-370, Kristjan: "one number for each"); the range stays in words.
   ANTSCALE(document.getElementById('h-strip'), { price: S.val });
   document.querySelectorAll('#presets button').forEach(b => b.setAttribute('aria-pressed', b.dataset.p === preset));
-  document.getElementById('h-facts').innerHTML = `<span>$74 is out of reach within a 35-55% share; at equal weight it needs about a 90% share, and if the labs' plans come true in full, about 68% (45% today)</span><span>Range <b>$${lo.toFixed(0)}-${hi.toFixed(0)}</b> as Anthropic's market share runs 35-55%</span><span><b>${Math.round(S.above * 100)}%</b> of outcomes above $74</span><span><b>${Math.round(S.fails * 100)}%</b> where the equity is wiped out</span>` + (Math.abs(pathHigh - ANT.HIGH_WEIGHT * 100) < 0.5 ? '<span class="fn">About $4.70 of this comes from the default thesis&#39;s assumption that labs selling finished products charge 1.6 times as much per unit of work. The valuation analysis contests it; without it the value is about $31.</span>' : '');
+  document.getElementById('h-facts').innerHTML = `<span>$${ANT.IPO} is out of reach within a 35-55% share (45% today)</span><span>Range <b>$${lo.toFixed(0)}-${hi.toFixed(0)}</b> as Anthropic's market share runs 35-55%</span><span><b>${Math.round(S.above * 100)}%</b> of outcomes above $${ANT.IPO}</span><span><b>${Math.round(S.fails * 100)}%</b> where the equity is wiped out</span>` + (Math.abs(pathHigh - ANT.HIGH_WEIGHT * 100) < 0.5 ? '<span class="fn">About $4.70 of this comes from the default thesis&#39;s assumption that labs selling finished products charge 1.6 times as much per unit of work. The valuation analysis contests it; without it the value is about $31.</span>' : '');
   const gg = S.v.glut + S.v.grey;
   document.getElementById('t-verdict').textContent = `${Math.round(gg * 100)}% weak or oversupplied`;
   document.getElementById('t-stack').innerHTML = ['shortage', 'balance', 'grey', 'glut'].map(k => `<span style="width:${S.v[k] * 100}%;background:${col[k]}"></span>`).join('');
@@ -155,7 +155,7 @@ function cellWeight(world, key) { return C.filter(c => c.world === world && c.ke
 const KEYS = {
   // Classes are named by step on the house anomaly scale, not by verdict, so
   // one fill means one thing in every mode (VD design pass).
-  val: [['px-hi', '$74 and above'], ['px-lo', 'Below $74'], ['rul', '$0: equity wiped out']],
+  val: [['px-hi', '$' + ANT.IPO + ' and above'], ['px-lo', 'Below $' + ANT.IPO], ['rul', '$0: equity wiped out']],
   ratio: [['st5', 'Shortage (1.00 or more)'], ['st4', 'Balanced (0.85 to 1.00)'], ['st3', 'Weak (0.75 to 0.85)'], ['st2', 'Oversupply (below 0.75)']],
   cover: [['st4', 'Rents cover cost'], ['st3', '75 to 100% covered'], ['st2', 'Below 75%']],
   jobs: [], labrev: [],
