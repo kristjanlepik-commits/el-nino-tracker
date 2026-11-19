@@ -62,7 +62,7 @@ STATE_KEYS.forEach(k => WORLD_KEYS.forEach((w, i) => {
 
 const gX = document.getElementById('g-model');
 slider(gX, { id: 'path', label: "Weight on the labs' own plans (vs revenue tied to jobs replaced)", min: 0, max: 100, step: 1, read: () => pathHigh, write: v => pathHigh = v, fmt: v => Math.round(v) + '%' });
-gX.insertAdjacentHTML('beforeend', '<p class="hint">50% is the model\'s equal weight. The AGI scenarios use the labs\' plans whatever the weight.</p>');
+gX.insertAdjacentHTML('beforeend', '<p class="hint">50% is the model\'s equal weight. The AGI scenarios use the labs\' plans whatever the weight. At equal weight $83 needs essentially all of the frontier labs\' revenue; if the labs\' plans come true in full, about an 80% share.</p>');
 // These change the model's data-centre run, which the price does not respond
 // to, so they sit beside the sliders they set rather than at the top (VD).
 const MODEL_PRESETS = [
@@ -140,7 +140,7 @@ function render() {
   // band (D-370, Kristjan: "one number for each"); the range stays in words.
   ANTSCALE(document.getElementById('h-strip'), { price: S.val });
   document.querySelectorAll('#presets button').forEach(b => b.setAttribute('aria-pressed', b.dataset.p === preset));
-  document.getElementById('h-facts').innerHTML = `<span>$${ANT.IPO} is out of reach within a 35-55% share (45% today)</span><span>Range <b>$${lo.toFixed(0)}-${hi.toFixed(0)}</b> as Anthropic's market share runs 35-55%</span><span><b>${Math.round(S.above * 100)}%</b> of outcomes above $${ANT.IPO}</span><span><b>${Math.round(S.fails * 100)}%</b> where the equity is wiped out</span>` + (Math.abs(pathHigh - ANT.HIGH_WEIGHT * 100) < 0.5 ? '<span class="fn">About $4.70 of this comes from the default thesis&#39;s assumption that labs selling finished products charge 1.6 times as much per unit of work. The valuation analysis contests it; without it the value is about $31.</span>' : '');
+  document.getElementById('h-facts').innerHTML = `<span>$83 is out of reach within a 35-55% share; at equal weight it needs essentially all of the frontier labs' revenue, and if the labs' plans come true in full, about an 80% share (45% today)</span><span>Range <b>$${lo.toFixed(0)}-${hi.toFixed(0)}</b> as Anthropic's market share runs 35-55%</span><span><b>${Math.round(S.above * 100)}%</b> of outcomes above $${ANT.IPO}</span><span><b>${Math.round(S.fails * 100)}%</b> where the equity is wiped out</span>` + (Math.abs(pathHigh - ANT.HIGH_WEIGHT * 100) < 0.5 ? '<span class="fn">About $4.70 of this comes from the default thesis&#39;s assumption that labs selling finished products charge 1.6 times as much per unit of work. The valuation analysis contests it; without it the value is about $31.</span>' : '');
   const gg = S.v.glut + S.v.grey;
   document.getElementById('t-verdict').textContent = `${Math.round(gg * 100)}% weak or oversupplied`;
   document.getElementById('t-stack').innerHTML = ['shortage', 'balance', 'grey', 'glut'].map(k => `<span style="width:${S.v[k] * 100}%;background:${col[k]}"></span>`).join('');
