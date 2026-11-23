@@ -715,3 +715,14 @@ publish step and tests a real refusal; only then TLS Youth runs
 `approve_channel.py youth` after looking at a preview. Approving earlier is wasted:
 the hash covers the data paths, so a marker made before they are listed goes stale
 at once. Until then every publish prints "youth: no sign-off", which is expected.
+
+**Going live, 2026-11-23.** Kristjan: "Yes, start it", to pushing the branch,
+opening the PR and briefing design and platform, so friends can give feedback on
+the live page. PR #10 carries youth/ only. The box and list items now sit in
+`youth/data/standouts.json` and `youth/data/also.json`: the scratch copies were
+lost when the scratchpad was cleared, so they were recovered from the published
+mock-up (version 9) and every item was rechecked against EOS (grade, active,
+verified, scope checked); none had changed. Design's brief is
+`youth/HANDOFF_design.md`. The stress map is not in this release; it waits on the
+blend call (D-353). The candidates doc had no picks marked, so the pages use my
+selection.
