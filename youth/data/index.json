@@ -1,0 +1,1217 @@
+{
+ "recipe_commit": "dfde680dc78292fe7c1adc1c7d30edb560f8d8b5",
+ "mode": "plan_b",
+ "waves": [
+  "103",
+  "104",
+  "105"
+ ],
+ "young": "born 1997 or later",
+ "older": "55+",
+ "se_scale": {
+  "R": 1.411,
+  "applied": 1.411
+ },
+ "reference": {
+  "distrust": {
+   "mean_y": 0.6135,
+   "sd_y": 0.1235,
+   "mean_g": -0.0226,
+   "sd_g": 0.0741
+  },
+  "democracy": {
+   "mean_y": 0.336,
+   "sd_y": 0.1549,
+   "mean_g": -0.0881,
+   "sd_g": 0.1024
+  },
+  "direction": {
+   "mean_y": 0.5391,
+   "sd_y": 0.1481,
+   "mean_g": -0.0755,
+   "sd_g": 0.1003
+  }
+ },
+ "gates": {
+  "V1": {
+   "values": {
+    "distrust-democracy": 0.792,
+    "distrust-direction": 0.565,
+    "democracy-direction": 0.636
+   },
+   "stat": 0.6355311355311355,
+   "bar": 0.5,
+   "pass": true
+  },
+  "V2": {
+   "values": [
+    0.934,
+    0.894,
+    0.92
+   ],
+   "stat": 0.92002442002442,
+   "bar": 0.7,
+   "pass": true
+  },
+  "V3": {
+   "values": [
+    0.743,
+    0.824,
+    0.802
+   ],
+   "stat": 0.8021978021978021,
+   "bar": 0.4,
+   "pass": true
+  },
+  "V4": {
+   "stat": 20,
+   "bar": 20,
+   "pass": true
+  },
+  "V5": {
+   "stat": 0.4126984126984126,
+   "bar": 0.5,
+   "pass": false
+  }
+ },
+ "side_checks": {
+  "young_15_24": {
+   "tiers_changed": 3,
+   "countries": [
+    "AT",
+    "FR",
+    "HR"
+   ],
+   "tiers": {
+    "AT": "mild",
+    "BE": "mild",
+    "BG": "cool",
+    "CY": "hot",
+    "CZ": "cool",
+    "DE": "warm",
+    "DK": "cool",
+    "EE": "cool",
+    "EL": "hot",
+    "ES": "warm",
+    "FI": "mild",
+    "FR": "mild",
+    "HR": "cool",
+    "HU": "hot",
+    "IE": "mild",
+    "IT": "mild",
+    "LT": "cool",
+    "LU": "cool",
+    "LV": "mild",
+    "MT": "warm",
+    "NL": "mild",
+    "PL": "cool",
+    "PT": "cool",
+    "RO": "cool",
+    "SE": "mild",
+    "SI": "mild",
+    "SK": "hot"
+   }
+  },
+  "reference_without_video_countries": {
+   "tiers_changed": 2,
+   "countries": [
+    "AT",
+    "DK"
+   ]
+  }
+ },
+ "countries": {
+  "AT": {
+   "score": -0.426,
+   "interval": [
+    -1.025,
+    0.152
+   ],
+   "C": -0.646,
+   "B": -0.205,
+   "raw_gap_points": -7.5,
+   "gap_clearly_positive": false,
+   "tier": "cool",
+   "type": "calm",
+   "too_noisy_to_place": false,
+   "components": {
+    "distrust": {
+     "young": 42.6,
+     "older": 51.7,
+     "young_eu_mean": 61.3,
+     "n_young": 544,
+     "n_older": 1225
+    },
+    "democracy": {
+     "young": 29.5,
+     "older": 38.0,
+     "young_eu_mean": 33.6,
+     "n_young": 544,
+     "n_older": 1225
+    },
+    "direction": {
+     "young": 51.7,
+     "older": 56.4,
+     "young_eu_mean": 53.9,
+     "n_young": 544,
+     "n_older": 1225
+    }
+   },
+   "interview_mode_mark": false,
+   "in_reference": true
+  },
+  "BE": {
+   "score": 0.127,
+   "interval": [
+    -0.416,
+    0.672
+   ],
+   "C": 0.051,
+   "B": 0.203,
+   "raw_gap_points": -4.2,
+   "gap_clearly_positive": false,
+   "tier": null,
+   "type": null,
+   "too_noisy_to_place": true,
+   "components": {
+    "distrust": {
+     "young": 60.1,
+     "older": 62.1,
+     "young_eu_mean": 61.3,
+     "n_young": 601,
+     "n_older": 1201
+    },
+    "democracy": {
+     "young": 33.7,
+     "older": 37.3,
+     "young_eu_mean": 33.6,
+     "n_young": 601,
+     "n_older": 1201
+    },
+    "direction": {
+     "young": 57.6,
+     "older": 64.5,
+     "young_eu_mean": 53.9,
+     "n_young": 601,
+     "n_older": 1201
+    }
+   },
+   "interview_mode_mark": false,
+   "in_reference": true
+  },
+  "BG": {
+   "score": -1.153,
+   "interval": [
+    -1.726,
+    -0.559
+   ],
+   "C": -0.07,
+   "B": -2.236,
+   "raw_gap_points": -27.5,
+   "gap_clearly_positive": false,
+   "tier": "cool",
+   "type": "calm",
+   "too_noisy_to_place": false,
+   "components": {
+    "distrust": {
+     "young": 69.9,
+     "older": 83.0,
+     "young_eu_mean": 61.3,
+     "n_young": 481,
+     "n_older": 1354
+    },
+    "democracy": {
+     "young": 31.6,
+     "older": 66.4,
+     "young_eu_mean": 33.6,
+     "n_young": 481,
+     "n_older": 1354
+    },
+    "direction": {
+     "young": 42.5,
+     "older": 77.3,
+     "young_eu_mean": 53.9,
+     "n_young": 481,
+     "n_older": 1354
+    }
+   },
+   "interview_mode_mark": false,
+   "in_reference": true
+  },
+  "CY": {
+   "score": 1.106,
+   "interval": [
+    0.337,
+    1.84
+   ],
+   "C": 1.387,
+   "B": 0.826,
+   "raw_gap_points": 2.0,
+   "gap_clearly_positive": false,
+   "tier": null,
+   "type": null,
+   "too_noisy_to_place": true,
+   "components": {
+    "distrust": {
+     "young": 72.3,
+     "older": 72.8,
+     "young_eu_mean": 61.3,
+     "n_young": 289,
+     "n_older": 535
+    },
+    "democracy": {
+     "young": 67.3,
+     "older": 60.1,
+     "young_eu_mean": 33.6,
+     "n_young": 289,
+     "n_older": 535
+    },
+    "direction": {
+     "young": 70.1,
+     "older": 71.0,
+     "young_eu_mean": 53.9,
+     "n_young": 289,
+     "n_older": 535
+    }
+   },
+   "interview_mode_mark": true,
+   "in_reference": true
+  },
+  "CZ": {
+   "score": -0.646,
+   "interval": [
+    -1.212,
+    -0.031
+   ],
+   "C": -0.369,
+   "B": -0.924,
+   "raw_gap_points": -14.8,
+   "gap_clearly_positive": false,
+   "tier": "cool",
+   "type": "calm",
+   "too_noisy_to_place": false,
+   "components": {
+    "distrust": {
+     "young": 62.7,
+     "older": 71.6,
+     "young_eu_mean": 61.3,
+     "n_young": 531,
+     "n_older": 1219
+    },
+    "democracy": {
+     "young": 25.8,
+     "older": 47.5,
+     "young_eu_mean": 33.6,
+     "n_young": 531,
+     "n_older": 1219
+    },
+    "direction": {
+     "young": 43.3,
+     "older": 57.1,
+     "young_eu_mean": 53.9,
+     "n_young": 531,
+     "n_older": 1219
+    }
+   },
+   "interview_mode_mark": false,
+   "in_reference": true
+  },
+  "DE": {
+   "score": 0.65,
+   "interval": [
+    0.202,
+    1.103
+   ],
+   "C": 0.443,
+   "B": 0.856,
+   "raw_gap_points": 2.1,
+   "gap_clearly_positive": false,
+   "tier": null,
+   "type": null,
+   "too_noisy_to_place": true,
+   "components": {
+    "distrust": {
+     "young": 58.5,
+     "older": 58.2,
+     "young_eu_mean": 61.3,
+     "n_young": 838,
+     "n_older": 2007
+    },
+    "democracy": {
+     "young": 36.1,
+     "older": 39.1,
+     "young_eu_mean": 33.6,
+     "n_young": 838,
+     "n_older": 2007
+    },
+    "direction": {
+     "young": 74.6,
+     "older": 65.5,
+     "young_eu_mean": 53.9,
+     "n_young": 838,
+     "n_older": 2007
+    }
+   },
+   "interview_mode_mark": false,
+   "in_reference": true
+  },
+  "DK": {
+   "score": -0.421,
+   "interval": [
+    -0.979,
+    0.134
+   ],
+   "C": -1.497,
+   "B": 0.655,
+   "raw_gap_points": -0.2,
+   "gap_clearly_positive": false,
+   "tier": "cool",
+   "type": "calm",
+   "too_noisy_to_place": false,
+   "components": {
+    "distrust": {
+     "young": 36.1,
+     "older": 33.3,
+     "young_eu_mean": 61.3,
+     "n_young": 430,
+     "n_older": 1263
+    },
+    "democracy": {
+     "young": 9.2,
+     "older": 7.0,
+     "young_eu_mean": 33.6,
+     "n_young": 430,
+     "n_older": 1263
+    },
+    "direction": {
+     "young": 41.0,
+     "older": 46.5,
+     "young_eu_mean": 53.9,
+     "n_young": 430,
+     "n_older": 1263
+    }
+   },
+   "interview_mode_mark": true,
+   "in_reference": true
+  },
+  "EE": {
+   "score": -0.613,
+   "interval": [
+    -1.163,
+    -0.043
+   ],
+   "C": -0.316,
+   "B": -0.909,
+   "raw_gap_points": -14.8,
+   "gap_clearly_positive": false,
+   "tier": "cool",
+   "type": "calm",
+   "too_noisy_to_place": false,
+   "components": {
+    "distrust": {
+     "young": 60.9,
+     "older": 68.1,
+     "young_eu_mean": 61.3,
+     "n_young": 549,
+     "n_older": 1178
+    },
+    "democracy": {
+     "young": 28.9,
+     "older": 49.3,
+     "young_eu_mean": 33.6,
+     "n_young": 549,
+     "n_older": 1178
+    },
+    "direction": {
+     "young": 45.0,
+     "older": 61.7,
+     "young_eu_mean": 53.9,
+     "n_young": 549,
+     "n_older": 1178
+    }
+   },
+   "interview_mode_mark": false,
+   "in_reference": true
+  },
+  "EL": {
+   "score": 1.333,
+   "interval": [
+    0.827,
+    1.828
+   ],
+   "C": 1.909,
+   "B": 0.757,
+   "raw_gap_points": 0.6,
+   "gap_clearly_positive": false,
+   "tier": "hot",
+   "type": "angry country",
+   "too_noisy_to_place": false,
+   "components": {
+    "distrust": {
+     "young": 83.4,
+     "older": 79.1,
+     "young_eu_mean": 61.3,
+     "n_young": 527,
+     "n_older": 1309
+    },
+    "democracy": {
+     "young": 68.2,
+     "older": 72.0,
+     "young_eu_mean": 33.6,
+     "n_young": 527,
+     "n_older": 1309
+    },
+    "direction": {
+     "young": 79.2,
+     "older": 77.7,
+     "young_eu_mean": 53.9,
+     "n_young": 527,
+     "n_older": 1309
+    }
+   },
+   "interview_mode_mark": false,
+   "in_reference": true
+  },
+  "ES": {
+   "score": 0.626,
+   "interval": [
+    0.088,
+    1.225
+   ],
+   "C": 0.692,
+   "B": 0.56,
+   "raw_gap_points": -1.3,
+   "gap_clearly_positive": false,
+   "tier": null,
+   "type": null,
+   "too_noisy_to_place": true,
+   "components": {
+    "distrust": {
+     "young": 75.6,
+     "older": 72.0,
+     "young_eu_mean": 61.3,
+     "n_young": 525,
+     "n_older": 1201
+    },
+    "democracy": {
+     "young": 39.3,
+     "older": 47.6,
+     "young_eu_mean": 33.6,
+     "n_young": 525,
+     "n_older": 1201
+    },
+    "direction": {
+     "young": 62.1,
+     "older": 61.3,
+     "young_eu_mean": 53.9,
+     "n_young": 525,
+     "n_older": 1201
+    }
+   },
+   "interview_mode_mark": false,
+   "in_reference": true
+  },
+  "FI": {
+   "score": 0.186,
+   "interval": [
+    -0.379,
+    0.727
+   ],
+   "C": -0.328,
+   "B": 0.699,
+   "raw_gap_points": 0.6,
+   "gap_clearly_positive": false,
+   "tier": "mild",
+   "type": "calm",
+   "too_noisy_to_place": false,
+   "components": {
+    "distrust": {
+     "young": 51.5,
+     "older": 51.3,
+     "young_eu_mean": 61.3,
+     "n_young": 525,
+     "n_older": 1292
+    },
+    "democracy": {
+     "young": 17.1,
+     "older": 17.6,
+     "young_eu_mean": 33.6,
+     "n_young": 525,
+     "n_older": 1292
+    },
+    "direction": {
+     "young": 67.0,
+     "older": 65.0,
+     "young_eu_mean": 53.9,
+     "n_young": 525,
+     "n_older": 1292
+    }
+   },
+   "interview_mode_mark": true,
+   "in_reference": true
+  },
+  "FR": {
+   "score": 0.453,
+   "interval": [
+    -0.035,
+    0.957
+   ],
+   "C": 1.181,
+   "B": -0.275,
+   "raw_gap_points": -8.3,
+   "gap_clearly_positive": false,
+   "tier": "warm",
+   "type": "angry country",
+   "too_noisy_to_place": false,
+   "components": {
+    "distrust": {
+     "young": 76.9,
+     "older": 84.9,
+     "young_eu_mean": 61.3,
+     "n_young": 627,
+     "n_older": 1243
+    },
+    "democracy": {
+     "young": 46.5,
+     "older": 52.2,
+     "young_eu_mean": 33.6,
+     "n_young": 627,
+     "n_older": 1243
+    },
+    "direction": {
+     "young": 75.4,
+     "older": 86.5,
+     "young_eu_mean": 53.9,
+     "n_young": 627,
+     "n_older": 1243
+    }
+   },
+   "interview_mode_mark": false,
+   "in_reference": true
+  },
+  "HR": {
+   "score": -0.353,
+   "interval": [
+    -0.927,
+    0.208
+   ],
+   "C": 0.081,
+   "B": -0.788,
+   "raw_gap_points": -13.9,
+   "gap_clearly_positive": false,
+   "tier": "mild",
+   "type": "calm",
+   "too_noisy_to_place": false,
+   "components": {
+    "distrust": {
+     "young": 64.3,
+     "older": 69.0,
+     "young_eu_mean": 61.3,
+     "n_young": 534,
+     "n_older": 1309
+    },
+    "democracy": {
+     "young": 42.2,
+     "older": 58.9,
+     "young_eu_mean": 33.6,
+     "n_young": 534,
+     "n_older": 1309
+    },
+    "direction": {
+     "young": 45.7,
+     "older": 66.0,
+     "young_eu_mean": 53.9,
+     "n_young": 534,
+     "n_older": 1309
+    }
+   },
+   "interview_mode_mark": false,
+   "in_reference": true
+  },
+  "HU": {
+   "score": 1.214,
+   "interval": [
+    0.607,
+    1.792
+   ],
+   "C": 0.817,
+   "B": 1.61,
+   "raw_gap_points": 8.6,
+   "gap_clearly_positive": true,
+   "tier": "hot",
+   "type": "youth revolt",
+   "too_noisy_to_place": false,
+   "components": {
+    "distrust": {
+     "young": 67.1,
+     "older": 56.5,
+     "young_eu_mean": 61.3,
+     "n_young": 542,
+     "n_older": 1175
+    },
+    "democracy": {
+     "young": 57.2,
+     "older": 47.1,
+     "young_eu_mean": 33.6,
+     "n_young": 542,
+     "n_older": 1175
+    },
+    "direction": {
+     "young": 60.8,
+     "older": 55.8,
+     "young_eu_mean": 53.9,
+     "n_young": 542,
+     "n_older": 1175
+    }
+   },
+   "interview_mode_mark": false,
+   "in_reference": true
+  },
+  "IE": {
+   "score": -0.215,
+   "interval": [
+    -0.736,
+    0.316
+   ],
+   "C": -0.766,
+   "B": 0.337,
+   "raw_gap_points": -3.2,
+   "gap_clearly_positive": false,
+   "tier": "mild",
+   "type": "calm",
+   "too_noisy_to_place": false,
+   "components": {
+    "distrust": {
+     "young": 55.0,
+     "older": 54.3,
+     "young_eu_mean": 61.3,
+     "n_young": 614,
+     "n_older": 1000
+    },
+    "democracy": {
+     "young": 18.6,
+     "older": 24.0,
+     "young_eu_mean": 33.6,
+     "n_young": 614,
+     "n_older": 1000
+    },
+    "direction": {
+     "young": 41.8,
+     "older": 46.7,
+     "young_eu_mean": 53.9,
+     "n_young": 614,
+     "n_older": 1000
+    }
+   },
+   "interview_mode_mark": false,
+   "in_reference": true
+  },
+  "IT": {
+   "score": 0.132,
+   "interval": [
+    -0.477,
+    0.742
+   ],
+   "C": 0.309,
+   "B": -0.045,
+   "raw_gap_points": -6.4,
+   "gap_clearly_positive": false,
+   "tier": null,
+   "type": null,
+   "too_noisy_to_place": true,
+   "components": {
+    "distrust": {
+     "young": 63.2,
+     "older": 67.7,
+     "young_eu_mean": 61.3,
+     "n_young": 491,
+     "n_older": 1401
+    },
+    "democracy": {
+     "young": 39.8,
+     "older": 50.2,
+     "young_eu_mean": 33.6,
+     "n_young": 491,
+     "n_older": 1401
+    },
+    "direction": {
+     "young": 59.5,
+     "older": 63.8,
+     "young_eu_mean": 53.9,
+     "n_young": 491,
+     "n_older": 1401
+    }
+   },
+   "interview_mode_mark": false,
+   "in_reference": true
+  },
+  "LT": {
+   "score": -1.121,
+   "interval": [
+    -1.694,
+    -0.538
+   ],
+   "C": -0.724,
+   "B": -1.517,
+   "raw_gap_points": -19.6,
+   "gap_clearly_positive": false,
+   "tier": "cool",
+   "type": "calm",
+   "too_noisy_to_place": false,
+   "components": {
+    "distrust": {
+     "young": 56.8,
+     "older": 75.1,
+     "young_eu_mean": 61.3,
+     "n_young": 520,
+     "n_older": 1252
+    },
+    "democracy": {
+     "young": 26.5,
+     "older": 47.9,
+     "young_eu_mean": 33.6,
+     "n_young": 520,
+     "n_older": 1252
+    },
+    "direction": {
+     "young": 34.0,
+     "older": 53.2,
+     "young_eu_mean": 53.9,
+     "n_young": 520,
+     "n_older": 1252
+    }
+   },
+   "interview_mode_mark": false,
+   "in_reference": true
+  },
+  "LU": {
+   "score": -0.862,
+   "interval": [
+    -1.528,
+    -0.2
+   ],
+   "C": -1.914,
+   "B": 0.19,
+   "raw_gap_points": -4.2,
+   "gap_clearly_positive": false,
+   "tier": "cool",
+   "type": "calm",
+   "too_noisy_to_place": false,
+   "components": {
+    "distrust": {
+     "young": 33.9,
+     "older": 36.3,
+     "young_eu_mean": 61.3,
+     "n_young": 297,
+     "n_older": 499
+    },
+    "democracy": {
+     "young": 10.1,
+     "older": 10.5,
+     "young_eu_mean": 33.6,
+     "n_young": 297,
+     "n_older": 499
+    },
+    "direction": {
+     "young": 24.2,
+     "older": 34.2,
+     "young_eu_mean": 53.9,
+     "n_young": 297,
+     "n_older": 499
+    }
+   },
+   "interview_mode_mark": false,
+   "in_reference": true
+  },
+  "LV": {
+   "score": -0.233,
+   "interval": [
+    -0.78,
+    0.323
+   ],
+   "C": -0.039,
+   "B": -0.427,
+   "raw_gap_points": -9.9,
+   "gap_clearly_positive": false,
+   "tier": "mild",
+   "type": "calm",
+   "too_noisy_to_place": false,
+   "components": {
+    "distrust": {
+     "young": 65.6,
+     "older": 73.3,
+     "young_eu_mean": 61.3,
+     "n_young": 527,
+     "n_older": 1259
+    },
+    "democracy": {
+     "young": 29.1,
+     "older": 41.7,
+     "young_eu_mean": 33.6,
+     "n_young": 527,
+     "n_older": 1259
+    },
+    "direction": {
+     "young": 51.4,
+     "older": 60.6,
+     "young_eu_mean": 53.9,
+     "n_young": 527,
+     "n_older": 1259
+    }
+   },
+   "interview_mode_mark": false,
+   "in_reference": true
+  },
+  "MT": {
+   "score": 0.402,
+   "interval": [
+    -0.473,
+    1.267
+   ],
+   "C": 0.006,
+   "B": 0.798,
+   "raw_gap_points": 1.1,
+   "gap_clearly_positive": false,
+   "tier": null,
+   "type": null,
+   "too_noisy_to_place": true,
+   "components": {
+    "distrust": {
+     "young": 59.9,
+     "older": 56.1,
+     "young_eu_mean": 61.3,
+     "n_young": 277,
+     "n_older": 498
+    },
+    "democracy": {
+     "young": 43.4,
+     "older": 46.5,
+     "young_eu_mean": 33.6,
+     "n_young": 277,
+     "n_older": 498
+    },
+    "direction": {
+     "young": 46.5,
+     "older": 43.9,
+     "young_eu_mean": 53.9,
+     "n_young": 277,
+     "n_older": 498
+    }
+   },
+   "interview_mode_mark": true,
+   "in_reference": true
+  },
+  "NL": {
+   "score": 0.32,
+   "interval": [
+    -0.168,
+    0.834
+   ],
+   "C": 0.223,
+   "B": 0.417,
+   "raw_gap_points": -2.9,
+   "gap_clearly_positive": false,
+   "tier": "mild",
+   "type": "calm",
+   "too_noisy_to_place": false,
+   "components": {
+    "distrust": {
+     "young": 63.0,
+     "older": 57.7,
+     "young_eu_mean": 61.3,
+     "n_young": 670,
+     "n_older": 1229
+    },
+    "democracy": {
+     "young": 31.6,
+     "older": 32.4,
+     "young_eu_mean": 33.6,
+     "n_young": 670,
+     "n_older": 1229
+    },
+    "direction": {
+     "young": 63.8,
+     "older": 76.9,
+     "young_eu_mean": 53.9,
+     "n_young": 670,
+     "n_older": 1229
+    }
+   },
+   "interview_mode_mark": true,
+   "in_reference": true
+  },
+  "PL": {
+   "score": -0.646,
+   "interval": [
+    -1.226,
+    -0.091
+   ],
+   "C": -0.948,
+   "B": -0.345,
+   "raw_gap_points": -9.8,
+   "gap_clearly_positive": false,
+   "tier": "cool",
+   "type": "calm",
+   "too_noisy_to_place": false,
+   "components": {
+    "distrust": {
+     "young": 59.1,
+     "older": 60.8,
+     "young_eu_mean": 61.3,
+     "n_young": 501,
+     "n_older": 1180
+    },
+    "democracy": {
+     "young": 17.1,
+     "older": 28.9,
+     "young_eu_mean": 33.6,
+     "n_young": 501,
+     "n_older": 1180
+    },
+    "direction": {
+     "young": 30.3,
+     "older": 46.1,
+     "young_eu_mean": 53.9,
+     "n_young": 501,
+     "n_older": 1180
+    }
+   },
+   "interview_mode_mark": false,
+   "in_reference": true
+  },
+  "PT": {
+   "score": -0.756,
+   "interval": [
+    -1.344,
+    -0.146
+   ],
+   "C": -0.963,
+   "B": -0.549,
+   "raw_gap_points": -10.8,
+   "gap_clearly_positive": false,
+   "tier": "cool",
+   "type": "calm",
+   "too_noisy_to_place": false,
+   "components": {
+    "distrust": {
+     "young": 47.5,
+     "older": 58.1,
+     "young_eu_mean": 61.3,
+     "n_young": 490,
+     "n_older": 1365
+    },
+    "democracy": {
+     "young": 20.2,
+     "older": 30.9,
+     "young_eu_mean": 33.6,
+     "n_young": 490,
+     "n_older": 1365
+    },
+    "direction": {
+     "young": 40.5,
+     "older": 51.5,
+     "young_eu_mean": 53.9,
+     "n_young": 490,
+     "n_older": 1365
+    }
+   },
+   "interview_mode_mark": false,
+   "in_reference": true
+  },
+  "RO": {
+   "score": -0.734,
+   "interval": [
+    -1.292,
+    -0.119
+   ],
+   "C": 0.072,
+   "B": -1.54,
+   "raw_gap_points": -20.4,
+   "gap_clearly_positive": false,
+   "tier": "cool",
+   "type": "calm",
+   "too_noisy_to_place": false,
+   "components": {
+    "distrust": {
+     "young": 61.7,
+     "older": 75.6,
+     "young_eu_mean": 61.3,
+     "n_young": 574,
+     "n_older": 1217
+    },
+    "democracy": {
+     "young": 39.9,
+     "older": 66.1,
+     "young_eu_mean": 33.6,
+     "n_young": 574,
+     "n_older": 1217
+    },
+    "direction": {
+     "young": 50.6,
+     "older": 71.7,
+     "young_eu_mean": 53.9,
+     "n_young": 574,
+     "n_older": 1217
+    }
+   },
+   "interview_mode_mark": false,
+   "in_reference": true
+  },
+  "SE": {
+   "score": 0.114,
+   "interval": [
+    -0.511,
+    0.778
+   ],
+   "C": -0.498,
+   "B": 0.727,
+   "raw_gap_points": 0.2,
+   "gap_clearly_positive": false,
+   "tier": null,
+   "type": null,
+   "too_noisy_to_place": true,
+   "components": {
+    "distrust": {
+     "young": 52.0,
+     "older": 46.1,
+     "young_eu_mean": 61.3,
+     "n_young": 336,
+     "n_older": 1342
+    },
+    "democracy": {
+     "young": 13.7,
+     "older": 14.7,
+     "young_eu_mean": 33.6,
+     "n_young": 336,
+     "n_older": 1342
+    },
+    "direction": {
+     "young": 62.0,
+     "older": 66.4,
+     "young_eu_mean": 53.9,
+     "n_young": 336,
+     "n_older": 1342
+    }
+   },
+   "interview_mode_mark": true,
+   "in_reference": true
+  },
+  "SI": {
+   "score": 0.291,
+   "interval": [
+    -0.31,
+    0.856
+   ],
+   "C": 0.559,
+   "B": 0.022,
+   "raw_gap_points": -6.6,
+   "gap_clearly_positive": false,
+   "tier": "mild",
+   "type": "angry country",
+   "too_noisy_to_place": false,
+   "components": {
+    "distrust": {
+     "young": 77.7,
+     "older": 75.1,
+     "young_eu_mean": 61.3,
+     "n_young": 478,
+     "n_older": 1268
+    },
+    "democracy": {
+     "young": 36.3,
+     "older": 52.8,
+     "young_eu_mean": 33.6,
+     "n_young": 478,
+     "n_older": 1268
+    },
+    "direction": {
+     "young": 56.6,
+     "older": 62.5,
+     "young_eu_mean": 53.9,
+     "n_young": 478,
+     "n_older": 1268
+    }
+   },
+   "interview_mode_mark": false,
+   "in_reference": true
+  },
+  "SK": {
+   "score": 1.225,
+   "interval": [
+    0.7,
+    1.777
+   ],
+   "C": 1.347,
+   "B": 1.103,
+   "raw_gap_points": 3.3,
+   "gap_clearly_positive": false,
+   "tier": "hot",
+   "type": "angry country",
+   "too_noisy_to_place": false,
+   "components": {
+    "distrust": {
+     "young": 79.1,
+     "older": 68.0,
+     "young_eu_mean": 61.3,
+     "n_young": 539,
+     "n_older": 1109
+    },
+    "democracy": {
+     "young": 48.1,
+     "older": 58.3,
+     "young_eu_mean": 33.6,
+     "n_young": 539,
+     "n_older": 1109
+    },
+    "direction": {
+     "young": 78.7,
+     "older": 69.7,
+     "young_eu_mean": 53.9,
+     "n_young": 539,
+     "n_older": 1109
+    }
+   },
+   "interview_mode_mark": false,
+   "in_reference": true
+  },
+  "UK": {
+   "score": 0.355,
+   "interval": [
+    -0.179,
+    0.853
+   ],
+   "C": 0.832,
+   "B": -0.123,
+   "raw_gap_points": -7.1,
+   "gap_clearly_positive": false,
+   "tier": "mild",
+   "type": "angry country",
+   "too_noisy_to_place": false,
+   "components": {
+    "distrust": {
+     "young": 73.0,
+     "older": 78.3,
+     "young_eu_mean": 61.3,
+     "n_young": 647,
+     "n_older": 1184
+    },
+    "democracy": {
+     "young": 41.3,
+     "older": 48.6,
+     "young_eu_mean": 33.6,
+     "n_young": 647,
+     "n_older": 1184
+    },
+    "direction": {
+     "young": 69.6,
+     "older": 78.1,
+     "young_eu_mean": 53.9,
+     "n_young": 647,
+     "n_older": 1184
+    }
+   },
+   "interview_mode_mark": false,
+   "in_reference": false
+  }
+ }
+}

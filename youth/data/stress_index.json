@@ -1,0 +1,1841 @@
+{
+ "status": "prototype, SPEC section 18; not on any page",
+ "recipe_commit": "1ea5973",
+ "pillar_correlation_eu27": 0.14,
+ "classes": [
+  {
+   "from": 60,
+   "name": "very high"
+  },
+  {
+   "from": 53,
+   "name": "high"
+  },
+  {
+   "from": 47,
+   "name": "around average"
+  },
+  {
+   "from": 40,
+   "name": "low"
+  },
+  {
+   "from": -999,
+   "name": "very low"
+  }
+ ],
+ "countries": {
+  "AT": {
+   "score": 45.7,
+   "score_display": 46,
+   "class": "low",
+   "mood": -0.3,
+   "pressure": -0.27,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 29.8,
+     "z": -0.25
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 39.9,
+     "z": -1.3
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 51.5,
+     "z": -0.17
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 12.3,
+     "z": 0.51
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 7.6,
+     "flag": "",
+     "z": 0.16
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 9.5,
+     "flag": "",
+     "z": -0.57
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 21.3,
+     "flag": "",
+     "z": -0.04
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 6.9,
+     "flag": "",
+     "z": -0.29
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 40.3,
+     "flag": "",
+     "z": -0.62
+    }
+   },
+   "rank_eu27": 18
+  },
+  "BE": {
+   "score": 49.8,
+   "score_display": 50,
+   "class": "around average",
+   "mood": 0.18,
+   "pressure": -0.21,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 33.9,
+     "z": 0.02
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 58.0,
+     "z": 0.06
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 57.8,
+     "z": 0.26
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 11.6,
+     "z": 0.38
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 7.8,
+     "flag": "",
+     "z": -0.47
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 12.9,
+     "flag": "",
+     "z": 0.35
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 18.0,
+     "flag": "",
+     "z": -0.58
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 6.1,
+     "flag": "",
+     "z": -0.43
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 51.4,
+     "flag": "",
+     "z": 0.08
+    }
+   },
+   "rank_eu27": 12
+  },
+  "BG": {
+   "score": 52.4,
+   "score_display": 52,
+   "class": "around average",
+   "mood": -0.05,
+   "pressure": 0.38,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 31.8,
+     "z": -0.12
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 63.9,
+     "z": 0.51
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 42.7,
+     "z": -0.77
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 10.5,
+     "z": 0.17
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 7.2,
+     "flag": "",
+     "z": 1.44
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 7.7,
+     "flag": "",
+     "z": -1.05
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 29.5,
+     "flag": "",
+     "z": 1.29
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 6.9,
+     "flag": "",
+     "z": -0.29
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 57.8,
+     "flag": "",
+     "z": 0.49
+    }
+   },
+   "rank_eu27": 9
+  },
+  "CY": {
+   "score": 51.7,
+   "score_display": 52,
+   "class": "around average",
+   "mood": 0.79,
+   "pressure": -0.56,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 67.1,
+     "z": 2.21
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 63.2,
+     "z": 0.46
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 70.5,
+     "z": 1.13
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 6.3,
+     "z": -0.64
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 7.7,
+     "flag": "",
+     "z": -0.15
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 9.3,
+     "flag": "",
+     "z": -0.62
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 13.0,
+     "flag": "",
+     "z": -1.39
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 2.3,
+     "flag": "",
+     "z": -1.12
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 58.0,
+     "flag": "",
+     "z": 0.5
+    }
+   },
+   "rank_eu27": 10
+  },
+  "CZ": {
+   "score": 43.2,
+   "score_display": 43,
+   "class": "low",
+   "mood": -0.06,
+   "pressure": -0.85,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 25.8,
+     "z": -0.51
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 58.1,
+     "z": 0.07
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 43.2,
+     "z": -0.73
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 14.6,
+     "z": 0.96
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 8.0,
+     "flag": "",
+     "z": -1.11
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 6.4,
+     "flag": "",
+     "z": -1.4
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 12.6,
+     "flag": "",
+     "z": -1.46
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 8.4,
+     "flag": "",
+     "z": -0.01
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 46.0,
+     "flag": "",
+     "z": -0.26
+    }
+   },
+   "rank_eu27": 23
+  },
+  "DE": {
+   "score": 53.6,
+   "score_display": 54,
+   "class": "high",
+   "mood": 0.34,
+   "pressure": 0.15,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 35.9,
+     "z": 0.15
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 58.0,
+     "z": 0.06
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 74.7,
+     "z": 1.42
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 8.3,
+     "z": -0.27
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 7.2,
+     "flag": "",
+     "z": 1.44
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 6.3,
+     "flag": "",
+     "z": -1.43
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 26.5,
+     "flag": "",
+     "z": 0.8
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 14.3,
+     "flag": "",
+     "z": 1.06
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 32.1,
+     "flag": "",
+     "z": -1.14
+    }
+   },
+   "rank_eu27": 8
+  },
+  "DK": {
+   "score": 44.7,
+   "score_display": 45,
+   "class": "low",
+   "mood": -1.24,
+   "pressure": 0.54,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 9.2,
+     "z": -1.61
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 37.2,
+     "z": -1.51
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 41.7,
+     "z": -0.84
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 4.5,
+     "z": -1.01
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 7.5,
+     "flag": "",
+     "z": 0.48
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 11.9,
+     "flag": "",
+     "z": 0.08
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 31.6,
+     "flag": "",
+     "z": 1.63
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 22.5,
+     "flag": "b",
+     "z": 2.5
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 18.4,
+     "flag": "",
+     "z": -2.0
+    }
+   },
+   "rank_eu27": 20
+  },
+  "EE": {
+   "score": 48.9,
+   "score_display": 49,
+   "class": "around average",
+   "mood": -0.28,
+   "pressure": 0.13,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 28.7,
+     "z": -0.32
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 52.2,
+     "z": -0.38
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 45.2,
+     "z": -0.6
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 10.5,
+     "z": 0.16
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 7.6,
+     "flag": "",
+     "z": 0.16
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 14.9,
+     "flag": "",
+     "z": 0.89
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 19.7,
+     "flag": "",
+     "z": -0.3
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 12.7,
+     "flag": "",
+     "z": 0.77
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 36.7,
+     "flag": "",
+     "z": -0.85
+    }
+   },
+   "rank_eu27": 15
+  },
+  "EL": {
+   "score": 71.6,
+   "score_display": 72,
+   "class": "very high",
+   "mood": 1.47,
+   "pressure": 1.42,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 68.3,
+     "z": 2.28
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 80.1,
+     "z": 1.73
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 79.3,
+     "z": 1.74
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 10.3,
+     "z": 0.13
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 7.4,
+     "flag": "",
+     "z": 0.8
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 16.5,
+     "flag": "",
+     "z": 1.32
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 29.7,
+     "flag": "",
+     "z": 1.32
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 25.6,
+     "flag": "",
+     "z": 2.5
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 68.0,
+     "flag": "",
+     "z": 1.13
+    }
+   },
+   "rank_eu27": 1
+  },
+  "ES": {
+   "score": 58.2,
+   "score_display": 58,
+   "class": "high",
+   "mood": 0.32,
+   "pressure": 0.78,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 39.1,
+     "z": 0.36
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 68.3,
+     "z": 0.84
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 62.5,
+     "z": 0.59
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 7.0,
+     "z": -0.51
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 7.6,
+     "flag": "",
+     "z": 0.16
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 18.6,
+     "flag": "d",
+     "z": 1.89
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 27.0,
+     "flag": "",
+     "z": 0.88
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 7.2,
+     "flag": "",
+     "z": -0.23
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 68.7,
+     "flag": "",
+     "z": 1.17
+    }
+   },
+   "rank_eu27": 4
+  },
+  "FI": {
+   "score": 49.8,
+   "score_display": 50,
+   "class": "around average",
+   "mood": -0.31,
+   "pressure": 0.28,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 17.0,
+     "z": -1.1
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 55.4,
+     "z": -0.13
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 66.6,
+     "z": 0.86
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 5.0,
+     "z": -0.89
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 7.6,
+     "flag": "",
+     "z": 0.16
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 17.0,
+     "flag": "",
+     "z": 1.46
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 31.8,
+     "flag": "",
+     "z": 1.66
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 9.8,
+     "flag": "",
+     "z": 0.24
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 16.6,
+     "flag": "",
+     "z": -2.12
+    }
+   },
+   "rank_eu27": 13
+  },
+  "FR": {
+   "score": 60.4,
+   "score_display": 60,
+   "class": "very high",
+   "mood": 1.07,
+   "pressure": 0.32,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 46.3,
+     "z": 0.84
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 76.7,
+     "z": 1.48
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 75.8,
+     "z": 1.5
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 12.1,
+     "z": 0.47
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 7.4,
+     "flag": "u",
+     "z": 0.8
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 15.4,
+     "flag": "d",
+     "z": 1.03
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 24.9,
+     "flag": "",
+     "z": 0.54
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 7.4,
+     "flag": "",
+     "z": -0.2
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 41.1,
+     "flag": "",
+     "z": -0.57
+    }
+   },
+   "rank_eu27": 2
+  },
+  "HR": {
+   "score": 46.3,
+   "score_display": 46,
+   "class": "low",
+   "mood": 0.14,
+   "pressure": -0.64,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 42.1,
+     "z": 0.56
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 59.7,
+     "z": 0.19
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 45.6,
+     "z": -0.57
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 11.7,
+     "z": 0.4
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 8.4,
+     "flag": "",
+     "z": -2.38
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 12.7,
+     "flag": "",
+     "z": 0.3
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 12.6,
+     "flag": "",
+     "z": -1.46
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 1.5,
+     "flag": "",
+     "z": -1.27
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 75.3,
+     "flag": "",
+     "z": 1.59
+    }
+   },
+   "rank_eu27": 17
+  },
+  "HU": {
+   "score": 56.7,
+   "score_display": 57,
+   "class": "high",
+   "mood": 1.01,
+   "pressure": -0.12,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 57.6,
+     "z": 1.58
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 63.7,
+     "z": 0.49
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 60.8,
+     "z": 0.46
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 17.5,
+     "z": 1.51
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 7.6,
+     "flag": "u",
+     "z": 0.16
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 9.1,
+     "flag": "",
+     "z": -0.67
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 22.2,
+     "flag": "",
+     "z": 0.1
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 5.7,
+     "flag": "",
+     "z": -0.5
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 55.2,
+     "flag": "",
+     "z": 0.32
+    }
+   },
+   "rank_eu27": 6
+  },
+  "IE": {
+   "score": 42.6,
+   "score_display": 43,
+   "class": "low",
+   "mood": -0.85,
+   "pressure": -0.13,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 18.6,
+     "z": -0.99
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 48.5,
+     "z": -0.65
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 41.3,
+     "z": -0.87
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 5.0,
+     "z": -0.9
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 7.5,
+     "flag": "",
+     "z": 0.48
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 9.1,
+     "flag": "",
+     "z": -0.67
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 17.3,
+     "flag": "",
+     "z": -0.7
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 5.7,
+     "flag": "",
+     "z": -0.5
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 61.7,
+     "flag": "",
+     "z": 0.73
+    }
+   },
+   "rank_eu27": 24
+  },
+  "IT": {
+   "score": 58.7,
+   "score_display": 59,
+   "class": "high",
+   "mood": 0.67,
+   "pressure": 0.49,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 40.1,
+     "z": 0.43
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 62.4,
+     "z": 0.39
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 60.0,
+     "z": 0.41
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 17.1,
+     "z": 1.43
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 7.4,
+     "flag": "",
+     "z": 0.8
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 14.4,
+     "flag": "",
+     "z": 0.76
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 24.6,
+     "flag": "",
+     "z": 0.49
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 4.1,
+     "flag": "",
+     "z": -0.79
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 69.1,
+     "flag": "",
+     "z": 1.2
+    }
+   },
+   "rank_eu27": 3
+  },
+  "LT": {
+   "score": 37.8,
+   "score_display": 38,
+   "class": "very low",
+   "mood": -1.06,
+   "pressure": -0.56,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 26.7,
+     "z": -0.46
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 42.2,
+     "z": -1.13
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 33.6,
+     "z": -1.4
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 3.1,
+     "z": -1.27
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 8.0,
+     "flag": "p",
+     "z": -1.11
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 11.0,
+     "flag": "",
+     "z": -0.16
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 21.1,
+     "flag": "p",
+     "z": -0.08
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 5.7,
+     "flag": "p",
+     "z": -0.5
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 35.0,
+     "flag": "p",
+     "z": -0.96
+    }
+   },
+   "rank_eu27": 27
+  },
+  "LU": {
+   "score": 38.5,
+   "score_display": 39,
+   "class": "very low",
+   "mood": -1.7,
+   "pressure": 0.17,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 10.1,
+     "z": -1.55
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 20.1,
+     "z": -2.5
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 24.2,
+     "z": -2.03
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 5.9,
+     "z": -0.72
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 7.5,
+     "flag": "b",
+     "z": 0.48
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 12.1,
+     "flag": "",
+     "z": 0.14
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 24.0,
+     "flag": "b",
+     "z": 0.4
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 9.0,
+     "flag": "b",
+     "z": 0.09
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 46.1,
+     "flag": "b",
+     "z": -0.25
+    }
+   },
+   "rank_eu27": 26
+  },
+  "LV": {
+   "score": 48.8,
+   "score_display": 49,
+   "class": "around average",
+   "mood": -0.22,
+   "pressure": 0.06,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 29.2,
+     "z": -0.29
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 62.3,
+     "z": 0.39
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 51.7,
+     "z": -0.15
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 5.3,
+     "z": -0.84
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 7.3,
+     "flag": "",
+     "z": 1.12
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 11.1,
+     "flag": "",
+     "z": -0.13
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 19.2,
+     "flag": "",
+     "z": -0.39
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 5.9,
+     "flag": "",
+     "z": -0.47
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 53.1,
+     "flag": "",
+     "z": 0.19
+    }
+   },
+   "rank_eu27": 16
+  },
+  "MT": {
+   "score": 45.5,
+   "score_display": 45,
+   "class": "low",
+   "mood": -0.03,
+   "pressure": -0.57,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 43.4,
+     "z": 0.64
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 53.1,
+     "z": -0.31
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 46.4,
+     "z": -0.52
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 9.9,
+     "z": 0.05
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 7.7,
+     "flag": "",
+     "z": -0.15
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 6.1,
+     "flag": "",
+     "z": -1.48
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 15.0,
+     "flag": "",
+     "z": -1.07
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 7.0,
+     "flag": "",
+     "z": -0.27
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 52.1,
+     "flag": "",
+     "z": 0.13
+    }
+   },
+   "rank_eu27": 19
+  },
+  "NL": {
+   "score": 51.5,
+   "score_display": 52,
+   "class": "around average",
+   "mood": 0.33,
+   "pressure": -0.13,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 31.3,
+     "z": -0.15
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 64.1,
+     "z": 0.52
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 63.7,
+     "z": 0.67
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 11.2,
+     "z": 0.3
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 7.4,
+     "flag": "",
+     "z": 0.8
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 7.1,
+     "flag": "",
+     "z": -1.21
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 21.3,
+     "flag": "",
+     "z": -0.04
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 12.7,
+     "flag": "",
+     "z": 0.77
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 34.9,
+     "flag": "",
+     "z": -0.96
+    }
+   },
+   "rank_eu27": 11
+  },
+  "PL": {
+   "score": 41.2,
+   "score_display": 41,
+   "class": "low",
+   "mood": -0.64,
+   "pressure": -0.53,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 17.6,
+     "z": -1.06
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 55.1,
+     "z": -0.15
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 30.2,
+     "z": -1.63
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 11.1,
+     "z": 0.27
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 7.9,
+     "flag": "u",
+     "z": -0.79
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 7.3,
+     "flag": "",
+     "z": -1.16
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 15.9,
+     "flag": "",
+     "z": -0.92
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 3.9,
+     "flag": "",
+     "z": -0.83
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 66.5,
+     "flag": "",
+     "z": 1.04
+    }
+   },
+   "rank_eu27": 25
+  },
+  "PT": {
+   "score": 44.3,
+   "score_display": 44,
+   "class": "low",
+   "mood": -0.83,
+   "pressure": 0.07,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 20.0,
+     "z": -0.9
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 39.6,
+     "z": -1.32
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 40.5,
+     "z": -0.92
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 8.8,
+     "z": -0.16
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 7.7,
+     "flag": "u",
+     "z": -0.15
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 13.4,
+     "flag": "",
+     "z": 0.49
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 18.5,
+     "flag": "",
+     "z": -0.5
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 7.5,
+     "flag": "",
+     "z": -0.18
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 61.0,
+     "flag": "",
+     "z": 0.69
+    }
+   },
+   "rank_eu27": 21
+  },
+  "RO": {
+   "score": 56.9,
+   "score_display": 57,
+   "class": "high",
+   "mood": 0.67,
+   "pressure": 0.24,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 39.8,
+     "z": 0.41
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 57.5,
+     "z": 0.02
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 50.5,
+     "z": -0.24
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 25.6,
+     "z": 2.5
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 8.2,
+     "flag": "",
+     "z": -1.74
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 15.4,
+     "flag": "",
+     "z": 1.03
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 30.5,
+     "flag": "",
+     "z": 1.45
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 10.0,
+     "flag": "",
+     "z": 0.28
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 53.2,
+     "flag": "",
+     "z": 0.19
+    }
+   },
+   "rank_eu27": 5
+  },
+  "SE": {
+   "score": 49.8,
+   "score_display": 50,
+   "class": "around average",
+   "mood": -0.71,
+   "pressure": 0.67,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 13.9,
+     "z": -1.3
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 52.6,
+     "z": -0.35
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 61.4,
+     "z": 0.51
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 0.9,
+     "z": -1.69
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 7.2,
+     "flag": "",
+     "z": 1.44
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 18.2,
+     "flag": "",
+     "z": 1.78
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 26.4,
+     "flag": "",
+     "z": 0.79
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 13.7,
+     "flag": "",
+     "z": 0.95
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 25.1,
+     "flag": "",
+     "z": -1.58
+    }
+   },
+   "rank_eu27": 14
+  },
+  "SI": {
+   "score": 43.7,
+   "score_display": 44,
+   "class": "low",
+   "mood": 0.03,
+   "pressure": -0.88,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 36.4,
+     "z": 0.18
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 72.3,
+     "z": 1.14
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 56.5,
+     "z": 0.17
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 2.6,
+     "z": -1.37
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 8.1,
+     "flag": "",
+     "z": -1.43
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 8.7,
+     "flag": "",
+     "z": -0.78
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 10.2,
+     "flag": "",
+     "z": -1.85
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 3.1,
+     "flag": "",
+     "z": -0.98
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 60.4,
+     "flag": "",
+     "z": 0.65
+    }
+   },
+   "rank_eu27": 22
+  },
+  "SK": {
+   "score": 56.2,
+   "score_display": 56,
+   "class": "high",
+   "mood": 1.2,
+   "pressure": -0.38,
+   "mood_only": false,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 48.0,
+     "z": 0.95
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 79.5,
+     "z": 1.69
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 79.0,
+     "z": 1.71
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 12.0,
+     "z": 0.44
+    },
+    "P1": {
+     "label": "Life satisfaction, 0 to 10",
+     "ages": "16-29",
+     "value": 8.1,
+     "flag": "",
+     "z": -1.43
+    },
+    "P2": {
+     "label": "Unemployed, share of those in the labour force",
+     "ages": "15-29",
+     "value": 11.0,
+     "flag": "",
+     "z": -0.16
+    },
+    "P3": {
+     "label": "At risk of poverty or social exclusion",
+     "ages": "16-29",
+     "value": 18.0,
+     "flag": "b",
+     "z": -0.58
+    },
+    "P4": {
+     "label": "Spending over 40% of household income on housing",
+     "ages": "15-29",
+     "value": 3.3,
+     "flag": "b",
+     "z": -0.94
+    },
+    "P5": {
+     "label": "Living with their parents",
+     "ages": "18-34",
+     "value": 69.4,
+     "flag": "",
+     "z": 1.22
+    }
+   },
+   "rank_eu27": 7
+  },
+  "UK": {
+   "score": 59.3,
+   "score_display": 59,
+   "class": "high",
+   "mood": 0.62,
+   "pressure": null,
+   "mood_only": true,
+   "components": {
+    "M1": {
+     "label": "Dissatisfied with how democracy works in the country",
+     "value": 41.3,
+     "z": 0.51
+    },
+    "M2": {
+     "label": "Tend not to trust the national government",
+     "value": 68.2,
+     "z": 0.83
+    },
+    "M3": {
+     "label": "Country going in the wrong direction",
+     "value": 69.8,
+     "z": 1.08
+    },
+    "M4": {
+     "label": "Own life going in the wrong direction",
+     "value": 9.9,
+     "z": 0.05
+    }
+   }
+  }
+ }
+}

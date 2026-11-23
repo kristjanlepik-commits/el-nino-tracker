@@ -1,0 +1,728 @@
+# Youth heat map: spec and pre-registration
+
+Status: **PRE-REGISTRATION, frozen 2026-11-05.** Rulings D-347 and D-348;
+G1 done on documents with values masked; no score computed at the time of
+this commit. Changes go in a dated amendment at the end (section 13).
+
+Owner: TLS Youth chat (index, inputs, validated JSON, sign-off).
+Rendering: design. Copy: editor. Publishing: platform. Research: EOS,
+Kristjan's separate research workspace, thread soc/gen-z-west.
+Rulings so far: D-345 (one test page, no menu item, live before the 20
+November strikes), D-346 (heat is a generated index with legs B and C).
+
+## 1. What this measures, in one paragraph
+
+**No source measures anger.** What exists, asked identically in all 27
+countries with an age split, is political discontent: distrust of
+national institutions, dissatisfaction with democracy, and the sense
+that the country is heading the wrong way. So heat means: **how far a
+country's young people reject the way their country is being run,
+compared with young people across Europe and with older people at
+home.** It is a proxy, and the page says so. It is also dated: the
+newest data was collected from 12 March to 1 April 2026, so **it cannot
+contain the autumn 2026 protests.** Those get a separate marker (section
+7) and never enter the score.
+
+## 2. Inputs
+
+### Why these sources
+
+| Candidate | All 27, same question? | Age split by country? | Usable? |
+|---|---|---|---|
+| **Standard Eurobarometer, Volume C tables** (EC open data portal) | Yes, about 1,000 per country; 500 in LU, MT, CY | Published per country, no login | **Yes: the source** |
+| Eurobarometer microdata via GESIS | Yes | Yes, any age band | **No.** Its terms (valid 4 Feb 2026) allow scientific use only, bar commercial use, and prohibit processing the data with AI systems |
+| European Social Survey round 11 (has protest participation) | No: secondary sources suggest about 22 of 27, unverified | Microdata, login | Not in the index (D-346: a leg or item missing for some countries makes scores incomparable). Candidate for country pages after EOS confirms coverage and terms |
+| Eurostat `ilc_pw03` | Yes | Yes | No: the table now holds trust in OTHERS only, not trust in politics |
+| Eurostat `ilc_pw01` life satisfaction | Yes | Yes | Not in the index: a personal measure, not anger at anything, and its values are already known to us (section 12). On the page, block 3 |
+| Eurostat `ilc_pw10` feeling left out | No Germany, 2022 only | Yes | No |
+| Eurostat `ilc_scp19` active citizenship | 25 of 27 in 2022 | Yes | No: coverage, and it blends activities |
+| Flash Eurobarometer 585 (youth and democracy, 19 June to 1 July 2026, ages 15-30) | Yes | Young only, no older group | Not in the index, since B cannot be built from it. Used to validate (V5) and on country pages |
+| National polls, Ipsos and similar | No | Varies | Country pages only (D-346) |
+| Emigration statistics | Registers differ by country | Yes | Country pages only |
+| ACLED | n/a | No ages | **Not used.** Its terms restrict commercial entities, require transformative publication, and bar use as AI input without written consent |
+
+### Waves
+
+Pool the three newest waves in the portal, all under the Commission
+reuse licence:
+
+- Standard Eurobarometer 103, spring 2025
+- Standard Eurobarometer 104, autumn 2025
+- Standard Eurobarometer 105, spring 2026
+
+Fieldwork: 26 March to 10 May 2025; 9 October to 5 November 2025; 12
+March to 1 April 2026. Standard Eurobarometer 106 is not in scope for
+launch. Its arrival is a new issue of the index, not an edit of this one.
+
+**Two limits of the survey, printed on the page.** It covers nationals and
+EU citizens resident in each country, so young people from outside the EU
+are not in it. And in wave 104, the one wave whose method note we have
+read, interviews were in person except in Cyprus, Denmark, Malta, the
+Netherlands, Finland and Sweden, which used remote video. The question is
+identical; the setting is not. Those six carry a mark on their pages, and
+the run also reports how many tiers change if they are left out of the
+reference. That report is disclosure, not a gate.
+
+### Items
+
+| Component | Question | Scored as |
+|---|---|---|
+| DISTRUST | QA6: tend to trust or not: national government, national parliament, political parties | Share "tend not to trust" among those answering either way, averaged over the three |
+| DEMOCRACY | SD18a: satisfaction with the way democracy works in (our country) | Share "not very" plus "not at all" among the four substantive answers |
+| DIRECTION | D73.1: things going in the right or wrong direction in (our country) | Share "wrong" among right plus wrong |
+
+Don't-knows are excluded from the base, and spontaneous "neither" with
+them, because both differ by age. Three components, equal weight: the
+three trust items share one component so that three versions of one
+question do not outvote the other two.
+
+Confirmed at G1: all five items, in all 27 countries and the UK, in all
+three waves (variable table, section 13).
+
+### Ages
+
+**Young = born 1997 or later. Older = 55+.** Across these waves the young
+band is ages 15 to 28 in 2025 and 15 to 29 in 2026, the Gen Z frame EOS
+works in, with about 45% more respondents than 15-24. D-347 first ruled
+15-24, because that looked like all the tables publish; Kristjan moved it
+once G1 found the generation column, before any score existed.
+
+**The known risk is dilution:** if the anger sits with teenagers, the
+25-29s could mute it. So the run also computes the whole recipe with 15-24
+as the young band and reports how many countries change tier. That side
+check never changes the map and is not a gate.
+
+### Real sample sizes, and the plus or minus 12
+
+From the published weighted bases, three waves pooled. Only weighted bases
+are published. Gap interval is 95%, at 50%, with an assumed design effect
+of 1.5.
+
+| Three waves pooled | Born 1997+ | 55+ | Gap, born 1997+ | Gap, 15-24 side check |
+|---|---|---|---|---|
+| Median of 27 | 527 | 1,229 | +/-6.2 | +/-7.1 |
+| Germany | 838 | 2,007 | +/-4.9 | +/-5.9 |
+| Sweden | 336 | 1,342 | +/-7.3 | +/-8.7 |
+| Malta | 277 | 498 | +/-9.0 | +/-10.8 |
+
+Product's guess of about +/-12 was right for one wave of 15-24s. Pooling
+is what makes leg B possible, and whether it is enough is tested, not
+assumed (V3).
+
+## 3. The recipe
+
+For country i and component k, with y = young share, o = older share,
+g = y minus o, each pooled across waves weighted by base:
+
+    C(i,k) = (y(i,k) - mean y(k)) / sd y(k)
+    B(i,k) = (g(i,k) - mean g(k)) / sd g(k)
+    C(i)   = mean of C(i,k) over the three components
+    B(i)   = mean of B(i,k) over the three components
+    SCORE  = (C(i) + B(i)) / 2
+
+Mean and sd are unweighted across the EU27 (each country one vote),
+computed once and frozen. A country that is later greyed or corrected
+does not move anyone else's score. A non-EU country (the UK, if its
+items exist in all three waves) is scored against that frozen reference
+and never enters it.
+
+**Tiers, fixed now:** HOT at +1.0 or above; WARM +0.4 to +1.0; MILD -0.4
+to +0.4; COOL below -0.4. No quota: nothing forces a country into any
+tier. Countries appear in tiers, not ranks.
+
+**Type label, beside the score:**
+
+| | Gap clearly positive | Gap not clearly positive |
+|---|---|---|
+| C(i) at +0.4 or above | youth revolt | angry country |
+| C(i) below +0.4 | generational gap | calm |
+
+"Gap clearly positive" uses the raw gap in points, the mean of g(i,k),
+with the 90% interval above zero. So it answers the plain question: are
+the young more discontented than their own elders?
+
+**Three properties of this recipe, stated so nobody finds them later:**
+
+1. **The score is relative.** It says hot compared with the rest of the
+   EU now. It cannot say Europe as a whole got angrier, and some country
+   is nearly always warm. The A marker is the only absolute signal.
+2. **Leg B in the score is centred on the typical European gap.** Where
+   the young are less discontented than their elders almost everywhere,
+   a country can score high on B while its young are still below its
+   old. That is why the type label uses the raw gap: the score ranks,
+   the label says what is true.
+3. **Reporting habits only half cancel.** D-346 is right that B cancels
+   national habits. C does not, and C is half the score.
+
+**Noise.** SE of a pooled share p is sqrt(1.5 p (1-p) / n), n the summed
+weighted base, design effect 1.5 assumed. If the wave to wave spread is
+larger, all SEs are scaled up: R squared is the mean over countries and
+components of (variance of the three wave values / 3) over the mean of the
+squared SE, and SEs are multiplied by R when R exceeds 1. 90% interval by
+simulation, 2,000 draws, seed 20261120: one normal shock per country per
+age group, shared by that group's components (fully correlated,
+conservative), scored against the frozen reference. "Gap clearly positive"
+means the 5th percentile of the simulated mean gap is above zero. A country
+whose score interval crosses more than one tier boundary is shown as "too
+noisy to place": it keeps its numbers and gets no tier or type.
+
+**Pooling.** A share is computed per wave with don't-knows excluded, then
+averaged across the three waves weighted by that column's weighted base.
+Answer cells shown as "-" count as zero.
+
+**Side checks, reported with the result, never changing it:** tiers changed
+under 15-24; tiers changed if the six video-interview countries are left
+out of the reference.
+
+## 4. Leg A, under D-346's rule
+
+D-346: A joins as an equal third leg only if the same items are repeated
+across all countries; otherwise it is a marker.
+
+**Result at G1, on documents alone: A stays a marker.** The 2019 reference
+waves (Standard Eurobarometer 91 and 92) were all in person. Six countries
+were interviewed by video in wave 104, so mode does not match. The first
+2019 table opened also has no SD18a sheet, so the democracy item may not
+repeat either. The extra reliability condition proposed in the draft is
+therefore moot.
+
+Every country shows a hotter or cooler marker in raw points against 2019,
+on DISTRUST and DIRECTION where both periods exist, using 15-24 in both
+periods whatever the young band above (a generation ages, an age band
+does not). The six video countries carry the mode mark on it. The marker
+never enters the score.
+
+## 5. Gates, fixed before seeing any score
+
+Run once, on the full data. For V2 and V3, each of the three waves in turn
+is scored alone and the other two pooled, each set standardised within
+itself; the bar applies to the median of the three Spearman values. V1 is
+the median of the three pairwise values on pooled y. **Any failure drops
+the index and the page moves to Plan B (section 6).** A map that looks wrong but passes every
+gate is **published as it is.** That is D-347's reading of "dropped or published
+as it is": numbers decide which, not how the map looks.
+
+| Gate | Test | Bar | Why |
+|---|---|---|---|
+| V1 coherence | Median Spearman among the three components of y, across 27 | 0.5 or above | EOS argues against blending because its distress measures do not move together (0.03). This tests the same objection on these items |
+| V2 C reliability | Each wave against the other two pooled, median Spearman on C | 0.7 or above | Implies about 0.84 reliability for three waves pooled |
+| V3 B reliability | Same, on B | 0.4 or above | Implies about 0.6 pooled. Gaps between two small samples may be noise; if so, D-346's B leg cannot be built from this data |
+| V4 placement | Countries with a tier | 20 of 27 or more | A map that is mostly "too noisy" is not a map |
+| V5 outside check | Spearman of C(i) against Flash Eurobarometer 585 Q18.1, share disagreeing that policymakers in (our country) take the long-term consequences of their decisions into account, don't-knows excluded, across 27 | 0.5 or above | Independent sample, later date (June-July 2026), different wording. Replaces the draft's Flash 556, which is not in the portal search and is older |
+
+## 6. Plan B, if a gate fails
+
+**The page still ships before 20 November.** The map is coloured by one
+unblended measure: share of young people born 1997 or later dissatisfied
+with how democracy works in their country, three waves pooled. No score, tier or type. Older-age
+dots stay on country pages. Every other block is unchanged, so design
+builds one map that takes either colouring and no build work is lost.
+
+## 7. The "now" marker
+
+Separate from the score, and labelled as separate on the page. Per
+country: dated youth-involving protest events since 1 September 2026,
+each with a named source, crowd figure with who counted it, and ages only
+where an official or stated source gives them. From EOS protest findings
+that have passed its scope check, and from the News desk's routed items.
+Hand-curated: 27 countries, not an event database.
+
+Absence reads "none found as of [date]", never "calm". A country nobody
+has checked reads "not checked".
+
+## 8. Country page slots
+
+A number counts as abnormal only with a comparator. The validator fails
+a block whose number claims abnormality without one.
+
+| # | Block | Source | Exists for |
+|---|---|---|---|
+| 1 | Name, tier, type, score in small print, data date, one headline | Common layer; editor's words | 27 |
+| 2 | **The discontent, moved up (working name "the anger"; editor to name):** each component, young against older against young Europeans, as dots; A marker | Eurobarometer | 27 |
+| 3 | **My life against my country:** personal direction (D73.4) against country direction (D73.1) by age, plus life satisfaction against the EU and against all adults | Eurobarometer, Eurostat `ilc_pw01` | 27 |
+| 4 | **What it is about:** top issues, personally and nationally (QA3, QA4), with a European marker on each bar; national surveys beneath, labelled as national | Eurobarometer; EOS deep dive | 27 / deep-dive countries |
+| 5 | **Renamed from "Why here" (editor to name; working title "What they are up against"):** housing, poverty, jobs, age leaving home, each against the EU. Stated plainly: not in the score | Eurostat | 27 |
+| 6 | **Right now:** the section 7 marker, with the next date; share of young people who took action to change society in the past year, against the EU (Flash 585 Q7a, a petition counts as well as a rally, so never called protest) | EOS, News; Flash 585 | Where checked; Flash 585 for 27 |
+| 7 | **Nearest contrast, chosen by rule, not by hand:** the country most alike on block 5 and most different on C(i) | Computed | 27 |
+| 8 | Trust and care: source per number, confidence per block, the recipe, national helpline | All | 27 |
+
+Dashed "not yet measured" marks stay for anything absent. A page with no
+deep dive says so. QA3 and QA4 by age are noisy per country and are
+checked for that before block 4 relies on them; if too noisy, block 4
+falls back to deep-dive countries only.
+
+### Corrections to the Germany mockup
+
+- **Headline changes.** It omits that German 16-29s are joint lowest in
+  the EU on life satisfaction, 7.2 against 7.5 (Eurostat `ilc_pw01`,
+  2025). Highest among German ages and near the bottom among young
+  Europeans are both true, and the page must say both. Re-read from
+  source before use.
+- **"Spain: just as content" is wrong:** Spain 7.6, Germany 7.2. Nearest
+  contrast becomes computed (block 7).
+- Keep: young-against-older dots, "my life against my country", dashed
+  marks, nearest contrast.
+- **The German stressor bars** (Jugend in Deutschland 2026) are marked
+  as read through a summary. Unusable until EOS has opened the study.
+- **The comparator rule, by example:** the French figure is 79% who have
+  considered living elsewhere and 34% seriously, online panel, no
+  comparator. It may appear as that, in those words. It is not "80% want
+  to leave", and it carries no heat.
+
+## 9. Publishing levels and the grey fallback
+
+| Level | What shows | Requires |
+|---|---|---|
+| Grey | Country outline, "not yet checked", reason | Default |
+| Common | Tier, type, blocks 1-3, 5, 7, 8, templated headline | Checks C1 to C4 |
+| Full | Adds deep-dive parts of blocks 4 and 6, written headline | Also C5 |
+
+- **C1** Every Eurobarometer cell re-read: the Volume C total column
+  matches Volume A within 0.5 points (catches a misread table).
+- **C2** All items present in all three waves, with bases.
+- **C3** Interval places the country, or it is shown "too noisy" (its
+  numbers still pass).
+- **C4** Eurostat values re-pulled on build, against a stored copy.
+- **C5** Each deep-dive number traces to an EOS finding that passed its
+  scope check, with wording, ages, year and comparator. EOS corrected 94
+  of 148 findings, numbers mostly right, so a matched number is not a
+  pass. **France stays at Common until its pending fixes land.**
+
+Realistic launch: 27 at Common if the data behaves, and Full for at most
+Germany, Spain, Italy plus any new rows EOS has checked by the cut-off.
+Grey is for failed checks, not for "no deep dive yet".
+
+## 10. Data contract (working shape, per D-030 not a contract yet)
+
+`youth/data/index.json`: recipe commit hash, waves and fieldwork dates,
+frozen reference, gate results, mode (`index` or `plan_b`), and per
+country: level, tier, type, score, interval, C, B, A marker, grey reason.
+`youth/data/countries/<ISO>.json`: the blocks, each number carrying value,
+comparator, ages, year, wording, source and confidence.
+`youth/validate.py` fails the build on a number with no comparator
+claiming abnormality, a missing source, or an em-dash.
+
+## 11. Timeline to 20 November
+
+| Date | Step | Who |
+|---|---|---|
+| Thu 5 Nov | This spec | Youth |
+| Fri 6 Nov | Rulings; G1 on documents, values masked; freeze and push | Kristjan, Youth |
+| Sat 7 to Mon 9 | First and only run, gates, index or Plan B known | Youth |
+| Tue 10 | JSON and recipe text to design and editor | Youth |
+| Tue 10 to Fri 13 | Template built; copy; preview | Design, editor |
+| Mon 16 | Cut-off for EOS rows at Full. Later rows ship after launch | EOS, Youth |
+| Tue 17 | Preview review; sign-off with no conditions, or sent back | Youth |
+| Wed 18 | Publish, verify live, reading the `age` header | Platform |
+| Thu 19 | Buffer | |
+| Fri 20 | Strikes. Page is up | |
+
+Menu item is discussed only after the first week (D-345). The Plausible
+Stats API has been off since at least 4 October and the flood explainer
+published 16 October, so its first-week number exists only on the
+dashboard and has to be read from there.
+
+Not yet agreed with anyone: design's and editor's capacity for those
+dates. Platform also needs a `youth` entry in `SIGNOFF_INPUTS`; byte hash
+suits a page whose data moves only on a new wave.
+
+## 12. What we had already seen when this was written
+
+A pre-registration is worth what its author had not yet seen.
+
+- **Not seen by this chat:** any Eurobarometer country-by-age cell for
+  these items, or any Flash 585 value. Structure checks printed labels and
+  base rows only, every other number masked. Base sizes were seen; they
+  say nothing about opinion.
+- **Seen:** EOS's country values for life satisfaction, left out,
+  depressive symptoms and teen overwhelm, which is one reason none of
+  them is in the index. Also near the index: Flash 556 Italy (young
+  dissatisfied with democracy, 52 to 46) and a Spanish national survey of
+  15-29s (68% little or no satisfaction), plus one search-result title
+  about low institutional trust in Cyprus.
+- **Generally known:** Kristjan, product and EOS have read five country
+  rows and hold priors about which countries are angry. Nobody here is
+  blind to Europe, only to these cells.
+
+## 13. Freezing and amending
+
+1. **G1, documents only (done 2026-11-05).** Volume C structure with
+   values masked: age bands, bases, item codes in each wave, modes,
+   licence, the UK, the validator. No item failed.
+2. Commit this file, push, and record the commit hash in the ledger.
+3. `youth/build_index.py` refuses to run unless that commit is on the
+   remote.
+4. Run once. Gates decide (section 5).
+5. **Amendments:** a dated section at the end, never an edit above. After
+   the run, any change to items, weights, cut-offs or gates is labelled
+   post hoc on the page and needs Kristjan. A parser bug fix is not an
+   amendment, but it is logged.
+
+### Variable table (filled at G1)
+
+Standard Eurobarometer Volume C, one workbook per country, sheet names:
+
+| Item | Wave 103 | Wave 104 | Wave 105 |
+|---|---|---|---|
+| Trust national government | QA6_10 | QA6_7 | QA6_10 |
+| Trust national parliament | QA6_11 | QA6_8 | QA6_11 |
+| Trust political parties | QA6_2 | QA6_1 | QA6_2 |
+| Satisfaction with democracy | SD18a | SD18a | SD18a |
+| Direction, own country | D73_1 | D73_1 | D73_1 |
+| Direction, own life (block 3) | D73_4 | D73_4 | D73_4 |
+
+The mapping is the same in all 27 and the UK. Columns (zero-indexed): 2
+total, 5 is 15-24, 8 is 55+, 20 is born 1997 or later. Header row 8, base
+row 9, labelled weighted. Answer rows are bilingual, so rows are found by
+their English label, never by position. Workbooks are in the `volume C`
+archives on the EC open data portal, licence COM_REUSE. The UK has all
+items in all three waves, so it is scored against the frozen reference.
+
+## 14. Rulings
+
+D-347: product's rules ratified; open Eurobarometer tables as the source;
+freeze without waiting for the anger inventory; gates decide "dropped or
+published as it is", with Plan B if dropped. D-348: young means born 1997
+or later, with 15-24 as a published side check.
+
+## 15. Amendments
+
+None.
+
+## 16. Result of the run (2026-11-05)
+
+One run, on commit `dfde680`'s recipe. Full output: `youth/data/index.json`.
+
+| Gate | Result | Bar | |
+|---|---|---|---|
+| V1 coherence | 0.64 | 0.5 | Pass |
+| V2 C reliability | 0.92 | 0.7 | Pass |
+| V3 B reliability | 0.80 | 0.4 | Pass |
+| V4 placement | 20 of 27 | 20 | Pass, exactly at the bar |
+| V5 outside check | 0.41 | 0.5 | **Fail** |
+
+**Under section 5 the index is dropped and the page moves to Plan B.** No
+threshold, item or validator has been changed after seeing this. V5's
+validator was itself swapped for Flash 556 before the run, without seeing
+any value; it is a differently worded question, and the failure may say as
+much about that choice as about the index. That is a reason to test again
+on new data, not to re-read this result. Overriding it would need Kristjan
+and a post hoc label on the page (section 13).
+
+Standard errors were scaled by R = 1.41, since waves differ by more than
+sampling alone implies. Side checks: 3 tiers change under 15-24 (AT, FR,
+HR), 2 if video-interview countries leave the reference (AT, DK).
+
+## 17. Log after the run (2026-11-05)
+
+Kristjan ruled Plan B (D-349). `youth/data/index.json` stays as the audit
+record and is not the page's data; the page reads `youth/data/map.json`.
+Nothing in sections 2 to 6 changed.
+
+Three logged corrections, none touching the index result:
+
+- **C1 compares weighted counts, not rounded shares.** On shares, 2 of 504
+  cells were 1 point out, both Croatia in wave 103: the two published tables
+  differ slightly there (base 1,016 against 1,020) and values at x.5 round
+  differently. On counts all 504 pass. The small source discrepancy is
+  noted, not corrected. **Correction:** commit `b0edab0` said this while C1
+  was still failing, because a row offset meant both scripts compared shares
+  and not counts. Fixed in the next commit. A deliberately wrong table makes
+  the check fail (165 of 504), so it can catch a misread. No share, base or
+  index input changed in either fix.
+- **Flash 585 Q7a parser bug fixed.** It read a weighted count as a share.
+  It was not an index input. V5's Q18.1 was computed from counts, correctly.
+- **`youth/data/` carries whole-number display guidance**, since the source
+  rounds each wave to a point.
+
+**Plan B consequences for the page (2026-11-05, on design's query).** Under
+D-349, wherever sections 8 and 9 list tier, type or score, read them as
+removed: block 1 is name, data date and headline. No score, tier or type
+appears anywhere on the page. Map classes are numeric only and carry no
+heat words. Gaps are shown by dots and `gap_read`, not as a printed number,
+because rounding makes the printed figures disagree in 22 of 84 rows
+(Germany's distrust would read 59 against 58, gap 0).
+
+**Further log (2026-11-05), after EOS's reply and a check of the Hungary gap.**
+
+- **"Clear" tightened, knowingly after seeing the data.** `gap_read` now needs
+  the 90% interval and the same sign in all three waves. This is page display,
+  not the frozen recipe, and it applies to every row. It exists because of
+  Hungary: young minus older on democracy is +11, -1, +21 by wave, and 27
+  countries at this interval give about 1.4 false calls per direction by
+  chance. All 14 "older higher" countries hold in every wave; Hungary moves to
+  "no clear difference". So on this measure the young are clearly more
+  dissatisfied in none of the 27, which replaces "only Hungary".
+- **Section 1's "No source measures anger" is too strong.** Read: we found no
+  free survey that asks about anger by age in every EU country. EOS recalls
+  Gallup's World Poll asking about anger (licensed, unchecked), and Flash 4021
+  (2019) asks about emotions towards the EU, anger unconfirmed.
+- **ESS:** EOS reports 23 of 27 in round 11 (no DK, LU, MT, RO; Czechia by
+  another mode) and terms limited to not-for-profit purposes, silent on AI. Not
+  used at launch.
+- **C5 and France:** EOS checked all five rows; every row had corrections, so
+  "passed" means checked and corrected. France's fixes are pushed; its corrected
+  map still awaits Kristjan, so use its findings, not its map.
+
+**Publishing needs, from platform (2026-11-05).** By about 16 November, on
+main: template and payload paths for `SIGNOFF_INPUTS` (a listed file missing
+from main halts every channel's publish), and the build command, for a build
+step in `publish_all.py` plus `CHANNEL_OF_STEP` and `CHANNEL_PATH_PREFIXES`
+entries. Sign-off is `approve_channel.py youth` after looking at a preview.
+
+**Block 7 rule, set after looking at candidate pairs (2026-11-05).** Section 8's
+wording predates D-349, which removes C(i). Now: of the EU countries within 1.5
+on block 5 (standardised distance, typical pair 2.7), the one furthest on the
+map measure, if at least 15 points apart; otherwise the page says there is no
+clear contrast. A rule forcing the five nearest paired Spain with Luxembourg.
+The since-2019 marker's tables were not cross-checked against a second table,
+unlike C1.
+
+**Full-level candidates (2026-11-06).** EOS reports Poland and Sweden checked
+(103 findings, `F-20261106-pl-*`, `F-20261106-se-*`). Cite findings, not its
+map, which awaits Kristjan. Candidates for Full by the 16 November cut-off:
+Germany, Spain, Italy, France, Poland, Sweden.
+
+**C5 source (2026-11-06).** EOS now files findings per country at
+`/Users/admin/Eos/eos/domains/soc/threads/gen-z-west/countries/` (commit
+1d91fa1), generated from the findings, so read them and do not copy by hand. A
+deep-dive number passes C5 only if its finding has `status` active, `verified`
+yes and `scope_checked` true. Usable today: Germany 31 of 31, Spain 35 of 35,
+Italy 47 of 48, France 55 of 58, Poland 47 of 47, Sweden 61 of 61. EOS's fifth
+map is approved, which replaces the "findings, not its map" notes above, but
+numbers still trace to findings.
+
+**Austria (2026-11-06).** EOS filed 44 findings in `countries/AT.json`, all
+scope-checked. EOS's cautions for C5: the O3 items are opt-in and the 2026
+tables state no base, so they may include people outside 16-25; vote figures
+are stated vote in surveys weighted to the election-night projection, not
+results by age. EOS's sixth map, with Austria's row, is not yet approved, so
+cite findings only. Austria is not a Full candidate unless Kristjan adds it.
+
+**Sixth map (2026-11-06).** EOS reports it approved (a455912), so Austria's row
+can be cited. Numbers still trace to findings, and the two Austria cautions
+above still apply.
+
+**What stands out (D-351, 2026-11-06).** Country pages open with a container of
+unusual survey figures, found by EOS; this chat runs no parallel search. Proposed
+field `what_stands_out`: a list of up to three items, each with `text`, `figure`,
+`ages`, `base`, `source`, `as_of`, `compared_with` and `finding_id`. An item
+enters only if its finding passes C5 and `compared_with` names what the figure
+is unusual against: other countries, other ages or an earlier year. Opt-in polls
+are marked. With no items the container is omitted. This is a selection made
+after seeing the data, so the page must not present it as a measure, and it
+stays out of the map. Twenty of the 28 countries have no EOS research yet.
+
+**Countries without EOS research (D-352, 2026-11-06).** They show no container
+and no survey scan runs for launch. Pages gain it as EOS reaches them.
+
+**All countries, step by step (Kristjan, 2026-11-06).** The aim is all 28; EOS is
+working through them. So adding a country must be routine: copy its checked
+items from EOS into `youth/data/`, because the publishing clone cannot read
+`/Users/admin/Eos`, then rebuild. Under D-200 that payload change needs a fresh
+sign-off on a preview each time, which is this chat's standing action.
+
+**EOS's standout grades (2026-11-06).** EOS now grades findings: USE (a fresh
+checker confirmed the standout and its comparator), STATE (may be stated, not
+called abnormal), DROP, CANDIDATE (not separately checked as a standout), plus
+`not_abnormal`. Only USE enters the container at publish. One gap: a file holds
+every finding tagged to a country, including those where it is only a comparison
+row, and `standouts_use` counts them. France's file has 5 USE and none is about
+France. By hand, USE items per country on the page: Poland 7, Spain 2, Austria 2,
+Germany, Italy, UK, Sweden and Greece 1 each, France 0. The entry test needs a
+field naming the country the standout is about.
+
+**EOS grades at commit 84eb16a (2026-11-06).** This overtakes the counts in the
+entry above: France now has USE items of its own. EOS reports 248 graded, USE 70,
+STATE 168, DROP 10, and the files match. By hand, USE items by actual subject:
+Estonia, Greece, Poland 7 each, Netherlands 6, France 5, Spain, Sweden 4 each,
+Bulgaria, UK 3 each, Austria, Germany, Ireland, Portugal 2 each, Hungary, Italy 1
+each. Serbia 8 and the US 6 are off the page. Greece's 7 hold two pairs on the same
+figure (radical change, youth unemployment), so 5 distinct. That is 15 of the 28
+page countries; the other 13 have none: BE, CY, CZ, DK, FI, HR, LT, LU, LV, MT, RO,
+SI, SK. `about` is still missing: France's `standouts_use` says 11, of which 6 are
+about other countries.
+
+USE alone does not settle entry. Proposed test for the container, to be applied
+when items are copied in: graded USE; about this country; carries an age cut, so
+Gallup's France jump (27% from 11%, no age data) and Hungary's direction item
+(whole population) stay out; and old items are weighed, so Ifop 2015 is not chosen
+while a newer one says the same. The UK self-harm item is held until confirmed on
+digital.nhs.uk, since EOS read it at a mirror. EOS writes GR where the page writes
+EL. France's items on generational blame and the pupils' protests are still
+CANDIDATE and closer to the page's question than its USE items.
+
+**EOS grades at commit db04968 (2026-11-06).** This overtakes the counts above.
+Every finding now has `about`, and `standouts_use` counts on it, so hand counts are
+no longer needed; checked here, no USE item is below medium confidence or fails C5.
+USE by `about` on the page: Estonia, France, Greece 7 each, Netherlands, Poland 6
+each, Sweden 4, Bulgaria, Spain, UK 3 each, Austria, Germany, Ireland, Portugal 2
+each, Hungary 1. Italy has none: its only item went to STATE at low confidence, and
+EOS will not lift one to fill the gap. So 14 of the 28 have a USE item. Under the
+proposed test Hungary drops out (whole population), which leaves 13, and Germany's
+Ipsos item and France's Gallup item drop too (no age cut).
+
+France's two items on the page's question are now USE, and carry wording limits
+that go with them. Cluster17: say 83% of 18-34s "pick" benefit seniors, from three
+options, not agree; respondents first read a text on the blockades; the 79% on fewer
+chances is self-placement, not abnormal. Ifop: say "support or sympathy", high under
+35 and flat from 35, not a steady fall. Boomers is STATE. Copy from `stands_out`,
+`comparator` and `caution`, not from the Answers of the two soc/france files, which
+keep their old wording until soc/france applies EOS's proposal.
+
+UK self-harm is not confirmed; EOS has asked Kristjan to clear a bot check on
+digital.nhs.uk, and it stays out if that misses the cut-off. The 13 countries with
+no research are Kristjan's spending call, put to him by EOS. 60 candidates remain
+unproven. No second-round search has run for Italy, Poland or Austria.
+
+**Narrow standouts pass (2026-11-06, as reported by EOS).** Kristjan approved it for
+the 13 countries with no research: BE, CY, CZ, DK, FI, HR, LT, LU, LV, MT, RO, SI, SK.
+Each gets a `countries/<CODE>.json` in the same shape, standout findings only, graded
+USE, STATE or DROP by a fresh checker, with `about`, and no full row. A country can end
+with no USE item and then omits the container (D-352). EOS estimates this lands well
+before the 16 November cut-off and has not measured it. Italy is not in the pass, so
+it stays at no USE item unless that changes.
+
+**Italy added to the narrow pass (2026-11-07).** Kristjan, to TLS Youth: add Italy,
+because it had no second-round search and has no USE item of its own. Sent to EOS on
+the same terms: standouts only, no lifting an item to fill the gap.
+EOS took the Italy request only once Kristjan confirmed it in EOS's own session; he
+did, and its second-round search started the same day. First result from the 13:
+Latvia's four items are all STATE, three of them language-group gaps, so Latvia
+would omit the container.
+
+**Narrow pass published, EOS commit 1d7d289 (2026-11-07).** Checked here: `about` on
+every finding, `standouts_use` equals a count of USE by `about` for all 31 codes, and
+no USE item is below medium confidence or fails C5. USE by country: BE 2, CY 1, CZ 3,
+DK 4, FI 4, HR 2, LT 4, LU 1, LV 4, MT 2, RO 4, SI 2, SK 2. Italy's second round gave
+three STATE items and no USE. EOS totals: USE 105, STATE 234, DROP 12.
+
+Two more limits for the entry test, found in these files:
+- An item built on the map's own question (SD18a, satisfaction with democracy in the
+  country) stays out: block 2 already shows it, in the page's own age bands and
+  pooled over three waves, and a 15-24 figure beside it would give the reader two
+  numbers for one question. This removes one item each for Lithuania and Romania.
+  The EU democracy items (SD18b) are a different question and stay.
+- Suicide and self-harm items (Finland, Lithuania, and the held UK item) are held
+  for editor, since how they are reported is a copy decision under safe-messaging
+  practice, not a data one.
+With the age-cut rule, Malta's fertility item (whole population) also stays out.
+
+Result under the test: 26 of 28 countries have at least one item; Italy and Hungary
+have none and omit the container. The east-central items run against the
+angry-young reading (young 23 to 37 points more satisfied than 55+ in Lithuania,
+Latvia, Slovakia and Romania), which matches the map, where older people are more
+dissatisfied in 14 countries and the young in none.
+
+## 18. Youth stress index, prototype (2026-11-07)
+
+**Why this exists.** Kristjan, 2026-11-07, after reviewing the 26 What stands out
+boxes: "we now need really to work on the heat index that would be the main driver
+of the map ... I care less about methodological preciseness, but more about finding
+signs where the stress is high and surfacing that." This overrides D-349's condition
+that an index return only after a new pre-registration tested on a later wave. It
+is his call and is logged as such. What is kept from the old discipline: the recipe
+below is committed before any score is computed, so the weights cannot drift toward
+a preferred map.
+
+**What changes from the dropped index.** The dropped index leaned on the gap between
+young and older people, so Bulgaria came out calm because its old are angrier
+(D-349). This one measures young people's own levels only. It asks where the young
+are worst off and most unhappy, not whether they are worse off than their parents.
+
+**Components.** Young people only, newest data already in `youth/data/`.
+Mood (Standard Eurobarometer 103, 104, 105, born 1997 or later, three waves pooled
+by count):
+- M1 dissatisfied with how democracy works in the country (SD18a)
+- M2 tend not to trust the national government
+- M3 country going in the wrong direction
+- M4 own life going in the wrong direction
+Pressure (Eurostat, newest year all 27 share):
+- P1 life satisfaction, 16-29, reversed
+- P2 unemployment, 15-29
+- P3 at risk of poverty or social exclusion, 16-29
+- P4 spending over 40% of income on housing, 15-29
+- P5 living with parents, 18-34
+
+**Arithmetic.** Each component becomes a z-score across the 27 EU countries (EU
+countries counted once each, unweighted), signed so that higher means more stress,
+and capped at plus or minus 2.5 so one extreme figure cannot carry a country. Mood
+is the mean of M1 to M4, Pressure the mean of P1 to P5, and the index is the mean of
+the two, so attitudes and conditions weigh the same. The score shown is 50 plus 15
+times the index, so 50 is the EU average; the map shows five classes by fixed score
+(below 40, 40-47, 47-53, 53-60, 60 and over), not quintiles, so a class means the
+same thing next time. The UK has no Eurostat rows; it is scored on Mood alone and
+marked as such.
+
+**What is not claimed.** Not validated against an outside measure, not anger, and
+not a forecast. Equal weights are a choice, not a finding. Each country page shows
+the nine components beside the score, so a reader can see what drives it.
+
+**Known before computing.** I have seen M1 by country (it is the current map) and
+the Eurostat rows (block 5). I have not combined them or seen M2 to M4 for born
+1997 or later at country level since the dropped run.
+
+**Index leads from EOS (2026-11-07), none checked for this purpose.** Mental health:
+Eurostat hlth_cd_aro suicide deaths by age (small countries need pooled years; a
+suicide rate in a stress score is an editor question under safe-messaging practice,
+as for the held items); EHIS 2019 depressive symptoms at 15-29 (old, under-reported
+in the east); Flash EB 579 (2026, ages 13-18); HBSC 2021/22 (ages 11-15). Mood:
+Standard EB 105.2 D70 life satisfaction at 15-24. Loneliness: Eurostat ilc_pw10
+(2022, no Germany). Emigration plans: no all-27 source. Debt: none by age.
+
+EOS's own stress-map plan (sources/youth-stress-map-plan.md in EOS) argues for one
+measure at a time and never a blended score, because the measures disagree: Romania's
+young are worst on material pressure and second most satisfied. The prototype keeps
+mood and pressure visible on every row, but the map colour is still a blend. Whether
+to blend is Kristjan's call (D-353, open); EOS is raising it with him too.
+
+EOS counts on `about`: Hungary has 1 USE item, not 0. Under this page's entry test it
+still drops out, since it covers the whole population, so the page count stays 26.
+
+**Third round, EOS commit 37b10e2 (2026-11-07).** Pain first, 35 findings checked:
+USE 4, STATE 30, DROP 1; counts match `standouts_use` for every code, no USE item
+below medium confidence or failing C5. New USE: Hungary (Fidesz 14% of under-30s
+against 50% of over-65s, pre-election poll), Belgium (38% of Flemish 18-24s name
+performance pressure, against 3% of over-65s), Slovenia (Gen Z net trust in the
+speaker -59 against boomers +19), Ireland (trust in politicians 37% of the youngest
+voters against 68% of over-65s). Hungary's item has an age cut, so Hungary now gets
+the container: 27 of 28 pages. Italy has none after three rounds; EOS did not lift
+an item to fill it. EOS notes strong pain items held at STATE for want of a clean
+comparator (German students' housing costs, Portuguese 18-24s' mental-health
+symptoms, Irish opportunity fall); the container shows USE only, so these are not on
+the pages.
+
+**Also worth knowing, 2026-11-08 (D-354).** Kristjan approved a second, plainer list
+under the box for checked STATE items, which have no clean comparison and so never
+reach the box. Entry test: STATE; active, verified, scope checked; medium confidence
+or better; about this country; an age cut or a youth sample; suicide and self-harm
+items held for editor. Up to three per page, chosen pain first, worded so nothing is
+called abnormal. First pass, from EOS 37b10e2: 148 candidates read, 59 items on 25
+pages. Italy gets three, so every page now has content above block 2. Estonia, Latvia
+and Lithuania get none (their candidates are all-adult or lack a youth cut; each has
+a box). Held: Polish school-leaver depression and Spanish suicidal ideation (suicide
+figures in both), Portuguese 18-24 mental-health symptoms (low confidence). Each
+item's numbers were checked against the EOS answer text by script; the only
+mismatches are roundings (59.9% shown as 60%, EUR 35.3k as 35,300, and so on).
+Mock-up version 9.
+
+**Sign-off gate, 2026-11-10 (Platform, D-200).** Youth's templates are in
+`SIGNOFF_INPUTS` on origin/main (`templates/youth_page.py`,
+`design/make_youth_pages.py`, `copy/youth.md`), and a youth failure rolls back only
+`docs/youth/`. Order from here: the youth/ PR merges; TLS Youth sends Platform the
+youth/data paths the build reads and the build command; Platform adds them and the
+publish step and tests a real refusal; only then TLS Youth runs
+`approve_channel.py youth` after looking at a preview. Approving earlier is wasted:
+the hash covers the data paths, so a marker made before they are listed goes stale
+at once. Until then every publish prints "youth: no sign-off", which is expected.
+
+**Going live, 2026-11-23.** Kristjan: "Yes, start it", to pushing the branch,
+opening the PR and briefing design and platform, so friends can give feedback on
+the live page. PR #10 carries youth/ only. The box and list items now sit in
+`youth/data/standouts.json` and `youth/data/also.json`: the scratch copies were
+lost when the scratchpad was cleared, so they were recovered from the published
+mock-up (version 9) and every item was rechecked against EOS (grade, active,
+verified, scope checked); none had changed. Design's brief is
+`youth/HANDOFF_design.md`. The stress map is not in this release; it waits on the
+blend call (D-353). The candidates doc had no picks marked, so the pages use my
+selection.
