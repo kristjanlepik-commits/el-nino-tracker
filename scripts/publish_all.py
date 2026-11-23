@@ -114,6 +114,7 @@ STEPS = [
     # no masthead. No --date here: a Note that has never been published is
     # minted by hand, and this run only ever refreshes published ones.
     ("notes", [PY, "notes/build_notes.py"]),
+    ("youth pages", [PY, "design/make_youth_pages.py"]),
     # LAST, and that ordering is the whole point. This walks docs/ and
     # lists what is actually there, so running it before the pages exist
     # would publish a sitemap describing the PREVIOUS run. Generated
@@ -227,10 +228,16 @@ SIGNOFF_INPUTS = {
     # missing from main makes channel_signoff_hash REFUSE every publish.
     # Shared inputs (design/copydeck.py, the country outlines) are left
     # out on design's advice: a change in either is not a youth change.
+    # Data paths added 2026-11-23 with PR #10 merged (611a6121), per TLS
+    # Youth. The country files are globbed from the repo at import, so a
+    # new country is covered without editing this list.
     "youth": [
         "templates/youth_page.py", "design/make_youth_pages.py",
         "copy/youth.md",
-    ],
+        "youth/data/map.json", "youth/data/standouts.json",
+        "youth/data/also.json",
+    ] + sorted(str(p.relative_to(ROOT))
+               for p in (ROOT / "youth" / "data" / "countries").glob("*.json")),
     "crops": [
         "templates/crops_index.py", "templates/crops_page.py",
         "templates/crops_country.py", "templates/crops_region.py",
