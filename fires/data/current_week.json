@@ -3496,77 +3496,15 @@
   "LAO": {
    "iso": "LAO",
    "name": "Laos",
-   "count": 110,
-   "sensor": [
-    "VIIRS_NOAA20_NRT"
-   ],
-   "sensor_scale": 1.0193,
-   "sensor_scale_cv": 0.222,
-   "record_inside_conversion_error": false,
-   "mean": 122.4,
-   "hist": {
-    "2012": 229,
-    "2013": 53,
-    "2014": 78,
-    "2015": 128,
-    "2016": 72,
-    "2017": 83,
-    "2018": 96,
-    "2019": 249,
-    "2020": 107,
-    "2021": 164,
-    "2022": 109,
-    "2023": 149,
-    "2024": 133,
-    "2025": 64
-   },
-   "daily": {
-    "2026-11-16": 17,
-    "2026-11-17": 8,
-    "2026-11-18": 10,
-    "2026-11-19": 15,
-    "2026-11-20": 10,
-    "2026-11-21": 29,
-    "2026-11-22": 20
-   },
-   "daily_expected": 7,
-   "daily_due": 7,
-   "hist_expected": 14,
-   "hist_due": 14,
-   "hist_excluded_for_comparability": [],
-   "lat": 18.32,
-   "lon": 103.24,
-   "basis": "largest_cluster",
-   "cropland": {
-    "detections_on_crop_pct": 18.31,
-    "country_land_crop_pct": 5.92,
-    "ratio": 3.092,
-    "reading": "insufficient_sample",
-    "expected_on_crop": 6.4,
-    "detections_on_crop": 19.8,
-    "n_detections_sampled": 108,
-    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
-    "mask_vintage": {
-     "mask": "asap_mask_crop_v04.tif",
-     "version": "v04",
-     "retrieved": "2026-09-17"
-    },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
-   },
-   "persistence": {
-    "recur_pct": 0.0,
-    "night_pct": 18.5,
-    "frp_median": 4.49,
-    "n_detections": 108,
-    "peak_to_median_day": 1.93,
-    "verdict": "fire_like",
-    "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
-   },
+   "count": null,
+   "mean": null,
+   "unmeasured": "TimeoutError: The read operation timed out",
+   "means": "This country raised during the build and was not measured this run. It is NOT a quiet week and NOT a zero; nothing was computed for it.",
    "reading": {
-    "multiple": 0.9,
-    "count": 110,
+    "multiple": null,
+    "count": null,
     "publishable": false,
-    "withheld_because": "below_noise_floor",
+    "withheld_because": "unmeasured",
     "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
@@ -6204,77 +6142,15 @@
   "TUN": {
    "iso": "TUN",
    "name": "Tunisia",
-   "count": 60,
-   "sensor": [
-    "VIIRS_NOAA20_NRT"
-   ],
-   "sensor_scale": 1.0193,
-   "sensor_scale_cv": 0.222,
-   "record_inside_conversion_error": false,
-   "mean": 42.6,
-   "hist": {
-    "2012": 64,
-    "2013": 54,
-    "2014": 61,
-    "2015": 51,
-    "2016": 19,
-    "2017": 36,
-    "2018": 61,
-    "2019": 15,
-    "2020": 24,
-    "2021": 26,
-    "2022": 56,
-    "2023": 61,
-    "2024": 43,
-    "2025": 25
-   },
-   "daily": {
-    "2026-11-16": 3,
-    "2026-11-17": 7,
-    "2026-11-18": 10,
-    "2026-11-19": 9,
-    "2026-11-20": 6,
-    "2026-11-21": 10,
-    "2026-11-22": 14
-   },
-   "daily_expected": 7,
-   "daily_due": 7,
-   "hist_expected": 14,
-   "hist_due": 14,
-   "hist_excluded_for_comparability": [],
-   "lat": 35.26,
-   "lon": 9.43,
-   "basis": "weighted",
-   "cropland": {
-    "detections_on_crop_pct": 25.85,
-    "country_land_crop_pct": 9.16,
-    "ratio": 2.822,
-    "reading": "insufficient_sample",
-    "expected_on_crop": 5.4,
-    "detections_on_crop": 15.2,
-    "n_detections_sampled": 59,
-    "source": "ASAP crop mask v04, 500 m percent cropland, JRC",
-    "mask_vintage": {
-     "mask": "asap_mask_crop_v04.tif",
-     "version": "v04",
-     "retrieved": "2026-09-17"
-    },
-    "_note": "Ratio of mean percent-cropland under this week's detections to that under uniform random points in the same country. Above 1.3 reads enriched, below 0.77 depleted, and under 50 detections no label is given. Describes WHERE detections fall, not what is burning."
-   },
-   "persistence": {
-    "recur_pct": 25.4,
-    "night_pct": 64.4,
-    "frp_median": 1.41,
-    "n_detections": 59,
-    "peak_to_median_day": 1.56,
-    "verdict": "persistent_source",
-    "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
-   },
+   "count": null,
+   "mean": null,
+   "unmeasured": "TimeoutError: The read operation timed out",
+   "means": "This country raised during the build and was not measured this run. It is NOT a quiet week and NOT a zero; nothing was computed for it.",
    "reading": {
-    "multiple": 1.41,
-    "count": 60,
+    "multiple": null,
+    "count": null,
     "publishable": false,
-    "withheld_because": "persistent_source",
+    "withheld_because": "unmeasured",
     "means": "This week's detections against this country's own mean for the same week in prior years. `publishable` is false when the multiple exists but must not be shown as a fire reading: `persistent_source` means the heat behaves like a flare or fixed industrial source rather than fire, `below_noise_floor` means fewer than 150 detections, which cannot support a ratio, and `no_baseline` means there is no prior-year mean to divide by. Do not compute count/mean yourself; that is this field without its gates."
    }
   },
