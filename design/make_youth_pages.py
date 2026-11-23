@@ -52,6 +52,12 @@ def main():
         raise SystemExit("--show-grey is for previews only (section 9).")
     doc = json.loads((ROOT / "youth/data/map.json").read_text())
     geo = json.loads((ROOT / "fires/data/countries.geo.json").read_text())
+    # TLS Youth's checked items (D-351, D-354), by page code. A country
+    # with none simply has no block; a missing file means none anywhere.
+    extra = {}
+    for key in ("standouts", "also"):
+        f = ROOT / f"youth/data/{key}.json"
+        extra[key] = json.loads(f.read_text())["countries"] if f.exists() else {}
     root = "../" if "--preview" not in args else "../"
     pages = {"index.html": render_map(doc, geo, root_prefix=root)}
     for iso, entry in doc["countries"].items():
@@ -62,7 +68,8 @@ def main():
         if re.search(r"(?<!not )\bprotests?\b", b6.get("wording") or "", re.I):
             raise SystemExit(f"REFUSING: {iso} block 6 calls Q7a protest.")
         pages[f"{iso.lower()}/index.html"] = render_country(
-            c, entry, doc, root_prefix="../../", show_grey=show_grey)
+            c, entry, doc, root_prefix="../../", show_grey=show_grey,
+            standouts=extra["standouts"].get(iso), also=extra["also"].get(iso))
     for rel, html in pages.items():
         guard(rel, html)
     for rel, html in pages.items():

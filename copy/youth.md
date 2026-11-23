@@ -2,6 +2,9 @@
   EDITOR OWNS THIS FILE. Design seeded it on 5 Nov so the page could be built;
   map_title, map_lede and the unnamed blocks are design's placeholders for you
   to replace. block2 and block5 are your names, as passed on by TLS Youth.
+  standouts_* and also_* (23 Nov) are design's placeholders too, from TLS
+  Youth's working names; the two state lines must keep the distinction:
+  the box is shown against a comparison, the list is not (D-354).
 
   Each `## name` block is one piece of copy the /youth/ pages place. {braces}
   are figures from youth/data/map.json, so no number is typed here. Bold and
@@ -88,6 +91,22 @@ and Sweden were interviewed by video, the rest in person.
 ## video_legend
 
 interviewed by video in one survey
+
+## standouts_name
+
+What stands out
+
+## standouts_state
+
+Each figure is set against a comparison.
+
+## also_name
+
+Also worth knowing
+
+## also_state
+
+Stated as found, not shown to stand out against a comparison.
 
 ## every_country_heading
 

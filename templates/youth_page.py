@@ -154,7 +154,27 @@ h1{font-weight:400;font-size:36px;line-height:1.14;letter-spacing:-.016em;
 .ygrey{border-left:3px solid var(--ink-faint);padding:6px 0 6px 14px;margin:0 0 20px;font-size:15px;color:var(--ink-soft)}
 .yback{font-family:var(--mono);font-size:11px}
 .yback a{color:var(--ink-faint)}
+/* What stands out (D-351): the one boxed block on the page. Each figure is
+   shown against a comparison, so it earns the box and the big number. */
+.ystand{margin:26px 0 0;border:1.5px solid var(--ink);padding:14px 18px 4px}
+.ystand h2{font-weight:500;font-size:20px;margin:0}
+.ystate{font-family:var(--mono);font-size:11px;letter-spacing:.02em;color:var(--ink-faint);margin:2px 0 8px}
+.ysi{display:grid;grid-template-columns:4.4em minmax(0,1fr);gap:0 16px;padding:12px 0;border-top:1px solid var(--rule)}
+.ysi .fg{font-size:34px;line-height:1.05;letter-spacing:-.02em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ysi p{margin:0;max-width:60ch}
+.ysi .tx{font-size:16.5px;line-height:1.45}
+.ysi .ag{margin-top:5px;font-size:14.5px;line-height:1.45;color:var(--ink-soft)}
+.ysi .ymono{margin-top:5px;line-height:1.5}
+/* Also worth knowing (D-354): plainly lighter than the box, on purpose. No
+   frame, no big figure, no heavy rule: these items are NOT shown to stand
+   out, and a page that dressed them like the box would say they do. */
+.yalso{margin:30px 0 0;border-top:1px solid var(--rule);padding-top:10px}
+.yalso h2{font-weight:500;font-size:16px;margin:0;color:var(--ink-soft)}
+.yalso ul{margin:6px 0 0;padding:0 0 0 1.1em;font-size:15px;color:var(--ink-soft);max-width:62ch}
+.yalso li{margin:0 0 10px}
+.yalso li .ymono{display:block;margin-top:2px;line-height:1.5}
 @media (max-width:560px){h1{font-size:28px}
+ .ysi{grid-template-columns:minmax(0,1fr)}.ysi .fg{font-size:30px;margin-bottom:6px}
  .yrow{grid-template-columns:minmax(0,1fr) 3.2em}.ystrip{grid-column:1/-1}.yrow .r{grid-column:1/-1}}
 """
 
@@ -349,7 +369,39 @@ def _bar(label, pct):
             f'<span class="n">{"" if n is None else str(n) + "%"}</span></div>')
 
 
-def render_country(c, entry, doc, root_prefix="../../", show_grey=False):
+def _standouts(rec):
+    """What stands out (D-351): up to three figures, each against a comparison.
+    Absent, not dashed, where a country has none (Italy): an empty box would
+    say we looked and found nothing, which is not what the data says."""
+    items = (rec or {}).get("items") or []
+    if not items:
+        return ""
+    rows = "".join(
+        f'<div class="ysi"><span class="fg">{h(i["figure"])}</span><div>'
+        f'<p class="tx">{h(i["text"])}</p>'
+        + (f'<p class="ag">{h(i["against"])}</p>' if i.get("against") else "")
+        + f'<p class="ymono">{h(i["source"])}</p></div></div>' for i in items)
+    return (f'<section class="ystand"><h2>{h(_plain_slot("standouts_name"))}</h2>'
+            f'<p class="ystate">{h(_plain_slot("standouts_state"))}</p>{rows}</section>')
+
+
+def _also(rec):
+    """Also worth knowing (D-354): a plain list, lighter than the box. The
+    figure runs inline at text weight, never enlarged or bold, so nothing
+    here reads as standing out."""
+    items = (rec or {}).get("items") or []
+    if not items:
+        return ""
+    lis = "".join(
+        f'<li>{h(i["figure"])} {h(i["text"])}<span class="ymono">'
+        + (f'{h(i["note"])} ' if i.get("note") else "")
+        + f'{h(i["source"])}</span></li>' for i in items)
+    return (f'<section class="yalso"><h2>{h(_plain_slot("also_name"))}</h2>'
+            f'<p class="ystate">{h(_plain_slot("also_state"))}</p><ul>{lis}</ul></section>')
+
+
+def render_country(c, entry, doc, root_prefix="../../", show_grey=False,
+                   standouts=None, also=None):
     iso, name = c["iso"], c["name"]
     M = doc["measure"]
     date = M["newest_fieldwork_ends"]
@@ -433,7 +485,7 @@ def render_country(c, entry, doc, root_prefix="../../", show_grey=False):
               + (f'<p style="margin-top:10px">{h(help_.get("text") if isinstance(help_, dict) else help_)}</p>'
                  if help_ else '<div style="margin-top:10px">' + _dashed("National helpline: " + _plain_slot("not_measured").lower()) + '</div>'))
 
-    body = (head
+    body = (head + _standouts(standouts) + _also(also)
             + _sec("block2_name", block2) + _sec("block3_name", block3)
             + _sec("block4_name", generic("block4_issues"))
             + _sec("block5_name", generic("block5_starting_out"))
