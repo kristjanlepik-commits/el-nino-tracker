@@ -19,13 +19,13 @@
     }
   },
   "counts": {
-    "tracked": 95,
-    "anomalous": 4,
-    "record": 5,
-    "record_among_anomalous": 2,
+    "tracked": 97,
+    "anomalous": 5,
+    "record": 7,
+    "record_among_anomalous": 1,
     "at_least_2x": 6,
     "at_least_3x": 0,
-    "drawn": 4,
+    "drawn": 5,
     "_definitions": {
       "tracked": "countries with a same-week baseline this window. The population every other count is taken from unless it says otherwise.",
       "anomalous": "cleared the marker gate: z >= 2 OR multiple >= 2 OR rank 1, after a 150-detection noise floor. A GATE, not a significance test.",
@@ -50,8 +50,8 @@
       {
         "iso": "NPL",
         "region": "Nepal",
-        "z": 3.6,
-        "multiple": 2.1,
+        "z": 3.47,
+        "multiple": 2.0,
         "why": "z"
       }
     ],
@@ -71,10 +71,10 @@
   ],
   "events": [
     {
-      "date": "2026-11-22",
+      "date": "2026-11-23",
       "region": "Botswana",
       "title": "Second-heaviest of 15 seasons",
-      "stat": "2.7x",
+      "stat": "2.3x",
       "stat_label": "same-week mean, 14 yrs",
       "attribution": null,
       "anomalous": true,
@@ -86,130 +86,84 @@
         "signals": [
           "multiple"
         ],
-        "z": 1.57,
-        "multiple": 2.7,
+        "z": 1.38,
+        "multiple": 2.3,
         "rank_in_record": 2
       },
       "pinned": false,
       "volume_context": false,
       "multiple_unstable": false,
-      "z": 1.57,
+      "z": 1.38,
       "land_use": {
-        "cropland_ratio": 0.202,
+        "cropland_ratio": 0.29,
         "reading": "depleted",
-        "detections_on_crop_pct": 0.14,
+        "detections_on_crop_pct": 0.2,
         "country_land_crop_pct": 0.69,
-        "n_detections_sampled": 1725,
-        "detections_on_crop": 2.4,
+        "n_detections_sampled": 1233,
+        "detections_on_crop": 2.5,
         "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
         "recur_pct": 0.0,
-        "night_pct": 53.7,
-        "frp_median": 3.75,
-        "n_detections": 1725,
-        "peak_to_median_day": 3.04,
+        "night_pct": 51.1,
+        "frp_median": 4.65,
+        "n_detections": 1233,
+        "peak_to_median_day": 2.77,
         "verdict": "fire_like",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
       },
-      "source": "NASA FIRMS NOAA-20, SNPP-equivalent, wk Nov 16-22",
+      "source": "NASA FIRMS NOAA-20, SNPP-equivalent, wk Nov 17-23",
       "href": "fires/botswana/"
     },
     {
-      "date": "2026-11-22",
-      "region": "Colombia",
-      "title": "Second-heaviest of 15 seasons",
-      "stat": "2.1x",
+      "date": "2026-11-23",
+      "region": "Indonesia",
+      "title": "Third-heaviest of 15 seasons",
+      "stat": "2.2x",
       "stat_label": "same-week mean, 14 yrs",
       "attribution": null,
       "anomalous": true,
       "qualifies_on": [
-        "z",
         "multiple"
       ],
       "strength": {
-        "verdict": "corroborated",
+        "verdict": "multiple_only",
         "signals": [
-          "z",
           "multiple"
         ],
-        "z": 2.66,
-        "multiple": 2.1,
-        "rank_in_record": 2
+        "z": 1.18,
+        "multiple": 2.2,
+        "rank_in_record": 3
       },
       "pinned": false,
       "volume_context": false,
       "multiple_unstable": false,
-      "z": 2.66,
+      "z": 1.18,
       "land_use": {
-        "withheld": "no_mask_coverage",
-        "detections_on_crop": null
-      },
-      "persistence": {
-        "recur_pct": 1.9,
-        "night_pct": 18.7,
-        "frp_median": 5.08,
-        "n_detections": 1822,
-        "peak_to_median_day": 1.4,
-        "verdict": "fire_like",
-        "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
-      },
-      "source": "NASA FIRMS NOAA-20, SNPP-equivalent, wk Nov 16-22",
-      "href": "fires/colombia/"
-    },
-    {
-      "date": "2026-11-22",
-      "region": "Nepal",
-      "title": "Well clear of its 2015 record week",
-      "stat": "2.1x",
-      "stat_label": "same-week mean, 14 yrs",
-      "attribution": null,
-      "anomalous": true,
-      "qualifies_on": [
-        "z",
-        "multiple",
-        "record"
-      ],
-      "strength": {
-        "verdict": "corroborated",
-        "signals": [
-          "z",
-          "multiple",
-          "record"
-        ],
-        "z": 3.6,
-        "multiple": 2.1,
-        "rank_in_record": 1
-      },
-      "pinned": false,
-      "volume_context": false,
-      "multiple_unstable": true,
-      "z": 3.6,
-      "land_use": {
-        "cropland_ratio": 7.022,
-        "reading": "enriched",
-        "detections_on_crop_pct": 80.47,
-        "country_land_crop_pct": 11.46,
-        "n_detections_sampled": 216,
-        "detections_on_crop": 173.8,
+        "cropland_ratio": 0.842,
+        "reading": "neutral",
+        "detections_on_crop_pct": 3.05,
+        "country_land_crop_pct": 3.63,
+        "n_detections_sampled": 3386,
+        "detections_on_crop": 103.4,
         "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
-        "recur_pct": 0.0,
-        "night_pct": 2.8,
-        "frp_median": 2.81,
-        "n_detections": 216,
-        "peak_to_median_day": 2.25,
+        "recur_pct": 3.1,
+        "night_pct": 33.1,
+        "frp_median": 3.96,
+        "n_detections": 3386,
+        "peak_to_median_day": 1.78,
         "verdict": "fire_like",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
       },
-      "source": "NASA FIRMS NOAA-20, SNPP-equivalent, wk Nov 16-22",
-      "href": "fires/nepal/"
+      "source": "NASA FIRMS NOAA-20, SNPP-equivalent, wk Nov 17-23",
+      "href": "fires/indonesia/"
     },
     {
-      "date": "2026-11-22",
-      "region": "Venezuela",
-      "title": "Well clear of its 2023 record week",
+      "date": "2026-11-23",
+      "region": "Nepal",
+      "title": "Well clear of its 2015 record week",
       "stat": "2.0x",
       "stat_label": "same-week mean, 14 yrs",
       "attribution": null,
@@ -226,76 +180,120 @@
           "multiple",
           "record"
         ],
-        "z": 2.8,
+        "z": 3.47,
         "multiple": 2.0,
         "rank_in_record": 1
       },
       "pinned": false,
       "volume_context": false,
+      "multiple_unstable": true,
+      "z": 3.47,
+      "land_use": {
+        "cropland_ratio": 6.922,
+        "reading": "enriched",
+        "detections_on_crop_pct": 79.32,
+        "country_land_crop_pct": 11.46,
+        "n_detections_sampled": 226,
+        "detections_on_crop": 179.3,
+        "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
+      },
+      "persistence": {
+        "recur_pct": 0.0,
+        "night_pct": 3.5,
+        "frp_median": 2.8,
+        "n_detections": 226,
+        "peak_to_median_day": 2.25,
+        "verdict": "fire_like",
+        "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+      },
+      "source": "NASA FIRMS NOAA-20, SNPP-equivalent, wk Nov 17-23",
+      "href": "fires/nepal/"
+    },
+    {
+      "date": "2026-11-23",
+      "region": "Colombia",
+      "title": "Second-heaviest of 15 seasons",
+      "stat": "1.9x",
+      "stat_label": "same-week mean, 14 yrs",
+      "attribution": null,
+      "anomalous": true,
+      "qualifies_on": [
+        "z"
+      ],
+      "strength": {
+        "verdict": "z_only",
+        "signals": [
+          "z"
+        ],
+        "z": 2.98,
+        "multiple": 1.9,
+        "rank_in_record": 2
+      },
+      "pinned": false,
+      "volume_context": false,
       "multiple_unstable": false,
-      "z": 2.8,
+      "z": 2.98,
       "land_use": {
         "withheld": "no_mask_coverage",
         "detections_on_crop": null
       },
       "persistence": {
-        "recur_pct": 15.8,
-        "night_pct": 27.1,
-        "frp_median": 4.88,
-        "n_detections": 4855,
-        "peak_to_median_day": 1.47,
+        "recur_pct": 1.5,
+        "night_pct": 17.6,
+        "frp_median": 5.5,
+        "n_detections": 1747,
+        "peak_to_median_day": 1.82,
         "verdict": "fire_like",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
       },
-      "source": "NASA FIRMS NOAA-20, SNPP-equivalent, wk Nov 16-22",
+      "source": "NASA FIRMS NOAA-20, SNPP-equivalent, wk Nov 17-23",
+      "href": "fires/colombia/"
+    },
+    {
+      "date": "2026-11-23",
+      "region": "Venezuela",
+      "title": "Second-heaviest of 15 seasons",
+      "stat": "1.8x",
+      "stat_label": "same-week mean, 14 yrs",
+      "attribution": null,
+      "anomalous": true,
+      "qualifies_on": [
+        "z"
+      ],
+      "strength": {
+        "verdict": "z_only",
+        "signals": [
+          "z"
+        ],
+        "z": 2.29,
+        "multiple": 1.8,
+        "rank_in_record": 2
+      },
+      "pinned": false,
+      "volume_context": false,
+      "multiple_unstable": false,
+      "z": 2.29,
+      "land_use": {
+        "withheld": "no_mask_coverage",
+        "detections_on_crop": null
+      },
+      "persistence": {
+        "recur_pct": 16.9,
+        "night_pct": 27.4,
+        "frp_median": 5.07,
+        "n_detections": 4449,
+        "peak_to_median_day": 1.33,
+        "verdict": "fire_like",
+        "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+      },
+      "source": "NASA FIRMS NOAA-20, SNPP-equivalent, wk Nov 17-23",
       "href": "fires/venezuela/"
     },
     {
-      "date": "2026-11-22",
-      "region": "Canada",
-      "title": "Third-heaviest of 15 seasons",
-      "stat": "1.5x",
-      "stat_label": "same-week mean, 14 yrs",
-      "attribution": "non_enso",
-      "anomalous": false,
-      "qualifies_on": [],
-      "strength": {
-        "verdict": "none",
-        "signals": [],
-        "z": 1.16,
-        "multiple": 1.5,
-        "rank_in_record": 3
-      },
-      "pinned": true,
-      "volume_context": false,
-      "multiple_unstable": false,
-      "z": 1.16,
-      "land_use": {
-        "cropland_ratio": 3.529,
-        "reading": "enriched",
-        "detections_on_crop_pct": 10.94,
-        "country_land_crop_pct": 3.1,
-        "n_detections_sampled": 1713,
-        "detections_on_crop": 187.4,
-        "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
-      },
-      "persistence": {
-        "recur_pct": 6.4,
-        "night_pct": 44.2,
-        "frp_median": 4.34,
-        "n_detections": 1713,
-        "peak_to_median_day": 1.94,
-        "verdict": "fire_like",
-        "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
-      },
-      "source": "NASA FIRMS NOAA-20, SNPP-equivalent, wk Nov 16-22",
-      "href": "fires/canada/"
-    },
-    {
-      "date": "2026-11-22",
+      "date": "2026-11-23",
       "region": "Brazil",
       "title": "Third-heaviest of 15 seasons",
-      "stat": "1.3x",
+      "stat": "1.5x",
       "stat_label": "same-week mean, 14 yrs",
       "attribution": null,
       "anomalous": false,
@@ -303,39 +301,80 @@
       "strength": {
         "verdict": "none",
         "signals": [],
-        "z": 0.66,
-        "multiple": 1.3,
+        "z": 1.35,
+        "multiple": 1.5,
         "rank_in_record": 3
       },
       "pinned": false,
       "volume_context": true,
       "multiple_unstable": false,
-      "z": 0.66,
+      "z": 1.35,
       "land_use": {
-        "cropland_ratio": 0.065,
+        "cropland_ratio": 0.064,
         "reading": "depleted",
-        "detections_on_crop_pct": 0.45,
+        "detections_on_crop_pct": 0.44,
         "country_land_crop_pct": 6.9,
-        "n_detections_sampled": 31619,
-        "detections_on_crop": 142.3,
+        "n_detections_sampled": 37208,
+        "detections_on_crop": 164.4,
         "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
-        "recur_pct": 6.2,
-        "night_pct": 49.2,
-        "frp_median": 3.83,
-        "n_detections": 31619,
-        "peak_to_median_day": 1.81,
+        "recur_pct": 6.1,
+        "night_pct": 43.7,
+        "frp_median": 4.34,
+        "n_detections": 37208,
+        "peak_to_median_day": 2.05,
         "verdict": "fire_like",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
       },
-      "source": "NASA FIRMS NOAA-20, SNPP-equivalent, wk Nov 16-22",
+      "source": "NASA FIRMS NOAA-20, SNPP-equivalent, wk Nov 17-23",
       "href": "fires/brazil/"
     },
     {
-      "date": "2026-11-22",
+      "date": "2026-11-23",
       "region": "United States of America",
-      "title": "Third-heaviest of 15 seasons",
+      "title": "Second-heaviest of 15 seasons",
+      "stat": "1.4x",
+      "stat_label": "same-week mean, 14 yrs",
+      "attribution": "non_enso",
+      "anomalous": false,
+      "qualifies_on": [],
+      "strength": {
+        "verdict": "none",
+        "signals": [],
+        "z": 1.61,
+        "multiple": 1.4,
+        "rank_in_record": 2
+      },
+      "pinned": true,
+      "volume_context": false,
+      "multiple_unstable": false,
+      "z": 1.61,
+      "land_use": {
+        "cropland_ratio": 0.763,
+        "reading": "depleted",
+        "detections_on_crop_pct": 11.18,
+        "country_land_crop_pct": 14.65,
+        "n_detections_sampled": 8242,
+        "detections_on_crop": 921.2,
+        "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
+      },
+      "persistence": {
+        "recur_pct": 9.8,
+        "night_pct": 49.9,
+        "frp_median": 3.04,
+        "n_detections": 8242,
+        "peak_to_median_day": 1.71,
+        "verdict": "fire_like",
+        "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
+      },
+      "source": "NASA FIRMS NOAA-20, SNPP-equivalent, wk Nov 17-23",
+      "href": "fires/united-states-of-america/"
+    },
+    {
+      "date": "2026-11-23",
+      "region": "Canada",
+      "title": "Fire week at 1.3x the seasonal norm",
       "stat": "1.3x",
       "stat_label": "same-week mean, 14 yrs",
       "attribution": "non_enso",
@@ -344,40 +383,40 @@
       "strength": {
         "verdict": "none",
         "signals": [],
-        "z": 1.38,
+        "z": 0.68,
         "multiple": 1.3,
-        "rank_in_record": 3
+        "rank_in_record": 6
       },
       "pinned": true,
       "volume_context": false,
       "multiple_unstable": false,
-      "z": 1.38,
+      "z": 0.68,
       "land_use": {
-        "cropland_ratio": 0.874,
-        "reading": "neutral",
-        "detections_on_crop_pct": 12.81,
-        "country_land_crop_pct": 14.65,
-        "n_detections_sampled": 8325,
-        "detections_on_crop": 1066.2,
+        "cropland_ratio": 2.613,
+        "reading": "enriched",
+        "detections_on_crop_pct": 8.1,
+        "country_land_crop_pct": 3.1,
+        "n_detections_sampled": 1437,
+        "detections_on_crop": 116.4,
         "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
-        "recur_pct": 9.6,
-        "night_pct": 44.1,
-        "frp_median": 3.19,
-        "n_detections": 8325,
-        "peak_to_median_day": 1.68,
+        "recur_pct": 7.0,
+        "night_pct": 48.4,
+        "frp_median": 4.03,
+        "n_detections": 1437,
+        "peak_to_median_day": 4.26,
         "verdict": "fire_like",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
       },
-      "source": "NASA FIRMS NOAA-20, SNPP-equivalent, wk Nov 16-22",
-      "href": "fires/united-states-of-america/"
+      "source": "NASA FIRMS NOAA-20, SNPP-equivalent, wk Nov 17-23",
+      "href": "fires/canada/"
     },
     {
-      "date": "2026-11-22",
+      "date": "2026-11-23",
       "region": "Spain",
-      "title": "Fire week at 0.7x the seasonal norm",
-      "stat": "0.7x",
+      "title": "Fire week at 0.8x the seasonal norm",
+      "stat": "0.8x",
       "stat_label": "same-week mean, 14 yrs",
       "attribution": "non_enso",
       "anomalous": false,
@@ -385,37 +424,37 @@
       "strength": {
         "verdict": "none",
         "signals": [],
-        "z": -0.53,
-        "multiple": 0.7,
+        "z": -0.4,
+        "multiple": 0.8,
         "rank_in_record": 9
       },
       "pinned": true,
       "volume_context": false,
       "multiple_unstable": true,
-      "z": -0.53,
+      "z": -0.4,
       "land_use": {
-        "cropland_ratio": 0.476,
+        "cropland_ratio": 0.471,
         "reading": "depleted",
-        "detections_on_crop_pct": 11.59,
+        "detections_on_crop_pct": 11.47,
         "country_land_crop_pct": 24.36,
         "n_detections_sampled": 118,
-        "detections_on_crop": 13.7,
+        "detections_on_crop": 13.5,
         "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
         "recur_pct": 0.0,
-        "night_pct": 66.9,
-        "frp_median": 1.33,
+        "night_pct": 65.3,
+        "frp_median": 1.38,
         "n_detections": 118,
         "peak_to_median_day": 1.81,
         "verdict": "fire_like",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
       },
-      "source": "NASA FIRMS NOAA-20, SNPP-equivalent, wk Nov 16-22",
+      "source": "NASA FIRMS NOAA-20, SNPP-equivalent, wk Nov 17-23",
       "href": "fires/spain/"
     },
     {
-      "date": "2026-11-22",
+      "date": "2026-11-23",
       "region": "France",
       "title": "Fire week at 0.6x the seasonal norm",
       "stat": "0.6x",
@@ -426,37 +465,37 @@
       "strength": {
         "verdict": "none",
         "signals": [],
-        "z": -1.08,
+        "z": -0.82,
         "multiple": 0.6,
-        "rank_in_record": 13
+        "rank_in_record": 11
       },
       "pinned": true,
       "volume_context": false,
       "multiple_unstable": true,
-      "z": -1.08,
+      "z": -0.82,
       "land_use": {
-        "cropland_ratio": 0.096,
+        "cropland_ratio": 0.125,
         "reading": "depleted",
-        "detections_on_crop_pct": 2.64,
+        "detections_on_crop_pct": 3.44,
         "country_land_crop_pct": 27.57,
-        "n_detections_sampled": 69,
-        "detections_on_crop": 1.8,
+        "n_detections_sampled": 79,
+        "detections_on_crop": 2.7,
         "means": "Share of this week's detections falling on cropland, against the share of the country that IS cropland. Above 1.3 the fires sit on farmland more often than chance; below 0.77 less often. It says WHERE detections fall, not what is burning: the instrument sees a thermal anomaly, not a substrate."
       },
       "persistence": {
-        "recur_pct": 29.0,
-        "night_pct": 73.9,
-        "frp_median": 2.12,
-        "n_detections": 69,
+        "recur_pct": 19.0,
+        "night_pct": 73.4,
+        "frp_median": 1.99,
+        "n_detections": 79,
         "peak_to_median_day": 3.11,
         "verdict": "fire_like",
         "means": "How often this week's detections recur in the same 500 m cell across the seven days, with the night share and median radiative power beside it. A fire burns an area and moves or goes out; a flare or industrial source returns to the same pixel night after night at low power. An inference from REPETITION, not a measurement of what is there."
       },
-      "source": "NASA FIRMS NOAA-20, SNPP-equivalent, wk Nov 16-22",
+      "source": "NASA FIRMS NOAA-20, SNPP-equivalent, wk Nov 17-23",
       "href": "fires/france/"
     },
     {
-      "date": "2026-11-22",
+      "date": "2026-11-23",
       "region": "United Kingdom",
       "title": "Fire week at 0.5x the seasonal norm",
       "stat": "0.5x",
@@ -467,23 +506,23 @@
       "strength": {
         "verdict": "none",
         "signals": [],
-        "z": -1.31,
+        "z": -1.37,
         "multiple": 0.5,
-        "rank_in_record": 14
+        "rank_in_record": 15
       },
       "pinned": true,
       "volume_context": false,
       "multiple_unstable": true,
-      "z": -1.31,
+      "z": -1.37,
       "land_use": {
         "withheld": "insufficient_sample",
-        "detections_on_crop": 5.0
+        "detections_on_crop": 1.6
       },
       "persistence": {
         "verdict": "not_assessed",
         "why": "fewer than 50 detections this week, too few for a recurrence rate to mean anything"
       },
-      "source": "NASA FIRMS NOAA-20, SNPP-equivalent, wk Nov 16-22",
+      "source": "NASA FIRMS NOAA-20, SNPP-equivalent, wk Nov 17-23",
       "href": "fires/united-kingdom/"
     }
   ]
