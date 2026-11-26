@@ -14,10 +14,11 @@
 # at :17; this is now the primary trigger.
 #
 # WAIT FOR THE DATA, NOT THE CLOCK, with a clock fallback. Poll CPC's
-# Last-Modified every 10 minutes and dispatch once it is TODAY (UTC).
-# At 10:00 UTC dispatch regardless, so a late CPC costs a brief built on
-# last week's SST, which the brief already labels by issued date, and
-# not a missing Monday. A run launchd starts late (laptop asleep at
+# file every 10 minutes and dispatch once its newest row is this week's
+# (see the loop). At 18:00 UTC dispatch regardless, so a very late CPC
+# costs a brief built on last week's SST, which the brief labels by
+# issued date, and not a missing Monday. The GitHub backstop cron sits
+# at 20:17 UTC, after this deadline, so it cannot publish stale first. A run launchd starts late (laptop asleep at
 # 10:05) that wakes after the deadline dispatches immediately.
 #
 # Kept from the other dispatchers: every outcome logged with its
@@ -29,7 +30,7 @@ GH=/opt/homebrew/bin/gh
 REPO="kristjanlepik-commits/el-nino-tracker"
 WF="weekly_brief.yml"
 CPC="https://www.cpc.ncep.noaa.gov/data/indices/wksst9120.for"
-DEADLINE_UTC_HOUR=10
+DEADLINE_UTC_HOUR=18
 LOG="$HOME/.brief_dispatch.log"
 stamp() { date '+%Y-%m-%d %H:%M:%S %Z'; }
 log() { echo "$(stamp)  $*" >> "$LOG"; }
@@ -50,15 +51,22 @@ if "$GH" api "repos/$REPO/contents/docs/briefs/$monday/index.html" >/dev/null 2>
 fi
 
 reason=""
+# WAIT FOR THE ROW, NOT THE TIMESTAMP (tls-internal#47, approved by
+# Kristjan 2026-11-26). On 2026-11-23 Last-Modified was already today at
+# 08:06 UTC but the file still ended at 11NOV; CPC added 18NOV later that
+# day, and the issue went out a week stale. So the test is the content:
+# the newest row must be dated at least the issue Monday minus 5 days
+# (25NOV2026 for the 30 Nov issue).
+want=$(date -j -v-5d -f "%Y-%m-%d" "$monday" +%F)
 while :; do
-  lm=$(/usr/bin/curl -sI --max-time 25 "$CPC" | tr -d '\r' | awk -F': ' 'tolower($1)=="last-modified"{print $2}')
-  lm_day=""
-  [ -n "$lm" ] && lm_day=$(date -u -j -f "%a, %d %b %Y %H:%M:%S GMT" "$lm" +%F 2>/dev/null)
-  if [ "$lm_day" = "$today_utc" ]; then
-    reason="CPC posted ($lm)"; break
+  last=$(/usr/bin/curl -s --max-time 25 "$CPC" | awk 'NF && $1 ~ /^[0-9][0-9][A-Z][A-Z][A-Z][0-9][0-9][0-9][0-9]$/{d=$1} END{print d}')
+  last_day=""
+  [ -n "$last" ] && last_day=$(date -j -f "%d%b%Y" "$last" +%F 2>/dev/null)
+  if [ -n "$last_day" ] && [[ ! "$last_day" < "$want" ]]; then
+    reason="CPC row $last is in (needed $want or later)"; break
   fi
   if [ "$(date -u +%H)" -ge "$DEADLINE_UTC_HOUR" ]; then
-    reason="deadline ${DEADLINE_UTC_HOUR}:00 UTC reached, CPC not yet posted today (Last-Modified: ${lm:-unreadable}); the brief will label SST by its issued date"
+    reason="deadline ${DEADLINE_UTC_HOUR}:00 UTC reached and the newest CPC row is ${last:-unreadable}, older than $want; publishing anyway, and the brief labels SST by its issued date"
     break
   fi
   sleep 600

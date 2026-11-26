@@ -14,7 +14,10 @@ on:
     # guard and exits 0. If the laptop was asleep, this still publishes,
     # late but not missing. Off :00 on purpose: on-the-hour cron is what
     # GitHub delays hardest under load.
-    - cron: "17 13 * * 1"
+    # Moved from 13:17 to 20:17 UTC on 2026-11-26 (tls-internal#47): the
+    # dispatcher now waits for CPC's new row until 18:00 UTC, and a
+    # backstop at 13:17 would have published on the stale file first.
+    - cron: "17 20 * * 1"
   workflow_dispatch:        # allow manual runs from the Actions tab
 
 permissions:
