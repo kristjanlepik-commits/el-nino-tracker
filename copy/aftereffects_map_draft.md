@@ -1,11 +1,11 @@
 ## headline
 
-What this El Niño has done, and what it may do next
+Where El Niño may hit next, month by month
 
 ## dek
 
-Slide through the months. Before today, everything on the map happened.
-After today, nothing has yet.
+Slide forward to see what could happen where, and when. The months
+before today show what already has.
 
 ## read_1
 
