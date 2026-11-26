@@ -56,7 +56,14 @@ from bs4 import BeautifulSoup
 
 from ._common import FetchResult, http_get, now_iso
 
-URL = "https://iri.columbia.edu/our-expertise/climate/forecasts/enso/current/"
+# IRI MOVED. From the November 2026 issue the forecast is published only on
+# forecast.ccsr.columbia.edu; the old iri.columbia.edu page still serves the
+# 19 Oct issue, so reading it alone froze us a month behind (found by
+# Aftereffects, 2026-11-26). The new page says "Issued November 2026" with no
+# day, so the issued date is the 1st of that month: it can overstate the age,
+# never understate it. The old page stays as a fallback.
+URL = "https://forecast.ccsr.columbia.edu/forecasts/enso/forecast"
+OLD_URL = "https://iri.columbia.edu/our-expertise/climate/forecasts/enso/current/"
 
 _MONTH_NAMES = {
     "January": 1, "February": 2, "March": 3, "April": 4, "May": 5, "June": 6,
@@ -68,6 +75,11 @@ _TRIGRAM_BY_FIRST_MONTH = {
     7: "JAS", 8: "ASO", 9: "SON", 10: "OND", 11: "NDJ", 12: "DJF",
 }
 _CROSS_YEAR_TRIGRAMS = {"NDJ", "DJF"}
+
+_ISSUED_RE = re.compile(
+    r"Issued\s+(January|February|March|April|May|June|July|August|"
+    r"September|October|November|December)\s+(\d{4})"
+)
 
 _PUBLISHED_RE = re.compile(
     r"Published:\s*(January|February|March|April|May|June|July|August|"
@@ -266,18 +278,72 @@ def _parse_three_cat_table(table, issued_year: int, issued_month: int):
     return three_cat if len(three_cat) == 9 else None
 
 
+def _three_cat_new_page(page_text: str, labels: list) -> tuple[dict, dict]:
+    """Per-season (la, neu, en) from the forecast.ccsr prose, which writes the
+    number before the category ("39% for El Nino and 10% for La Nina") as
+    well as after it ("El Nino declines further to 29%"). The 2026-10 parser
+    reads only the second order and took "El Nino and 10%" as El Nino 10%.
+    Seasons are matched by trigram against this issue's nine labels, so the
+    page's own year spelling ("NDJ 2026/27") does not matter. A season the
+    prose states only an El Nino share for gets La Nina 0 and neutral the
+    rest, as before; a season it does not state is left out."""
+    by_tri = {lab.split()[0]: lab for lab in labels}
+    tri = "|".join(by_tri)
+    out, basis = {}, {}
+    for sent in re.split(r"(?<=[.!?])\s+", page_text):
+        if "dipole" in sent.lower() or "iod" in sent.lower():
+            continue
+        rng = re.search(r"(\d{1,3})\s*%\s*probability of El Ni[\u00f1n]o from (" + tri +
+                        r")\b.*?\bthrough (" + tri + r")\b", sent)
+        if rng:
+            pct = int(rng.group(1)); i0 = labels.index(by_tri[rng.group(2)])
+            i1 = labels.index(by_tri[rng.group(3)])
+            for lab in labels[i0:i1 + 1]:
+                out[lab] = (0, 100 - pct, pct); basis[lab] = "stated: %d%% from %s through %s" % (pct, rng.group(2), rng.group(3))
+            continue
+        def grab(name):
+            m = re.search(r"(\d{1,3})\s*%\s*for\s+" + name, sent, re.I) or \
+                re.search(name + r"[^%.;]{0,50}?\b(?:to|at|of)\s+(\d{1,3})\s*%", sent, re.I)
+            return int(m.group(1)) if m else None
+        seasons = re.findall(r"\b(" + tri + r")\b", sent)
+        neu, en, la = grab(r"(?:ENSO-)?neutral"), grab(r"El Ni[\u00f1n]o"), grab(r"La Ni[\u00f1n]a")
+        if seasons and neu is not None and en is not None:
+            la = la if la is not None else max(0, 100 - neu - en)
+            lab = by_tri[seasons[0]]
+            out[lab] = (la, neu, en); basis[lab] = "stated: neutral %d%%, El Nino %d%%, La Nina %d%%" % (neu, en, la)
+            continue
+        pairs = re.findall(r"(\d{1,3})\s*%\s*in\s+(" + tri + r")\b", sent)
+        if pairs and "probab" in sent.lower():
+            for pct, t in pairs:
+                out[by_tri[t]] = (0, 100 - int(pct), int(pct)); basis[by_tri[t]] = "stated: %s%% in %s" % (pct, t)
+    return out, basis
+
+
 def fetch() -> FetchResult:
     try:
-        r = http_get(URL, timeout=30)
-        soup = BeautifulSoup(r.text, "lxml")
-        page_text = soup.get_text(" ", strip=True)
-
-        m = _PUBLISHED_RE.search(page_text)
-        if not m:
-            return FetchResult(source="iri", ok=False, fetched_at=now_iso(),
-                               error="'Published: <Month> <Day>, <Year>' banner not found")
-        month_name, day_str, year_str = m.group(1), m.group(2), m.group(3)
-        issued = date(int(year_str), _MONTH_NAMES[month_name], int(day_str)).isoformat()
+        soup = page_text = None
+        try:
+            r = http_get(URL, timeout=30)
+            soup = BeautifulSoup(r.text, "lxml")
+            page_text = soup.get_text(" ", strip=True)
+            m = _ISSUED_RE.search(page_text)
+        except Exception:
+            m = None
+        new_page = bool(m)
+        if m:
+            month_name, year_str = m.group(1), m.group(2)
+            issued = date(int(year_str), _MONTH_NAMES[month_name], 1).isoformat()
+        else:
+            r = http_get(OLD_URL, timeout=30)
+            soup = BeautifulSoup(r.text, "lxml")
+            page_text = soup.get_text(" ", strip=True)
+            m = _PUBLISHED_RE.search(page_text)
+            if not m:
+                return FetchResult(source="iri", ok=False, fetched_at=now_iso(),
+                                   error="no 'Issued <Month> <Year>' on the new page and no "
+                                         "'Published: <Month> <Day>, <Year>' on the old one")
+            month_name, day_str, year_str = m.group(1), m.group(2), m.group(3)
+            issued = date(int(year_str), _MONTH_NAMES[month_name], int(day_str)).isoformat()
         issued_year, issued_month = int(year_str), _MONTH_NAMES[month_name]
 
         # Tier 0: if the real 3-category probability table is back on the
@@ -317,7 +383,10 @@ def fetch() -> FetchResult:
         basis: dict = {}
         labels = [_season_label(issued_year, issued_month, i) for i in range(9)]
         try:
-            three_cat, basis = _three_cat_by_season(page_text, labels)
+            if new_page:
+                three_cat, basis = _three_cat_new_page(page_text, labels)
+            if not three_cat:
+                three_cat, basis = _three_cat_by_season(page_text, labels)
         except Exception:
             three_cat, basis = {}, {}
         if not three_cat:
