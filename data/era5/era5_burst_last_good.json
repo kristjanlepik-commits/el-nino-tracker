@@ -1,10 +1,10 @@
 {
   "source": "era5_burst",
   "ok": true,
-  "issued": "2026-11-16",
-  "fetched_at": "2026-11-21T11:57:50+00:00",
+  "issued": "2026-11-23",
+  "fetched_at": "2026-11-28T12:10:56+00:00",
   "payload": {
-    "events_since_mar1": 19,
+    "events_since_mar1": 20,
     "events_detail": [
       {
         "start": "2026-03-01",
@@ -170,10 +170,19 @@
       },
       {
         "start": "2026-11-02",
-        "end": "2026-11-15",
-        "duration_days": 14,
+        "end": "2026-11-13",
+        "duration_days": 12,
         "peak_ms": 22.46,
         "peak_date": "2026-11-07",
+        "ongoing": false,
+        "provisional_short": false
+      },
+      {
+        "start": "2026-11-14",
+        "end": "2026-11-22",
+        "duration_days": 9,
+        "peak_ms": 16.5,
+        "peak_date": "2026-11-19",
         "ongoing": true,
         "provisional_short": false
       }
